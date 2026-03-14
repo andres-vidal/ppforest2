@@ -262,8 +262,8 @@ namespace {
 
     auto data_split = split(full_data, params.evaluate.train_ratio, rng);
 
-    FeatureMatrix tr_x  = full_data.x(data_split.tr, Eigen::all);
-    FeatureMatrix te_x  = full_data.x(data_split.te, Eigen::all);
+    FeatureMatrix tr_x  = full_data.x(data_split.tr, Eigen::placeholders::all);
+    FeatureMatrix te_x  = full_data.x(data_split.te, Eigen::placeholders::all);
     ResponseVector tr_y = full_data.y(data_split.tr);
     ResponseVector te_y = full_data.y(data_split.te);
 

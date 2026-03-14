@@ -75,7 +75,7 @@ namespace ppforest2 {
 
     const PPStrategy &pp_strategy = *(training_spec.pp_strategy);
 
-    auto reduced_x = x(Eigen::all, dr.selected_cols);
+    auto reduced_x = x(Eigen::placeholders::all, dr.selected_cols);
 
     auto [reduced_projector, pp_index_value] = pp_strategy.optimize(reduced_x, group_spec);
     Projector projector = dr.expand(reduced_projector);
@@ -122,7 +122,7 @@ namespace ppforest2 {
     ) {
     const PPStrategy &pp_strategy = *(training_spec.pp_strategy);
 
-    FeatureMatrix reduced_x = x(Eigen::all, dr.selected_cols);
+    FeatureMatrix reduced_x = x(Eigen::placeholders::all, dr.selected_cols);
 
     Projector projector = dr.expand(pp_strategy(reduced_x, group_spec));
 

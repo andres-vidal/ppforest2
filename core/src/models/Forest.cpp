@@ -207,8 +207,8 @@ namespace ppforest2 {
       return -1.0;
     }
 
-    ResponseVector preds_oob = preds(oob_rows, Eigen::all).eval();
-    ResponseVector y_oob     = y(oob_rows, Eigen::all).eval();
+    ResponseVector preds_oob = preds(oob_rows, Eigen::placeholders::all).eval();
+    ResponseVector y_oob     = y(oob_rows, Eigen::placeholders::all).eval();
 
     return stats::error_rate(preds_oob, y_oob);
   }

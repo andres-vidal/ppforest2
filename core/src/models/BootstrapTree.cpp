@@ -30,7 +30,7 @@ namespace ppforest2 {
 
     std::sort(sample_indices.begin(), sample_indices.end());
 
-    FeatureMatrix sampled_x = x(sample_indices, Eigen::all);
+    FeatureMatrix sampled_x = x(sample_indices, Eigen::placeholders::all);
 
     Tree tree = Tree::train(training_spec, sampled_x, group_spec, rng);
 
@@ -61,7 +61,7 @@ namespace ppforest2 {
       return ResponseVector(0);
     }
 
-    return predict(static_cast<FeatureMatrix>(x(row_idx, Eigen::all)));
+    return predict(static_cast<FeatureMatrix>(x(row_idx, Eigen::placeholders::all)));
   }
 
   BootstrapTree::BootstrapTree(
