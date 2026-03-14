@@ -160,6 +160,7 @@ ppforest2 train -d data.csv --no-metrics         # skip variable importance
 | `-r, --seed <N>`         | *(random)*    | Random seed for reproducibility                   |
 | `-v, --vars <spec>`      | `0.5`         | Features per split (see [Variable selection](#variable-selection)) |
 | `--threads <N>`          | *(all cores)* | Number of OpenMP threads                          |
+| `--max-retries <N>`      | `3`           | Max retries for degenerate trees                  |
 | `-s, --save <file>`      | `model.json`  | Output model path (`.json` added if missing)      |
 | `--no-save`              | —             | Skip saving the model                             |
 | `--no-metrics`           | —             | Skip variable importance computation              |
@@ -235,7 +236,7 @@ ppforest2 evaluate -d data.csv -t 50 -i 20
 | `--convergence-min <N>`     | `10`     | Minimum iterations before checking convergence    |
 | `--convergence-window <N>`  | `3`      | Consecutive stable checks required to stop        |
 
-All model parameters (`--trees`, `--lambda`, `--seed`, `--vars`, `--threads`) are also available.
+All model parameters (`--trees`, `--lambda`, `--seed`, `--vars`, `--threads`, `--max-retries`) are also available.
 
 ### `benchmark` — Multi-Scenario Benchmarks
 
@@ -384,34 +385,6 @@ ppforest2 benchmark -s bench/default-scenarios.json -b baseline.json
 # Override iteration count (forces fixed mode)
 ppforest2 benchmark -s bench/default-scenarios.json -i 5
 ```
-
-### Sample Results
-
-Results from `bench/default-scenarios.json` on a single machine (Apple M1, single-threaded). All scenarios use 50 trees, λ=0.5, 50% variable selection, 70/30 train-test split, with smart convergence. Timing shows mean ± standard deviation across converged iterations.
-
-**Real datasets:**
-
-| Scenario       |    n |   p |  g | Time (ms)       | Peak RSS | Test Err |
-|----------------|-----:|----:|---:|----------------:|---------:|---------:|
-| data-iris      |  151 |   4 |  4 |     2.0 ± 0.0   |   3.4 MB |     2.2% |
-| data-wine      |  179 |  13 |  4 |     4.0 ± 0.0   |   4.1 MB |     5.5% |
-| data-olive     |  573 |   8 | 10 |    20.9 ± 0.3   |   4.3 MB |     6.9% |
-| data-image     | 2311 |  18 |  8 |    62.7 ± 0.5   |   8.6 MB |    14.0% |
-| data-leukemia  |   73 |  40 |  4 |    10.0 ± 0.0   |   4.0 MB |    17.4% |
-| data-NCI60     |   62 |  30 |  9 |    32.7 ± 0.7   |   3.9 MB |    36.4% |
-
-**Scaling (simulated data):**
-
-| Scenario    |      n |   p |  g | Trees | Time (ms)         | Peak RSS |
-|-------------|-------:|----:|---:|------:|------------------:|---------:|
-| trees-sm    |    500 |  10 |  5 |   100 |     22.2 ± 0.4    |   4.0 MB |
-| trees-lg    |    500 |  10 |  5 |  1000 |    226.6 ± 3.7    |   9.1 MB |
-| n-sm        |    100 |  10 |  5 |    50 |      6.0 ± 0.0    |   2.8 MB |
-| n-lg        | 10,000 |  10 |  5 |    50 |    101.2 ± 1.0    |  14.3 MB |
-| p-sm        |  1,000 |  20 |  5 |    50 |     24.2 ± 0.4    |   5.0 MB |
-| p-lg        |  1,000 | 400 |  5 |    50 |  5,904.2 ± 17.5   |  37.8 MB |
-
-Run `make benchmark` to reproduce these on your machine, or `make benchmark-compare` to compare against saved results.
 
 ### Smart Convergence
 
@@ -587,6 +560,17 @@ The `VERSION` file contains `MAJOR.MINOR.PATCH` (e.g., `0.1.0`). All components 
 2. Add a section to `CHANGELOG.md` for the new version
 3. Run `make r-prepare` (or `make r-build`) — DESCRIPTION version is updated from the `VERSION` file
 4. Commit, tag (`v0.1.0`), push
+
+### Reverting a release
+
+If a release was published incorrectly, you can remove its git tag:
+
+```
+make release-revert                    # Revert the current VERSION's release
+make release-revert RELEASE_TAG=v0.1.0 # Revert a specific release
+```
+
+This deletes the git tag locally and from the remote. If a GitHub Release exists for the tag, it must be deleted manually from the repository's releases page. The command does not revert commits — amend the `VERSION` file and `CHANGELOG.md` as needed after reverting.
 
 ## License
 

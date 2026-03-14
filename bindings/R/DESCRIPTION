@@ -1,7 +1,7 @@
 Package: ppforest2
 Type: Package
 Title: Projection Pursuit Oblique Decision Trees and Random Forests
-Version: 0.0.0.9000
+Version: 0.1.0
 Date: 2024-05-19
 Author: Andres Vidal, Natalia da Silva
 Maintainer: Andres Vidal <me@andresvidal.dev>

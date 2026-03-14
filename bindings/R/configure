@@ -124,7 +124,12 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
     FETCH_ARGS=""
     if [ -n "$PPFOREST2_FETCH_CACHE" ]; then
       for src_dir in "$PPFOREST2_FETCH_CACHE"/*-src; do
-        name=$(basename "$src_dir" -src | tr '[:lower:]' '[:upper:]')
+        name_lower=$(basename "$src_dir" -src)
+        # Skip deps not used under PPTREE_CORE_ONLY
+        case "$name_lower" in
+          cli11|googletest|benchmark) continue ;;
+        esac
+        name=$(echo "$name_lower" | tr '[:lower:]' '[:upper:]')
         FETCH_ARGS="$FETCH_ARGS -DFETCHCONTENT_SOURCE_DIR_${name}=${src_dir}"
       done
     fi

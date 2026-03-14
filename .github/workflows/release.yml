@@ -73,11 +73,25 @@ jobs:
         run: |
           version="${{ steps.version.outputs.version }}"
           # Extract the section for this version from CHANGELOG.md
-          awk "/^# ppforest2 ${version}/,/^# ppforest2 /{if(/^# ppforest2 / && !/^# ppforest2 ${version}/)exit; print}" CHANGELOG.md > release_notes.md
+          awk "found && /^# ppforest2 /{exit} /^# ppforest2 ${version}/{found=1} found{print}" CHANGELOG.md > release_notes.md
           echo "Release notes:"
           cat release_notes.md
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: bindings/R
+      - name: Cache CMake deps
+        uses: actions/cache@v4
+        with:
+          path: .build/_deps
+          key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
+      - name: Build R package tarball
+        run: |
+          make r-build
+          mv ppforest2_${{ steps.version.outputs.version }}.tar.gz R-ppforest2_${{ steps.version.outputs.version }}.tar.gz
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           body_path: release_notes.md
           generate_release_notes: false
+          files: R-ppforest2_${{ steps.version.outputs.version }}.tar.gz

@@ -85,7 +85,7 @@ ppforest2 integrates with [parsnip](https://parsnip.tidymodels.org/):
 library(parsnip)
 
 # Single tree
-spec <- pp_tree(lambda = 0) |> set_engine("pptree") |> set_mode("classification")
+spec <- pp_tree(lambda = 0) |> set_engine("ppforest2") |> set_mode("classification")
 fit  <- fit(spec, Species ~ ., data = iris)
 
 # Random forest

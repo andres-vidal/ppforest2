@@ -124,12 +124,14 @@ r-clean:
 		${R_PACKAGE_DIR}/inst/golden \
 		ppforest2_${CORE_VERSION}.tar.gzm \
 		ppforest2.Rcheck
-	@sed -i.bak 's/^Version: .*/Version: 0.0.0.9000/' ${R_PACKAGE_DIR}/DESCRIPTION && rm -f ${R_PACKAGE_DIR}/DESCRIPTION.bak
 
-r-prepare: r-clean fetch-deps
+r-version:
+	@sed -i.bak 's/^Version: .*/Version: ${CORE_VERSION}/' ${R_PACKAGE_DIR}/DESCRIPTION && rm -f ${R_PACKAGE_DIR}/DESCRIPTION.bak
+	
+	
+r-prepare: r-clean r-version fetch-deps
 	@mkdir -p ${R_PACKAGE_DIR}/src/core && cp -r core/* ${R_PACKAGE_DIR}/src/core
 	@cp VERSION ${R_PACKAGE_DIR}/src/VERSION
-	@sed -i.bak 's/^Version: .*/Version: ${CORE_VERSION}/' ${R_PACKAGE_DIR}/DESCRIPTION && rm -f ${R_PACKAGE_DIR}/DESCRIPTION.bak
 	@cp CHANGELOG.md ${R_PACKAGE_DIR}/NEWS.md
 	@cp -r ${NLHOMANN_JSON_HEADERS_PATH}/* ${R_PACKAGE_DIR}/inst/include
 	@cp -r ${PCG_HEADERS_PATH}/* ${R_PACKAGE_DIR}/inst/include
@@ -183,6 +185,23 @@ docs-r:
 	@make r-clean
 
 docs: docs-site docs-cpp docs-r
+
+# Release management
+
+RELEASE_TAG ?= v${CORE_VERSION}
+
+release:
+	@git tag -a ${RELEASE_TAG} -m "Release ${RELEASE_TAG}"
+	@git push origin ${RELEASE_TAG}
+
+release-revert:
+	@echo "This will delete the local and remote git tag '${RELEASE_TAG}'."
+	@echo "Press Enter to continue or Ctrl-C to abort." && read _
+	git tag -d ${RELEASE_TAG}
+	git push origin :refs/tags/${RELEASE_TAG}
+	@echo "Reverted release ${RELEASE_TAG}."
+	@echo "Note: if a GitHub Release exists for this tag, delete it manually at"
+	@echo "  https://github.com/$$(git remote get-url origin | sed 's|.*github.com[:/]||;s|\.git$$||')/releases"
 
 # Benchmarking
 

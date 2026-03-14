@@ -145,7 +145,7 @@ if(Jemalloc_FOUND)
   message(STATUS "Jemalloc found: ${Jemalloc_INCLUDE_DIRS}")
   target_link_libraries(ppforest2-core PRIVATE PkgConfig::Jemalloc)
 else()
-  message(WARNING "Jemalloc not found. Program could be unstable on highly multi-threaded operations.")
+  message(STATUS "Jemalloc not found. Multi-threaded allocation performance may be suboptimal.")
 endif()
 
 if(NOT PPFOREST2_CORE_ONLY)
