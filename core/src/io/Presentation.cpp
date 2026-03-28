@@ -316,12 +316,9 @@ namespace ppforest2::io {
     out.newline();
   }
 
-namespace {
-  using json = nlohmann::json;
-
   void print_data_summary(
     Output &      out,
-    const json&  meta) {
+    const nlohmann::json&  meta) {
     using namespace style;
     using namespace layout;
 
@@ -362,7 +359,6 @@ namespace {
 
     out.newline();
   }
-}
 
   void print_summary(
     Output&                   out,

@@ -284,6 +284,18 @@ namespace {
       io::print_configuration(out, config, hints);
     }
 
+    {
+      json meta;
+      meta["observations"] = static_cast<int>(full_data.x.rows());
+      meta["features"]     = static_cast<int>(full_data.x.cols());
+
+      if (!full_data.group_names.empty()) {
+        meta["groups"] = full_data.group_names;
+      }
+
+      io::print_data_summary(out, meta);
+    }
+
     auto eval_result = evaluate_model(out, tr_x, te_x, tr_y, te_y, params, rng);
 
     // Measure peak RSS after evaluation

@@ -122,6 +122,16 @@ namespace ppforest2::io {
     const ConfigDisplayHints& hints = {});
 
   /**
+   * @brief Print a data summary table from a JSON meta object.
+   *
+   * Shows observations, features, groups, and group names.
+   *
+   * @param out  Output context.
+   * @param meta The meta JSON (observations, features, groups).
+   */
+  void print_data_summary(Output& out, const nlohmann::json& meta);
+
+  /**
    * @brief Display a full model summary from its JSON representation.
    *
    * Shows configuration, data summary, training/OOB confusion matrices,
