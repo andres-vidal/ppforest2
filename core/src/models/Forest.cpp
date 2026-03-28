@@ -31,15 +31,21 @@ namespace ppforest2 {
     invariant(size > 0, "The forest size must be greater than 0.");
 
     std::vector<BootstrapTree::Ptr> trees(size);
+    std::vector<std::exception_ptr> errors(size);
 
     #pragma omp parallel for schedule(static)
     for (int i = 0; i < size; i++) {
       for (int attempt = 0; attempt <= max_retries; ++attempt) {
-        uint64_t stream = static_cast<uint64_t>(i) + static_cast<uint64_t>(attempt) * static_cast<uint64_t>(size);
-        RNG rng(static_cast<uint64_t>(seed), stream);
-        trees[i] = BootstrapTree::train(training_spec, x, group_spec, rng);
+        try {
+          uint64_t stream = static_cast<uint64_t>(i) + static_cast<uint64_t>(attempt) * static_cast<uint64_t>(size);
+          RNG rng(static_cast<uint64_t>(seed), stream);
+          trees[i] = BootstrapTree::train(training_spec, x, group_spec, rng);
 
-        if (!trees[i]->degenerate) {
+          if (!trees[i]->degenerate) {
+            break;
+          }
+        } catch (...) {
+          errors[i] = std::current_exception();
           break;
         }
       }
@@ -47,12 +53,16 @@ namespace ppforest2 {
 
     Forest forest(training_spec.clone(), seed);
 
-    for (auto& tree : trees) {
-      if (tree->degenerate) {
+    for (int i = 0; i < size; i++) {
+      if (errors[i]) {
+        std::rethrow_exception(errors[i]);
+      }
+
+      if (trees[i]->degenerate) {
         forest.degenerate = true;
       }
 
-      forest.add_tree(std::move(tree));
+      forest.add_tree(std::move(trees[i]));
     }
 
     return forest;
