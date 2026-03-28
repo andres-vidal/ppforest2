@@ -129,6 +129,13 @@ namespace ppforest2::stats {
        */
       GroupPartition remap(const GroupMap& mapping) const;
 
+      /**
+       * @brief Collapse all groups into a single supergroup.
+       *
+       * @return  New GroupPartition with one supergroup containing all groups.
+       */
+      GroupPartition collapse() const;
+
       /** @brief Set of all group labels in this partition. */
       const GroupSet groups;
       /** @brief Maps each group to its supergroup (identity if no merge). */

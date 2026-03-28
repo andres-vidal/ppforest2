@@ -7,6 +7,7 @@
 #include "utils/Map.hpp"
 #include "models/TrainingSpecPDA.hpp"
 
+#include <cmath>
 #include <stack>
 #include <Eigen/Dense>
 
@@ -52,8 +53,8 @@ namespace {
       means.push_back({ group, group_mean });
     }
 
-    std::sort(means.begin(), means.end(), [](const auto &a, const auto &b) {
-      return std::get<1>(a) < std::get<1>(b);
+    std::stable_sort(means.begin(), means.end(), [](const auto &a, const auto &b) {
+      return std::isless(std::get<1>(a), std::get<1>(b));
     });
 
     Feature edge_gap    = -1;
@@ -144,6 +145,10 @@ namespace {
     FeatureMatrix reduced_x = x(Eigen::all, dr.selected_cols);
 
     Projector projector = dr.expand(pp_strategy(reduced_x, group_spec));
+
+    if (projector.hasNaN()) {
+      return group_spec.collapse();
+    }
 
     FeatureMatrix projected_x = x * projector;
 
@@ -237,6 +242,12 @@ namespace {
       }
 
       auto temp_node = binary_step(training_spec, x, split, dr);
+
+      if (temp_node->projector.hasNaN()) {
+        *step.node = degenerate_leaf(step.y);
+        stack.pop();
+        continue;
+      }
 
       Response binary_lower_group = temp_node->lower->response();
       Response binary_upper_group = temp_node->upper->response();

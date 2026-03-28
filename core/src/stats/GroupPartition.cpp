@@ -167,4 +167,13 @@ namespace ppforest2::stats {
   GroupPartition GroupPartition::remap(const GroupMap& mapping) const {
     return GroupPartition(Blocks, mapping);
   }
+
+  GroupPartition GroupPartition::collapse() const {
+    GroupMap mapping;
+    for (const auto& g : groups) {
+      mapping[g] = 0;
+    }
+
+    return remap(mapping);
+  }
 }

@@ -103,8 +103,8 @@ namespace ppforest2::io {
 
     std::vector<int> order(static_cast<std::size_t>(p));
     std::iota(order.begin(), order.end(), 0);
-    std::sort(order.begin(), order.end(), [&vi2](int a, int b) {
-        return vi2(a) > vi2(b);
+    std::stable_sort(order.begin(), order.end(), [&vi2](int a, int b) {
+        return std::isgreater(vi2(a), vi2(b));
       });
 
     const bool show_vi1 = vi1.size() == vi2.size();

@@ -626,6 +626,73 @@ TEST(GroupPartition,  WithinGroupsSumOfSquaresMultipleGroupsMultivariate2) {
   ASSERT_EQ(expected, actual);
 }
 
+TEST(GroupPartition, CollapseTwoGroups) {
+  ResponseVector y = VEC(Response,
+      1,
+      1,
+      2,
+      2);
+
+  GroupPartition spec(y);
+  GroupPartition collapsed = spec.collapse();
+
+  ASSERT_EQ(1u, collapsed.groups.size());
+  ASSERT_EQ(std::set<int>({ 0 }), collapsed.groups);
+}
+
+TEST(GroupPartition, CollapseThreeGroups) {
+  ResponseVector y = VEC(Response,
+      0,
+      0,
+      1,
+      1,
+      2,
+      2);
+
+  GroupPartition spec(y);
+  GroupPartition collapsed = spec.collapse();
+
+  ASSERT_EQ(1u, collapsed.groups.size());
+  ASSERT_EQ(std::set<int>({ 0 }), collapsed.groups);
+  ASSERT_EQ(std::set<int>({ 0, 1, 2 }), collapsed.subgroups.at(0));
+}
+
+TEST(GroupPartition, CollapseSingleGroup) {
+  ResponseVector y = VEC(Response,
+      0,
+      0,
+      0);
+
+  GroupPartition spec(y);
+  GroupPartition collapsed = spec.collapse();
+
+  ASSERT_EQ(1u, collapsed.groups.size());
+  ASSERT_EQ(std::set<int>({ 0 }), collapsed.groups);
+}
+
+TEST(GroupPartition, CollapsePreservesData) {
+  FeatureMatrix x = MAT(Feature, rows(6),
+      2, 2, 2,
+      4, 4, 4,
+      1, 1, 1,
+      6, 6, 6,
+      3, 3, 3,
+      5, 5, 5);
+
+  ResponseVector y = VEC(Response,
+      1,
+      1,
+      2,
+      2,
+      3,
+      3);
+
+  GroupPartition spec(y);
+  GroupPartition collapsed = spec.collapse();
+
+  ASSERT_EQ_DATA(x, collapsed.data(x));
+}
+
 TEST(GroupPartitionRemapped, Group) {
   FeatureMatrix x = MAT(Feature, rows(6),
       2, 2, 2,
