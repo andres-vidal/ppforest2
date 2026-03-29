@@ -113,22 +113,15 @@ pptr <- function(
 predict.pptr <- function(object, new_data = NULL, type = "class", ...) {
   x <- process_predict_arguments(object, new_data, ...)
 
-  y <- ppforest2_predict_tree(object, x)
-  predicted <- as.factor(object$groups[y])
-
   if (type == "prob") {
-    n <- nrow(x)
-    df <- as.data.frame(matrix(0, nrow = n, ncol = length(object$groups)))
+    probs <- ppforest2_predict_tree_prob(object, x)
+    df <- as.data.frame(probs)
     colnames(df) <- object$groups
-
-    for (i in seq_len(n)) {
-      df[i, as.character(predicted[i])] <- 1.0
-    }
-
     return(df)
   }
 
-  predicted
+  y <- ppforest2_predict_tree(object, x)
+  as.factor(object$groups[y])
 }
 
 #' Extracts the formula used to train a pptr model.

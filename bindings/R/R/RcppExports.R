@@ -21,6 +21,10 @@ ppforest2_predict_tree_forest <- function(forest, data) {
     .Call('_ppforest2_ppforest2_predict_tree_forest', PACKAGE = 'ppforest2', forest, data)
 }
 
+ppforest2_predict_tree_prob <- function(tree, data) {
+    .Call('_ppforest2_ppforest2_predict_tree_prob', PACKAGE = 'ppforest2', tree, data)
+}
+
 ppforest2_predict_forest_prob <- function(forest, data) {
     .Call('_ppforest2_ppforest2_predict_forest_prob', PACKAGE = 'ppforest2', forest, data)
 }
@@ -65,12 +69,12 @@ ppforest2_tree_layout <- function(tree) {
     .Call('_ppforest2_ppforest2_tree_layout', PACKAGE = 'ppforest2', tree)
 }
 
-ppforest2_save_tree_json <- function(tree, groups, vi, training_spec, seed, include_metrics) {
-    .Call('_ppforest2_ppforest2_save_tree_json', PACKAGE = 'ppforest2', tree, groups, vi, training_spec, seed, include_metrics)
+ppforest2_save_tree_json <- function(tree, groups, vi, training_spec, seed, include_metrics, n_obs = 0L, n_features = 0L, feature_names = NULL) {
+    .Call('_ppforest2_ppforest2_save_tree_json', PACKAGE = 'ppforest2', tree, groups, vi, training_spec, seed, include_metrics, n_obs, n_features, feature_names)
 }
 
-ppforest2_save_forest_json <- function(forest, groups, vi, training_spec, seed, oob_error, include_metrics) {
-    .Call('_ppforest2_ppforest2_save_forest_json', PACKAGE = 'ppforest2', forest, groups, vi, training_spec, seed, oob_error, include_metrics)
+ppforest2_save_forest_json <- function(forest, groups, vi, training_spec, seed, oob_error, include_metrics, n_obs = 0L, n_features = 0L, feature_names = NULL) {
+    .Call('_ppforest2_ppforest2_save_forest_json', PACKAGE = 'ppforest2', forest, groups, vi, training_spec, seed, oob_error, include_metrics, n_obs, n_features, feature_names)
 }
 
 ppforest2_load_json_meta <- function(json_str) {

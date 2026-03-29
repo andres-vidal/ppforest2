@@ -56,16 +56,7 @@ namespace ppforest2::cli {
 
 namespace ppforest2::cli {
 namespace {
-  json build_model_json(
-    const Model&                    model,
-    const CLIOptions&               params,
-    const std::vector<std::string>& group_names,
-    int n_observations,
-    int n_features) {
-    json output = group_names.empty()
-      ? serialization::to_json(model)
-      : serialization::to_json(model, group_names);
-
+  json build_config_json(const CLIOptions& params) {
     json config;
     config["trees"]   = params.model.trees;
     config["lambda"]  = params.model.lambda;
@@ -80,19 +71,7 @@ namespace {
       config["data"] = params.data_path;
     }
 
-    output["config"] = config;
-
-    json meta;
-    meta["observations"] = n_observations;
-    meta["features"]     = n_features;
-
-    if (!group_names.empty()) {
-      meta["groups"] = group_names;
-    }
-
-    output["meta"] = meta;
-
-    return output;
+    return config;
   }
 }
 
@@ -138,12 +117,12 @@ namespace {
     if (params.model.trees > 0) {
       spec = TrainingSpecUPDA::make(params.model.n_vars, params.model.lambda);
       fact = [&] {
-        return std::make_unique<Forest>(Forest::train(*spec, x, y, params.model.trees, params.model.seed, params.model.threads, params.model.max_retries));
+        return Forest::make(*spec, x, y, params.model.trees, params.model.seed, params.model.threads, params.model.max_retries);
       };
     } else {
       spec = TrainingSpecPDA::make(params.model.lambda);
       fact = [&] {
-        return std::make_unique<Tree>(Tree::train(*spec, x, y, rng));
+        return Tree::make(*spec, x, y, rng);
       };
     }
 
@@ -171,8 +150,9 @@ namespace {
     const auto train_result = train_model(x, y, params, rng);
 
     // Build the model JSON
-    json model_json = build_model_json(
-      *train_result.model, params, data.group_names,
+    json model_json = serialization::build_model_json(
+      *train_result.model, build_config_json(params),
+      data.group_names, data.feature_names,
       static_cast<int>(x.rows()), static_cast<int>(x.cols()));
 
     model_json["training_duration_ms"] = train_result.duration;

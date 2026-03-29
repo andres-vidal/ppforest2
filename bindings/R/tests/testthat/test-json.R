@@ -109,6 +109,31 @@ describe("save_json / load_json round-trip", {
   })
 })
 
+describe("save_json includes data metadata", {
+  it("includes observations, features, and feature_names for tree", {
+    model <- pptr(Type ~ ., data = iris, seed = 42)
+    path <- tempfile(fileext = ".json")
+    save_json(model, path)
+
+    j <- jsonlite::fromJSON(readLines(path, warn = FALSE))
+    expect_equal(j$meta$observations, 150)
+    expect_equal(j$meta$features, 4)
+    expect_equal(j$meta$feature_names, c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"))
+  })
+
+  it("includes observations, features, and feature_names for forest", {
+    model <- pprf(Type ~ ., data = iris, size = 3, seed = 42)
+    path <- tempfile(fileext = ".json")
+    save_json(model, path)
+
+    j <- jsonlite::fromJSON(readLines(path, warn = FALSE))
+    expect_equal(j$meta$observations, 150)
+    expect_equal(j$meta$features, 4)
+    expect_equal(j$meta$feature_names, c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width"))
+  })
+
+})
+
 describe("save_json with include_metrics = FALSE", {
   it("saves model without VI", {
     model <- pptr(Type ~ ., data = iris, seed = 42)
@@ -150,6 +175,43 @@ describe("load_json from golden files", {
     loaded <- load_json(path)
     expect_s3_class(loaded, "pprf")
     expect_equal(length(loaded$trees), 5)
+  })
+})
+
+describe("R save_json meta matches golden file", {
+  golden_path <- function(...) {
+    system.file("golden", ..., package = "ppforest2")
+  }
+
+  golden_meta <- function(dataset, slug) {
+    path <- golden_path(dataset, paste0(slug, ".json"))
+    if (path == "") return(NULL)
+    j <- jsonlite::fromJSON(readLines(path, warn = FALSE))
+    j$meta
+  }
+
+  it("tree meta matches golden file", {
+    expected <- golden_meta("iris", "tree-pda-s42")
+    skip_if(is.null(expected), "Golden file not bundled")
+
+    model <- pptr(Type ~ ., data = iris, seed = 42)
+    path <- tempfile(fileext = ".json")
+    save_json(model, path)
+    j <- jsonlite::fromJSON(readLines(path, warn = FALSE))
+
+    expect_equal(j$meta, expected)
+  })
+
+  it("forest meta matches golden file", {
+    expected <- golden_meta("iris", "forest-pda-t5-s42")
+    skip_if(is.null(expected), "Golden file not bundled")
+
+    model <- pprf(Type ~ ., data = iris, size = 5, seed = 42)
+    path <- tempfile(fileext = ".json")
+    save_json(model, path)
+    j <- jsonlite::fromJSON(readLines(path, warn = FALSE))
+
+    expect_equal(j$meta, expected)
   })
 })
 

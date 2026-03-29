@@ -61,6 +61,14 @@ namespace ppforest2 {
       stats::GroupPartition const& group_spec,
       stats::RNG&                  rng);
 
+    /** @brief Train a tree and return it as a Model::Ptr. */
+    static Model::Ptr make(
+      TrainingSpec const&          training_spec,
+      const types::FeatureMatrix&  x,
+      const types::ResponseVector& y,
+      stats::RNG&                  rng);
+
+
     /** @brief Root node of the tree. */
     TreeNode::Ptr root;
     /** @brief Training specification used to build this tree. */
@@ -73,6 +81,7 @@ namespace ppforest2 {
 
     types::Response predict(const types::FeatureVector& data) const override;
     types::ResponseVector predict(const types::FeatureMatrix& data) const override;
+    types::FeatureMatrix predict(const types::FeatureMatrix& data, Proportions) const override;
 
     bool operator==(const Tree& other) const;
     bool operator!=(const Tree& other) const;

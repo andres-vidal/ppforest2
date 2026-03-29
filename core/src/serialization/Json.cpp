@@ -8,6 +8,56 @@
 using namespace ppforest2::types;
 
 namespace ppforest2::serialization {
+  std::vector<std::string> to_labels(
+    const types::ResponseVector&    predictions,
+    const std::vector<std::string>& group_names) {
+    std::vector<std::string> labels;
+    labels.reserve(static_cast<std::size_t>(predictions.size()));
+
+    for (int i = 0; i < predictions.size(); ++i) {
+      labels.push_back(group_names[static_cast<std::size_t>(predictions(i))]);
+    }
+
+    return labels;
+  }
+
+  json build_meta_json(
+    int                             n_observations,
+    int                             n_features,
+    const std::vector<std::string>& group_names,
+    const std::vector<std::string>& feature_names) {
+    json meta;
+    meta["observations"] = n_observations;
+    meta["features"]     = n_features;
+
+    if (!group_names.empty()) {
+      meta["groups"] = group_names;
+    }
+
+    if (!feature_names.empty()) {
+      meta["feature_names"] = feature_names;
+    }
+
+    return meta;
+  }
+
+  json build_model_json(
+    const Model&                    model,
+    const json&                     config,
+    const std::vector<std::string>& group_names,
+    const std::vector<std::string>& feature_names,
+    int                             n_observations,
+    int                             n_features) {
+    json output = group_names.empty()
+      ? to_json(model)
+      : to_json(model, group_names);
+
+    output["config"] = config;
+    output["meta"]   = build_meta_json(n_observations, n_features, group_names, feature_names);
+
+    return output;
+  }
+
   void JsonNodeVisitor::visit(const TreeCondition& node) {
     JsonNodeVisitor lower_visitor;
     lower_visitor.group_names = group_names;

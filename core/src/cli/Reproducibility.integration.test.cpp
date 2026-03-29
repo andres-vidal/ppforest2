@@ -68,7 +68,7 @@ static void compare_confusion_matrix(const json& actual, const json& expected) {
           auto pred_json = json::parse(output.read());                                                                             \
           compare_predictions(pred_json["predictions"], golden["predictions"]);                                                    \
           EXPECT_NEAR(pred_json["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3) << #TestName " error_rate"; \
-          compare_confusion_matrix(pred_json["confusion_matrix"], golden["confusion_matrix"]);                                     \
+          compare_confusion_matrix(pred_json["confusion_matrix"], golden["training_confusion_matrix"]);                            \
         }
 
 #define CLI_GOLDEN_FOREST_TEST(TestName, dataset, slug, csv, n_trees, lambda, n_vars, seed)                                         \
@@ -107,7 +107,7 @@ static void compare_confusion_matrix(const json& actual, const json& expected) {
           auto pred_json = json::parse(output.read());                                                                              \
           compare_predictions(pred_json["predictions"], golden["predictions"]);                                                     \
           EXPECT_NEAR(pred_json["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3) << #TestName " error_rate";  \
-          compare_confusion_matrix(pred_json["confusion_matrix"], golden["confusion_matrix"]);                                      \
+          compare_confusion_matrix(pred_json["confusion_matrix"], golden["training_confusion_matrix"]);                             \
         }
 
 // ---------------------------------------------------------------------------

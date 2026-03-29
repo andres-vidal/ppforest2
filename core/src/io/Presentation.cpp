@@ -9,6 +9,7 @@
 
 #include <fmt/format.h>
 #include <algorithm>
+#include <cmath>
 #include <numeric>
 #include <vector>
 
@@ -88,9 +89,10 @@ namespace ppforest2::io {
   }
 
   void print_variable_importance(
-    Output&                   out,
-    const VariableImportance& vi,
-    int                       max_rows) {
+    Output&                         out,
+    const VariableImportance&       vi,
+    const std::vector<std::string>& feature_names,
+    int                             max_rows) {
     using namespace style;
     using namespace layout;
 
@@ -100,6 +102,8 @@ namespace ppforest2::io {
     const auto& scale = vi.scale;
 
     const int p = static_cast<int>(vi2.size());
+
+    bool has_names = static_cast<int>(feature_names.size()) == p;
 
     std::vector<int> order(static_cast<std::size_t>(p));
     std::iota(order.begin(), order.end(), 0);
@@ -111,15 +115,26 @@ namespace ppforest2::io {
     const bool show_vi3 = vi3.size() == vi2.size();
     const int rows      = (max_rows > 0 && p > max_rows) ? max_rows : p;
 
+    // Compute variable column width based on longest name.
+    int var_width = 10;
+
+    if (has_names) {
+      for (int rank = 0; rank < rows; ++rank) {
+        int j   = order[static_cast<std::size_t>(rank)];
+        int len = static_cast<int>(feature_names[static_cast<std::size_t>(j)].size());
+
+        if (len + 1 > var_width) var_width = len + 1;
+      }
+    }
+
     out.println("{}", emphasis("Variable Importance:"));
     out.newline();
 
     // Build columns conditionally
     std::vector<Column> columns = {
-      { "Rank",       5,  Align::left },
-      { "Variable",  10,  Align::left },
-      { "",          10,  Align::right },
-      { "Projection", 12, Align::right },
+      { "Variable",   var_width, Align::left },
+      { "",           10,        Align::right },
+      { "Projection", 12,        Align::right },
     };
 
     if (show_vi3) columns.push_back({ "Weighted", 12, Align::right });
@@ -129,13 +144,12 @@ namespace ppforest2::io {
     // Header
     Row header = header_labels(columns);
     header[0] = emphasis(header[0]);
-    header[1] = emphasis(header[1]);
-    header[2] = muted(fmt::format("{}", "\xcf\x83"));
-    header[3] = emphasis(header[3]);
+    header[1] = muted(fmt::format("{}", "\xcf\x83"));
+    header[2] = emphasis(header[2]);
 
-    if (show_vi3) header[4] = emphasis(header[4]);
+    if (show_vi3) header[3] = emphasis(header[3]);
 
-    if (show_vi1) header[show_vi3 ? 5 : 4] = emphasis(header[show_vi3 ? 5 : 4]);
+    if (show_vi1) header[show_vi3 ? 4 : 3] = emphasis(header[show_vi3 ? 4 : 3]);
 
     out.println("{}", format_row(columns, header));
     out.println("{}", muted(format_separator(columns)));
@@ -143,10 +157,11 @@ namespace ppforest2::io {
     // Data rows
     for (int rank = 0; rank < rows; ++rank) {
       int j         = order[static_cast<std::size_t>(rank)];
-      std::string v = fmt::format("x{}", j + 1);
+      std::string v = has_names
+        ? feature_names[static_cast<std::size_t>(j)]
+        : fmt::format("x{}", j + 1);
 
       Row cells = {
-        fmt::format("{}", rank + 1),
         v,
         fmt::format("{:.4f}", scale(j)),
         fmt::format("{:.6f}", vi2(j)),
@@ -317,8 +332,8 @@ namespace ppforest2::io {
   }
 
   void print_data_summary(
-    Output &      out,
-    const nlohmann::json&  meta) {
+    Output &              out,
+    const nlohmann::json& meta) {
     using namespace style;
     using namespace layout;
 
@@ -367,9 +382,18 @@ namespace ppforest2::io {
     using namespace style;
 
     std::vector<std::string> group_names;
+    std::vector<std::string> feature_names;
 
-    if (model_data.contains("meta") && model_data["meta"].contains("groups")) {
-      group_names = model_data["meta"]["groups"].get<std::vector<std::string>>();
+    if (model_data.contains("meta")) {
+      const auto& meta = model_data["meta"];
+
+      if (meta.contains("groups")) {
+        group_names = meta["groups"].get<std::vector<std::string>>();
+      }
+
+      if (meta.contains("feature_names")) {
+        feature_names = meta["feature_names"].get<std::vector<std::string>>();
+      }
     }
 
     if (model_data.contains("config")) {
@@ -394,7 +418,7 @@ namespace ppforest2::io {
     }
 
     bool is_degenerate = model_data.contains("model")
-    && model_data["model"].value("degenerate", false);
+      && model_data["model"].value("degenerate", false);
 
     if (is_degenerate) {
       out.println("{} Some splits could not separate groups (degenerate nodes).", emphasis(warning("Warning:")));
@@ -427,7 +451,7 @@ namespace ppforest2::io {
     // Variable importance
     if (model_data.contains("variable_importance")) {
       auto vi = serialization::variable_importance_from_json(model_data["variable_importance"]);
-      print_variable_importance(out, vi);
+      print_variable_importance(out, vi, feature_names);
     }
   }
 }

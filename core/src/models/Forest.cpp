@@ -68,6 +68,17 @@ namespace ppforest2 {
     return forest;
   }
 
+  Model::Ptr Forest::make(
+    const TrainingSpec&   training_spec,
+    const FeatureMatrix&  x,
+    const ResponseVector& y,
+    int                   size,
+    int                   seed,
+    int                   n_threads,
+    int                   max_retries) {
+    return std::make_unique<Forest>(train(training_spec, x, y, size, seed, n_threads, max_retries));
+  }
+
   Forest::Forest() {
   }
 

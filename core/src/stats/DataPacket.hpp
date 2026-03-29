@@ -30,26 +30,37 @@ namespace ppforest2::stats {
      * from CSV (e.g., simulated data).
      */
     const std::vector<std::string> group_names;
+    /**
+     * @brief Original feature column names from the CSV header.
+     *
+     * When populated, feature_names[j] is the header label for
+     * column j of x.  Empty when data is simulated.
+     */
+    const std::vector<std::string> feature_names;
 
     DataPacket(
       const types::FeatureMatrix &           x,
       const types::Vector<types::Response> & y,
       const std::set<types::Response> &      groups,
-      const std::vector<std::string> &       group_names = {}) :
+      const std::vector<std::string> &       group_names   = {},
+      const std::vector<std::string> &       feature_names = {}) :
       x(x),
       y(y),
       groups(groups),
-      group_names(group_names) {
+      group_names(group_names),
+      feature_names(feature_names) {
     }
 
     DataPacket(
       const types::FeatureMatrix &           x,
       const types::Vector<types::Response> & y,
-      const std::vector<std::string> &       group_names = {}) :
+      const std::vector<std::string> &       group_names   = {},
+      const std::vector<std::string> &       feature_names = {}) :
       x(x),
       y(y),
       groups(unique(y)),
-      group_names(group_names) {
+      group_names(group_names),
+      feature_names(feature_names) {
     }
 
     DataPacket() :

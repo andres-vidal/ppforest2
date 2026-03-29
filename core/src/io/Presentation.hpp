@@ -74,9 +74,10 @@ namespace ppforest2::io {
    * @param max_rows  Maximum number of rows to print (0 = all).
    */
   void print_variable_importance(
-    Output&                   out,
-    const VariableImportance& vi,
-    int                       max_rows = 20);
+    Output&                         out,
+    const VariableImportance&       vi,
+    const std::vector<std::string>& feature_names = {},
+    int                             max_rows      = 20);
 
   /**
    * @brief Print a formatted confusion matrix to stdout.

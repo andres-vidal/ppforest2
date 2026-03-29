@@ -78,6 +78,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ppforest2_predict_tree_prob
+FeatureMatrix ppforest2_predict_tree_prob(const Tree& tree, const FeatureMatrix& data);
+RcppExport SEXP _ppforest2_ppforest2_predict_tree_prob(SEXP treeSEXP, SEXP dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Tree& >::type tree(treeSEXP);
+    Rcpp::traits::input_parameter< const FeatureMatrix& >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(ppforest2_predict_tree_prob(tree, data));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ppforest2_predict_forest_prob
 FeatureMatrix ppforest2_predict_forest_prob(const Forest& forest, const FeatureMatrix& data);
 RcppExport SEXP _ppforest2_ppforest2_predict_forest_prob(SEXP forestSEXP, SEXP dataSEXP) {
@@ -228,8 +240,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // ppforest2_save_tree_json
-std::string ppforest2_save_tree_json(const Tree& tree, Rcpp::CharacterVector groups, Rcpp::List vi, Rcpp::List training_spec, int seed, bool include_metrics);
-RcppExport SEXP _ppforest2_ppforest2_save_tree_json(SEXP treeSEXP, SEXP groupsSEXP, SEXP viSEXP, SEXP training_specSEXP, SEXP seedSEXP, SEXP include_metricsSEXP) {
+std::string ppforest2_save_tree_json(const Tree& tree, Rcpp::CharacterVector groups, Rcpp::List vi, Rcpp::List training_spec, int seed, bool include_metrics, int n_obs, int n_features, SEXP feature_names);
+RcppExport SEXP _ppforest2_ppforest2_save_tree_json(SEXP treeSEXP, SEXP groupsSEXP, SEXP viSEXP, SEXP training_specSEXP, SEXP seedSEXP, SEXP include_metricsSEXP, SEXP n_obsSEXP, SEXP n_featuresSEXP, SEXP feature_namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -239,13 +251,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::List >::type training_spec(training_specSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< bool >::type include_metrics(include_metricsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ppforest2_save_tree_json(tree, groups, vi, training_spec, seed, include_metrics));
+    Rcpp::traits::input_parameter< int >::type n_obs(n_obsSEXP);
+    Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type feature_names(feature_namesSEXP);
+    rcpp_result_gen = Rcpp::wrap(ppforest2_save_tree_json(tree, groups, vi, training_spec, seed, include_metrics, n_obs, n_features, feature_names));
     return rcpp_result_gen;
 END_RCPP
 }
 // ppforest2_save_forest_json
-std::string ppforest2_save_forest_json(const Forest& forest, Rcpp::CharacterVector groups, Rcpp::List vi, Rcpp::List training_spec, int seed, double oob_error, bool include_metrics);
-RcppExport SEXP _ppforest2_ppforest2_save_forest_json(SEXP forestSEXP, SEXP groupsSEXP, SEXP viSEXP, SEXP training_specSEXP, SEXP seedSEXP, SEXP oob_errorSEXP, SEXP include_metricsSEXP) {
+std::string ppforest2_save_forest_json(const Forest& forest, Rcpp::CharacterVector groups, Rcpp::List vi, Rcpp::List training_spec, int seed, double oob_error, bool include_metrics, int n_obs, int n_features, SEXP feature_names);
+RcppExport SEXP _ppforest2_ppforest2_save_forest_json(SEXP forestSEXP, SEXP groupsSEXP, SEXP viSEXP, SEXP training_specSEXP, SEXP seedSEXP, SEXP oob_errorSEXP, SEXP include_metricsSEXP, SEXP n_obsSEXP, SEXP n_featuresSEXP, SEXP feature_namesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -256,7 +271,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< double >::type oob_error(oob_errorSEXP);
     Rcpp::traits::input_parameter< bool >::type include_metrics(include_metricsSEXP);
-    rcpp_result_gen = Rcpp::wrap(ppforest2_save_forest_json(forest, groups, vi, training_spec, seed, oob_error, include_metrics));
+    Rcpp::traits::input_parameter< int >::type n_obs(n_obsSEXP);
+    Rcpp::traits::input_parameter< int >::type n_features(n_featuresSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type feature_names(feature_namesSEXP);
+    rcpp_result_gen = Rcpp::wrap(ppforest2_save_forest_json(forest, groups, vi, training_spec, seed, oob_error, include_metrics, n_obs, n_features, feature_names));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -300,6 +318,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ppforest2_ppforest2_train_forest_pda", (DL_FUNC) &_ppforest2_ppforest2_train_forest_pda, 8},
     {"_ppforest2_ppforest2_predict_tree", (DL_FUNC) &_ppforest2_ppforest2_predict_tree, 2},
     {"_ppforest2_ppforest2_predict_tree_forest", (DL_FUNC) &_ppforest2_ppforest2_predict_tree_forest, 2},
+    {"_ppforest2_ppforest2_predict_tree_prob", (DL_FUNC) &_ppforest2_ppforest2_predict_tree_prob, 2},
     {"_ppforest2_ppforest2_predict_forest_prob", (DL_FUNC) &_ppforest2_ppforest2_predict_forest_prob, 2},
     {"_ppforest2_ppforest2_vi_projections_tree", (DL_FUNC) &_ppforest2_ppforest2_vi_projections_tree, 3},
     {"_ppforest2_ppforest2_vi_projections_forest", (DL_FUNC) &_ppforest2_ppforest2_vi_projections_forest, 3},
@@ -311,8 +330,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_ppforest2_ppforest2_boundary_segments", (DL_FUNC) &_ppforest2_ppforest2_boundary_segments, 7},
     {"_ppforest2_ppforest2_decision_regions", (DL_FUNC) &_ppforest2_ppforest2_decision_regions, 7},
     {"_ppforest2_ppforest2_tree_layout", (DL_FUNC) &_ppforest2_ppforest2_tree_layout, 1},
-    {"_ppforest2_ppforest2_save_tree_json", (DL_FUNC) &_ppforest2_ppforest2_save_tree_json, 6},
-    {"_ppforest2_ppforest2_save_forest_json", (DL_FUNC) &_ppforest2_ppforest2_save_forest_json, 7},
+    {"_ppforest2_ppforest2_save_tree_json", (DL_FUNC) &_ppforest2_ppforest2_save_tree_json, 9},
+    {"_ppforest2_ppforest2_save_forest_json", (DL_FUNC) &_ppforest2_ppforest2_save_forest_json, 10},
     {"_ppforest2_ppforest2_load_json_meta", (DL_FUNC) &_ppforest2_ppforest2_load_json_meta, 1},
     {"_ppforest2_ppforest2_tree_from_json", (DL_FUNC) &_ppforest2_ppforest2_tree_from_json, 1},
     {"_ppforest2_ppforest2_forest_from_json", (DL_FUNC) &_ppforest2_ppforest2_forest_from_json, 1},

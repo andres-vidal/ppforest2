@@ -18,6 +18,7 @@
 #include "models/TrainingSpecUPDA.hpp"
 #include "models/VariableImportance.hpp"
 #include "serialization/Json.hpp"
+#include "cli/Metrics.hpp"
 #include "io/Color.hpp"
 #include "io/IO.hpp"
 
@@ -99,104 +100,48 @@ static void generate_golden(const GoldenConfig& config) {
 
   std::filesystem::create_directories(dir);
 
-  DataPacket data                      = io::csv::read_sorted(config.csv_path);
-  std::vector<std::string> group_names = io::csv::read_labels(config.csv_path);
+  DataPacket data = io::csv::read_sorted(config.csv_path);
 
-  const int n_vars = static_cast<int>(data.x.cols());
-
-  json result;
-
-  // Meta
-  json meta;
-  meta["platform"] = PLATFORM;
-  meta["seed"]     = config.seed;
-  meta["dataset"]  = config.dataset();
-  meta["trees"]    = config.trees;
-  meta["lambda"]   = config.lambda;
-  meta["groups"]   = group_names;
+  // Build config JSON — shared fields plus golden-specific (platform, dataset).
+  json cfg;
+  cfg["trees"]    = config.trees;
+  cfg["lambda"]   = config.lambda;
+  cfg["seed"]     = config.seed;
+  cfg["platform"] = PLATFORM;
+  cfg["dataset"]  = config.dataset();
 
   if (config.trees > 0) {
-    meta["n_vars"]        = config.n_vars;
-    meta["training_spec"] = "upda";
-  } else {
-    meta["training_spec"] = "pda";
+    cfg["vars"] = config.n_vars;
   }
 
-  result["meta"] = meta;
-
-  // Train and serialize
-  auto to_label = [&group_names](int code) {
-      return group_names[static_cast<std::size_t>(code)];
-    };
-
-  auto labeled_predictions = [&](const ResponseVector& predictions) {
-      std::vector<std::string> labels;
-      labels.reserve(static_cast<std::size_t>(predictions.size()));
-
-      for (int i = 0; i < predictions.size(); ++i) {
-        labels.push_back(to_label(predictions(i)));
-      }
-
-      return labels;
-    };
+  // Train
+  Model::Ptr model;
 
   if (config.trees > 0) {
-    Forest forest = Forest::train(
+    model = Forest::make(
       TrainingSpecUPDA(config.n_vars, config.lambda),
-      data.x,
-      data.y,
-      config.trees,
-      config.seed,
-      1);
-
-    result["model"] = to_json(forest, group_names);
-
-    ResponseVector predictions = forest.predict(data.x);
-    result["predictions"] = labeled_predictions(predictions);
-
-    FeatureMatrix vote_proportions = forest.predict(data.x, Proportions{});
-    result["vote_proportions"] = to_json(vote_proportions);
-
-    ConfusionMatrix cm(predictions, data.y);
-    result["error_rate"]       = cm.error();
-    result["confusion_matrix"] = to_json(cm, group_names);
-
-    double oob_err = forest.oob_error(data.x, data.y);
-    result["oob_error"] = oob_err;
-
-    // Variable importance
-    VariableImportance vi;
-    vi.scale = stats::sd(data.x);
-    vi.scale = (vi.scale.array() > Feature(0)).select(vi.scale, Feature(1));
-
-    vi.permuted             = variable_importance_permuted(forest, data.x, data.y, config.seed);
-    vi.projections          = variable_importance_projections(forest, n_vars, &vi.scale);
-    vi.weighted_projections = variable_importance_weighted_projections(forest, data.x, data.y, &vi.scale);
-
-    result["variable_importance"] = to_json(vi);
+      data.x, data.y, config.trees, config.seed, 1);
   } else {
-    // Single tree
     RNG rng(config.seed);
-    Tree tree = Tree::train(TrainingSpecPDA(config.lambda), data.x, data.y, rng);
-
-    result["model"] = to_json(tree, group_names);
-
-    ResponseVector predictions = tree.predict(data.x);
-    result["predictions"] = labeled_predictions(predictions);
-
-    ConfusionMatrix cm(predictions, data.y);
-    result["error_rate"]       = cm.error();
-    result["confusion_matrix"] = to_json(cm, group_names);
-
-    // VI2 only for single tree
-    VariableImportance vi;
-    vi.scale = stats::sd(data.x);
-    vi.scale = (vi.scale.array() > Feature(0)).select(vi.scale, Feature(1));
-
-    vi.projections = variable_importance_projections(tree, n_vars, &vi.scale);
-
-    result["variable_importance"] = to_json(vi);
+    model = Tree::make(
+      TrainingSpecPDA(config.lambda), data.x, data.y, rng);
   }
+
+  // Serialize model + meta + config
+  json result = serialization::build_model_json(
+    *model, cfg, data.group_names, data.feature_names,
+    static_cast<int>(data.x.rows()), static_cast<int>(data.x.cols()));
+
+  // Metrics (VI, confusion matrices, OOB)
+  cli::compute_metrics(result, *model, data.x, data.y, data.group_names, config.seed);
+
+  // Golden-specific fields
+  ResponseVector predictions = model->predict(data.x);
+  result["predictions"]      = serialization::to_labels(predictions, data.group_names);
+  result["vote_proportions"] = to_json(model->predict(data.x, Proportions{}));
+
+  ConfusionMatrix cm(predictions, data.y);
+  result["error_rate"] = cm.error();
 
   io::json::write_file(result, path);
   fmt::print("  {} -> {}\n", config.slug(), path);

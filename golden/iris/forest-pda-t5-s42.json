@@ -1,47 +1,27 @@
 {
-  "confusion_matrix": {
-    "group_errors": [
-      0.0,
-      0.03999999910593033,
-      0.05999999865889549
-    ],
-    "labels": [
-      "setosa",
-      "versicolor",
-      "virginica"
-    ],
-    "matrix": [
-      [
-        50,
-        0,
-        0
-      ],
-      [
-        1,
-        48,
-        1
-      ],
-      [
-        0,
-        3,
-        47
-      ]
-    ]
+  "config": {
+    "dataset": "iris",
+    "lambda": 0.0,
+    "platform": "macos-clang",
+    "seed": 42,
+    "trees": 5,
+    "vars": 2
   },
   "error_rate": 0.03333336114883423,
   "meta": {
-    "dataset": "iris",
+    "feature_names": [
+      "Sepal.Length",
+      "Sepal.Width",
+      "Petal.Length",
+      "Petal.Width"
+    ],
+    "features": 4,
     "groups": [
       "setosa",
       "versicolor",
       "virginica"
     ],
-    "lambda": 0.0,
-    "n_vars": 2,
-    "platform": "macos-clang",
-    "seed": 42,
-    "training_spec": "upda",
-    "trees": 5
+    "observations": 150
   },
   "model": {
     "degenerate": false,
@@ -1038,6 +1018,36 @@
       }
     ]
   },
+  "model_type": "forest",
+  "oob_confusion_matrix": {
+    "group_errors": [
+      0.0,
+      0.0,
+      0.13333334028720856
+    ],
+    "labels": [
+      "setosa",
+      "versicolor",
+      "virginica"
+    ],
+    "matrix": [
+      [
+        43,
+        0,
+        0
+      ],
+      [
+        0,
+        45,
+        0
+      ],
+      [
+        0,
+        6,
+        39
+      ]
+    ]
+  },
   "oob_error": 0.045112788677215576,
   "predictions": [
     "setosa",
@@ -1191,6 +1201,35 @@
     "virginica",
     "virginica"
   ],
+  "training_confusion_matrix": {
+    "group_errors": [
+      0.0,
+      0.03999999910593033,
+      0.05999999865889549
+    ],
+    "labels": [
+      "setosa",
+      "versicolor",
+      "virginica"
+    ],
+    "matrix": [
+      [
+        50,
+        0,
+        0
+      ],
+      [
+        1,
+        48,
+        1
+      ],
+      [
+        0,
+        3,
+        47
+      ]
+    ]
+  },
   "variable_importance": {
     "permuted": [
       0.02418513223528862,

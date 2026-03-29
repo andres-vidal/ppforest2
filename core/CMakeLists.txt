@@ -230,7 +230,7 @@ if(NOT PPFOREST2_CORE_ONLY)
   # ---------------------------------------------------------------------------
   # Golden file generator
   # ---------------------------------------------------------------------------
-  add_executable(ppforest2-golden-gen src/golden/GoldenGen.cpp)
+  add_executable(ppforest2-golden-gen src/golden/GoldenGen.cpp src/cli/Metrics.cpp)
 
   target_link_libraries(ppforest2-golden-gen
     ppforest2-core

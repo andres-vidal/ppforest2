@@ -5,35 +5,51 @@
 #include "cli/CLI.integration.hpp"
 
 // ---------------------------------------------------------------------------
-// Train subcommand
+// Train subcommand — TrainTest fixture (inherits SavedModelTest)
 // ---------------------------------------------------------------------------
 
-/* Basic forest training on iris data succeeds. */
-TEST(CLITrain, TrainWithIrisData) {
-  TempDir dir;
-  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 5 -r 42 -s " + dir.file("model.json"));
-  EXPECT_EQ(result.exit_code, 0);
-}
+class TrainTest : public SavedModelTest {};
 
 /* Saved forest JSON contains model_type, model, and config block. */
-TEST(CLITrain, TrainAndSaveForest) {
-  TempFile model;
-  model.clear();
-  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 5 -r 42 -s " + model.path());
-  EXPECT_EQ(result.exit_code, 0);
+TEST_F(TrainTest, JsonContainsModelAndConfig) {
+  EXPECT_EQ(model_json_["model_type"], "forest");
+  EXPECT_TRUE(model_json_.contains("model"));
+  EXPECT_TRUE(model_json_.contains("config"));
 
-  auto j = json::parse(model.read());
-  EXPECT_EQ(j["model_type"], "forest");
-  EXPECT_TRUE(j.contains("model"));
-  EXPECT_TRUE(j.contains("config"));
-
-  auto config = j["config"];
+  auto config = model_json_["config"];
   EXPECT_EQ(config["trees"], 5);
   EXPECT_TRUE(config.contains("lambda"));
   EXPECT_EQ(config["seed"], 42);
   EXPECT_TRUE(config.contains("threads"));
   EXPECT_TRUE(config.contains("vars"));
   EXPECT_EQ(config["data"], IRIS_CSV);
+}
+
+TEST_F(TrainTest, ForestMetaMatchesGolden) {
+  std::ifstream golden_in(GOLDEN_DIR + "/iris/forest-pda-t5-s42.json");
+  ASSERT_TRUE(golden_in.is_open());
+  auto golden_meta = json::parse(golden_in)["meta"];
+
+  EXPECT_EQ(model_json_["meta"], golden_meta) << "CLI meta diverged from golden file";
+}
+
+/* Model file is created at the specified path. */
+TEST_F(TrainTest, ModelFileExists) {
+  EXPECT_TRUE(std::filesystem::exists(model_->path()));
+}
+
+TEST(CLITrain, TrainSingleTreeMetaMatchesGolden) {
+  std::ifstream golden_in(GOLDEN_DIR + "/iris/tree-pda-s42.json");
+  ASSERT_TRUE(golden_in.is_open());
+  auto golden_meta = json::parse(golden_in)["meta"];
+
+  TempFile model;
+  model.clear();
+  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 0 -r 42 -s " + model.path());
+  EXPECT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(model.read());
+  EXPECT_EQ(j["meta"], golden_meta) << "CLI meta diverged from golden file";
 }
 
 /* Single tree (t=0) saves with model_type "tree". */
@@ -47,14 +63,6 @@ TEST(CLITrain, TrainAndSaveSingleTree) {
   EXPECT_EQ(j["model_type"], "tree");
 }
 
-/* Training writes a model file to the specified path. */
-TEST(CLITrain, TrainDefaultSavesModel) {
-  TempDir dir;
-  // Run train from inside temp dir so default model.json goes there
-  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 5 -r 42 -s " + dir.file("model.json"));
-  EXPECT_EQ(result.exit_code, 0);
-  EXPECT_TRUE(std::filesystem::exists(dir.file("model.json")));
-}
 
 /* --no-save suppresses model file creation. */
 TEST(CLITrain, TrainNoSave) {
@@ -107,22 +115,15 @@ TEST(CLITrain, TrainNoMetricsSuppressesVI) {
 }
 
 /* Saved forest JSON contains oob_error and variable_importance. */
-TEST(CLITrain, TrainVISavedToJson) {
-  TempFile model;
-  model.clear();
-  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 5 -r 42 -s " + model.path());
-  EXPECT_EQ(result.exit_code, 0);
+TEST_F(TrainTest, VISavedToJson) {
+  ASSERT_TRUE(model_json_.contains("oob_error")) << "Expected oob_error key in saved JSON";
+  EXPECT_TRUE(model_json_["oob_error"].is_number());
+  EXPECT_GE(model_json_["oob_error"].get<double>(), 0.0);
+  EXPECT_LE(model_json_["oob_error"].get<double>(), 1.0);
 
-  auto j = json::parse(model.read());
+  ASSERT_TRUE(model_json_.contains("variable_importance")) << "Expected variable_importance key in saved JSON";
 
-  ASSERT_TRUE(j.contains("oob_error")) << "Expected oob_error key in saved JSON";
-  EXPECT_TRUE(j["oob_error"].is_number());
-  EXPECT_GE(j["oob_error"].get<double>(), 0.0);
-  EXPECT_LE(j["oob_error"].get<double>(), 1.0);
-
-  ASSERT_TRUE(j.contains("variable_importance")) << "Expected variable_importance key in saved JSON";
-
-  auto vi = j["variable_importance"];
+  auto vi = model_json_["variable_importance"];
   EXPECT_TRUE(vi.contains("scale"));
   EXPECT_TRUE(vi.contains("projections"));
   EXPECT_TRUE(vi.contains("weighted_projections"));
@@ -178,17 +179,8 @@ TEST(CLITrain, TrainSingleTreeVISavedToJson) {
 }
 
 /* Quiet mode suppresses the VI table but still saves it to JSON. */
-TEST(CLITrain, TrainVIQuietSuppressesTable) {
-  TempFile model;
-  model.clear();
-  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -t 5 -r 42 -s " + model.path());
-  EXPECT_EQ(result.exit_code, 0);
-  EXPECT_EQ(result.stdout_output.find("Variable Importance"), std::string::npos)
-    << "Expected no VI table in quiet mode";
-
-  // JSON must still contain VI.
-  auto j = json::parse(model.read());
-  EXPECT_TRUE(j.contains("variable_importance"));
+TEST_F(TrainTest, VIQuietSuppressesTable) {
+  EXPECT_TRUE(model_json_.contains("variable_importance"));
 }
 
 // ---------------------------------------------------------------------------

@@ -38,7 +38,7 @@ namespace ppforest2::cli {
     ->check(CLI::ExistingFile);
     sub->add_option("-o,--output", params.output_path, "Save prediction results to JSON file");
     sub->add_flag("--no-metrics", params.no_metrics, "Omit error rate and confusion matrix from output");
-    sub->add_flag("--no-proportions", params.no_proportions, "Omit vote proportions from output (forest only)");
+    sub->add_flag("--no-proportions", params.no_proportions, "Omit vote proportions from output");
     return sub;
   }
 }
@@ -65,17 +65,19 @@ namespace {
   struct ProportionsVisitor : Model::Visitor {
     const FeatureMatrix& data;
     FeatureMatrix proportions;
-    bool is_forest = false;
+    bool has_proportions = false;
 
     explicit ProportionsVisitor(const FeatureMatrix& data) : data(data) {
     }
 
-    void visit(const Tree&) override {
+    void visit(const Tree& tree) override {
+      has_proportions = true;
+      proportions     = tree.predict(data, Proportions{});
     }
 
     void visit(const Forest& forest) override {
-      is_forest   = true;
-      proportions = forest.predict(data, Proportions{});
+      has_proportions = true;
+      proportions     = forest.predict(data, Proportions{});
     }
   };
 
@@ -92,14 +94,7 @@ namespace {
       std::vector<int> pred_vec(predictions.data(), predictions.data() + predictions.size());
       result["predictions"] = pred_vec;
     } else {
-      std::vector<std::string> pred_labels;
-      pred_labels.reserve(static_cast<std::size_t>(predictions.size()));
-
-      for (int i = 0; i < predictions.size(); ++i) {
-        pred_labels.push_back(group_names[static_cast<std::size_t>(predictions(i))]);
-      }
-
-      result["predictions"] = pred_labels;
+      result["predictions"] = serialization::to_labels(predictions, group_names);
     }
 
     bool has_labels   = data.y.size() > 0;
@@ -117,7 +112,7 @@ namespace {
       ProportionsVisitor visitor(data.x);
       model.accept(visitor);
 
-      if (visitor.is_forest) {
+      if (visitor.has_proportions) {
         result["proportions"] = proportions_to_json(visitor.proportions);
       }
     }

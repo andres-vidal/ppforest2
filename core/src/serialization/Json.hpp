@@ -52,6 +52,33 @@ namespace ppforest2::serialization {
     void visit(const Forest& forest) override;
   };
 
+  /** @brief Map integer response codes to group name strings. */
+  std::vector<std::string> to_labels(
+    const types::ResponseVector&    predictions,
+    const std::vector<std::string>& group_names);
+
+  /** @brief Build the meta block shared by model JSON and golden files. */
+  json build_meta_json(
+    int                             n_observations,
+    int                             n_features,
+    const std::vector<std::string>& group_names,
+    const std::vector<std::string>& feature_names = {});
+
+  /**
+   * @brief Build a complete model JSON (model + config + meta).
+   *
+   * Shared by the CLI train command and golden file generation.
+   * Callers build their own config JSON (from CLIOptions, GoldenConfig, etc.)
+   * and pass it here.
+   */
+  json build_model_json(
+    const Model&                    model,
+    const json&                     config,
+    const std::vector<std::string>& group_names,
+    const std::vector<std::string>& feature_names,
+    int                             n_observations,
+    int                             n_features);
+
   /** @name Serialization */
   ///@{
   json to_json(const Model& model);

@@ -74,17 +74,6 @@ namespace ppforest2::io::csv {
   stats::DataPacket read_sorted(const std::string& filename);
 
   /**
-   * @brief Read group label names from a CSV file in the order they first appear.
-   *
-   * Returns a vector where index i is the string label that maps to integer code i,
-   * matching the encoding produced by read().
-   *
-   * @param filename Path to the CSV file.
-   * @return A vector of group label strings, ordered by their integer code.
-   */
-  std::vector<std::string> read_labels(const std::string& filename);
-
-  /**
    * @brief Write a DataPacket to a CSV file (features followed by label, no header).
    * @param data The DataPacket to write.
    * @param filename Output file path.

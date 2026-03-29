@@ -101,6 +101,14 @@ namespace {
   stats::DataPacket read(const std::string& filename) {
     ::csv::CSVReader reader(filename);
 
+    // Extract feature column names from header (all columns except the last).
+    auto col_names = reader.get_col_names();
+    std::vector<std::string> feature_names;
+
+    if (!col_names.empty()) {
+      feature_names.assign(col_names.begin(), col_names.end() - 1);
+    }
+
     // First pass: read all raw string values to detect categorical columns.
     std::vector<std::vector<std::string>> raw_rows;
     int n_cols = 0;
@@ -174,24 +182,7 @@ namespace {
       y[i] = label_mapping[label_str];
     }
 
-    return stats::DataPacket(x, y, label_names);
-  }
-
-  std::vector<std::string> read_labels(const std::string& filename) {
-    ::csv::CSVReader reader(filename);
-    std::unordered_map<std::string, int> seen;
-    std::vector<std::string> labels;
-
-    for (::csv::CSVRow& row : reader) {
-      std::string label = row[row.size() - 1].get<std::string>();
-
-      if (seen.find(label) == seen.end()) {
-        seen[label] = static_cast<int>(labels.size());
-        labels.push_back(label);
-      }
-    }
-
-    return labels;
+    return stats::DataPacket(x, y, label_names, feature_names);
   }
 
   stats::DataPacket read_sorted(const std::string& filename) {
@@ -204,7 +195,7 @@ namespace {
       stats::sort(x, y);
     }
 
-    return stats::DataPacket(x, y, data.group_names);
+    return stats::DataPacket(x, y, data.group_names, data.feature_names);
   }
 
   void write(const stats::DataPacket& data, const std::string& filename) {

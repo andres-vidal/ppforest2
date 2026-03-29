@@ -101,6 +101,13 @@ ResponseVector ppforest2_predict_tree_forest(
 }
 
 // [[Rcpp::export]]
+FeatureMatrix ppforest2_predict_tree_prob(
+  const Tree &          tree,
+  const FeatureMatrix & data) {
+  return tree.predict(data, Proportions{});
+}
+
+// [[Rcpp::export]]
 FeatureMatrix ppforest2_predict_forest_prob(
   const Forest &        forest,
   const FeatureMatrix & data) {
@@ -376,23 +383,50 @@ namespace {
 
   json meta_from_r(
     Rcpp::CharacterVector groups,
-    Rcpp::List            training_spec,
-    int                   seed) {
+    int                   n_obs,
+    int                   n_features,
+    SEXP                  feature_names) {
     json meta;
 
     std::vector<std::string> cls(groups.begin(), groups.end());
     meta["groups"] = cls;
 
-    std::string strategy = Rcpp::as<std::string>(training_spec["strategy"]);
-    meta["training_spec"] = strategy;
-    meta["lambda"]        = Rcpp::as<float>(training_spec["lambda"]);
-    meta["seed"]          = seed;
+    if (n_obs > 0) {
+      meta["observations"] = n_obs;
+    }
 
-    if (training_spec.containsElementNamed("n_vars")) {
-      meta["n_vars"] = Rcpp::as<int>(training_spec["n_vars"]);
+    if (n_features > 0) {
+      meta["features"] = n_features;
+    }
+
+    if (feature_names != R_NilValue) {
+      Rcpp::CharacterVector fnames_cv(feature_names);
+
+      if (fnames_cv.size() > 0) {
+        std::vector<std::string> fnames(fnames_cv.begin(), fnames_cv.end());
+        meta["feature_names"] = fnames;
+      }
     }
 
     return meta;
+  }
+
+  json config_from_r(
+    Rcpp::List training_spec,
+    int        seed) {
+    json config;
+
+    std::string strategy = Rcpp::as<std::string>(training_spec["strategy"]);
+    float lambda         = Rcpp::as<float>(training_spec["lambda"]);
+
+    config["lambda"] = lambda;
+    config["seed"]   = seed;
+
+    if (training_spec.containsElementNamed("n_vars")) {
+      config["vars"] = Rcpp::as<int>(training_spec["n_vars"]);
+    }
+
+    return config;
   }
 
   FeatureVector to_feature_vector(Rcpp::NumericVector v) {
@@ -431,12 +465,16 @@ std::string ppforest2_save_tree_json(
     Rcpp::List            vi,
     Rcpp::List            training_spec,
     int                   seed,
-    bool                  include_metrics) {
+    bool                  include_metrics,
+    int                   n_obs         = 0,
+    int                   n_features    = 0,
+    SEXP                  feature_names = R_NilValue) {
   json output = ppforest2::serialization::to_json(tree);
 
   json result;
   result["model_type"] = "tree";
-  result["meta"]       = meta_from_r(groups, training_spec, seed);
+  result["meta"]       = meta_from_r(groups, n_obs, n_features, feature_names);
+  result["config"]     = config_from_r(training_spec, seed);
   result["model"]      = output;
 
   if (include_metrics) {
@@ -454,12 +492,16 @@ std::string ppforest2_save_forest_json(
     Rcpp::List            training_spec,
     int                   seed,
     double                oob_error,
-    bool                  include_metrics) {
+    bool                  include_metrics,
+    int                   n_obs         = 0,
+    int                   n_features    = 0,
+    SEXP                  feature_names = R_NilValue) {
   json output = ppforest2::serialization::to_json(forest);
 
   json result;
   result["model_type"] = "forest";
-  result["meta"]       = meta_from_r(groups, training_spec, seed);
+  result["meta"]       = meta_from_r(groups, n_obs, n_features, feature_names);
+  result["config"]     = config_from_r(training_spec, seed);
   result["model"]      = output;
 
   if (include_metrics) {
@@ -499,17 +541,25 @@ Rcpp::List ppforest2_load_json_meta(const std::string& json_str) {
       auto cls = meta["groups"].get<std::vector<std::string>>();
       groups = Rcpp::wrap(cls);
     }
+  }
 
-    seed = meta.value("seed", 0);
+  // Restore config from "config" block.
+  if (j.contains("config")) {
+    const auto& config = j["config"];
 
-    std::string strategy = meta.value("training_spec", "pda");
-    float lambda         = meta.value("lambda", 0.0f);
+    seed = config.value("seed", 0);
 
-    if (meta.contains("n_vars")) {
+    float lambda = config.value("lambda", 0.0f);
+    int n_vars   = config.value("vars", 0);
+
+    // Infer strategy: forest with vars → uniform_pda, otherwise pda.
+    std::string strategy = (n_vars > 0) ? "uniform_pda" : "pda";
+
+    if (n_vars > 0) {
       training_spec = Rcpp::List::create(
         Rcpp::Named("strategy") = strategy,
         Rcpp::Named("lambda")   = lambda,
-        Rcpp::Named("n_vars")   = meta["n_vars"].get<int>());
+        Rcpp::Named("n_vars")   = n_vars);
     } else {
       training_spec = Rcpp::List::create(
         Rcpp::Named("strategy") = strategy,

@@ -141,8 +141,8 @@ TEST_F(PredictTest, PredictNoProportionsFlag) {
 // Predict subcommand — standalone tests
 // ---------------------------------------------------------------------------
 
-/* Single-tree output never includes proportions. */
-TEST(CLIPredict, PredictTreeModelNoProportions) {
+/* Single-tree output includes one-hot proportions. */
+TEST(CLIPredict, PredictTreeModelIncludesProportions) {
   TempFile model;
   model.clear();
   auto train = run_ppforest2("-q train -d " + IRIS_CSV + " -t 0 -r 42 -s " + model.path());
@@ -151,6 +151,38 @@ TEST(CLIPredict, PredictTreeModelNoProportions) {
   TempFile output;
   output.clear();
   auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + IRIS_CSV + " -o " + output.path());
+  EXPECT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  EXPECT_TRUE(j.contains("predictions"));
+  EXPECT_TRUE(j.contains("proportions"));
+
+  // 150 observations, each row is one-hot
+  auto& props = j["proportions"];
+  EXPECT_EQ(props.size(), 150u);
+  EXPECT_EQ(props[0].size(), 3u);
+
+  // Each row sums to 1.0 (one-hot for trees)
+  for (const auto& row : props) {
+    double sum = 0;
+    for (const auto& val : row) {
+      sum += val.get<double>();
+    }
+
+    EXPECT_NEAR(sum, 1.0, 1e-6);
+  }
+}
+
+/* --no-proportions omits proportions from tree output. */
+TEST(CLIPredict, PredictTreeNoProportionsFlag) {
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + IRIS_CSV + " -t 0 -r 42 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + IRIS_CSV + " --no-proportions -o " + output.path());
   EXPECT_EQ(result.exit_code, 0);
 
   auto j = json::parse(output.read());

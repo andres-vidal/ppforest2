@@ -8,6 +8,7 @@
 #include "models/TrainingSpecPDA.hpp"
 
 #include <cmath>
+#include <map>
 #include <stack>
 #include <Eigen/Dense>
 
@@ -292,6 +293,14 @@ namespace {
     return tree;
   }
 
+  Model::Ptr Tree::make(
+    TrainingSpec const&   training_spec,
+    const FeatureMatrix&  x,
+    const ResponseVector& y,
+    stats::RNG&           rng) {
+    return std::make_unique<Tree>(train(training_spec, x, y, rng));
+  }
+
   Tree::Tree(TreeNode::Ptr root) :
     root(std::move(root)),
     training_spec(TrainingSpecPDA::make(0.5)) {
@@ -316,6 +325,27 @@ namespace {
     }
 
     return predictions;
+  }
+
+  FeatureMatrix Tree::predict(const FeatureMatrix& data, Proportions) const {
+    std::set<Response> group_set = root->node_groups();
+    std::vector<Response> groups(group_set.begin(), group_set.end());
+    int G = static_cast<int>(groups.size());
+
+    std::map<Response, int> group_to_col;
+    for (int g = 0; g < G; ++g) {
+      group_to_col[groups[static_cast<std::size_t>(g)]] = g;
+    }
+
+    int n                     = static_cast<int>(data.rows());
+    FeatureMatrix proportions = FeatureMatrix::Zero(n, G);
+
+    for (int i = 0; i < n; ++i) {
+      Response pred = predict(static_cast<FeatureVector>(data.row(i)));
+      proportions(i, group_to_col[pred]) = Feature(1);
+    }
+
+    return proportions;
   }
 
   bool Tree::operator==(const Tree& other) const {

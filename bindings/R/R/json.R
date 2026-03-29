@@ -24,13 +24,25 @@ save_json <- function(model, path, ...) {
 #' @rdname save_json
 #' @export
 save_json.pptr <- function(model, path, include_metrics = TRUE, ...) {
+  if (!is.null(model$x)) {
+    n_obs <- nrow(model$x)
+    n_features <- ncol(model$x)
+    feature_names <- colnames(model$x)
+  } else {
+    n_obs <- 0L
+    n_features <- 0L
+    feature_names <- character(0)
+  }
   json_str <- ppforest2_save_tree_json(
     model,
     model$groups,
     model$vi,
     model$training_spec,
     model$seed,
-    include_metrics
+    include_metrics,
+    n_obs,
+    n_features,
+    feature_names
   )
   writeLines(json_str, path)
   invisible(path)
@@ -39,6 +51,15 @@ save_json.pptr <- function(model, path, include_metrics = TRUE, ...) {
 #' @rdname save_json
 #' @export
 save_json.pprf <- function(model, path, include_metrics = TRUE, ...) {
+  if (!is.null(model$x)) {
+    n_obs <- nrow(model$x)
+    n_features <- ncol(model$x)
+    feature_names <- colnames(model$x)
+  } else {
+    n_obs <- 0L
+    n_features <- 0L
+    feature_names <- character(0)
+  }
   json_str <- ppforest2_save_forest_json(
     model,
     model$groups,
@@ -46,7 +67,10 @@ save_json.pprf <- function(model, path, include_metrics = TRUE, ...) {
     model$training_spec,
     model$seed,
     model$oob_error,
-    include_metrics
+    include_metrics,
+    n_obs,
+    n_features,
+    feature_names
   )
   writeLines(json_str, path)
   invisible(path)

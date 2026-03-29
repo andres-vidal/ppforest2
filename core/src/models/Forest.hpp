@@ -11,14 +11,6 @@
 
 namespace ppforest2 {
   /**
-   * @brief Tag type for requesting vote-proportion predictions.
-   *
-   * Pass an instance of this type to Forest::predict to get an (n × G)
-   * matrix of vote proportions instead of a single majority-vote response.
-   */
-  struct Proportions {};
-
-  /**
    * @brief A projection pursuit random forest.
    *
    * An ensemble of BootstrapTree instances, each trained on a
@@ -51,6 +43,16 @@ namespace ppforest2 {
      * @return               Trained forest.
      */
     static Forest train(
+      const TrainingSpec&          training_spec,
+      const types::FeatureMatrix&  x,
+      const types::ResponseVector& y,
+      int                          size,
+      int                          seed,
+      int                          n_threads   = std::thread::hardware_concurrency(),
+      int                          max_retries = 3);
+
+    /** @brief Train a forest and return it as a Model::Ptr. */
+    static Model::Ptr make(
       const TrainingSpec&          training_spec,
       const types::FeatureMatrix&  x,
       const types::ResponseVector& y,
@@ -92,7 +94,7 @@ namespace ppforest2 {
      * @param data  Feature matrix (n × p).
      * @return      Vote proportions matrix (n × G), rows sum to 1.0.
      */
-    types::FeatureMatrix predict(const types::FeatureMatrix& data, Proportions) const;
+    types::FeatureMatrix predict(const types::FeatureMatrix& data, Proportions) const override;
 
     /**
      * @brief Add a tree to the forest.

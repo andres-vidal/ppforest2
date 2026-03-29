@@ -100,7 +100,7 @@ compare_error_rate <- function(model, golden, data, response) {
 
 compare_confusion_matrix <- function(model, golden, data, response) {
   predicted <- predict(model, data)
-  expected_cm <- golden$confusion_matrix
+  expected_cm <- golden$training_confusion_matrix
   golden_groups <- as.character(as_vec(golden$meta$groups))
 
   n_groups <- length(model$groups)

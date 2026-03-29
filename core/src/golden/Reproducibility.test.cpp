@@ -226,7 +226,7 @@ namespace {
                                                                                             \
           ConfusionMatrix cm(predictions, data.y);                                          \
           EXPECT_NEAR(cm.error(), golden["error_rate"].get<float>(), 1e-3f);                \
-          compare_confusion_matrix(golden["confusion_matrix"], cm, group_names);            \
+          compare_confusion_matrix(golden["training_confusion_matrix"], cm, group_names);   \
                                                                                             \
           if (golden.contains("variable_importance")) {                                     \
             const int n_vars    = static_cast<int>(data.x.cols());                          \
@@ -258,7 +258,7 @@ namespace {
                                                                                                 \
           ConfusionMatrix cm(predictions, data.y);                                              \
           EXPECT_NEAR(cm.error(), golden["error_rate"].get<float>(), 1e-3f);                    \
-          compare_confusion_matrix(golden["confusion_matrix"], cm, group_names);                \
+          compare_confusion_matrix(golden["training_confusion_matrix"], cm, group_names);       \
                                                                                                 \
           if (golden.contains("oob_error")) {                                                   \
             double oob_err = forest.oob_error(data.x, data.y);                                  \

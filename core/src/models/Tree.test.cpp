@@ -655,3 +655,126 @@ TEST(Tree, PredictDataMultivariateThreeGroups) {
 
   ASSERT_EQ(result, expected);
 }
+
+TEST(Tree, PredictProportionsTwoGroups) {
+  Tree tree = Tree(
+    TreeCondition::make(
+      as_projector({ 1.0 }),
+      1.5,
+      TreeResponse::make(0),
+      TreeResponse::make(1),
+      nullptr,
+      { 0, 1 }));
+
+  FeatureMatrix input = MAT(Feature, rows(2), 1.0, 2.0);
+
+  FeatureMatrix result = tree.predict(input, Proportions{});
+
+  ASSERT_EQ(result.rows(), 2);
+  ASSERT_EQ(result.cols(), 2);
+
+  // Row 0 predicts group 0 → [1, 0]
+  EXPECT_FLOAT_EQ(result(0, 0), 1.0);
+  EXPECT_FLOAT_EQ(result(0, 1), 0.0);
+
+  // Row 1 predicts group 1 → [0, 1]
+  EXPECT_FLOAT_EQ(result(1, 0), 0.0);
+  EXPECT_FLOAT_EQ(result(1, 1), 1.0);
+}
+
+TEST(Tree, PredictProportionsThreeGroups) {
+  Tree tree = Tree(
+    TreeCondition::make(
+      as_projector({ 1.0 }),
+      1.75,
+      TreeResponse::make(0),
+      TreeCondition::make(
+        as_projector({ 1.0 }),
+        2.5,
+        TreeResponse::make(1),
+        TreeResponse::make(2),
+        nullptr,
+        { 1, 2 }),
+      nullptr,
+      { 0, 1, 2 }));
+
+  FeatureMatrix input = MAT(Feature, rows(3), 1.0, 2.0, 3.0);
+
+  FeatureMatrix result = tree.predict(input, Proportions{});
+
+  ASSERT_EQ(result.rows(), 3);
+  ASSERT_EQ(result.cols(), 3);
+
+  // Each row is one-hot for the predicted group
+  EXPECT_FLOAT_EQ(result(0, 0), 1.0);
+  EXPECT_FLOAT_EQ(result(0, 1), 0.0);
+  EXPECT_FLOAT_EQ(result(0, 2), 0.0);
+
+  EXPECT_FLOAT_EQ(result(1, 0), 0.0);
+  EXPECT_FLOAT_EQ(result(1, 1), 1.0);
+  EXPECT_FLOAT_EQ(result(1, 2), 0.0);
+
+  EXPECT_FLOAT_EQ(result(2, 0), 0.0);
+  EXPECT_FLOAT_EQ(result(2, 1), 0.0);
+  EXPECT_FLOAT_EQ(result(2, 2), 1.0);
+}
+
+TEST(Tree, PredictProportionsRowsSumToOne) {
+  Tree tree = Tree(
+    TreeCondition::make(
+      as_projector({ 1.0, 0.0, 0.0, 0.0 }),
+      2.5,
+      TreeResponse::make(0),
+      TreeResponse::make(1),
+      nullptr,
+      { 0, 1 }));
+
+  FeatureMatrix input = MAT(Feature, rows(4),
+      1, 0, 1, 1,
+      4, 0, 0, 1,
+      2, 1, 0, 0,
+      3, 0, 1, 0);
+
+  FeatureMatrix result = tree.predict(input, Proportions{});
+
+  ASSERT_EQ(result.rows(), 4);
+  ASSERT_EQ(result.cols(), 2);
+
+  for (int i = 0; i < result.rows(); ++i) {
+    EXPECT_FLOAT_EQ(result.row(i).sum(), Feature(1))
+      << "Row " << i << " should sum to 1.0";
+  }
+}
+
+TEST(Tree, PredictProportionsMatchesPredictions) {
+  Tree tree = Tree(
+    TreeCondition::make(
+      as_projector({ 0.9805806756909201, -0.19611613513818427, 0.0, 0.0, 0.0 }),
+      4.118438837901864,
+      TreeCondition::make(
+        as_projector({ 0.0, 1.0, 0.0, 0.0, 0.0 }),
+        2.5,
+        TreeResponse::make(0),
+        TreeResponse::make(1),
+        nullptr,
+        { 0, 1 }),
+      TreeResponse::make(2),
+      nullptr,
+      { 0, 1, 2 }));
+
+  FeatureMatrix input = MAT(Feature, rows(3),
+      1, 0, 0, 1, 1,
+      2, 5, 0, 0, 1,
+      9, 8, 0, 0, 1);
+
+  ResponseVector predictions = tree.predict(input);
+  FeatureMatrix proportions  = tree.predict(input, Proportions{});
+
+  ASSERT_EQ(proportions.rows(), 3);
+  ASSERT_EQ(proportions.cols(), 3);
+
+  // The column with 1.0 in each row must match the predicted group
+  for (int i = 0; i < input.rows(); ++i) {
+    EXPECT_FLOAT_EQ(proportions(i, predictions(i)), Feature(1)) << "Row " << i << ": proportions should have 1.0 in column for predicted group";
+  }
+}
