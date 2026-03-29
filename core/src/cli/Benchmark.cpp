@@ -15,6 +15,7 @@
 #include "utils/Invariant.hpp"
 
 #include <fmt/format.h>
+#include <cstdio>
 #include <cstdlib>
 #include <chrono>
 #include <fstream>
@@ -23,8 +24,8 @@
 
 #ifdef _WIN32
 #include <process.h>
-#define popen  _popen
-#define pclose _pclose
+#else
+#include <sys/wait.h>
 #endif
 
 namespace ppforest2::cli {
@@ -238,12 +239,6 @@ namespace {
       cmd += fmt::format(" --convergence-cv {} --convergence-max {}", s.convergence.cv, s.convergence.max);
     }
 
-    // On Windows, std::system() invokes cmd.exe /c which requires an
-    // extra pair of outer quotes when the command contains quoted paths.
-    #ifdef _WIN32
-    cmd = "\"" + cmd + "\"";
-    #endif
-
     return cmd;
   }
 
@@ -419,6 +414,40 @@ namespace {
     return j;
   }
 
+  /**
+   * @brief Run a command and return its exit code.
+   *
+   * Uses popen/pclose instead of std::system() to get reliable
+   * exit codes on all platforms.  On Windows, std::system() wraps
+   * via cmd.exe which can return unexpected exit codes.
+   */
+  int run_command(const std::string& cmd) {
+    #ifdef _WIN32
+    std::string full = "\"" + cmd + "\" 2>NUL";
+    FILE *pipe       = _popen(full.c_str(), "r");
+    #else
+    std::string full = cmd + " 2>/dev/null";
+    FILE *pipe       = popen(full.c_str(), "r");
+    #endif
+
+    if (!pipe) return -1;
+
+    // Drain the pipe (stdout is empty due to -q, but must be consumed)
+    char buffer[4096];
+
+    while (fgets(buffer, sizeof(buffer), pipe)) {
+    }
+
+    #ifdef _WIN32
+    return _pclose(pipe);
+
+    #else
+    int status = pclose(pipe);
+    return WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+
+    #endif
+  }
+
   ScenarioResult run_scenario(
     const Scenario&    scenario,
     const std::string& binary_path,
@@ -428,7 +457,7 @@ namespace {
     std::string cmd = build_evaluate_command(scenario, binary_path, output.path());
 
     auto [ret, wall_ms] = ppforest2::io::measure_time_ms([&] {
-      return std::system(cmd.c_str());
+      return run_command(cmd);
     });
 
     invariant(ret == 0, fmt::format("Scenario '{}' failed (exit code {})", scenario.name, ret));
