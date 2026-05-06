@@ -17,7 +17,7 @@ using namespace ppforest2;
 #endif
 
 static const std::string DATA_DIR  = PPFOREST2_DATA_DIR;
-static std::string const IRIS_PATH = DATA_DIR + "/iris.csv";
+static std::string const IRIS_PATH = DATA_DIR + "/classification/iris.csv";
 
 namespace {
   void write_csv(std::string const& path, std::string const& content) {
@@ -35,8 +35,8 @@ TEST(CSVReadTest, AllNumericFeatures) {
 
   EXPECT_EQ(data.x.rows(), 3);
   EXPECT_EQ(data.x.cols(), 2);
-  EXPECT_FLOAT_EQ(data.x(0, 0), 1.0f);
-  EXPECT_FLOAT_EQ(data.x(1, 1), 4.0f);
+  EXPECT_FLOAT_EQ(data.x(0, 0), 1.0F);
+  EXPECT_FLOAT_EQ(data.x(1, 1), 4.0F);
   EXPECT_EQ(data.y(0), 0);
   EXPECT_EQ(data.y(1), 1);
   EXPECT_EQ(data.y(2), 0);
@@ -52,14 +52,14 @@ TEST(CSVReadTest, CategoricalFeatureColumn) {
   EXPECT_EQ(data.x.cols(), 2);
 
   // "color" column: red=0, blue=1, green=2 (order of first appearance)
-  EXPECT_FLOAT_EQ(data.x(0, 0), 0.0f); // red
-  EXPECT_FLOAT_EQ(data.x(1, 0), 1.0f); // blue
-  EXPECT_FLOAT_EQ(data.x(2, 0), 0.0f); // red
-  EXPECT_FLOAT_EQ(data.x(3, 0), 2.0f); // green
+  EXPECT_FLOAT_EQ(data.x(0, 0), 0.0F); // red
+  EXPECT_FLOAT_EQ(data.x(1, 0), 1.0F); // blue
+  EXPECT_FLOAT_EQ(data.x(2, 0), 0.0F); // red
+  EXPECT_FLOAT_EQ(data.x(3, 0), 2.0F); // green
 
   // "size" column: numeric, unchanged
-  EXPECT_FLOAT_EQ(data.x(0, 1), 1.0f);
-  EXPECT_FLOAT_EQ(data.x(1, 1), 2.0f);
+  EXPECT_FLOAT_EQ(data.x(0, 1), 1.0F);
+  EXPECT_FLOAT_EQ(data.x(1, 1), 2.0F);
 }
 
 TEST(CSVReadTest, MultipleCategoricalColumns) {
@@ -72,17 +72,17 @@ TEST(CSVReadTest, MultipleCategoricalColumns) {
   EXPECT_EQ(data.x.cols(), 3);
 
   // color: red=0, blue=1
-  EXPECT_FLOAT_EQ(data.x(0, 0), 0.0f);
-  EXPECT_FLOAT_EQ(data.x(1, 0), 1.0f);
-  EXPECT_FLOAT_EQ(data.x(2, 0), 0.0f);
+  EXPECT_FLOAT_EQ(data.x(0, 0), 0.0F);
+  EXPECT_FLOAT_EQ(data.x(1, 0), 1.0F);
+  EXPECT_FLOAT_EQ(data.x(2, 0), 0.0F);
 
   // shape: circle=0, square=1
-  EXPECT_FLOAT_EQ(data.x(0, 1), 0.0f);
-  EXPECT_FLOAT_EQ(data.x(1, 1), 1.0f);
-  EXPECT_FLOAT_EQ(data.x(2, 1), 0.0f);
+  EXPECT_FLOAT_EQ(data.x(0, 1), 0.0F);
+  EXPECT_FLOAT_EQ(data.x(1, 1), 1.0F);
+  EXPECT_FLOAT_EQ(data.x(2, 1), 0.0F);
 
   // val: numeric
-  EXPECT_FLOAT_EQ(data.x(0, 2), 1.0f);
+  EXPECT_FLOAT_EQ(data.x(0, 2), 1.0F);
 }
 
 TEST(CSVReadTest, GroupNamesPopulated) {
@@ -91,7 +91,7 @@ TEST(CSVReadTest, GroupNamesPopulated) {
 
   auto data = io::csv::read(tmp.path());
 
-  ASSERT_EQ(data.group_names.size(), 2u);
+  ASSERT_EQ(data.group_names.size(), 2U);
   EXPECT_EQ(data.group_names[0], "setosa");
   EXPECT_EQ(data.group_names[1], "virginica");
 }
@@ -102,13 +102,63 @@ TEST(CSVReadTest, GroupNamesPreservedAfterSort) {
 
   auto data = io::csv::read_sorted(tmp.path());
 
-  ASSERT_EQ(data.group_names.size(), 2u);
+  ASSERT_EQ(data.group_names.size(), 2U);
   EXPECT_EQ(data.group_names[0], "B");
   EXPECT_EQ(data.group_names[1], "A");
 }
 
+// Mode auto-detection: regression iff any y value has fractional or
+// scientific notation; integer-coded labels remain classification.
+
+TEST(CSVReadTest, RegressionDetectedFromFractionalY) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,y\n1.0,2.0,0.5\n3.0,4.0,1.7\n5.0,6.0,2.3\n");
+
+  auto data = io::csv::read_sorted(tmp.path());
+
+  EXPECT_TRUE(data.group_names.empty()) << "Fractional y should auto-detect as regression";
+  // Sorted ascending by y → 0.5, 1.7, 2.3.
+  EXPECT_FLOAT_EQ(data.y(0), 0.5F);
+  EXPECT_FLOAT_EQ(data.y(1), 1.7F);
+  EXPECT_FLOAT_EQ(data.y(2), 2.3F);
+}
+
+TEST(CSVReadTest, IntegerCodedLabelsRemainClassification) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,label\n1.0,2.0,1\n3.0,4.0,2\n5.0,6.0,3\n7.0,8.0,1\n");
+
+  auto data = io::csv::read_sorted(tmp.path());
+
+  ASSERT_EQ(data.group_names.size(), 3U) << "Integer-coded labels should map to classification group_names";
+  EXPECT_EQ(data.group_names[0], "1");
+  EXPECT_EQ(data.group_names[1], "2");
+  EXPECT_EQ(data.group_names[2], "3");
+}
+
+TEST(CSVReadTest, ScientificNotationDetectsRegression) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,y\n1.0,2.0,1e2\n3.0,4.0,2e2\n");
+
+  auto data = io::csv::read_sorted(tmp.path());
+
+  EXPECT_TRUE(data.group_names.empty()) << "y in scientific notation should auto-detect as regression";
+  EXPECT_FLOAT_EQ(data.y(0), 100.0F);
+  EXPECT_FLOAT_EQ(data.y(1), 200.0F);
+}
+
+TEST(CSVReadTest, NonNumericLabelStaysClassification) {
+  // Already covered by AllNumericFeatures and GroupNamesPopulated, but
+  // assert it explicitly: non-numeric y is unambiguously classification.
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,label\n1.0,2.0,foo\n3.0,4.0,bar\n");
+
+  auto data = io::csv::read_sorted(tmp.path());
+
+  ASSERT_EQ(data.group_names.size(), 2U);
+}
+
 TEST(CSVReadTest, CrabsDatasetWithCategoricalSex) {
-  auto data = io::csv::read(PPFOREST2_DATA_DIR "/crabs.csv");
+  auto data = io::csv::read(PPFOREST2_DATA_DIR "/classification/crabs.csv");
 
   EXPECT_EQ(data.x.cols(), 7); // sex + index + 5 morphometrics
   EXPECT_EQ(data.x.rows(), 200);
@@ -117,7 +167,7 @@ TEST(CSVReadTest, CrabsDatasetWithCategoricalSex) {
   // All values should be 0 or 1
   for (int i = 0; i < data.x.rows(); ++i) {
     types::Feature val = data.x(i, 0);
-    EXPECT_TRUE(val == 0.0f || val == 1.0f) << "Row " << i << " sex=" << val;
+    EXPECT_TRUE(val == 0.0F || val == 1.0F) << "Row " << i << " sex=" << val;
   }
 }
 

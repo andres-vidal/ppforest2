@@ -1,0 +1,76 @@
+{
+  "name": "ppforest2 default benchmarks — regression",
+  "_note": "Regression is experimental in v0.1.0; scenarios may evolve more than the classification set. Defaults here must stay aligned with bench/default-scenarios-classification.json so benchmark numbers are comparable across families; if you tweak `size`, `lambda`, `convergence`, etc., change both sides.",
+  "defaults": {
+    "size": 100,
+    "lambda": 0.5,
+    "p_vars": 0.5,
+    "train_ratio": 0.7,
+    "seed": 0,
+    "threads": 1,
+    "warmup": 2,
+    "convergence": {
+      "cv": 0.05,
+      "window": 3,
+      "min": 10,
+      "max": 200
+    }
+  },
+  "scenarios": [
+    {
+      "name": "reg-trees-sm",
+      "mode": "regression",
+      "n": 500,
+      "p": 10,
+      "size": 100
+    },
+    {
+      "name": "reg-trees-md",
+      "mode": "regression",
+      "n": 500,
+      "p": 10,
+      "size": 500
+    },
+    { "name": "reg-n-sm", "mode": "regression", "n": 100, "p": 10, "size": 50 },
+    {
+      "name": "reg-n-md",
+      "mode": "regression",
+      "n": 1000,
+      "p": 10,
+      "size": 50
+    },
+    {
+      "name": "reg-n-lg",
+      "mode": "regression",
+      "n": 10000,
+      "p": 10,
+      "size": 50
+    },
+    {
+      "name": "reg-p-sm",
+      "mode": "regression",
+      "n": 1000,
+      "p": 20,
+      "size": 50
+    },
+    {
+      "name": "reg-p-md",
+      "mode": "regression",
+      "n": 1000,
+      "p": 200,
+      "size": 50
+    },
+    {
+      "name": "data-mtcars",
+      "mode": "regression",
+      "data": "data/regression/mtcars.csv",
+      "size": 50
+    },
+    {
+      "name": "data-california-housing",
+      "mode": "regression",
+      "data": "data/regression/california_housing.csv",
+      "size": 50
+    }
+  ]
+}

@@ -45,7 +45,7 @@ namespace ppforest2::stats {
        * @param z  Standard normal variate.
        * @return   mean + std_dev * z.
        */
-    types::Feature denormalize(types::Feature z);
+    types::Feature denormalize(types::Feature z) const;
 
   public:
     /**

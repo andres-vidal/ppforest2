@@ -4,17 +4,17 @@
  * Tree training in ppforest2 is parameterised by seven pluggable
  * strategy interfaces.  You can add new optimisation criteria, variable
  * selection methods, splitting rules, stop conditions, binarization
- * schemes, partition methods, or leaf creation logic without modifying
+ * schemes, grouping methods, or leaf creation logic without modifying
  * the tree-building logic.
  *
  * | Interface                    | Namespace              | Purpose                              |
  * |------------------------------|------------------------|--------------------------------------|
  * | pp::ProjectionPursuit        | pp           | Projection pursuit index optimisation |
  * | vars::VariableSelection      | vars         | Variable subset selection            |
- * | cutpoint::SplitCutpoint      | cutpoint     | Split cutpoint computation           |
+ * | cutpoint::Cutpoint      | cutpoint     | Split cutpoint computation           |
  * | stop::StopRule               | stop         | Node stopping condition              |
  * | binarize::Binarization       | binarize     | Multiclass → binary regrouping       |
- * | partition::StepPartition     | partition     | Observation partitioning             |
+ * | grouping::Grouping     | grouping     | Group partition management           |
  * | leaf::LeafStrategy           | leaf         | Leaf node creation                   |
  *
  * @section strat_architecture Architecture
@@ -36,10 +36,34 @@
  * NodeContext is a mutable struct that accumulates intermediate results
  * as each strategy in the training pipeline executes.
  *
+ * @section strat_nvi NVI pattern (public entry + protected compute)
+ *
+ * Every strategy family uses the non-virtual interface (NVI) pattern:
+ *
+ * - The **public entry point** on the base class (e.g. `optimize()` on
+ *   `ProjectionPursuit`, `select()` on `VariableSelection`,
+ *   `cutpoint()` on `Cutpoint`, `should_stop()` on `StopRule`,
+ *   `regroup()` on `Binarization`, `split()` on `Grouping`,
+ *   `create_leaf()` on `LeafStrategy`) is a non-virtual method on the
+ *   base class. It is the single public way to invoke the strategy and
+ *   handles shared concerns such as skipping work when `ctx.aborted` is
+ *   set.
+ *
+ * - The **protected virtual `compute()`** on the concrete subclass is
+ *   where the strategy-specific logic lives. Subclasses override
+ *   `compute()` only; they never override or re-expose the public entry
+ *   point.
+ *
+ * This means concrete strategies do **not** define their own public
+ * callable method — they override `compute` only, and callers always go
+ * through the base class's public entry point.
+ *
  * @section strat_conventions Conventions
  *
  * All strategies follow the same structural conventions:
  *
+ * - **`class`, not `struct`** — every strategy is a `class` with
+ *   explicit visibility sections (`public:` / `protected:` / `private:`).
  * - **Immutable configuration** — store parameters as `const` private
  *   members set in the constructor.
  * - **to_json()** — returns a JSON object with the strategy's name and
@@ -50,9 +74,9 @@
  *   `from_json` at static initialization time.
  * - **Factory function** — a free function in the strategy's namespace
  *   that returns a `Ptr` (e.g. `pp::pda(lambda)`).
- * - **compute()** — concrete strategies expose a public non-virtual
- *   `compute()` method with explicit arguments for direct testing,
- *   while the virtual method delegates to it through NodeContext.
+ * - **compute()** — the only virtual method subclasses override. It is
+ *   `protected` on every concrete strategy. Callers invoke the base
+ *   class's public entry point instead.
  *
  * Strategies are held via `shared_ptr` and are immutable after construction,
  * so they can be freely shared across trees without deep cloning.
@@ -69,9 +93,13 @@
  * at program startup.  No central registry file needs to be modified.
  *
  * @code
- *   struct MyStrategy : public ProjectionPursuit {
+ *   class MyStrategy : public ProjectionPursuit {
+ *    public:
  *     static ProjectionPursuit::Ptr from_json(const nlohmann::json& j);
  *     PPFOREST2_REGISTER_STRATEGY(ProjectionPursuit, "my_strategy")
+ *
+ *    protected:
+ *     void compute(NodeContext& ctx, stats::RNG& rng) const override;
  *   };
  * @endcode
  *
@@ -86,12 +114,18 @@
  * @subsection strat_pp_interface Interface to implement
  *
  * @code
- *   struct ProjectionPursuit : public Strategy<ProjectionPursuit> {
- *     virtual void optimize(NodeContext& ctx, stats::RNG& rng) const = 0;
+ *   class ProjectionPursuit : public Strategy<ProjectionPursuit> {
+ *    public:
+ *     // Public NVI entry point (non-virtual, provided by the base):
+ *     void optimize(NodeContext& ctx, stats::RNG& rng) const;
  *
  *     // Inherited from Strategy<ProjectionPursuit>:
  *     // virtual nlohmann::json to_json() const = 0;
  *     // static Ptr from_json(const nlohmann::json& j);
+ *
+ *    protected:
+ *     // Concrete strategies override this and nothing else:
+ *     virtual void compute(NodeContext& ctx, stats::RNG& rng) const = 0;
  *   };
  * @endcode
  *
@@ -102,21 +136,15 @@
  *   #pragma once
  *   #include "models/strategies/pp/ProjectionPursuit.hpp"
  *   #include "models/strategies/Strategy.hpp"
- *   #include "utils/JsonValidation.hpp"
+ *   #include "utils/JsonReader.hpp"
  *
  *   namespace ppforest2::pp {
  *
- *   struct Random : public ProjectionPursuit {
- *     void optimize(NodeContext& ctx, stats::RNG& rng) const override {
- *       auto result   = compute(ctx.x);
- *       ctx.projector = ctx.var_selection.expand(result.projector);
- *       ctx.pp_index_value = result.index_value;
- *     }
- *
- *     Result compute(types::FeatureMatrix const& x) const {
- *       ppforest2::pp::Projector proj = ppforest2::pp::Projector::Random(x.cols());
- *       proj.normalize();
- *       return Result{ proj, 0 };
+ *   class Random : public ProjectionPursuit {
+ *    public:
+ *     static ProjectionPursuit::Ptr from_json(const nlohmann::json& j) {
+ *       JsonReader{j, "random"}.only_keys({"name"});
+ *       return random();
  *     }
  *
  *     nlohmann::json to_json() const override {
@@ -125,12 +153,20 @@
  *
  *     std::string display_name() const override { return "Random"; }
  *
- *     static ProjectionPursuit::Ptr from_json(const nlohmann::json& j) {
- *       validate_json_keys(j, "random PP", {"name"});
- *       return random();
+ *     std::set<types::Mode> supported_modes() const override {
+ *       return {types::Mode::Classification, types::Mode::Regression};
  *     }
  *
  *     PPFOREST2_REGISTER_STRATEGY(ProjectionPursuit, "random")
+ *
+ *    protected:
+ *     void compute(NodeContext& ctx, stats::RNG& rng) const override {
+ *       auto const& cols = ctx.var_selection->selected_cols;
+ *       ppforest2::pp::Projector reduced = ppforest2::pp::Projector::Random(cols.size());
+ *       reduced.normalize();
+ *       ctx.projector      = ctx.var_selection->expand(reduced);
+ *       ctx.pp_index_value = 0;
+ *     }
  *   };
  *
  *   inline ProjectionPursuit::Ptr random() {
@@ -149,12 +185,17 @@
  * @subsection strat_vars_interface Interface to implement
  *
  * @code
- *   struct VariableSelection : public Strategy<VariableSelection> {
- *     virtual void select(NodeContext& ctx, stats::RNG& rng) const = 0;
+ *   class VariableSelection : public Strategy<VariableSelection> {
+ *    public:
+ *     // Public NVI entry point:
+ *     void select(NodeContext& ctx, stats::RNG& rng) const;
  *
  *     // Inherited from Strategy<VariableSelection>:
  *     // virtual nlohmann::json to_json() const = 0;
  *     // static Ptr from_json(const nlohmann::json& j);
+ *
+ *    protected:
+ *     virtual void compute(NodeContext& ctx, stats::RNG& rng) const = 0;
  *   };
  * @endcode
  *
@@ -162,62 +203,72 @@
  * that records which columns were selected and allows expanding a
  * reduced-dimension projector back to the original space).
  *
- * @section strat_cutpoint Adding a new cutpoint::SplitCutpoint
+ * @section strat_cutpoint Adding a new cutpoint::Cutpoint
  *
- * A SplitCutpoint computes the split cutpoint in the projected space
+ * A Cutpoint computes the split cutpoint in the projected space
  * that separates two groups.
  *
  * @subsection strat_cutpoint_interface Interface to implement
  *
  * @code
- *   struct SplitCutpoint : public Strategy<SplitCutpoint> {
- *     virtual void cutpoint(NodeContext& ctx, stats::RNG& rng) const = 0;
+ *   class Cutpoint : public Strategy<Cutpoint> {
+ *    public:
+ *     // Public NVI entry point:
+ *     void cutpoint(NodeContext& ctx, stats::RNG& rng) const;
  *
- *     // Inherited from Strategy<SplitCutpoint>:
+ *     // Inherited from Strategy<Cutpoint>:
  *     // virtual nlohmann::json to_json() const = 0;
  *     // static Ptr from_json(const nlohmann::json& j);
+ *
+ *    protected:
+ *     virtual void compute(NodeContext& ctx, stats::RNG& rng) const = 0;
  *   };
  * @endcode
  *
  * @section strat_compose Composing strategies
  *
- * Once you have a new strategy, compose it into a TrainingSpec:
+ * Once you have a new strategy, compose it into a TrainingSpec via the
+ * builder:
  *
  * @code
  *   using namespace ppforest2;
  *
- *   // Mix and match any strategies:
- *   TrainingSpec spec(
- *     100, 0, 0, 3,                 // size, seed, threads, max_retries
- *     pp::pda(0.5),                 // existing PDA strategy
- *     vars::uniform(4),             // uniform variable selection
- *     cutpoint::mean_of_means());   // mean of means cutpoint
+ *   auto spec = TrainingSpec::builder(types::Mode::Classification)
+ *       .size(100)                     // forest of 100 trees
+ *       .seed(0)
+ *       .pp(pp::pda(0.5))              // existing PDA strategy
+ *       .vars(vars::uniform(4))        // uniform variable selection
+ *       .cutpoint(cutpoint::mean_of_means())
+ *       .build();
  *
  *   // Train via the unified entry point:
  *   auto model = Model::train(spec, x, y);
  * @endcode
  *
  * TrainingSpec is a concrete class — there is no need to subclass it.
- * New strategies are plugged in via the constructor.  Strategies are
- * held via `shared_ptr`, so TrainingSpec can be freely copied and
- * shared across trees.
+ * New strategies are plugged in via the builder.  Strategies are held
+ * via `shared_ptr`, so TrainingSpec can be freely copied and shared
+ * across trees.
  *
  * @section strat_checklist Checklist for adding a new strategy
  *
  * 1. Create `models/strategies/<family>/MyStrategy.hpp` (and `.cpp` if needed).
- * 2. Inherit from the appropriate base (e.g. `ProjectionPursuit`, `VariableSelection`).
- * 3. Implement the virtual method (`optimize`, `select`, `cutpoint`, etc.).
- * 4. Add a `compute()` method with explicit arguments for direct testing.
- * 5. Implement `to_json()` — must return a JSON object with a `"name"` field.
- * 6. Implement `display_name()` — a human-readable label for summaries.
+ * 2. Declare it as a `class` inheriting from the appropriate base
+ *    (e.g. `ProjectionPursuit`, `VariableSelection`).
+ * 3. Override `compute()` (protected) — the single virtual method.
+ *    **Do not** override the public entry point on the base class.
+ * 4. Implement `to_json()` — must return a JSON object with a `"name"` field.
+ * 5. Implement `display_name()` — a human-readable label for summaries.
+ * 6. Implement `supported_modes()` — set of `types::Mode` values the
+ *    strategy works with.
  * 7. Add a `static Ptr from_json(const nlohmann::json& j)` — validate keys, construct via factory.
- * 8. Add `PPFOREST2_REGISTER_STRATEGY(Base, "name")` inside the struct.
+ * 8. Add `PPFOREST2_REGISTER_STRATEGY(Base, "name")` inside the class.
  * 9. Add a factory function (e.g. `inline Ptr my_strategy(...)`) in the namespace.
  * 10. Add the `.cpp` to `CMakeLists.txt`.
  * 11. Add tests in `MyStrategy.test.cpp` (JSON round-trip + functional).
  *
  * That's it — no central registry file or TrainingSpec subclass needed.
  *
- * @see Strategy, ProjectionPursuit, VariableSelection, SplitCutpoint,
- *      StopRule, Binarization, StepPartition, LeafStrategy, TrainingSpec
+ * @see Strategy, ProjectionPursuit, VariableSelection, Cutpoint,
+ *      StopRule, Binarization, Grouping, LeafStrategy, TrainingSpec
  */

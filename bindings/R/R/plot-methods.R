@@ -26,7 +26,7 @@
 #'   a patchwork object that works with \code{ggplot2::ggsave()}.
 #' @examples
 #' \dontrun{
-#' model <- pptr(Type ~ ., data = iris)
+#' model <- pptr(Species ~ ., data = iris)
 #' plot(model)                         # mosaic overview
 #' plot(model, type = "structure")     # tree structure only
 #' plot(model, type = "importance")    # variable importance
@@ -88,7 +88,7 @@ plot.pptr <- function(x, type = NULL, metric = NULL, node = 1L, ...) {
 #'   a patchwork object that works with \code{ggplot2::ggsave()}.
 #' @examples
 #' \dontrun{
-#' forest <- pprf(Type ~ ., data = iris, size = 10)
+#' forest <- pprf(Species ~ ., data = iris, size = 10)
 #' plot(forest)                                    # all metrics side by side
 #' plot(forest, metric = "permuted")               # single metric
 #' plot(forest, type = "structure", tree_index = 1)

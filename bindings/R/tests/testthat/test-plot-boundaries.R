@@ -11,7 +11,7 @@ describe("plot.pptr boundaries", {
   it("returns a ggplot object for 2-feature boundary plot", {
     model <- pptr(
       x = iris[, c("Sepal.Length", "Sepal.Width")],
-      y = iris$Type,
+      y = iris$Species,
       seed = 0
     )
     p <- plot(model, type = "boundaries")
@@ -21,7 +21,7 @@ describe("plot.pptr boundaries", {
   it("returns a gtable for 3-feature boundary plot (pairwise with stripped panels)", {
     model <- pptr(
       x = iris[, c("Sepal.Length", "Sepal.Width", "Petal.Length")],
-      y = iris$Type,
+      y = iris$Species,
       seed = 0
     )
     p <- plot(model, type = "boundaries")
@@ -29,7 +29,7 @@ describe("plot.pptr boundaries", {
   })
 
   it("returns a gtable for pairwise boundary plot with 4 features", {
-    model <- pptr(Type ~ ., data = iris, seed = 0)
+    model <- pptr(Species ~ ., data = iris, seed = 0)
     p <- plot(model, type = "boundaries")
     expect_s3_class(p, "gtable")
   })
@@ -37,7 +37,7 @@ describe("plot.pptr boundaries", {
   it("boundary plot uses C++ segment computation", {
     model <- pptr(
       x = iris[, c("Sepal.Length", "Sepal.Width")],
-      y = iris$Type,
+      y = iris$Species,
       seed = 0
     )
     segs <- ppforest2:::ppforest2_boundary_segments(
@@ -52,7 +52,7 @@ describe("plot.pptr boundaries", {
   it("decision regions returns polygon data", {
     model <- pptr(
       x = iris[, c("Sepal.Length", "Sepal.Width")],
-      y = iris$Type,
+      y = iris$Species,
       seed = 0
     )
     regions <- ppforest2:::ppforest2_decision_regions(
@@ -72,7 +72,7 @@ describe("plot.pprf boundaries", {
   it("returns a ggplot object for 2-feature boundary plot", {
     model <- pprf(
       x = iris[, c("Sepal.Length", "Sepal.Width")],
-      y = iris$Type,
+      y = iris$Species,
       size = 5, seed = 0, threads = 1
     )
     p <- plot(model, type = "boundaries", tree_index = 1)
@@ -82,11 +82,12 @@ describe("plot.pprf boundaries", {
 
 describe("plot.pptr boundaries snapshots", {
   skip_if_not_installed("vdiffr")
+  skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
   it("pptr-boundaries-2d", {
     model <- pptr(
       x = iris[, c("Sepal.Length", "Sepal.Width")],
-      y = iris$Type,
+      y = iris$Species,
       seed = 0
     )
     vdiffr::expect_doppelganger("pptr-boundaries-2d", plot(model, type = "boundaries"))

@@ -35,9 +35,12 @@ as_mat <- function(x) {
 # R uses alphabetical factor levels by default. To ensure the R model is
 # trained on identically-ordered data, we reorder the factor levels to
 # match the golden file before training.
-prepare_data <- function(data, golden) {
+prepare_data <- function(data, golden, response = "Type") {
+  # Response column defaults to "Type" (the convention for ppforest2's bundled
+  # classification datasets) but is overridable so base R's `iris` (response
+  # column "Species") works without a rename shim at every call site.
   golden_groups <- as_vec(golden$meta$groups)
-  data$Type <- factor(data$Type, levels = golden_groups)
+  data[[response]] <- factor(data[[response]], levels = golden_groups)
   data
 }
 
@@ -63,7 +66,7 @@ compare_config <- function(model, golden) {
   compare_strategy(spec$cutpoint, config$cutpoint)
   compare_strategy(spec$stop, config$stop)
   compare_strategy(spec$binarize, config$binarize)
-  compare_strategy(spec$partition, config$partition)
+  compare_strategy(spec$grouping, config$grouping)
   compare_strategy(spec$leaf, config$leaf)
 
   # Scalar fields
@@ -131,8 +134,16 @@ compare_error_rate <- function(model, golden, data, response) {
 
 compare_confusion_matrix <- function(model, golden, data, response) {
   predicted <- predict(model, data)
-  expected_cm <- golden$training_confusion_matrix
+  expected_cm <- golden$training_metrics$confusion_matrix
   golden_groups <- as.character(as_vec(golden$meta$groups))
+  cm_labels <- as.character(as_vec(expected_cm$labels))
+
+  # The saved CM is dimensioned by `union(predictions, actual)` on the
+  # C++ side. In normal operation predictions ⊆ groups and actual ⊆
+  # groups, so the CM labels equal the meta.groups set — assert that
+  # invariant explicitly so any future "prediction-only label" case
+  # surfaces here instead of silently producing a misaligned matrix.
+  expect_equal(cm_labels, golden_groups, info = "CM label set must equal meta.groups (no prediction-only labels)")
 
   n_groups <- length(model$groups)
   # Align predicted levels with response levels (golden group ordering)
@@ -146,7 +157,6 @@ compare_confusion_matrix <- function(model, golden, data, response) {
   }
 
   expect_equal(cm, as_mat(expected_cm$matrix))
-  expect_equal(as.character(as_vec(expected_cm$labels)), golden_groups)
 
   group_errors <- numeric(n_groups)
   for (i in seq_len(n_groups)) {
@@ -167,7 +177,13 @@ compare_vote_proportions <- function(model, golden, data) {
 
 compare_vi <- function(model, golden, key, r_field) {
   expected <- as.numeric(as_vec(golden$variable_importance[[key]]))
-  actual <- model$vi[[r_field]]
+  # The eager fields on model$vi are `scale` and `projections`; weighted and
+  # permuted importances are lazy accessors.
+  actual <- switch(r_field,
+    weighted = weighted_importance(model),
+    permuted = permuted_importance(model),
+    model$vi[[r_field]]
+  )
   expect_equal(actual, expected, tolerance = 1e-3)
 }
 
@@ -177,8 +193,8 @@ compare_vi <- function(model, golden, key, r_field) {
 
 describe("Reproducibility: iris tree-pda-s0", {
   golden <- load_golden("iris", "tree-pda-s0.json")
-  d <- prepare_data(iris, golden)
-  model <- pptr(Type ~ ., data = d, seed = 0)
+  d <- prepare_data(iris, golden, response = "Species")
+  model <- pptr(Species ~ ., data = d, seed = 0)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -193,11 +209,11 @@ describe("Reproducibility: iris tree-pda-s0", {
   })
 
   it("error rate matches golden file", {
-    compare_error_rate(model, golden, d, d$Type)
+    compare_error_rate(model, golden, d, d$Species)
   })
 
   it("confusion matrix matches golden file", {
-    compare_confusion_matrix(model, golden, d, d$Type)
+    compare_confusion_matrix(model, golden, d, d$Species)
   })
 
   it("VI projections match golden file", {
@@ -245,8 +261,8 @@ describe("Reproducibility: crab tree-pda-s0", {
 
 describe("Reproducibility: iris forest-pda-n5-s0", {
   golden <- load_golden("iris", "forest-pda-n5-s0.json")
-  d <- prepare_data(iris, golden)
-  model <- pprf(Type ~ ., data = d, size = 5, n_vars = 2, seed = 0, threads = 1)
+  d <- prepare_data(iris, golden, response = "Species")
+  model <- pprf(Species ~ ., data = d, size = 5, n_vars = 2, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -264,15 +280,15 @@ describe("Reproducibility: iris forest-pda-n5-s0", {
   })
 
   it("error rate matches golden file", {
-    compare_error_rate(model, golden, d, d$Type)
+    compare_error_rate(model, golden, d, d$Species)
   })
 
   it("confusion matrix matches golden file", {
-    compare_confusion_matrix(model, golden, d, d$Type)
+    compare_confusion_matrix(model, golden, d, d$Species)
   })
 
   it("OOB error matches golden file", {
-    expect_equal(model$oob_error, golden$oob_error, tolerance = 1e-3)
+    expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
 
   it("VI projections match golden file", {
@@ -298,8 +314,8 @@ describe("Reproducibility: iris forest-pda-n5-s0", {
 
 describe("Reproducibility: iris forest-pda-l05-n5-s0", {
   golden <- load_golden("iris", "forest-pda-l05-n5-s0.json")
-  d <- prepare_data(iris, golden)
-  model <- pprf(Type ~ ., data = d, size = 5, n_vars = 2, lambda = 0.5, seed = 0, threads = 1)
+  d <- prepare_data(iris, golden, response = "Species")
+  model <- pprf(Species ~ ., data = d, size = 5, n_vars = 2, lambda = 0.5, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -317,15 +333,15 @@ describe("Reproducibility: iris forest-pda-l05-n5-s0", {
   })
 
   it("error rate matches golden file", {
-    compare_error_rate(model, golden, d, d$Type)
+    compare_error_rate(model, golden, d, d$Species)
   })
 
   it("confusion matrix matches golden file", {
-    compare_confusion_matrix(model, golden, d, d$Type)
+    compare_confusion_matrix(model, golden, d, d$Species)
   })
 
   it("OOB error matches golden file", {
-    expect_equal(model$oob_error, golden$oob_error, tolerance = 1e-3)
+    expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
 
   it("VI projections match golden file", {
@@ -378,7 +394,7 @@ describe("Reproducibility: crab forest-pda-n10-s0", {
   })
 
   it("OOB error matches golden file", {
-    expect_equal(model$oob_error, golden$oob_error, tolerance = 1e-3)
+    expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
 
   it("VI projections match golden file", {
@@ -431,7 +447,7 @@ describe("Reproducibility: wine forest-pda-n10-s0", {
   })
 
   it("OOB error matches golden file", {
-    expect_equal(model$oob_error, golden$oob_error, tolerance = 1e-3)
+    expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
 
   it("VI projections match golden file", {
@@ -484,7 +500,7 @@ describe("Reproducibility: glass forest-pda-n10-s0", {
   })
 
   it("OOB error matches golden file", {
-    expect_equal(model$oob_error, golden$oob_error, tolerance = 1e-3)
+    expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
 
   it("VI projections match golden file", {

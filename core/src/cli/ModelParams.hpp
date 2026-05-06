@@ -23,13 +23,30 @@ namespace ppforest2::cli {
     int max_retries = 3;
     std::string p_vars_input;
 
+    /**
+     * @brief Training mode ("classification" or "regression").
+     *
+     * Empty default = "infer from data": for `--data`, the CSV reader
+     * detects regression from fractional y values and `read_data`
+     * populates this; for `--simulate`, no data exists yet so we fall
+     * back to "classification". `-m,--mode` overrides both paths.
+     */
+    std::string mode_input;
+
     /** @brief Explicit strategy inputs (--X flags). */
     std::string pp_input;
     std::string vars_input;
     std::string cutpoint_input;
-    std::string stop_input;
+    /**
+     * @brief Repeated `--stop` flag values.
+     *
+     * The only strategy flag that accepts repeats: multiple occurrences
+     * collect into this vector and are composed into a `CompositeStop`
+     * `any`-rule at `resolve()` time. A single `--stop` behaves unchanged.
+     */
+    std::vector<std::string> stop_inputs;
     std::string binarize_input;
-    std::string partition_input;
+    std::string grouping_input;
     std::string leaf_input;
 
     /** @brief Strategy JSON objects (from CLI strings or config file). */
@@ -38,7 +55,7 @@ namespace ppforest2::cli {
     nlohmann::json cutpoint_config;
     nlohmann::json stop_config;
     nlohmann::json binarize_config;
-    nlohmann::json partition_config;
+    nlohmann::json grouping_config;
     nlohmann::json leaf_config;
 
     /** @brief Construct from a JSON config object. */
@@ -54,50 +71,7 @@ namespace ppforest2::cli {
     static void validate(nlohmann::json const& config, std::vector<std::string>& errors);
 
     /** @brief Serialize to JSON config. */
-    nlohmann::json to_json() const {
-      nlohmann::json j;
-
-      j["size"]        = size;
-      j["lambda"]      = lambda;
-      j["max_retries"] = max_retries;
-
-      if (seed) {
-        j["seed"] = *seed;
-      }
-      if (threads) {
-        j["threads"] = *threads;
-      }
-      if (n_vars) {
-        j["n_vars"] = *n_vars;
-      }
-      if (p_vars) {
-        j["p_vars"] = *p_vars;
-      }
-
-      if (!pp_config.is_null()) {
-        j["pp"] = pp_config;
-      }
-      if (!vars_config.is_null()) {
-        j["vars"] = vars_config;
-      }
-      if (!cutpoint_config.is_null()) {
-        j["cutpoint"] = cutpoint_config;
-      }
-      if (!stop_config.is_null()) {
-        j["stop"] = stop_config;
-      }
-      if (!binarize_config.is_null()) {
-        j["binarize"] = binarize_config;
-      }
-      if (!partition_config.is_null()) {
-        j["partition"] = partition_config;
-      }
-      if (!leaf_config.is_null()) {
-        j["leaf"] = leaf_config;
-      }
-
-      return j;
-    }
+    nlohmann::json to_json() const;
   };
 
   /**

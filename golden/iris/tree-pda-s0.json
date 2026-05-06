@@ -7,13 +7,14 @@
       "name": "mean_of_means"
     },
     "dataset": "iris",
+    "grouping": {
+      "name": "by_label"
+    },
     "leaf": {
       "name": "majority_vote"
     },
     "max_retries": 3,
-    "partition": {
-      "name": "by_group"
-    },
+    "mode": "classification",
     "platform": "macos-clang",
     "pp": {
       "lambda": 0.0,
@@ -48,7 +49,7 @@
   "model": {
     "degenerate": false,
     "root": {
-      "cutpoint": 0.06660760939121246,
+      "cutpoint": 0.06660758703947067,
       "degenerate": false,
       "groups": [
         "setosa",
@@ -92,6 +93,7 @@
     }
   },
   "model_type": "tree",
+  "oob_metrics": null,
   "predictions": [
     "setosa",
     "setosa",
@@ -244,34 +246,37 @@
     "virginica",
     "virginica"
   ],
-  "training_confusion_matrix": {
-    "group_errors": [
-      0.0,
-      0.03999999910593033,
-      0.019999999552965164
-    ],
-    "labels": [
-      "setosa",
-      "versicolor",
-      "virginica"
-    ],
-    "matrix": [
-      [
-        50,
-        0,
-        0
+  "training_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.0,
+        0.03999999910593033,
+        0.019999999552965164
       ],
-      [
-        0,
-        48,
-        2
+      "labels": [
+        "setosa",
+        "versicolor",
+        "virginica"
       ],
-      [
-        0,
-        1,
-        49
+      "matrix": [
+        [
+          50,
+          0,
+          0
+        ],
+        [
+          0,
+          48,
+          2
+        ],
+        [
+          0,
+          1,
+          49
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.019999980926513672
   },
   "variable_importance": {
     "projections": [

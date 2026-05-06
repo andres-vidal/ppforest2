@@ -3,8 +3,8 @@
 #include "serialization/Json.hpp"
 
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <fstream>
-#include <thread>
 
 // [[Rcpp::depends(RcppEigen)]]
 
@@ -26,11 +26,37 @@ bool ppforest2_has_openmp() {
 #endif
 }
 
+// Mode-aware Rcpp wrappers. Each function takes a TrainingSpec or a
+// trained Model and uses its `mode` field to branch — callers on the R
+// side never have to know which mode they're in. The only mode-specific
+// concerns at this boundary are:
+//   * classification needs `to_cpp_indices(y)` on entry (R is 1-based,
+//     C++ is 0-based) and `to_r_indices(result)` on outgoing predictions;
+//     regression skips both since `y` is a continuous response;
+//   * classification expects `y` to be group-contiguous before training
+//     (ClassificationTree's invariant); regression expects `y` sorted
+//     ascending (ByCutpoint's `compute_init` contract).
+
 // [[Rcpp::export]]
 Model::Ptr ppforest2_train(TrainingSpec::Ptr spec, FeatureMatrix x, OutcomeVector y) {
-  to_cpp_indices(y);
+  if (is_classification(*spec)) {
+    to_cpp_indices(y);
 
-  if (!GroupPartition::is_contiguous(y)) {
+    // y carries integer class labels as float; sort cast-to-int and then
+    // re-cast so `x` and `y` stay in lockstep through the sort.
+    GroupIdVector y_int = y.cast<GroupId>();
+    if (!GroupPartition::is_contiguous(y_int)) {
+      sort(x, y_int);
+    }
+
+    OutcomeVector y_out = y_int.cast<Outcome>();
+    return Model::train(*spec, x, y_out);
+  }
+
+  // Regression: ByCutpoint's median split needs y-sorted rows. The R-side
+  // `resolve_model_data` already sorts, but mirror the classification
+  // defensive sort so any caller that forgets is still correct.
+  if (!std::is_sorted(y.data(), y.data() + y.size())) {
     sort(x, y);
   }
 
@@ -38,71 +64,99 @@ Model::Ptr ppforest2_train(TrainingSpec::Ptr spec, FeatureMatrix x, OutcomeVecto
 }
 
 // [[Rcpp::export]]
-OutcomeVector ppforest2_predict_tree(Tree const& tree, FeatureMatrix const& data) {
-  OutcomeVector result = tree.predict(data);
-  to_r_indices(result);
+OutcomeVector ppforest2_predict_tree(Tree::Ptr const& tree, FeatureMatrix const& data) {
+  OutcomeVector result = tree->predict(data);
+  to_r_indices_if_classification(*tree, result);
   return result;
 }
 
 // [[Rcpp::export]]
-OutcomeVector ppforest2_predict_tree_forest(Forest const& forest, FeatureMatrix const& data) {
-  OutcomeVector result = forest.predict(data);
-  to_r_indices(result);
+OutcomeVector ppforest2_predict_forest(Forest::Ptr const& forest, FeatureMatrix const& data) {
+  OutcomeVector result = forest->predict(data);
+  to_r_indices_if_classification(*forest, result);
   return result;
 }
 
 // [[Rcpp::export]]
-FeatureMatrix ppforest2_predict_tree_prob(Tree const& tree, FeatureMatrix const& data) {
-  return tree.predict(data, Proportions{});
+FeatureMatrix ppforest2_predict_tree_prob(Tree::Ptr const& tree, FeatureMatrix const& data) {
+  return predict_proportions(*tree, data);
 }
 
 // [[Rcpp::export]]
-FeatureMatrix ppforest2_predict_forest_prob(Forest const& forest, FeatureMatrix const& data) {
-  return forest.predict(data, Proportions{});
+FeatureMatrix ppforest2_predict_forest_prob(Forest::Ptr const& forest, FeatureMatrix const& data) {
+  return predict_proportions(*forest, data);
 }
 
 // [[Rcpp::export]]
-FeatureVector ppforest2_vi_projections_tree(Tree const& tree, int n_vars, FeatureVector const& scale) {
-  return variable_importance_projections(tree, n_vars, &scale);
+FeatureVector ppforest2_vi_projections_tree(Tree::Ptr const& tree, int n_vars, FeatureVector const& scale) {
+  return vi_projections(tree, n_vars, &scale);
 }
 
 // [[Rcpp::export]]
-FeatureVector ppforest2_vi_projections_forest(Forest const& forest, int n_vars, FeatureVector const& scale) {
-  return variable_importance_projections(forest, n_vars, &scale);
+FeatureVector ppforest2_vi_projections_forest(Forest::Ptr const& forest, int n_vars, FeatureVector const& scale) {
+  return vi_projections(forest, n_vars, &scale);
 }
 
 // [[Rcpp::export]]
 FeatureVector ppforest2_vi_weighted_forest(
-    Forest const& forest, FeatureMatrix const& x, OutcomeVector y, FeatureVector const& scale
+    Forest::Ptr const& forest, FeatureMatrix const& x, OutcomeVector y, FeatureVector const& scale
 ) {
-  to_cpp_indices(y);
-  return variable_importance_weighted_projections(forest, x, y, &scale);
+  to_cpp_indices_if_classification(*forest, y);
+  return vi_weighted_projections(forest, x, y, &scale);
 }
 
 // [[Rcpp::export]]
-FeatureVector ppforest2_vi_permuted_forest(Forest const& forest, FeatureMatrix const& x, OutcomeVector y, int seed) {
-  to_cpp_indices(y);
-  return variable_importance_permuted(forest, x, y, seed);
+FeatureVector
+ppforest2_vi_permuted_forest(Forest::Ptr const& forest, FeatureMatrix const& x, OutcomeVector y, int seed) {
+  to_cpp_indices_if_classification(*forest, y);
+  return vi_permuted(forest, x, y, seed);
+}
+
+namespace {
+  // Translate std::optional<double> into an R-visible scalar: a length-1
+  // NumericVector carrying the value, or `NA_real_` when no OOB data was
+  // available. This is the one well-defined way R callers can see
+  // "missing" — a plain `double` return value can't express NA.
+  Rcpp::NumericVector to_r_scalar(std::optional<double> const& x) {
+    if (x) {
+      return Rcpp::NumericVector::create(*x);
+    } else {
+      return Rcpp::NumericVector::create(NA_REAL);
+    }
+  }
 }
 
 // [[Rcpp::export]]
-double ppforest2_oob_error(Forest const& forest, FeatureMatrix const& x, OutcomeVector y) {
-  to_cpp_indices(y);
-  return forest.oob_error(x, y);
+Rcpp::NumericVector ppforest2_oob_error(Forest::Ptr const& forest, FeatureMatrix const& x, OutcomeVector y) {
+  to_cpp_indices_if_classification(*forest, y);
+  return to_r_scalar(oob_error(forest, x, y));
 }
 
 // [[Rcpp::export]]
-OutcomeVector ppforest2_oob_predict(Forest const& forest, FeatureMatrix const& x) {
-  OutcomeVector result = forest.oob_predict(x);
-  to_r_indices(result); // sentinel -1 becomes 0 (handled in R)
+OutcomeVector ppforest2_oob_predict(Forest::Ptr const& forest, FeatureMatrix const& x) {
+  // "No OOB tree" sentinel is `NaN` in both modes (see the comment on
+  // `oob_predict` in `Evaluation.cpp`). For classification the +1 shift
+  // applied below converts 0-based C++ group ids to 1-based R factor
+  // indices; `NaN + 1` is still `NaN`, so the sentinel survives the
+  // shift unchanged. The R-side accessors remap `NaN → NA_real_`
+  // (regression) or `NaN → NA_real_` then to factor `NA` (classification).
+  OutcomeVector result = oob_predict(forest, x);
+  to_r_indices_if_classification(*forest, result);
   return result;
 }
 
 // [[Rcpp::export]]
-Rcpp::List ppforest2_tree_node_data(Tree const& tree, FeatureMatrix const& x, OutcomeVector y) {
-  to_cpp_indices(y);
+Rcpp::List ppforest2_tree_node_data(Tree::Ptr const& tree, FeatureMatrix const& x, OutcomeVector y) {
+  // Mode-aware: classification y is 1-based factor codes (decode to
+  // 0-based GroupIds), regression y is a continuous response (leave
+  // alone). Same gate for the +1 R-index shift on leaf values and
+  // branch group ids below.
+  bool const cls = is_classification(*tree);
+  if (cls) {
+    to_cpp_indices(y);
+  }
   NodeDataVisitor visitor(x, y);
-  tree.root->accept(visitor);
+  tree->root->accept(visitor);
 
   Rcpp::List result(visitor.nodes.size());
 
@@ -110,15 +164,21 @@ Rcpp::List ppforest2_tree_node_data(Tree const& tree, FeatureMatrix const& x, Ou
     auto const& nd = visitor.nodes[i];
 
     Rcpp::IntegerVector groups_r(nd.groups.begin(), nd.groups.end());
-    for (int k = 0; k < groups_r.size(); ++k) {
-      groups_r[k] = to_r_index(groups_r[k]);
+    if (cls) {
+      for (int k = 0; k < groups_r.size(); ++k) {
+        groups_r[k] = to_r_index(groups_r[k]);
+      }
     }
 
     if (nd.is_leaf) {
-      result[i] = Rcpp::List::create(
+      // Classification: leaf value is a 0-based group id → shift to
+      // 1-based factor code for R. Regression: leaf value is a raw
+      // mean response → leave alone.
+      Outcome const leaf_value = cls ? to_r_index(nd.value) : nd.value;
+      result[i]                = Rcpp::List::create(
           Rcpp::Named("is_leaf") = true,
           Rcpp::Named("depth")   = nd.depth,
-          Rcpp::Named("value")   = to_r_index(nd.value),
+          Rcpp::Named("value")   = leaf_value,
           Rcpp::Named("groups")  = groups_r
       );
     } else {
@@ -159,7 +219,7 @@ namespace {
 
 // [[Rcpp::export]]
 Rcpp::DataFrame ppforest2_boundary_segments(
-    Tree const& tree,
+    Tree::Ptr const& tree,
     Rcpp::IntegerVector var_indices,
     Rcpp::NumericVector fixed_values,
     double x_min,
@@ -179,7 +239,7 @@ Rcpp::DataFrame ppforest2_boundary_segments(
       static_cast<types::Feature>(y_max)
   );
 
-  tree.root->accept(visitor);
+  tree->root->accept(visitor);
 
   int n = static_cast<int>(visitor.segments.size());
   Rcpp::NumericVector xs(n), ys(n), xe(n), ye(n);
@@ -206,7 +266,7 @@ Rcpp::DataFrame ppforest2_boundary_segments(
 
 // [[Rcpp::export]]
 Rcpp::List ppforest2_decision_regions(
-    Tree const& tree,
+    Tree::Ptr const& tree,
     Rcpp::IntegerVector var_indices,
     Rcpp::NumericVector fixed_values,
     double x_min,
@@ -226,7 +286,7 @@ Rcpp::List ppforest2_decision_regions(
       static_cast<types::Feature>(y_max)
   );
 
-  tree.root->accept(visitor);
+  tree->root->accept(visitor);
 
   Rcpp::List result(visitor.regions.size());
 
@@ -250,9 +310,9 @@ Rcpp::List ppforest2_decision_regions(
 }
 
 // [[Rcpp::export]]
-Rcpp::List ppforest2_tree_layout(Tree const& tree) {
+Rcpp::List ppforest2_tree_layout(Tree::Ptr const& tree) {
   LayoutParams params;
-  TreeLayout layout = compute_tree_layout(*tree.root, params);
+  TreeLayout layout = compute_tree_layout(*tree->root, params);
 
   // Build node data frame
   int n_nodes = static_cast<int>(layout.nodes.size());
@@ -306,17 +366,19 @@ namespace {
 // [[Rcpp::export]]
 std::string ppforest2_save_model_json(
     Model::Ptr model,
-    std::vector<std::string> groups,
+    types::Names groups,
     bool include_metrics,
     FeatureMatrix const& x,
     OutcomeVector y,
-    std::vector<std::string> feature_names
+    types::Names feature_names
 ) {
-  to_cpp_indices(y);
+  if (include_metrics) {
+    to_cpp_indices_if_classification(*model, y);
+  }
 
   Export<Model::Ptr> model_export{
       std::move(model),
-      std::move(groups),
+      std::move(groups), // empty for regression, non-empty for classification
       nullptr,
       static_cast<int>(x.rows()),
       static_cast<int>(x.cols()),

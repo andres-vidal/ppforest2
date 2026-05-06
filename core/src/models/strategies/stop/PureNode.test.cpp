@@ -4,6 +4,7 @@
 #include "models/strategies/stop/PureNode.hpp"
 #include "models/strategies/stop/StopRule.hpp"
 #include "models/strategies/NodeContext.hpp"
+#include "test/NodeContextFixture.hpp"
 #include "stats/Stats.hpp"
 #include "utils/Types.hpp"
 #include "utils/Macros.hpp"
@@ -11,6 +12,7 @@
 using namespace ppforest2;
 using namespace ppforest2::stop;
 using namespace ppforest2::stats;
+using namespace ppforest2::test;
 using namespace ppforest2::types;
 using json = nlohmann::json;
 
@@ -49,54 +51,42 @@ TEST(PureNodeStop, RegistryUnknownStrategy) {
 }
 
 TEST(PureNodeStop, StopsOnSingleGroup) {
-  FeatureMatrix const x = MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6);
-  OutcomeVector const y = VEC(Outcome, 0, 0, 0);
-  GroupPartition const gp(y);
-  RNG rng(0);
+  NodeContextFixture f(MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6), VEC(GroupId, 0, 0, 0));
 
-  NodeContext const ctx(x, gp, 0);
   PureNode const rule;
-  EXPECT_TRUE(rule.should_stop(ctx, rng));
+  EXPECT_TRUE(rule.should_stop(f.ctx, f.rng));
 }
 
 TEST(PureNodeStop, DoesNotStopOnTwoGroups) {
-  FeatureMatrix const x = MAT(Feature, rows(4), 1, 2, 3, 4, 5, 6, 7, 8);
-  OutcomeVector const y = VEC(Outcome, 0, 0, 1, 1);
-  GroupPartition const gp(y);
-  RNG rng(0);
+  NodeContextFixture f(MAT(Feature, rows(4), 1, 2, 3, 4, 5, 6, 7, 8), VEC(GroupId, 0, 0, 1, 1));
 
-  NodeContext const ctx(x, gp, 0);
   PureNode const rule;
-  EXPECT_FALSE(rule.should_stop(ctx, rng));
+  EXPECT_FALSE(rule.should_stop(f.ctx, f.rng));
 }
 
 TEST(PureNodeStop, DoesNotStopOnThreeGroups) {
-  FeatureMatrix const x = MAT(Feature, rows(6), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
-  OutcomeVector const y = VEC(Outcome, 0, 0, 1, 1, 2, 2);
-  GroupPartition const gp(y);
-  RNG rng(0);
+  NodeContextFixture f(MAT(Feature, rows(6), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), VEC(GroupId, 0, 0, 1, 1, 2, 2));
 
-  NodeContext const ctx(x, gp, 0);
   PureNode const rule;
-  EXPECT_FALSE(rule.should_stop(ctx, rng));
+  EXPECT_FALSE(rule.should_stop(f.ctx, f.rng));
 }
 
 TEST(PureNodeStop, IgnoresDepth) {
-  FeatureMatrix const x = MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6);
-  OutcomeVector const y = VEC(Outcome, 0, 0, 0);
-  GroupPartition const gp(y);
-  RNG rng(0);
-
+  // PureNode reads only `ctx.y.groups.size()`, not `ctx.depth`. Build
+  // three fixtures at different depths to confirm the verdict doesn't
+  // change.
   PureNode const rule;
 
-  NodeContext const ctx0(x, gp, 0);
-  EXPECT_TRUE(rule.should_stop(ctx0, rng));
+  NodeContextFixture f0(MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6), VEC(GroupId, 0, 0, 0));
+  EXPECT_TRUE(rule.should_stop(f0.ctx, f0.rng));
 
-  NodeContext const ctx10(x, gp, 10);
-  EXPECT_TRUE(rule.should_stop(ctx10, rng));
+  NodeContextFixture f10(MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6), VEC(GroupId, 0, 0, 0));
+  f10.ctx.depth = 10;
+  EXPECT_TRUE(rule.should_stop(f10.ctx, f10.rng));
 
-  NodeContext const ctx100(x, gp, 100);
-  EXPECT_TRUE(rule.should_stop(ctx100, rng));
+  NodeContextFixture f100(MAT(Feature, rows(3), 1, 2, 3, 4, 5, 6), VEC(GroupId, 0, 0, 0));
+  f100.ctx.depth = 100;
+  EXPECT_TRUE(rule.should_stop(f100.ctx, f100.rng));
 }
 
 TEST(PureNodeStop, DisplayName) {

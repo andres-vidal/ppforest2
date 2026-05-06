@@ -7,13 +7,14 @@
       "name": "mean_of_means"
     },
     "dataset": "wine",
+    "grouping": {
+      "name": "by_label"
+    },
     "leaf": {
       "name": "majority_vote"
     },
     "max_retries": 3,
-    "partition": {
-      "name": "by_group"
-    },
+    "mode": "classification",
     "platform": "macos-clang",
     "pp": {
       "lambda": 0.0,
@@ -577,7 +578,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": -0.39454060792922974,
+            "cutpoint": -0.3945406377315521,
             "degenerate": false,
             "groups": [
               "2",
@@ -793,7 +794,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": 0.1350383162498474,
+          "cutpoint": 0.13503830134868622,
           "degenerate": false,
           "groups": [
             "1",
@@ -1037,7 +1038,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": 0.019633816555142403,
+          "cutpoint": 0.019633814692497253,
           "degenerate": false,
           "groups": [
             "1",
@@ -1553,7 +1554,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": 0.18650111556053162,
+            "cutpoint": 0.1865011304616928,
             "degenerate": false,
             "groups": [
               "1",
@@ -2013,7 +2014,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": 0.2438400685787201,
+          "cutpoint": 0.2438400387763977,
           "degenerate": false,
           "groups": [
             "1",
@@ -2285,7 +2286,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": 0.28082433342933655,
+            "cutpoint": 0.28082430362701416,
             "degenerate": false,
             "groups": [
               "1",
@@ -2501,36 +2502,38 @@
     ]
   },
   "model_type": "forest",
-  "oob_confusion_matrix": {
-    "group_errors": [
-      0.06779661029577255,
-      0.09859155118465424,
-      0.043478261679410934
-    ],
-    "labels": [
-      "1",
-      "2",
-      "3"
-    ],
-    "matrix": [
-      [
-        55,
-        4,
-        0
+  "oob_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.06779661029577255,
+        0.09859155118465424,
+        0.043478261679410934
       ],
-      [
-        4,
-        64,
-        3
+      "labels": [
+        "1",
+        "2",
+        "3"
       ],
-      [
-        0,
-        2,
-        44
+      "matrix": [
+        [
+          55,
+          4,
+          0
+        ],
+        [
+          4,
+          64,
+          3
+        ],
+        [
+          0,
+          2,
+          44
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.07386362552642822
   },
-  "oob_error": 0.07386362552642822,
   "predictions": [
     "1",
     "1",
@@ -2711,34 +2714,37 @@
     "3",
     "3"
   ],
-  "training_confusion_matrix": {
-    "group_errors": [
-      0.016949152573943138,
-      0.028169013559818268,
-      0.0
-    ],
-    "labels": [
-      "1",
-      "2",
-      "3"
-    ],
-    "matrix": [
-      [
-        58,
-        1,
-        0
+  "training_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.016949152573943138,
+        0.028169013559818268,
+        0.0
       ],
-      [
-        1,
-        69,
-        1
+      "labels": [
+        "1",
+        "2",
+        "3"
       ],
-      [
-        0,
-        0,
-        48
+      "matrix": [
+        [
+          58,
+          1,
+          0
+        ],
+        [
+          1,
+          69,
+          1
+        ],
+        [
+          0,
+          0,
+          48
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.016853928565979004
   },
   "variable_importance": {
     "permuted": [

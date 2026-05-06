@@ -298,7 +298,7 @@ namespace ppforest2::cli {
     return result;
   }
 
-  int run_benchmark(Params& params, std::string const& binary_path) {
+  int run_benchmark(Params const& params, std::string const& binary_path) {
     using namespace ppforest2::io::style;
 
     io::Output out(params.quiet);

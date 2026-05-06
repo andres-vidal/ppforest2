@@ -2,3 +2,15 @@ CompileFlags:
   CompilationDatabase: .build
   Add:
     - -std=c++17
+    # Fallback include paths for files without a compile_commands.json
+    # entry (notably `bindings/R/src/main.cpp` and `inst/include/*.h`
+    # — built by R's Makevars, not our cmake).
+    - -Icore/include
+    - -Icore/src
+    - -Ibindings/R/inst/include
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: None
+  Includes:
+    IgnoreHeader: [nlohmann/json.hpp, fmt/format.h, serialization/Json.hpp, serialization/JsonOptional.hpp]

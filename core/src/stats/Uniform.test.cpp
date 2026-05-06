@@ -65,7 +65,6 @@
 
 #include <gtest/gtest.h>
 
-#include <algorithm>
 #include <cmath>
 #include <map>
 #include <numeric>

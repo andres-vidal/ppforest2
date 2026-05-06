@@ -33,7 +33,20 @@ metric_labels <- c(
 #' @noRd
 plot_importance <- function(model, metric = NULL, ...) {
   vnames <- get_variable_names(model)
-  available <- intersect(names(metric_labels), names(model$vi))
+
+  # For forests, weighted and permuted are lazy accessors; for trees only
+  # projections is available. Build the set of available metrics per the
+  # model class, not field presence on `$vi`.
+  is_forest <- inherits(model, "pprf")
+  available <- if (is_forest) c("projections", "weighted", "permuted") else "projections"
+
+  get_values <- function(m) {
+    switch(m,
+      projections = model$vi$projections,
+      weighted    = weighted_importance(model),
+      permuted    = permuted_importance(model)
+    )
+  }
 
   if (!is.null(metric)) {
     metric <- match.arg(metric, names(metric_labels))
@@ -49,7 +62,7 @@ plot_importance <- function(model, metric = NULL, ...) {
 
   dfs <- list()
   for (m in available) {
-    values <- model$vi[[m]]
+    values <- get_values(m)
     dfs[[m]] <- data.frame(
       variable   = vnames,
       importance = values,
@@ -61,7 +74,7 @@ plot_importance <- function(model, metric = NULL, ...) {
   df <- do.call(rbind, dfs)
 
   # Order variables by first (or only) metric's values
-  first_values <- model$vi[[available[1]]]
+  first_values <- get_values(available[1])
   df$variable <- factor(df$variable, levels = vnames[order(first_values)])
   df$metric <- factor(df$metric, levels = unname(metric_labels[available]))
 

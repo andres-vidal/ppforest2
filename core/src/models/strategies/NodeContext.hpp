@@ -18,36 +18,79 @@ namespace ppforest2 {
    * reads what it needs and writes its results back.
    */
   struct NodeContext {
-    /** @brief Full feature matrix (immutable reference to training data). */
-    types::FeatureMatrix const& x;
+    /**
+     * @brief Full feature matrix.
+     *
+     * Non-const because regression's `ByCutpoint` grouping strategy
+     * reorders rows in place within each node's range. Classification
+     * strategies only read — there's no mode-specific subtype, so the
+     * const promise lives at the strategy level, not in the context.
+     */
+    types::FeatureMatrix& x;
     /** @brief Original G-group partition for this node. */
     stats::GroupPartition const& y;
     /** @brief Depth of this node in the tree. */
     int depth;
 
-    /** @brief Set by select_vars: variable selection result. */
-    vars::VariableSelection::Result var_selection;
+    /**
+     * @brief Sticky abort flag for the per-node strategy pipeline.
+     *
+     * When a producer step detects a degenerate outcome (NaN projector,
+     * fewer than 2 binary groups, etc.), it sets this flag. Subsequent
+     * strategies called on the same context skip their work — every
+     * strategy's public NVI entry point checks this first before
+     * dispatching to the subclass `compute`. The orchestrator
+     * (`Tree::build_root`) then converts the aborted context into a
+     * degenerate leaf with a single check at the end of the node step.
+     */
+    bool aborted = false;
 
-    /** @brief Set by find_projection: optimized projector (full dimension, expanded). */
-    Projector projector;
-    /** @brief Set by find_projection: projection pursuit index value achieved. */
-    types::Feature pp_index_value = 0;
+    /**
+     * @brief Raw response vector whose row order matches `x`.
+     *
+     * Regression strategies (`MeanResponse` leaf, `MinVariance` stop,
+     * `ByCutpoint` grouping) read or reorder it; classification
+     * strategies ignore it. Non-const for the same reason as `x`.
+     */
+    types::OutcomeVector& y_vec;
 
-    /** @brief Set by regroup (multiclass -> binary): 2-group partition with subgroups. */
-    std::optional<stats::GroupPartition> binary_y;
-    /** @brief Set by regroup: outcome label assigned to binary group 0. */
-    types::Outcome binary_0 = -1;
-    /** @brief Set by regroup: outcome label assigned to binary group 1. */
-    types::Outcome binary_1 = -1;
+    /** @brief Set by select_vars: variable selection result. `std::nullopt` before select_vars runs. */
+    std::optional<vars::VariableSelection::Result> var_selection;
 
-    /** @brief Set by find_cutpoint: split cutpoint in projected space. */
-    types::Feature cutpoint = 0;
+    /** @brief Set by find_projection: optimized projector (full dimension, expanded). `std::nullopt` before find_projection runs. */
+    std::optional<Projector> projector;
+    /** @brief Set by find_projection: projection pursuit index value achieved. `std::nullopt` before find_projection runs. */
+    std::optional<types::Feature> pp_index_value;
 
-    NodeContext(types::FeatureMatrix const& x, stats::GroupPartition const& y, int depth)
+    /**
+     * @brief Set by regroup (multiclass → binary): 2-group binarized partition.
+     *
+     * `std::nullopt` on binary nodes (no binarization needed). Consumers
+     * should read via `active_partition()`, which falls back to `y`.
+     */
+    std::optional<stats::GroupPartition> y_bin;
+
+    /** @brief Set by find_cutpoint: split cutpoint in projected space. `std::nullopt` before find_cutpoint runs. */
+    std::optional<types::Feature> cutpoint;
+
+    /**
+     * @brief Set by find_cutpoint: labels of the two groups in `active_partition()`,
+     *        oriented so `lower_group`'s projected mean < `upper_group`'s.
+     *
+     * Consumed by `Grouping::split` to route rows to lower/upper children.
+     */
+    std::optional<types::GroupId> lower_group;
+    std::optional<types::GroupId> upper_group;
+
+    /** @brief Set by group: child partitions routed to the lower / upper child nodes. */
+    std::optional<stats::GroupPartition> lower_y_part;
+    std::optional<stats::GroupPartition> upper_y_part;
+
+    NodeContext(types::FeatureMatrix& x, stats::GroupPartition const& y, types::OutcomeVector& y_vec, int depth)
         : x(x)
         , y(y)
         , depth(depth)
-        , projector(Projector::Zero(x.cols())) {}
+        , y_vec(y_vec) {}
 
     /**
      * @brief Return the active group partition.
@@ -55,6 +98,6 @@ namespace ppforest2 {
      * After binarization, returns the binary partition (2 groups).
      * Before binarization (or for 2-group nodes), returns the original partition.
      */
-    stats::GroupPartition const& active_partition() const { return binary_y.has_value() ? binary_y.value() : y; }
+    stats::GroupPartition const& active_partition() const { return y_bin.has_value() ? *y_bin : y; }
   };
 }

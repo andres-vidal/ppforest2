@@ -7,7 +7,7 @@
 pp_tree(mode = "classification", penalty = NULL)
 }
 \arguments{
-\item{mode}{A character string for the model type. Only \code{"classification"} is supported.}
+\item{mode}{A character string for the model type. Either \code{"classification"} or \code{"regression"}.}
 
 \item{penalty}{The regularization parameter (maps to \code{lambda}).}
 }
@@ -22,7 +22,7 @@ Use \code{set_engine("ppforest2")} to select the ppforest2 engine.
 \dontrun{
 library(parsnip)
 spec <- pp_tree(penalty = 0) \%>\% set_engine("ppforest2")
-fit <- spec \%>\% fit(Type ~ ., data = iris)
+fit <- spec \%>\% fit(Species ~ ., data = iris)
 predict(fit, iris)
 }
 }

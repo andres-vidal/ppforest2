@@ -88,8 +88,9 @@ TEST(CLIGlobal, TrainThenPredict) {
   auto j = json::parse(output.read());
   EXPECT_TRUE(j.contains("predictions"));
   EXPECT_GT(j["predictions"].size(), 0u);
-  EXPECT_TRUE(j.contains("error_rate"));
-  EXPECT_TRUE(j.contains("confusion_matrix"));
+  ASSERT_TRUE(j.contains("metrics"));
+  EXPECT_TRUE(j["metrics"].contains("error_rate"));
+  EXPECT_TRUE(j["metrics"].contains("confusion_matrix"));
 
   for (auto const& pred : j["predictions"]) {
     EXPECT_TRUE(pred.is_string()) << "predictions should use group name strings";

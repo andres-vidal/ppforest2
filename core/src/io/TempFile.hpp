@@ -27,7 +27,7 @@ namespace ppforest2::io {
    */
   class TempFile {
   public:
-    TempFile(std::string const& suffix = ".json") {
+    explicit TempFile(std::string const& suffix = ".json") {
       // clang-format off
       #ifdef _WIN32
       char tmp_dir[MAX_PATH];

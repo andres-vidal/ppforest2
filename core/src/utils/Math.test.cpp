@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "utils/Math.hpp"
-#include "utils/Macros.hpp"
 
 using namespace ppforest2;
 using namespace ppforest2::types;

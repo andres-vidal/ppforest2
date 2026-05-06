@@ -9,7 +9,8 @@ namespace ppforest2 {
    * Holds a single class label and always returns it as the prediction,
    * regardless of the input feature vector.
    */
-  struct TreeLeaf : public TreeNode {
+  class TreeLeaf : public TreeNode {
+  public:
     using Ptr = std::unique_ptr<TreeLeaf>;
 
     /** @brief Class label stored at this leaf. */
@@ -23,16 +24,14 @@ namespace ppforest2 {
     /**
      * @brief Return the stored class label (ignores input).
      *
-     * @param data  Feature vector (unused).
-     * @return      The class label stored at this leaf.
+     * @param x  Feature vector (unused).
+     * @return   The class label stored at this leaf.
      */
-    types::Outcome predict(types::FeatureVector const& data) const override;
-
-    bool is_leaf() const override { return true; }
+    types::Outcome predict(types::FeatureVector const& x) const override;
 
     int group_count() const override { return 1; }
 
-    std::set<types::Outcome> node_groups() const override { return {value}; }
+    std::set<types::GroupId> node_groups() const override { return {static_cast<types::GroupId>(value)}; }
 
     bool equals(TreeNode const& other) const override;
     TreeNode::Ptr clone() const override;

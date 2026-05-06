@@ -5,7 +5,6 @@
 #pragma once
 
 #include "stats/DataPacket.hpp"
-#include "utils/Types.hpp"
 
 #include "utils/Invariant.hpp"
 
@@ -13,6 +12,8 @@
 #include <string>
 
 namespace ppforest2::io {
+  using ErrorHandler = void (*)(bool, std::string const&);
+
   /**
    * @brief Exit with an error if a file does not exist at the given path.
    * @param path The file path to check.
@@ -33,9 +34,6 @@ namespace ppforest2::io {
 }
 
 namespace ppforest2::io::json {
-  /// Error handler signature: (condition, message).
-  using ErrorHandler = void (*)(bool, std::string const&);
-
   /**
    * @brief Ensure a file path ends with the ".json" extension.
    * @param path The original file path.
@@ -65,8 +63,6 @@ namespace ppforest2::io::json {
 }
 
 namespace ppforest2::io::text {
-  using ErrorHandler = void (*)(bool, std::string const&);
-
   /**
    * @brief Write a string to a file.
    * @param content  The text to write.
@@ -92,13 +88,23 @@ namespace ppforest2::io::csv {
   stats::DataPacket read(std::string const& filename);
 
   /**
-   * @brief Read a CSV file and sort rows so that response groups are contiguous.
+   * @brief Read a CSV file and sort rows ascending by the response column.
    *
-   * Calls read() and then sorts the data if the response vector is not
-   * already contiguous, as required by the training routines.
+   * Mode is detected from the y column's *written form*:
+   * - If any value carries fractional or scientific notation (`.`, `e`, `E`),
+   *   y is parsed as a continuous `float` response (regression shape) and
+   *   `group_names` is empty.
+   * - Otherwise, y is mapped to integer codes in first-appearance order and
+   *   `group_names` carries the original label strings (classification
+   *   shape). This keeps integer-coded label CSVs like Wine and Glass on
+   *   the classification path.
    *
-   * @param filename Path to the CSV file.
-   * @return A DataPacket with contiguous group ordering.
+   * Rows are sorted ascending by the encoded y, which gives the training
+   * routines what they need: classification — contiguous groups; regression —
+   * y-ordered rows for `ByCutpoint::init`'s median split.
+   *
+   * @throws UserError on any failure (missing file, parse error, malformed
+   *         shape) — CSV reading failures are user-facing by nature.
    */
   stats::DataPacket read_sorted(std::string const& filename);
 

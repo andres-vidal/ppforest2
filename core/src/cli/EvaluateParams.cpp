@@ -3,18 +3,24 @@
  * @brief Evaluate and simulate parameter construction and resolution.
  */
 #include "cli/EvaluateParams.hpp"
-#include "cli/JsonApply.hpp"
 #include "cli/Validation.hpp"
+#include "serialization/JsonOptional.hpp"
+#include "utils/UserError.hpp"
 
+#include <fmt/format.h>
 #include <regex>
 
 namespace ppforest2::cli {
 
   SimulateParams::SimulateParams(nlohmann::json const& config) {
-    apply(config, "simulate", format);
-    apply(config, "simulate_mean", mean);
-    apply(config, "simulate_mean_separation", mean_separation);
-    apply(config, "simulate_sd", sd);
+    format                         = config.value("simulate", format);
+    classification.mean            = config.value("simulate_mean", classification.mean);
+    classification.mean_separation = config.value("simulate_mean_separation", classification.mean_separation);
+    regression.n_informative       = config.value("simulate_n_informative", regression.n_informative);
+    regression.y_intercept         = config.value("simulate_y_intercept", regression.y_intercept);
+    regression.y_sd                = config.value("simulate_y_sd", regression.y_sd);
+    classification.sd              = config.value("simulate_sd", classification.sd);
+    regression.sd                  = config.value("simulate_sd", regression.sd);
   }
 
   void SimulateParams::resolve_format() {
@@ -29,6 +35,17 @@ namespace ppforest2::cli {
       rows     = std::stoi(match[1]);
       cols     = std::stoi(match[2]);
       n_groups = std::stoi(match[3]);
+    }
+  }
+
+  stats::DataPacket SimulateParams::simulate(types::Mode mode, stats::RNG& rng) const {
+    try {
+      if (types::is_regression(mode)) {
+        return stats::simulate(rows, cols, rng, regression);
+      }
+      return stats::simulate(rows, cols, n_groups, rng, classification);
+    } catch (std::exception const& e) {
+      throw UserError(fmt::format("Error simulating data: {}", e.what()));
     }
   }
 
@@ -77,16 +94,17 @@ namespace ppforest2::cli {
   }
 
   EvaluateParams::EvaluateParams(nlohmann::json const& config) {
-    apply(config, "train_ratio", train_ratio);
-    apply(config, "iterations", iterations);
-    apply(config, "warmup", warmup);
+    train_ratio = config.value("train_ratio", train_ratio);
+    iterations  = config.value("iterations", iterations);
+    warmup      = config.value("warmup", warmup);
+    fixed_seed  = config.value("fixed_seed", fixed_seed);
 
     if (config.contains("convergence") && config["convergence"].is_object()) {
-      auto const& conv = config["convergence"];
-      apply(conv, "cv", convergence.cv);
-      apply(conv, "min", convergence.min);
-      apply(conv, "max", convergence.max);
-      apply(conv, "window", convergence.window);
+      auto const& conv   = config["convergence"];
+      convergence.cv     = conv.value("cv", convergence.cv);
+      convergence.min    = conv.value("min", convergence.min);
+      convergence.max    = conv.value("max", convergence.max);
+      convergence.window = conv.value("window", convergence.window);
     }
   }
 
@@ -122,6 +140,10 @@ namespace ppforest2::cli {
     }
 
     j["warmup"] = warmup;
+
+    if (fixed_seed) {
+      j["fixed_seed"] = true;
+    }
 
     nlohmann::json conv = nlohmann::json::object();
     if (convergence.cv) {

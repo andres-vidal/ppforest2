@@ -6,8 +6,8 @@
 #include "utils/Types.hpp"
 
 namespace ppforest2 {
-  struct TreeBranch;
-  struct TreeLeaf;
+  class TreeBranch;
+  class TreeLeaf;
 
   /**
    * @brief Abstract base class for nodes in a projection pursuit tree.
@@ -16,18 +16,24 @@ namespace ppforest2 {
    * (TreeBranch) that project and split, and leaf nodes
    * (TreeLeaf) that hold a group label.
    */
-  struct TreeNode {
+  class TreeNode {
+  public:
     using Ptr = std::unique_ptr<TreeNode>;
 
     /**
      * @brief Visitor interface for tree node dispatch.
      *
      * Implements the visitor pattern to distinguish between internal
-     * split nodes (TreeBranch) and leaf nodes (TreeLeaf).
+     * split nodes (TreeBranch) and leaf nodes (TreeLeaf). Both visit
+     * overloads default to no-op so visitors can override only the
+     * node type they care about.
      */
-    struct Visitor {
-      virtual void visit(TreeBranch const& condition) = 0;
-      virtual void visit(TreeLeaf const& response)    = 0;
+    class Visitor {
+    public:
+      virtual ~Visitor() = default;
+
+      virtual void visit(TreeBranch const&) {}
+      virtual void visit(TreeLeaf const&) {}
     };
 
     /** @brief Whether this node (or any descendant) had a degenerate split. */
@@ -41,10 +47,10 @@ namespace ppforest2 {
     /**
      * @brief Predict the group label for a single observation.
      *
-     * @param data  Feature vector (p).
-     * @return      Predicted group label.
+     * @param x  Feature vector (p).
+     * @return   Predicted group label.
      */
-    virtual types::Outcome predict(types::FeatureVector const& data) const = 0;
+    virtual types::Outcome predict(types::FeatureVector const& x) const = 0;
 
     /** @brief The group label at this node (leaf value or majority group). */
     virtual types::Outcome response() const = 0;
@@ -57,10 +63,7 @@ namespace ppforest2 {
     /**
      * @brief Sorted set of group labels reachable from this node.
      */
-    virtual std::set<types::Outcome> node_groups() const = 0;
-
-    /** @brief Whether this node is a leaf (TreeLeaf). */
-    virtual bool is_leaf() const = 0;
+    virtual std::set<types::GroupId> node_groups() const = 0;
 
     /** @brief Structural equality comparison (value-based). */
     virtual bool equals(TreeNode const& other) const = 0;
@@ -71,4 +74,15 @@ namespace ppforest2 {
     bool operator==(TreeNode const& other) const;
     bool operator!=(TreeNode const& other) const;
   };
+
+  /**
+   * @brief Whether @p node is a `TreeLeaf`.
+   *
+   * Routes through `TreeNode::Visitor` rather than a virtual method on
+   * `TreeNode` itself — keeps the base class focused on data/traversal
+   * and matches the visitor-based dispatch used elsewhere in the codebase.
+   * The `Ptr` overload is a thin dereferencing wrapper.
+   */
+  bool is_leaf(TreeNode const& node);
+  bool is_leaf(TreeNode::Ptr const& node);
 }

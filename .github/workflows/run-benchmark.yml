@@ -21,7 +21,12 @@ jobs:
         run: make build
 
       - name: Run PR benchmarks
-        run: .build/ppforest2 benchmark -s bench/default-scenarios.json -o /tmp/pr-results.json -q -i ${{ env.BENCH_ITERATIONS }}
+        run: |
+          # Run both benchmark families on the PR branch; results used by
+          # the comparison step below. Classification first (stable set),
+          # regression second (experimental — flagged in the PR comment).
+          .build/ppforest2 benchmark -s bench/default-scenarios-classification.json -o /tmp/pr-results-cls.json -q -i ${{ env.BENCH_ITERATIONS }}
+          .build/ppforest2 benchmark -s bench/default-scenarios-regression.json    -o /tmp/pr-results-reg.json -q -i ${{ env.BENCH_ITERATIONS }}
 
       - name: Checkout base branch
         uses: actions/checkout@v4
@@ -34,20 +39,46 @@ jobs:
         id: base
         continue-on-error: true
         run: |
+          # Build and benchmark the PR's base commit against the PR's
+          # scenario files — so scenario edits in the PR apply to the
+          # baseline too (otherwise "scenario added in this PR" errors
+          # on the base side). Copy both files over; fall through to
+          # `|| true` if either is missing on the base branch (e.g. the
+          # PR itself introduces the split).
           cd base-branch
           make build
-          cp ../bench/default-scenarios.json bench/default-scenarios.json 2>/dev/null || true
-          .build/ppforest2 benchmark -s bench/default-scenarios.json -o /tmp/base-results.json -q -i ${{ env.BENCH_ITERATIONS }}
+          cp ../bench/default-scenarios-classification.json bench/default-scenarios-classification.json 2>/dev/null || true
+          cp ../bench/default-scenarios-regression.json    bench/default-scenarios-regression.json    2>/dev/null || true
+          .build/ppforest2 benchmark -s bench/default-scenarios-classification.json -o /tmp/base-results-cls.json -q -i ${{ env.BENCH_ITERATIONS }}
+          .build/ppforest2 benchmark -s bench/default-scenarios-regression.json    -o /tmp/base-results-reg.json -q -i ${{ env.BENCH_ITERATIONS }}
 
       - name: Generate comparison
         id: comparison
         run: |
-          if [ "${{ steps.base.outcome }}" = "success" ]; then
-            REPORT=$(.build/ppforest2 benchmark -s bench/default-scenarios.json -b /tmp/base-results.json --format markdown -q -i ${{ env.BENCH_ITERATIONS }})
-          else
-            REPORT=$(.build/ppforest2 benchmark -s bench/default-scenarios.json --format markdown -q -i ${{ env.BENCH_ITERATIONS }})
-            REPORT="${REPORT}"$'\n\n'"_Baseline comparison skipped: base branch does not support benchmarking._"
-          fi
+          # Build one PR comment with two sections: classification (stable)
+          # and regression (experimental). Each section runs a fresh
+          # comparison against the corresponding base-branch baseline. If
+          # the base-branch benchmarking failed (e.g. PR introduces the
+          # split), fall back to bare PR numbers plus an explanation.
+          gen_section() {
+            local label="$1" scenarios="$2" base_results="$3"
+            local body
+            if [ "${{ steps.base.outcome }}" = "success" ] && [ -s "$base_results" ]; then
+              body=$(.build/ppforest2 benchmark -s "$scenarios" -b "$base_results" --format markdown -q -i ${{ env.BENCH_ITERATIONS }})
+            else
+              body=$(.build/ppforest2 benchmark -s "$scenarios" --format markdown -q -i ${{ env.BENCH_ITERATIONS }})
+              body="${body}"$'\n\n'"_Baseline comparison skipped: base branch does not support benchmarking._"
+            fi
+            printf '## %s\n\n%s\n\n' "$label" "$body"
+          }
+
+          REPORT=$(gen_section "Classification benchmarks" \
+            "bench/default-scenarios-classification.json" \
+            "/tmp/base-results-cls.json")
+          REPORT="${REPORT}"$(gen_section "Regression benchmarks (experimental)" \
+            "bench/default-scenarios-regression.json" \
+            "/tmp/base-results-reg.json")
+
           {
             echo "report<<EOF"
             echo "$REPORT"

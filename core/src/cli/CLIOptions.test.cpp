@@ -24,7 +24,7 @@ using namespace ppforest2::io;
 #error "PPFOREST2_DATA_DIR must be defined"
 #endif
 
-static const std::string IRIS_PATH = std::string(PPFOREST2_DATA_DIR) + "/iris.csv";
+static const std::string IRIS_PATH = std::string(PPFOREST2_DATA_DIR) + "/classification/iris.csv";
 
 namespace {
   /**
@@ -322,9 +322,10 @@ TEST(ParseArgs, EvaluateSimulateCustomParams) {
        "--simulate-sd",
        "5"}
   );
-  EXPECT_FLOAT_EQ(opts.simulation.mean, 200.0F);
-  EXPECT_FLOAT_EQ(opts.simulation.mean_separation, 25.0F);
-  EXPECT_FLOAT_EQ(opts.simulation.sd, 5.0F);
+  EXPECT_FLOAT_EQ(opts.simulation.classification.mean, 200.0F);
+  EXPECT_FLOAT_EQ(opts.simulation.classification.mean_separation, 25.0F);
+  EXPECT_FLOAT_EQ(opts.simulation.classification.sd, 5.0F);
+  EXPECT_FLOAT_EQ(opts.simulation.regression.sd, 5.0F);
 }
 
 /* -p sets the train/test split ratio. */
@@ -550,9 +551,13 @@ TEST(ResolveDefaults, LambdaUnchangedIfSet) {
 
 /* Unset vars get defaults (p_vars=0.5, n_vars computed). */
 TEST(ResolveDefaults, UnsetVarsGetDefaults) {
+  // Mode must be set before `resolve_defaults` — in production
+  // `Params::read_data` deduces it from the training data; tests
+  // bypassing that path must set it explicitly.
   Params params;
-  params.model.size = 10;
-  params.quiet      = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.quiet            = true;
   EXPECT_FALSE(params.model.p_vars.has_value());
   EXPECT_FALSE(params.model.n_vars.has_value());
   params.resolve_defaults(10);
@@ -563,9 +568,10 @@ TEST(ResolveDefaults, UnsetVarsGetDefaults) {
 /* An explicit p_vars is preserved, n_vars computed from it. */
 TEST(ResolveDefaults, ExplicitPVarsPreserved) {
   Params params;
-  params.model.size   = 10;
-  params.model.p_vars = 0.8F;
-  params.quiet        = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.model.p_vars     = 0.8F;
+  params.quiet            = true;
   params.resolve_defaults(10);
   EXPECT_FLOAT_EQ(params.model.p_vars.value(), 0.8F);
   EXPECT_EQ(params.model.n_vars.value(), 8);
@@ -578,9 +584,10 @@ TEST(ResolveDefaults, ExplicitPVarsPreserved) {
 /* n_vars is computed from p_vars * total_vars. */
 TEST(ResolveDefaults, NVarsFromPVars) {
   Params params;
-  params.model.size   = 10;
-  params.model.p_vars = 0.5F;
-  params.quiet        = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.model.p_vars     = 0.5F;
+  params.quiet            = true;
   params.resolve_defaults(10);
   EXPECT_EQ(params.model.n_vars.value(), 5);
 }
@@ -588,9 +595,10 @@ TEST(ResolveDefaults, NVarsFromPVars) {
 /* p_vars is back-computed from n_vars / total_vars. */
 TEST(ResolveDefaults, PVarsFromNVars) {
   Params params;
-  params.model.size   = 10;
-  params.model.n_vars = 3;
-  params.quiet        = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.model.n_vars     = 3;
+  params.quiet            = true;
   params.resolve_defaults(10);
   EXPECT_FLOAT_EQ(params.model.p_vars.value(), 0.3F);
 }
@@ -598,8 +606,9 @@ TEST(ResolveDefaults, PVarsFromNVars) {
 /* Default vars: p_vars = 0.5, n_vars = half of total. */
 TEST(ResolveDefaults, DefaultPVarsAndNVars) {
   Params params;
-  params.model.size = 10;
-  params.quiet      = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.quiet            = true;
   params.resolve_defaults(10);
   EXPECT_FLOAT_EQ(params.model.p_vars.value(), 0.5F);
   EXPECT_EQ(params.model.n_vars.value(), 5);
@@ -608,9 +617,10 @@ TEST(ResolveDefaults, DefaultPVarsAndNVars) {
 /* Vars computation is skipped for a single tree (trees = 0). */
 TEST(ResolveDefaults, NoVarsWhenSingleTree) {
   Params params;
-  params.model.size   = 0;
-  params.model.p_vars = 0.8F;
-  params.quiet        = true;
+  params.model.mode_input = "classification";
+  params.model.size       = 0;
+  params.model.p_vars     = 0.8F;
+  params.quiet            = true;
   params.resolve_defaults(10);
   EXPECT_FLOAT_EQ(params.model.p_vars.value(), 0.8F);
   EXPECT_FALSE(params.model.n_vars.has_value());
@@ -629,6 +639,7 @@ TEST(ResolveDefaults, NoVarsWhenZeroTotalVars) {
 /* vars_config with proportion is resolved to count when total_vars is known. */
 TEST(ResolveDefaults, VarsProportionResolvedToCount) {
   Params params;
+  params.model.mode_input  = "classification";
   params.model.size        = 10;
   params.model.vars_config = {{"name", "uniform"}, {"proportion", 0.5}};
   params.model.p_vars      = 0.5F;
@@ -923,6 +934,71 @@ TEST(ParseArgs, VarsStrategyMultipleParamsStoresAll) {
   auto opts = parse({"ppforest2", "train", "-d", IRIS_PATH.c_str(), "--vars", "uniform:count=2,unknown=1"});
   EXPECT_EQ(opts.model.vars_config["count"].get<int>(), 2);
   EXPECT_EQ(opts.model.vars_config["unknown"].get<int>(), 1);
+}
+
+// ---------------------------------------------------------------------------
+// --stop (repeatable; wraps in any(...) when > 1)
+// ---------------------------------------------------------------------------
+
+/* Single --stop parses exactly like the pre-existing flat syntax — no
+ * CompositeStop wrapping, so saved models built on a single --stop have the
+ * same JSON shape as before the repeat-enabled change. */
+TEST(ParseArgs, StopSingleOccurrenceNoCompositeWrap) {
+  auto opts = parse({"ppforest2", "train", "-d", IRIS_PATH.c_str(), "--stop", "pure_node"});
+  EXPECT_EQ(opts.model.stop_config["name"], "pure_node");
+  EXPECT_FALSE(opts.model.stop_config.contains("rules"));
+}
+
+/* Single --stop with params round-trips name + params into stop_config. */
+TEST(ParseArgs, StopSingleOccurrenceWithParam) {
+  auto opts = parse({"ppforest2", "train", "-d", IRIS_PATH.c_str(), "--stop", "min_size:min_size=5"});
+  EXPECT_EQ(opts.model.stop_config["name"], "min_size");
+  EXPECT_EQ(opts.model.stop_config["min_size"].get<int>(), 5);
+  EXPECT_FALSE(opts.model.stop_config.contains("rules"));
+}
+
+/* Two --stop occurrences compose into an `any` CompositeStop. This is the
+ * CLI-ergonomic path for the regression default: users who'd otherwise
+ * have to write a full --config JSON can now tweak the composite inline. */
+TEST(ParseArgs, StopRepeatedWrapsInAny) {
+  auto opts = parse({
+      "ppforest2",
+      "train",
+      "-d",
+      IRIS_PATH.c_str(),
+      "--stop",
+      "min_size:min_size=5",
+      "--stop",
+      "min_variance:threshold=0.01",
+  });
+  EXPECT_EQ(opts.model.stop_config["name"], "any");
+  ASSERT_TRUE(opts.model.stop_config.contains("rules"));
+  ASSERT_EQ(opts.model.stop_config["rules"].size(), 2U);
+  EXPECT_EQ(opts.model.stop_config["rules"][0]["name"], "min_size");
+  EXPECT_EQ(opts.model.stop_config["rules"][0]["min_size"].get<int>(), 5);
+  EXPECT_EQ(opts.model.stop_config["rules"][1]["name"], "min_variance");
+  EXPECT_FLOAT_EQ(opts.model.stop_config["rules"][1]["threshold"].get<float>(), 0.01F);
+}
+
+/* Three --stop occurrences: rules array preserves order. */
+TEST(ParseArgs, StopRepeatedPreservesOrder) {
+  auto opts = parse({
+      "ppforest2",
+      "train",
+      "-d",
+      IRIS_PATH.c_str(),
+      "--stop",
+      "pure_node",
+      "--stop",
+      "min_size:min_size=3",
+      "--stop",
+      "min_variance:threshold=0.02",
+  });
+  EXPECT_EQ(opts.model.stop_config["name"], "any");
+  ASSERT_EQ(opts.model.stop_config["rules"].size(), 3U);
+  EXPECT_EQ(opts.model.stop_config["rules"][0]["name"], "pure_node");
+  EXPECT_EQ(opts.model.stop_config["rules"][1]["name"], "min_size");
+  EXPECT_EQ(opts.model.stop_config["rules"][2]["name"], "min_variance");
 }
 
 // ---------------------------------------------------------------------------

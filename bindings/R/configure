@@ -86,8 +86,18 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 
-# Build libppforest2-core.a
-if [ ! -f inst/lib/libppforest2-core.a ]; then
+# Build libppforest2-core.a and libppforest2-strategies.a
+#
+# Two static archives instead of one because `ppforest2-strategies` carries
+# the self-registering strategies — its object files must all be linked in
+# (via whole-archive, see Makevars) or strategies dead-strip and `load_json`
+# fails for any strategy not directly referenced from R bindings' code.
+# Splitting the build lets Makevars apply whole-archive linkage surgically
+# to just the strategies and let the rest of core (Tree/Forest/stats/
+# serialization/utils/io) link on demand — so code paths R doesn't use
+# (e.g. the CSV reader) don't get pulled in and leave unresolved external
+# symbols at dynload time.
+if [ ! -f inst/lib/libppforest2-core.a ] || [ ! -f inst/lib/libppforest2-strategies.a ]; then
   mkdir -p inst/lib
 
   if [ -d ../../core ]; then
@@ -107,6 +117,7 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
     cp "$PROJECT_ROOT/VERSION" src/VERSION
 
     cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
+    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
 
   elif [ -d src/core ]; then
     # Tarball path: build from bundled source
@@ -142,10 +153,12 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DPPFOREST2_CORE_ONLY=ON \
       $FETCH_ARGS \
-      ../core && make ppforest2-core && cd ../..
+      ../core && make ppforest2-core ppforest2-strategies && cd ../..
 
     strip -S "$R_BUILD_DIR/libppforest2-core.a"
+    strip -S "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a"
     cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
+    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
     rm -rf "$R_BUILD_DIR"
 
   else
@@ -154,8 +167,24 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
   fi
 fi
 
+# Platform-appropriate whole-archive fragment for libppforest2-strategies.a.
+# See the note in Makevars.in for why this is needed (self-registering
+# strategies get dead-stripped otherwise).
+#
+# macOS ld64 uses `-force_load,<path>` (no `--whole-archive`). GNU ld
+# and MinGW's lld use `--whole-archive ... --no-whole-archive`. The
+# path-based form on macOS means we can't go through
+# `-lppforest2-strategies` there; for GNU we keep the `-l` form so the
+# `-L` search path still applies.
+if [ "$(uname)" = "Darwin" ]; then
+  WHOLE_ARCHIVE_STRATEGIES_LIB='-Wl,-force_load,../inst/lib/libppforest2-strategies.a'
+else
+  WHOLE_ARCHIVE_STRATEGIES_LIB='-Wl,--whole-archive -lppforest2-strategies -Wl,--no-whole-archive'
+fi
+
 sed -e "s|@DARWIN_OPENMP_CXXFLAGS@|${DARWIN_OPENMP_CXXFLAGS}|" \
     -e "s|@DARWIN_OPENMP_LIBS@|${DARWIN_OPENMP_LIBS}|" \
     -e "s|@COMPILER_FLAGS@|${COMPILER_FLAGS}|" \
+    -e "s|@WHOLE_ARCHIVE_STRATEGIES_LIB@|${WHOLE_ARCHIVE_STRATEGIES_LIB}|" \
     src/Makevars.in > src/Makevars
 

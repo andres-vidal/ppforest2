@@ -1,7 +1,13 @@
 #!/usr/bin/env sh
 
-# Build libppforest2-core.a
-if [ ! -f inst/lib/libppforest2-core.a ]; then
+# Build libppforest2-core.a and libppforest2-strategies.a
+#
+# Two static archives instead of one because `ppforest2-strategies` carries
+# the self-registering strategies — its object files must all be linked in
+# (via whole-archive in Makevars.win) or strategies dead-strip and
+# `load_json` fails for any strategy not directly referenced from R
+# bindings' code. See the Makevars.in comment for the full rationale.
+if [ ! -f inst/lib/libppforest2-core.a ] || [ ! -f inst/lib/libppforest2-strategies.a ]; then
   mkdir -p inst/lib
 
   if [ -d ../../core ]; then
@@ -21,6 +27,7 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
     cp "$PROJECT_ROOT/VERSION" src/VERSION
 
     cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
+    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
 
   elif [ -d src/core ]; then
     # Tarball path: build from bundled source
@@ -55,9 +62,10 @@ if [ ! -f inst/lib/libppforest2-core.a ]; then
       -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
       -DPPFOREST2_CORE_ONLY=ON \
       $FETCH_ARGS \
-      ../core && make ppforest2-core && cd ../..
+      ../core && make ppforest2-core ppforest2-strategies && cd ../..
 
     cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
+    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
     rm -rf "$R_BUILD_DIR"
 
   else

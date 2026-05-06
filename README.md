@@ -50,6 +50,9 @@ make build
 # Train a forest on a CSV dataset and save the model
 ppforest2 train --data data.csv --trees 100 --lambda 0.5 --save model.json
 
+# Regression (experimental) — last CSV column must be a continuous numeric response
+ppforest2 train --data regression.csv --mode regression --trees 100 --save reg_model.json
+
 # Explicit strategy selection (equivalent to the above)
 ppforest2 train --data data.csv --trees 100 --pp-strategy pda:lambda=0.5 --save model.json
 
@@ -66,7 +69,7 @@ ppforest2 evaluate --data data.csv --trees 100 -i 10 --train-ratio 0.7
 ppforest2 evaluate --simulate 1000x10x3 --trees 50
 
 # Run performance benchmarks across scenarios
-ppforest2 benchmark -s bench/default-scenarios.json
+ppforest2 benchmark -s bench/default-scenarios-classification.json
 ```
 
 ### R
@@ -82,17 +85,21 @@ devtools::install_github("andres-vidal/ppforest2", subdir = "bindings/R", build 
 library(ppforest2)
 
 # Single projection pursuit tree
-model <- pptr(Type ~ ., data = iris)
+model <- pptr(Species ~ ., data = iris)
 predict(model, iris)
 
 # Random forest with 50 trees
-forest <- pprf(Type ~ ., data = iris, size = 50)
+forest <- pprf(Species ~ ., data = iris, size = 50)
 predict(forest, iris)
 predict(forest, iris, type = "prob")   # vote proportions
 summary(forest)                        # variable importance & model info
 
 # Explicit strategy selection (equivalent to lambda + n_vars shortcuts)
-forest <- pprf(Type ~ ., data = iris, size = 50, pp = pp_pda(0.5), vars = vars_uniform(count = 2))
+forest <- pprf(Species ~ ., data = iris, size = 50, pp = pp_pda(0.5), vars = vars_uniform(count = 2))
+
+# Regression (mode auto-detected from numeric y) — experimental, untested in production
+reg_model <- pprf(mpg ~ ., data = mtcars, size = 50)
+predict(reg_model, mtcars)              # numeric predictions (MSE-based OOB)
 ```
 
 Visualize models (requires `ggplot2`):
@@ -111,7 +118,7 @@ plot(model, type = "boundaries")    # decision boundaries in feature space
 #   - 1 feature:  number-line plot with colored decision regions
 #   - 2 features: scatterplot with polygon regions and boundary lines
 #   - 3+ features: pairwise scatterplot matrix (lower triangle)
-model2 <- pptr(x = iris[, 1:2], y = iris$Type)
+model2 <- pptr(x = iris[, 1:2], y = iris$Species)
 plot(model2, type = "boundaries")   # 2D boundary plot
 
 # Forest: importance across all trees, or inspect individual trees
@@ -126,7 +133,7 @@ Works with [parsnip](https://parsnip.tidymodels.org/) / tidymodels:
 library(parsnip)
 
 spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
-fit <- spec %>% fit(Type ~ ., data = iris)
+fit <- spec %>% fit(Species ~ ., data = iris)
 predict(fit, iris, type = "prob")
 ```
 
@@ -174,7 +181,7 @@ ppforest2 train -d data.csv --no-metrics         # skip variable importance
 | `--cutpoint-strategy <spec>`  | `mean_of_means` | Cutpoint strategy (e.g. `mean_of_means`)                       |
 | `--stop-strategy <spec>`      | `pure_node`   | Stop rule (e.g. `pure_node`)                                      |
 | `--binarize-strategy <spec>`  | `largest_gap` | Binarization strategy (e.g. `largest_gap`)                         |
-| `--partition-strategy <spec>` | `by_group`    | Partition strategy (e.g. `by_group`)                               |
+| `--grouping <spec>`           | `by_label`    | Grouping strategy (e.g. `by_label`)                                |
 | `-s, --save <file>`      | `model.json`  | Output model path (`.json` added if missing)                       |
 | `--no-save`              | —             | Skip saving the model                                              |
 | `--no-metrics`           | —             | Skip variable importance computation                               |
@@ -250,14 +257,14 @@ ppforest2 evaluate -d data.csv -t 50 -i 20
 | `--convergence-min <N>`     | `10`     | Minimum iterations before checking convergence    |
 | `--convergence-window <N>`  | `3`      | Consecutive stable checks required to stop        |
 
-All model parameters (`--trees`, `--lambda`, `--seed`, `--vars`, `--threads`, `--max-retries`) and strategy flags (`--pp-strategy`, `--vars-strategy`, `--cutpoint-strategy`, `--stop-strategy`, `--binarize-strategy`, `--partition-strategy`) are also available.
+All model parameters (`--trees`, `--lambda`, `--seed`, `--vars`, `--threads`, `--max-retries`) and strategy flags (`--pp-strategy`, `--vars-strategy`, `--cutpoint-strategy`, `--stop-strategy`, `--binarize-strategy`, `--grouping`) are also available.
 
 ### `benchmark` — Multi-Scenario Benchmarks
 
 Run a suite of evaluation scenarios and report results in a table. Each scenario runs as a separate subprocess for accurate per-scenario memory measurement.
 
 ```bash
-ppforest2 benchmark -s bench/default-scenarios.json
+ppforest2 benchmark -s bench/default-scenarios-classification.json
 ppforest2 benchmark -s scenarios.json -b baseline.json       # compare against baseline
 ppforest2 benchmark -s scenarios.json -o results.json --csv results.csv
 ppforest2 benchmark -s scenarios.json --format markdown
@@ -299,13 +306,15 @@ The project is organized into a shared C++ core and language-specific bindings:
 
 - **Numeric precision** — The C++ core uses single-precision (`float`) arithmetic for all feature data. This is sufficient for classification and reduces memory usage (benchmarks show double precision costs 10–90% more time and up to 45% more memory with no accuracy benefit for classification). If a future strategy needs higher precision internally (e.g., regression loss computation), it can cast to `double` within its own scope without affecting the rest of the pipeline.
 
+- **Regression support** — Available as of v0.1.0 (experimental, untested in production). Enabled via `--mode regression` on the CLI or automatically detected from numeric `y` in R. Uses a `ByCutpoint` grouping strategy that partitions observations by the cutpoint in projected space, then re-clusters each child via a median split of the continuous response for the next PDA step. Leaves predict the mean response. Forests aggregate by averaging tree predictions (rather than majority vote) and bootstrap via uniform sampling (rather than stratified). OOB error is reported as MSE.
+
 - **Python bindings** — Planned.
 
 ### Design patterns
 
 The C++ core uses two design patterns to keep the algorithm extensible without heavily modifying existing code:
 
-- **Strategy** — Seven strategy families control each step of node training: projection pursuit (`ppforest2::pp::ProjectionPursuit`), variable selection (`ppforest2::vars::VariableSelection`), cutpoint (`ppforest2::cutpoint::SplitCutpoint`), stopping rule (`ppforest2::stop::StopRule`), binarization (`ppforest2::binarize::Binarization`), data partition (`ppforest2::partition::StepPartition`), and leaf assignment (`ppforest2::leaf::LeafStrategy`). Concrete implementations (e.g. `pp::PDA`, `vars::Uniform`, `binarize::LargestGap`, `leaf::MajorityVote`) are composed at runtime via `TrainingSpec`, a single concrete class that holds the seven strategy objects (via `shared_ptr`) together with forest-level parameters (size, seed, threads, max retries). All strategies share a uniform `(NodeContext&, RNG&)` interface — each reads what it needs from the mutable context and writes its results back. New optimization criteria, stopping rules, or partition methods can be added without changing the tree-building logic — just implement the interface and pass it to `TrainingSpec`. Each strategy implements `to_json()` for serialization and is auto-registered via a CRTP macro.
+- **Strategy** — Seven strategy families control each step of node training: projection pursuit (`ppforest2::pp::ProjectionPursuit`), variable selection (`ppforest2::vars::VariableSelection`), cutpoint (`ppforest2::cutpoint::Cutpoint`), stopping rule (`ppforest2::stop::StopRule`), binarization (`ppforest2::binarize::Binarization`), grouping (`ppforest2::grouping::Grouping`), and leaf assignment (`ppforest2::leaf::LeafStrategy`). Concrete implementations (e.g. `pp::PDA`, `vars::Uniform`, `binarize::LargestGap`, `leaf::MajorityVote`) are composed at runtime via `TrainingSpec`, a single concrete class that holds the seven strategy objects (via `shared_ptr`) together with forest-level parameters (size, seed, threads, max retries). All strategies share a uniform `(NodeContext&, RNG&)` interface — each reads what it needs from the mutable context and writes its results back. New optimization criteria, stopping rules, or partition methods can be added without changing the tree-building logic — just implement the interface and pass it to `TrainingSpec`. Each strategy implements `to_json()` for serialization and is auto-registered via a CRTP macro.
 
 - **Visitor** — `TreeNode::Visitor` dispatches over the two node types (internal `TreeBranch` and leaf `TreeLeaf`) and `Model::Visitor` dispatches over `Tree` and `Forest`. This avoids `dynamic_cast` and keeps traversal logic (serialization, visualization layout, variable importance) decoupled from the model types themselves.
 
@@ -384,9 +393,9 @@ Performance benchmarks run configurable scenarios on simulated or real data, mea
 ### Running Benchmarks
 
 ```bash
-make benchmark                     # Run default scenarios, print table
-make benchmark-save                # Run and save results to bench/results.json + bench/results.csv
-make benchmark-compare             # Run and compare against saved results
+make benchmark                     # Run both classification + regression suites, print tables
+make benchmark-save                # Save results to bench/results-classification.{json,csv} + bench/results-regression.{json,csv}
+make benchmark-compare             # Compare both suites against their saved baselines
 make benchmark-vs REF=main         # Compare current branch against another ref (branch/tag/commit)
 ```
 
@@ -394,16 +403,16 @@ make benchmark-vs REF=main         # Compare current branch against another ref 
 
 ```bash
 # Run scenarios from a JSON file
-ppforest2 benchmark -s bench/default-scenarios.json
+ppforest2 benchmark -s bench/default-scenarios-classification.json
 
 # Save results as JSON and CSV
-ppforest2 benchmark -s bench/default-scenarios.json -o results.json --csv results.csv
+ppforest2 benchmark -s bench/default-scenarios-classification.json -o results.json --csv results.csv
 
 # Compare against a baseline
-ppforest2 benchmark -s bench/default-scenarios.json -b baseline.json
+ppforest2 benchmark -s bench/default-scenarios-classification.json -b baseline.json
 
 # Override iteration count (forces fixed mode)
-ppforest2 benchmark -s bench/default-scenarios.json -i 5
+ppforest2 benchmark -s bench/default-scenarios-classification.json -i 5
 ```
 
 ### Smart Convergence
@@ -449,7 +458,7 @@ Scenarios are defined in JSON with shared defaults and per-scenario overrides:
     { "name": "small-forest",  "n": 200,  "p": 5,  "g": 2, "trees": 50 },
     { "name": "medium-forest", "n": 1000, "p": 20, "g": 3 },
     { "name": "fixed-5",       "n": 1000, "p": 20, "g": 3, "iterations": 5 },
-    { "name": "data-iris",     "data": "data/iris.csv", "trees": 50 }
+    { "name": "data-iris",     "data": "data/classification/iris.csv", "trees": 50 }
   ]
 }
 ```

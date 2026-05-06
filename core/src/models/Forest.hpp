@@ -1,119 +1,118 @@
 #pragma once
 
+#include "models/Bagged.hpp"
 #include "models/Model.hpp"
-#include "models/BootstrapTree.hpp"
+#include "models/Tree.hpp"
+#include "stats/Stats.hpp"
 
-#include <map>
 #include <memory>
-#include <numeric>
-#include <thread>
 #include <vector>
 
 namespace ppforest2 {
   /**
-   * @brief A projection pursuit random forest.
+   * @brief Abstract base class for projection pursuit random forests.
    *
-   * An ensemble of BootstrapTree instances, each trained on a
-   * bootstrap sample.  Predictions are made by majority vote.
-   * Out-of-bag estimation and vote-proportion predictions are
-   * supported.
+   * Holds a vector of `BaggedTree` wrappers (each pairs a `Tree` with the
+   * bootstrap sample indices it was trained on) and the shared training
+   * spec. Aggregation logic (majority vote vs mean), proportion
+   * predictions, and OOB handling are defined in the concrete subclasses
+   * `ClassificationForest` and `RegressionForest`.
+   *
+   * Construct via `Forest::train`, which dispatches to the correct
+   * concrete type based on `training_spec.mode`. Diagnostics and
+   * variable importance are free functions in `models/Evaluation.hpp` —
+   * they take a `Forest const&` (or `Ptr`) and dispatch on mode internally.
    *
    * @code
-   *   TrainingSpec spec(pp::pda(0.0), vars::uniform(3), cutpoint::mean_of_means(), 500, 0);
-   *   Forest forest = Forest::train(spec, x, y);
-   *
-   *   types::OutcomeVector preds = forest.predict(x_test);
-   *   double oob = forest.oob_error(x, y);
-   *
-   *   // Vote proportions — (n × G) matrix, rows sum to 1.
-   *   types::FeatureMatrix probs = forest.predict(x_test, Proportions{});
+   *   auto forest = Forest::train(spec, x, y);
+   *   auto preds  = forest->predict(x_test);
    * @endcode
    */
-  struct Forest : public Model {
+  class Forest : public Model {
+  public:
+    using Ptr = std::unique_ptr<Forest>;
+    using Model::predict;
+
+    using FeatureMatrix = types::FeatureMatrix;
+    using FeatureVector = types::FeatureVector;
+    using OutcomeVector = types::OutcomeVector;
+    using Outcome       = types::Outcome;
+    using RNG           = stats::RNG;
+
+    /** @brief Bootstrap-aggregated trees. Each `BaggedTree` pairs the
+     * polymorphic inner `Tree` with its sample indices. */
+    std::vector<BaggedTree::Ptr> trees;
+
     /**
      * @brief Train a random forest.
      *
-     * Forest-level parameters (size, seed, threads, max_retries)
-     * are read from the training specification.
-     *
-     * @param training_spec  Training specification.
-     * @param x              Feature matrix (n × p).
-     * @param y              Outcome vector (n).
-     * @return               Trained forest.
+     * Dispatches to `ClassificationForest::train` or `RegressionForest::train`
+     * based on `training_spec.mode`. Note that the top-level `x` / `y` are
+     * not mutated here — each bootstrap tree resamples into its own local
+     * storage. (Contrast with single-tree `Tree::train`, where regression
+     * mode does permute `x` / `y` in place.)
      */
-    static Forest
-    train(TrainingSpec const& training_spec, types::FeatureMatrix const& x, types::OutcomeVector const& y);
+    static Ptr train(TrainingSpec const& spec, FeatureMatrix const& x, OutcomeVector const& y);
 
-    std::vector<BootstrapTree::Ptr> trees;
+    /** @brief Per-row prediction (mode-specific: majority vote or mean). */
+    Outcome predict(FeatureVector const& x) const override = 0;
 
-    Forest();
-    explicit Forest(TrainingSpec::Ptr training_spec);
+    /** @brief Accept a model visitor (mode-specific dispatch). */
+    void accept(Model::Visitor& visitor) const override = 0;
 
     /**
-     * @brief Predict a single observation.
+     * @brief Add a trained bagged tree to the forest.
      *
-     * @param data  Feature vector (p).
-     * @return      Prediction.
+     * Asserts at runtime that the incoming tree's mode matches this
+     * forest's mode (e.g., a `ClassificationForest` can only accept trees
+     * trained under classification). This is the type-safety compromise
+     * of keeping `Forest::trees` mode-agnostic at the container level:
+     * the check runs at assembly time rather than at every prediction
+     * site, but is cheaper than threading templates through every call
+     * site that handles a `Forest::Ptr`.
      */
-    types::Outcome predict(types::FeatureVector const& data) const override;
-
-    /**
-     * @brief Predict a matrix of observations.
-     *
-     * @param data  Feature matrix (n × p).
-     * @return      Predictions (n).
-     */
-    types::OutcomeVector predict(types::FeatureMatrix const& data) const override;
-
-    /**
-     * @brief Predict vote proportions for a matrix of observations.
-     *
-     * For each observation, counts votes from every tree and returns
-     * the proportion of trees that voted for each group.  The number
-     * of groups G is derived from the root node of the first tree.
-     *
-     * @param data  Feature matrix (n × p).
-     * @return      Vote proportions matrix (n × G), rows sum to 1.0.
-     */
-    types::FeatureMatrix predict(types::FeatureMatrix const& data, Proportions) const override;
-
-    /**
-     * @brief Add a tree to the forest.
-     *
-     * @param tree  Tree to add (ownership transferred).
-     */
-    void add_tree(std::unique_ptr<BootstrapTree> tree);
+    void add_tree(BaggedTree::Ptr tree);
 
     bool operator==(Forest const& other) const;
     bool operator!=(Forest const& other) const;
 
-    void accept(Model::Visitor& visitor) const override;
+  protected:
+    Forest() = default;
+    explicit Forest(TrainingSpec::Ptr spec) { training_spec = std::move(spec); };
 
     /**
-     * @brief Out-of-bag predictions by majority vote.
+     * @brief Train one bagged tree on a bootstrap resample of @p x / @p y.
      *
-     * For each observation, predicts using majority vote of only the
-     * trees where it was out-of-bag.  Observations with no OOB tree
-     * receive a sentinel value (−1) and are excluded when computing
-     * oob_error().
+     * Mode-specific hook invoked by `build_trees` once per slot in the
+     * forest (with retries on degenerate trees). Subclasses that need
+     * per-training shared state (e.g. `ClassificationForest` caches the
+     * parent's label partition for stratified sampling) hold it as a
+     * private transient pointer set up before `build_trees` runs.
      *
-     * @param x  Training feature matrix (n × p).
-     * @return   OOB predictions (n); −1 where no OOB tree exists.
+     * Called from inside `build_trees`'s OpenMP parallel for, so
+     * implementations must be thread-safe and read-only over `*this`.
      */
-    types::OutcomeVector oob_predict(types::FeatureMatrix const& x) const;
+    virtual BaggedTree::Ptr train_tree(FeatureMatrix const& x, OutcomeVector const& y, RNG& rng) const = 0;
 
     /**
-     * @brief Out-of-bag error rate.
+     * @brief Build `training_spec->size` bagged trees in parallel and
+     *        attach them to this forest.
      *
-     * For each observation, predicts using majority vote of only the
-     * trees where it was out-of-bag, then computes the overall
-     * misclassification rate.
+     * Shared training-loop scaffolding for `ClassificationForest::train`
+     * and `RegressionForest::train`. The two only differ in how a single
+     * bagged tree is trained — the outer scaffolding (size guard, OpenMP
+     * setup, per-tree retry loop with stream-id RNG, error capture, the
+     * post-loop assembly with degenerate-flag propagation) is identical.
+     * Mirrors the `Tree::build_root` pattern: shared algorithm lives on
+     * the base; the concrete subclass provides the mode-specific work
+     * via the `train_tree` virtual hook.
      *
-     * @param x  Training feature matrix (n × p).
-     * @param y  Training response vector (n).
-     * @return   Error rate in [0, 1], or −1 if no observation has any
-     *           OOB tree.
+     * Each tree is trained using a RNG stream formula `i + attempt * size`,
+     * which is load-bearing for reproducibility.
+     *
+     * @throws Whatever `train_tree` threw. If multiple iterations threw,
+     *         the first (lowest-index) exception is rethrown.
      */
-    double oob_error(types::FeatureMatrix const& x, types::OutcomeVector const& y) const;
+    void build_trees(types::FeatureMatrix const& x, types::OutcomeVector const& y);
   };
 }

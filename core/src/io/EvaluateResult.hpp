@@ -22,9 +22,10 @@ namespace ppforest2::io {
   struct EvaluateResult {
     std::string data_path; ///< Data source path (empty for simulated data).
 
-    int n = 0; ///< Number of observations.
-    int p = 0; ///< Number of features.
-    int g = 0; ///< Number of groups.
+    types::Mode mode = types::Mode::Classification; ///< Training mode.
+    int n            = 0;                           ///< Number of observations.
+    int p            = 0;                           ///< Number of features.
+    int g            = 0;                           ///< Number of groups (0 for regression).
 
     int size = 0;                ///< Forest size (number of trees).
     std::optional<int> n_vars;   ///< Variable count (integer mode).
@@ -55,9 +56,10 @@ namespace ppforest2::io {
   struct ModelStats {
     std::string data_path;
 
-    int n = 0; ///< Number of observations.
-    int p = 0; ///< Number of features.
-    int g = 0; ///< Number of groups.
+    types::Mode mode = types::Mode::Classification; ///< Training mode.
+    int n            = 0;                           ///< Number of observations.
+    int p            = 0;                           ///< Number of features.
+    int g            = 0;                           ///< Number of groups (0 for regression).
 
     int size = 0;
     std::optional<int> n_vars;

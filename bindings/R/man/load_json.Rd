@@ -10,21 +10,24 @@ load_json(path)
 \item{path}{File path to read the JSON from.}
 }
 \value{
-A \code{pptr} or \code{pprf} model.
+A \code{pptr} or \code{pprf} model (with the appropriate
+  \code{_classification} / \code{_regression} subclass).
 }
 \description{
 Deserializes a \code{pptr} or \code{pprf} model from a JSON file. The model
-can be used for prediction immediately. If variable importance metrics were
-saved, they are restored as well.
+can be used for prediction immediately. If variable importance metrics and
+OOB fields were saved, they are restored into the model's lazy-computation
+cache so later accessor calls (\code{oob_error()}, \code{permuted_importance()},
+etc.) return the stored values without recomputation.
 }
 \details{
 Note that \code{formula}, \code{x}, and \code{y} are not stored in the JSON
-and will be \code{NULL} on the loaded model. This means formula-based
-\code{predict()} (passing a data frame) will not work; pass a numeric matrix
-instead.
+and will be \code{NULL} on the loaded model. Formula-based prediction and
+any accessor that requires training data will error unless the user
+re-attaches those fields.
 }
 \examples{
-model <- pptr(Type ~ ., data = iris, seed = 0)
+model <- pptr(Species ~ ., data = iris, seed = 0)
 path <- tempfile(fileext = ".json")
 save_json(model, path)
 loaded <- load_json(path)

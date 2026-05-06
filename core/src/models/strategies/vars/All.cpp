@@ -1,8 +1,8 @@
 #include "models/strategies/vars/All.hpp"
-
 #include "models/strategies/NodeContext.hpp"
 
-#include <numeric>
+#include "utils/RangeVector.hpp"
+#include "utils/JsonReader.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -11,14 +11,8 @@ namespace ppforest2::vars {
     return {{"name", "all"}};
   }
 
-  void All::select(NodeContext& ctx, stats::RNG& /*rng*/) const {
-    ctx.var_selection = compute(ctx.x);
-  }
-
-  VariableSelection::Result All::compute(types::FeatureMatrix const& x) const {
-    std::vector<int> all_indices(x.cols());
-    std::iota(all_indices.begin(), all_indices.end(), 0);
-    return VariableSelection::Result(all_indices, x.cols());
+  void All::compute(NodeContext& ctx, stats::RNG& /*rng*/) const {
+    ctx.var_selection = VariableSelection::Result(utils::range_vector(ctx.x.cols()), ctx.x.cols());
   }
 
   VariableSelection::Ptr all() {
@@ -26,7 +20,7 @@ namespace ppforest2::vars {
   }
 
   VariableSelection::Ptr All::from_json(nlohmann::json const& j) {
-    validate_json_keys(j, "all vars", {"name"});
+    JsonReader{j, "all"}.only_keys({"name"});
     return all();
   }
 }

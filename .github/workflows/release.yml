@@ -14,9 +14,15 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      # Third-party actions are SHA-pinned (not tag-pinned) in the release
+      # workflow. `@v4` is a mutable reference: an upstream compromise or an
+      # accidental breaking change on the tag would silently flow into the
+      # release job, which has `contents: write`. Pinning to the commit SHA
+      # makes the dependency explicit and auditable. Dependabot is configured
+      # (`.github/dependabot.yml`) to open PRs when these SHAs move.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4
         with:
           path: .build/_deps
           key: ${{ runner.os }}-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -34,21 +40,21 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
-      - uses: r-lib/actions/setup-tinytex@v2
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: r-lib/actions/setup-r@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2
+      - uses: r-lib/actions/setup-tinytex@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2
         env:
           TINYTEX_INSTALLER: ${{ runner.os == 'Windows' && 'TinyTeX' || '' }}
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r-dependencies@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2
         with:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
-      - run: make r-check
+      - run: make r-check-cran
 
   release:
     needs: [test, r-check]
@@ -56,7 +62,25 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          # Fetch enough history to check ancestry against origin/main below.
+          # Shallow (depth=1) defaults would fail the `merge-base` check.
+          fetch-depth: 0
+      - name: Verify tag commit is reachable from main
+        run: |
+          # Gate releases to commits that actually landed on main. Without
+          # this, any branch (hotfix, feature, fork) could produce a v* tag
+          # and trigger a release with contents: write. Requires the repo to
+          # have `origin/main` as its release line; adjust the ref if that
+          # ever changes.
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "ERROR: Release tag $GITHUB_REF_NAME points at commit $GITHUB_SHA"
+            echo "which is not reachable from origin/main. Release tags must be"
+            echo "cut from commits that have already landed on main."
+            exit 1
+          fi
       - name: Extract version from tag
         id: version
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
@@ -68,20 +92,54 @@ jobs:
             echo "ERROR: VERSION file ($file_version) does not match tag ($tag_version)"
             exit 1
           fi
+      - name: Verify R DESCRIPTION version matches VERSION
+        run: |
+          # `make r-prepare` rewrites bindings/R/DESCRIPTION's Version field
+          # from the VERSION file, so the two should agree at every commit.
+          # If someone bumped VERSION without running r-prepare / r-build,
+          # DESCRIPTION is stale — which would ship a tarball whose internal
+          # version disagrees with the GitHub release tag. Catch it here.
+          desc_version=$(awk '/^Version:/ {print $2; exit}' bindings/R/DESCRIPTION)
+          tag_version="${{ steps.version.outputs.version }}"
+          if [ "$desc_version" != "$tag_version" ]; then
+            echo "ERROR: bindings/R/DESCRIPTION Version ($desc_version) does not match tag ($tag_version)."
+            echo "Run \`make r-prepare\` and commit the updated DESCRIPTION before tagging."
+            exit 1
+          fi
       - name: Extract changelog for this version
         id: changelog
         run: |
           version="${{ steps.version.outputs.version }}"
-          # Extract the section for this version from CHANGELOG.md
+          # Extract the section for this version from CHANGELOG.md.
+          # The awk script walks newest-first: flip `found` on at the matching
+          # heading, print subsequent lines, stop when the next `# ppforest2 `
+          # heading appears (i.e. we've reached the previous version's block).
           awk "found && /^# ppforest2 /{exit} /^# ppforest2 ${version}/{found=1} found{print}" CHANGELOG.md > release_notes.md
+          # Fail loudly if no matching entry exists — a tag with no changelog
+          # entry would otherwise ship an empty release body. Catches both
+          # "forgot to update CHANGELOG" and "typo in the version heading".
+          if [ ! -s release_notes.md ]; then
+            echo "ERROR: CHANGELOG.md has no entry for version ${version}."
+            echo "Add a '# ppforest2 ${version}' section at the top of CHANGELOG.md before tagging."
+            exit 1
+          fi
+          # Guard against the opposite bug: if someone ever appends instead of
+          # prepends, the awk script walks off the end of the file and sweeps
+          # up every older release. Exactly one version heading must appear.
+          heading_count=$(grep -c '^# ppforest2 ' release_notes.md)
+          if [ "$heading_count" -ne 1 ]; then
+            echo "ERROR: Expected exactly one '# ppforest2 ' heading in the extracted notes, got ${heading_count}."
+            echo "CHANGELOG.md is probably ordered oldest-first; prepend new entries above older ones."
+            exit 1
+          fi
           echo "Release notes:"
           cat release_notes.md
-      - uses: r-lib/actions/setup-r@v2
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - uses: r-lib/actions/setup-r@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2
+      - uses: r-lib/actions/setup-r-dependencies@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2
         with:
           working-directory: bindings/R
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830  # v4
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -92,12 +150,20 @@ jobs:
       - name: Run benchmarks
         run: |
           make build
+          # Two sections in the release notes — one per benchmark family.
+          # Classification first (stable), then regression flagged as
+          # experimental. Both run against the same `-i 10` iteration
+          # budget to keep the numbers comparable.
           echo "" >> release_notes.md
-          echo "## Benchmarks" >> release_notes.md
+          echo "## Classification benchmarks" >> release_notes.md
           echo "" >> release_notes.md
-          .build/ppforest2 benchmark -s bench/default-scenarios.json --format markdown -i 10 -q >> release_notes.md
+          .build/ppforest2 benchmark -s bench/default-scenarios-classification.json --format markdown -i 10 -q >> release_notes.md
+          echo "" >> release_notes.md
+          echo "## Regression benchmarks (experimental)" >> release_notes.md
+          echo "" >> release_notes.md
+          .build/ppforest2 benchmark -s bench/default-scenarios-regression.json --format markdown -i 10 -q >> release_notes.md
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65  # v2
         with:
           body_path: release_notes.md
           generate_release_notes: false

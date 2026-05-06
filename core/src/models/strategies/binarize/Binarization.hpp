@@ -1,9 +1,7 @@
 #pragma once
 
 #include "models/strategies/Strategy.hpp"
-#include "stats/GroupPartition.hpp"
 #include "stats/Stats.hpp"
-#include "utils/Types.hpp"
 
 /**
  * @brief Binarization strategies for multiclass-to-binary reduction.
@@ -21,38 +19,26 @@ namespace ppforest2::binarize {
   /**
    * @brief Abstract strategy for multiclass-to-binary reduction.
    *
-   * Receives the node context with the first projector already set
-   * (from find_projection on G groups). Projects data using
-   * ctx.projector and produces a 2-group binary partition.
-   *
-   * Reads from NodeContext: x, y, projector.
-   * Writes: binary_y, binary_0, binary_1.
+   * Writes `ctx.y_bin`.
    */
-  struct Binarization : public Strategy<Binarization> {
-    /**
-     * @brief Result of a binarization step (for direct computation).
-     */
-    struct Result {
-      /** @brief 2-group partition with subgroups mapping to original groups. */
-      stats::GroupPartition binary_y;
-      /** @brief Outcome label for binary group 0. */
-      types::Outcome group_0;
-      /** @brief Outcome label for binary group 1. */
-      types::Outcome group_1;
-    };
-
+  class Binarization : public Strategy<Binarization> {
+  public:
     /**
      * @brief Reduce a multiclass partition to binary and store in context.
      *
-     * @param ctx  Node context (reads x, y, projector; writes binary_y, binary_0, binary_1).
-     * @param rng  Random number generator (unused by deterministic strategies).
+     * Public NVI entry point: skips if `ctx.aborted` is set, otherwise
+     * delegates to the subclass-provided `compute`.
      */
-    virtual void regroup(NodeContext& ctx, stats::RNG& rng) const = 0;
+    void regroup(NodeContext& ctx, stats::RNG& rng) const;
 
-    /** @brief Callable shorthand for regroup(). */
-    void operator()(NodeContext& ctx, stats::RNG& rng) const { regroup(ctx, rng); }
+  protected:
+    /** @brief Subclass implementation of binarization. */
+    virtual void compute(NodeContext& ctx, stats::RNG& rng) const = 0;
   };
 
   /** @brief Factory function for largest-gap binarization. */
   Binarization::Ptr largest_gap();
+
+  /** @brief Factory function for the Disabled (placeholder) binarizer. */
+  Binarization::Ptr disabled();
 }

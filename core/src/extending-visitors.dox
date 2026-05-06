@@ -39,9 +39,11 @@
  * @subsection vis_treenode_interface Interface to implement
  *
  * @code
- *   struct TreeNode::Visitor {
- *     virtual void visit(const TreeBranch& condition) = 0;
- *     virtual void visit(const TreeLeaf& response) = 0;
+ *   class TreeNode::Visitor {
+ *    public:
+ *     virtual ~Visitor()                                = default;
+ *     virtual void visit(const TreeBranch& condition)   = 0;
+ *     virtual void visit(const TreeLeaf& response)      = 0;
  *   };
  * @endcode
  *
@@ -81,7 +83,8 @@
  *
  *   namespace ppforest2 {
  *
- *   struct DepthVisitor : public TreeNode::Visitor {
+ *   class DepthVisitor : public TreeNode::Visitor {
+ *    public:
  *     int max_depth = 0;
  *     int current_depth = 0;
  *
@@ -117,7 +120,8 @@
  * @subsection vis_treenode_example2 Example: counting leaves
  *
  * @code
- *   struct LeafCountVisitor : public TreeNode::Visitor {
+ *   class LeafCountVisitor : public TreeNode::Visitor {
+ *    public:
  *     int count = 0;
  *
  *     void visit(const TreeBranch& cond) override {
@@ -146,8 +150,10 @@
  * @subsection vis_model_interface Interface to implement
  *
  * @code
- *   struct Model::Visitor {
- *     virtual void visit(const Tree& tree) = 0;
+ *   class Model::Visitor {
+ *    public:
+ *     virtual ~Visitor()                       = default;
+ *     virtual void visit(const Tree& tree)     = 0;
  *     virtual void visit(const Forest& forest) = 0;
  *   };
  * @endcode
@@ -155,12 +161,14 @@
  * @subsection vis_model_example Example: collecting all leaf labels
  *
  * @code
- *   struct AllLabelsVisitor : public Model::Visitor {
+ *   class AllLabelsVisitor : public Model::Visitor {
+ *    public:
  *     std::set<types::Outcome> labels;
  *
  *     void visit(const Tree& tree) override {
  *       // Use a TreeNode::Visitor to walk the tree:
- *       struct LabelCollector : public TreeNode::Visitor {
+ *       class LabelCollector : public TreeNode::Visitor {
+ *        public:
  *         std::set<types::Outcome>& labels;
  *         LabelCollector(std::set<types::Outcome>& l) : labels(l) {}
  *

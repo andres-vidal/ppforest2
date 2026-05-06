@@ -18,5 +18,5 @@ namespace ppforest2::cli {
    * @brief Run the predict subcommand.
    * @return Exit code (0 on success).
    */
-  int run_predict(Params& params);
+  int run_predict(Params const& params);
 }

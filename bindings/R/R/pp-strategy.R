@@ -17,10 +17,10 @@ NULL
 #' pp_pda(0.5)
 #'
 #' # Use with pptr
-#' pptr(Type ~ ., data = iris, pp = pp_pda(0.5))
+#' pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 #'
 #' # Use with pprf
-#' pprf(Type ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
+#' pprf(Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #'
 #' @export
 pp_pda <- function(lambda = 0) {

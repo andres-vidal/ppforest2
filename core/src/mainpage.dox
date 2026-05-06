@@ -24,13 +24,13 @@
  * | TrainingSpec      | models/TrainingSpec.hpp                | Composes seven strategies into a training configuration |
  * | ProjectionPursuit | strategies/pp/ProjectionPursuit.hpp    | Projection pursuit index optimisation (e.g. PDA) |
  * | VariableSelection | strategies/vars/VariableSelection.hpp  | Variable subset selection |
- * | SplitCutpoint     | strategies/cutpoint/SplitCutpoint.hpp  | Split cutpoint computation |
+ * | Cutpoint     | strategies/cutpoint/Cutpoint.hpp  | Split cutpoint computation |
  * | StopRule          | strategies/stop/StopRule.hpp           | Node stopping condition |
  * | Binarization      | strategies/binarize/Binarization.hpp   | Multiclass → binary regrouping |
- * | StepPartition     | strategies/partition/StepPartition.hpp | Observation partitioning |
+ * | Grouping     | strategies/grouping/Grouping.hpp | Group partition management |
  * | LeafStrategy      | strategies/leaf/LeafStrategy.hpp       | Leaf node creation |
  * | GroupPartition    | stats/GroupPartition.hpp               | Grouped observations with arbitrary row indices |
- * | VariableImportance| models/VariableImportance.hpp          | Three variable importance measures (permuted, projections, weighted) |
+ * | VariableImportance| models/Evaluation.hpp                     | Three variable importance measures (permuted, projections, weighted) |
  *
  * @section quick_start Quick start
  *
@@ -75,20 +75,27 @@
  *     vars::uniform(3),             // sample 3 variables per split
  *     cutpoint::mean_of_means());   // midpoint split rule
  *
- *   Forest forest = Forest::train(spec, x, y);
+ *   // Use the typed factory when you want classification-specific API
+ *   // (proportions, oob_error) without downcasting from the bimodal base.
+ *   auto forest = ClassificationForest::train(spec, x, y);
  *
- *   types::OutcomeVector preds = forest.predict(x_test);
+ *   types::OutcomeVector preds = forest->predict(x_test);
  *
- *   // Out-of-bag error — uses only trees where each obs was not in the bootstrap sample.
- *   double oob = forest.oob_error(x, y);
+ *   // Out-of-bag error — uses only trees where each obs was not in the
+ *   // bootstrap sample. Returns std::optional<double>: std::nullopt when
+ *   // no observation has any OOB tree (e.g. all-in-bag degenerate forest).
+ *   std::optional<double> oob = oob_error(*forest, x, y);
  *
- *   // Vote proportions — (n x G) matrix, rows sum to 1.
- *   types::FeatureMatrix probs = forest.predict(x_test, Proportions{});
+ *   // Vote proportions — (n x G) matrix, rows sum to 1. Classification only.
+ *   types::FeatureMatrix probs = predict_proportions(*forest, x_test);
  *
- *   // Variable importance (three measures).
- *   auto vi_perm = variable_importance_permuted(forest, x, y, 0);  // seed
- *   auto vi_proj = variable_importance_projections(forest, x.cols());
- *   auto vi_wt   = variable_importance_weighted_projections(forest, x, y);
+ *   // Variable importance — free functions (see models/Evaluation.hpp).
+ *   auto vi_perm = vi_permuted(*forest, x, y, 0);
+ *   auto vi_proj = vi_projections(*forest, x.cols());
+ *   auto vi_wt   = vi_weighted_projections(*forest, x, y);
+ *
+ *   // Convenience: compute all three in one call.
+ *   auto vi      = variable_importance(*forest, x, y, 0);
  * @endcode
  *
  * @subsection ser Serialisation
@@ -122,7 +129,7 @@
  *   Built-in: vars::All (use all variables, for single trees),
  *   vars::Uniform (sample @c count variables uniformly at random, for forests).
  *
- * - **cutpoint::SplitCutpoint** — split cutpoint computation. \n
+ * - **cutpoint::Cutpoint** — split cutpoint computation. \n
  *   Built-in: cutpoint::MeanOfMeans (midpoint of projected group means).
  *
  * - **stop::StopRule** — node stopping condition. \n
@@ -131,8 +138,8 @@
  * - **binarize::Binarization** — multiclass → binary regrouping. \n
  *   Built-in: binarize::LargestGap (largest gap between projected group means).
  *
- * - **partition::StepPartition** — observation partitioning. \n
- *   Built-in: partition::ByGroup (route all observations of a group to the same child).
+ * - **grouping::Grouping** — group partition management. \n
+ *   Built-in: grouping::ByLabel (route all observations of a group to the same child).
  *
  * - **leaf::LeafStrategy** — leaf node creation. \n
  *   Built-in: leaf::MajorityVote (assign the majority class).
@@ -184,18 +191,22 @@
  *
  * Three measures quantify each variable's contribution to predictions:
  *
- * - **VI1 (permuted)** — For each tree, measures the drop in OOB accuracy
- *   when each variable is randomly permuted among the OOB observations.
- *   Averaged over all trees.  See variable_importance_permuted().
+ * - **VI1 (permuted)** — For each tree, measures the degradation in OOB
+ *   fit when each variable is randomly permuted among the OOB
+ *   observations.  Classification uses accuracy drop; regression uses
+ *   NMSE increase (MSE increase normalised by `Var(y_oob)`).  Averaged
+ *   over all trees.  See Forest::vi_permuted().
  *
  * - **VI2 (projections)** — Accumulates |a_j| / G_s at every split
  *   node, where a_j is the projection coefficient and G_s is the
  *   number of groups.  Optionally scaled by per-variable standard
- *   deviations.  See variable_importance_projections().
+ *   deviations.  Mode-agnostic.  See Forest::vi_projections() and
+ *   Tree::vi_projections().
  *
  * - **VI3 (weighted projections)** — Each tree's contribution is
- *   weighted by (1 - OOB error), and each split contributes
- *   I_s x |a_j|.  See variable_importance_weighted_projections().
+ *   weighted by a per-tree OOB quality score (classification:
+ *   `1 - error_rate`; regression: `max(0, 1 - NMSE)`), and each split
+ *   contributes I_s x |a_j|.  See Forest::vi_weighted_projections().
  *
  * @section precision Numeric precision
  *
@@ -217,7 +228,7 @@
  * | ppforest2::cutpoint | Split cutpoint strategies |
  * | ppforest2::stop   | Stopping rule strategies |
  * | ppforest2::binarize | Multiclass binarization strategies |
- * | ppforest2::partition | Observation partition strategies |
+ * | ppforest2::grouping | Group partition strategies |
  * | ppforest2::leaf | Leaf node creation strategies |
  * | ppforest2::serialization    | JSON serialization and deserialization |
  * | ppforest2::viz              | Visualisation visitors for tree structure and decision boundaries |

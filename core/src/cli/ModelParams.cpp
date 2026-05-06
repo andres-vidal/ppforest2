@@ -3,8 +3,11 @@
  * @brief Model parameter construction, resolution, and defaults.
  */
 #include "cli/ModelParams.hpp"
-#include "cli/JsonApply.hpp"
 #include "cli/Validation.hpp"
+#include "models/TrainingSpec.hpp"
+#include "models/strategies/Strategy.hpp"
+#include "serialization/JsonOptional.hpp"
+#include "utils/Invariant.hpp"
 #include "utils/UserError.hpp"
 
 #include <charconv>
@@ -67,6 +70,53 @@ namespace ppforest2::cli {
     int proportion_to_count(float p, unsigned int total) {
       return static_cast<int>(std::round(static_cast<float>(total) * p));
     }
+
+    // Single bare token (no `=`, no `,`) maps to the strategy's primary
+    // param — e.g. `min_size:5` → `{name: min_size, min_size: 5}`.
+    // Numeric-only so `pda:lambda` stays a "missing =" error rather than
+    // silently producing `{lambda: "lambda"}`.
+    bool try_apply_positional_shorthand(std::string const& name, std::string const& token, nlohmann::json& j) {
+      if (token.find('=') != std::string::npos || token.find(',') != std::string::npos) {
+        return false;
+      }
+
+      auto const param = ppforest2::strategies::primary_param_for(name);
+      if (!param) {
+        return false;
+      }
+
+      nlohmann::json const val = parse_scalar(token);
+      if (!val.is_number()) {
+        return false;
+      }
+
+      j[*param] = val;
+      return true;
+    }
+
+    void apply_kv_token(std::string const& token, nlohmann::json& j) {
+      static std::regex const kv_pattern(R"(([^=]+)=(.*))");
+      std::smatch kv;
+      if (!std::regex_match(token, kv, kv_pattern)) {
+        throw std::runtime_error("Invalid parameter (expected key=value): " + token);
+      }
+      j[kv[1].str()] = parse_scalar(kv[2].str());
+    }
+
+    // Wrap repeated `--stop` rules in a CompositeStop `any`-rule. Matches
+    // the JSON shape produced by R's `stop_any(...)` and `CompositeStop::to_json()`.
+    nlohmann::json wrap_stop_rules_as_any(std::vector<std::string> const& inputs) {
+      nlohmann::json any_rule = {{"name", "any"}, {"rules", nlohmann::json::array()}};
+      for (auto const& s : inputs) {
+        try {
+          any_rule["rules"].push_back(strategy_string_to_json(s));
+        } catch (std::exception const& e) {
+          throw ppforest2::UserError(fmt::format("Invalid --stop value '{}': {}", s, e.what()));
+        }
+      }
+      return any_rule;
+    }
+
   }
 
   float parse_proportion(std::string const& input) {
@@ -113,7 +163,6 @@ namespace ppforest2::cli {
 
   nlohmann::json strategy_string_to_json(std::string const& input) {
     static std::regex const pattern(R"(([^:]+)(?::(.+))?)");
-    static std::regex const param_pattern(R"(([^=,]+)=([^,]*))");
 
     std::smatch match;
 
@@ -122,36 +171,43 @@ namespace ppforest2::cli {
     }
 
     nlohmann::json j;
-    j["name"] = match[1].str();
+    std::string const name = match[1].str();
+    j["name"]              = name;
 
     if (!match[2].matched) {
       return j;
     }
 
-    std::string params_str = match[2].str();
+    std::string const params_str = match[2].str();
 
-    // Validate that all comma-separated tokens are key=value pairs
+    if (try_apply_positional_shorthand(name, params_str, j)) {
+      return j;
+    }
+
     static std::regex const token_pattern(R"([^,]+)");
-    static std::regex const kv_pattern(R"(([^=]+)=(.*))");
-
     auto begin = std::sregex_iterator(params_str.begin(), params_str.end(), token_pattern);
     auto end   = std::sregex_iterator();
 
     for (auto it = begin; it != end; ++it) {
-      std::string token = (*it).str();
-      std::smatch kv;
-
-      if (!std::regex_match(token, kv, kv_pattern)) {
-        throw std::runtime_error("Invalid parameter (expected key=value): " + token);
-      }
-
-      j[kv[1].str()] = parse_scalar(kv[2].str());
+      apply_kv_token((*it).str(), j);
     }
 
     return j;
   }
 
   void ModelParams::validate(nlohmann::json const& config, std::vector<std::string>& errors) {
+    // Mode
+    if (config.contains("mode")) {
+      if (config["mode"].is_string()) {
+        auto mode = config["mode"].get<std::string>();
+        check(
+            mode == "classification" || mode == "regression", "mode must be 'classification' or 'regression'", errors
+        );
+      } else {
+        errors.emplace_back("mode must be a string");
+      }
+    }
+
     // Size
     if (config.contains("size")) {
       check(config["size"].is_number_integer(), "size must be an integer", errors);
@@ -196,12 +252,13 @@ namespace ppforest2::cli {
   }
 
   ModelParams::ModelParams(nlohmann::json const& config) {
-    apply(config, "size", size);
-    apply(config, "lambda", lambda);
-    apply(config, "seed", seed);
-    apply(config, "threads", threads);
-    apply(config, "max_retries", max_retries);
-    apply(config, "n_vars", n_vars);
+    mode_input  = config.value("mode", mode_input);
+    size        = config.value("size", size);
+    lambda      = config.value("lambda", lambda);
+    seed        = config.value("seed", seed);
+    threads     = config.value("threads", threads);
+    max_retries = config.value("max_retries", max_retries);
+    n_vars      = config.value("n_vars", n_vars);
 
     if (config.contains("p_vars")) {
       auto const& v = config["p_vars"];
@@ -211,9 +268,13 @@ namespace ppforest2::cli {
     apply_strategy(config, "pp", pp_config, pp_input);
     apply_strategy(config, "vars", vars_config, vars_input);
     apply_strategy(config, "cutpoint", cutpoint_config, cutpoint_input);
-    apply_strategy(config, "stop", stop_config, stop_input);
+    // `stop` is object-only from a JSON config (CLI --stop's repeat
+    // semantics live in `resolve()`).
+    if (config.contains("stop") && config["stop"].is_object()) {
+      stop_config = config["stop"];
+    }
     apply_strategy(config, "binarize", binarize_config, binarize_input);
-    apply_strategy(config, "partition", partition_config, partition_input);
+    apply_strategy(config, "grouping", grouping_config, grouping_input);
     apply_strategy(config, "leaf", leaf_config, leaf_input);
   }
 
@@ -221,9 +282,14 @@ namespace ppforest2::cli {
     try_parse_strategy(pp_input, "pp", pp_config);
     try_parse_strategy(vars_input, "vars", vars_config);
     try_parse_strategy(cutpoint_input, "cutpoint", cutpoint_config);
-    try_parse_strategy(stop_input, "stop", stop_config);
+    // Single --stop: parse as-is. Multiple: wrap in a CompositeStop `any` rule.
+    if (stop_inputs.size() == 1) {
+      try_parse_strategy(stop_inputs.front(), "stop", stop_config);
+    } else if (stop_inputs.size() > 1) {
+      stop_config = wrap_stop_rules_as_any(stop_inputs);
+    }
     try_parse_strategy(binarize_input, "binarize", binarize_config);
-    try_parse_strategy(partition_input, "partition", partition_config);
+    try_parse_strategy(grouping_input, "grouping", grouping_config);
     try_parse_strategy(leaf_input, "leaf", leaf_config);
 
     if (!p_vars_input.empty()) {
@@ -272,27 +338,75 @@ namespace ppforest2::cli {
       vars_config["count"] = count;
     }
 
-    // Strategy config defaults (pp and vars are resolved above via implicit APIs)
-    nlohmann::json defaults = {
-        {"pp", {{"name", "pda"}}},
-        {"vars", {{"name", "all"}}},
-        {"cutpoint", {{"name", "mean_of_means"}}},
-        {"stop", {{"name", "pure_node"}}},
-        {"binarize", {{"name", "largest_gap"}}},
-        {"partition", {{"name", "by_group"}}},
-        {"leaf", {{"name", "majority_vote"}}},
+    invariant(
+        !mode_input.empty(),
+        "ModelParams::resolve_defaults: mode_input must be set before resolving strategy defaults "
+        "(set via --mode, the config file, or Params::read_data)."
+    );
+
+    auto builder = TrainingSpec::builder(types::mode_from_string(mode_input));
+    builder.apply_defaults();
+
+    auto fill = [](nlohmann::json& config, auto const& strategy) {
+      if (config.is_null()) {
+        config = strategy->to_json();
+      }
     };
 
-    auto fill = [&](std::string const& key, nlohmann::json& config) {
-      config = config.is_null() ? defaults[key] : config;
-    };
+    fill(pp_config, builder.config.pp);
+    fill(vars_config, builder.config.vars);
+    fill(cutpoint_config, builder.config.cutpoint);
+    fill(stop_config, builder.config.stop);
+    fill(binarize_config, builder.config.binarization);
+    fill(grouping_config, builder.config.grouping);
+    fill(leaf_config, builder.config.leaf);
+  }
 
-    fill("pp", pp_config);
-    fill("vars", vars_config);
-    fill("cutpoint", cutpoint_config);
-    fill("stop", stop_config);
-    fill("binarize", binarize_config);
-    fill("partition", partition_config);
-    fill("leaf", leaf_config);
+  nlohmann::json ModelParams::to_json() const {
+    nlohmann::json j;
+
+    if (!mode_input.empty()) {
+      j["mode"] = mode_input;
+    }
+    j["size"]        = size;
+    j["lambda"]      = lambda;
+    j["max_retries"] = max_retries;
+
+    if (seed) {
+      j["seed"] = *seed;
+    }
+    if (threads) {
+      j["threads"] = *threads;
+    }
+    if (n_vars) {
+      j["n_vars"] = *n_vars;
+    }
+    if (p_vars) {
+      j["p_vars"] = *p_vars;
+    }
+
+    if (!pp_config.is_null()) {
+      j["pp"] = pp_config;
+    }
+    if (!vars_config.is_null()) {
+      j["vars"] = vars_config;
+    }
+    if (!cutpoint_config.is_null()) {
+      j["cutpoint"] = cutpoint_config;
+    }
+    if (!stop_config.is_null()) {
+      j["stop"] = stop_config;
+    }
+    if (!binarize_config.is_null()) {
+      j["binarize"] = binarize_config;
+    }
+    if (!grouping_config.is_null()) {
+      j["grouping"] = grouping_config;
+    }
+    if (!leaf_config.is_null()) {
+      j["leaf"] = leaf_config;
+    }
+
+    return j;
   }
 }

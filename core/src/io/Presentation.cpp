@@ -6,19 +6,22 @@
 #include "io/Presentation.hpp"
 #include "io/Table.hpp"
 #include "models/strategies/binarize/Binarization.hpp"
-#include "models/strategies/cutpoint/SplitCutpoint.hpp"
+#include "models/strategies/cutpoint/Cutpoint.hpp"
 #include "models/strategies/leaf/LeafStrategy.hpp"
-#include "models/strategies/partition/StepPartition.hpp"
+#include "models/strategies/grouping/Grouping.hpp"
 #include "models/strategies/pp/ProjectionPursuit.hpp"
 #include "models/strategies/stop/StopRule.hpp"
 #include "models/strategies/vars/VariableSelection.hpp"
 #include "serialization/Json.hpp"
+#include "serialization/JsonOptional.hpp"
+#include "utils/RangeVector.hpp"
 
 #include <fmt/format.h>
 #include <algorithm>
 #include <cmath>
-#include <numeric>
 #include <vector>
+
+using namespace ppforest2::serialization;
 
 namespace ppforest2::io {
   void print_results(Output& out, ModelStats const& stats) {
@@ -45,8 +48,16 @@ namespace ppforest2::io {
     out.println("{}", muted(format_separator(columns)));
 
     std::string const time_str = fmt::format("{:.2f} +/- {:.2f}", stats.mean_time(), stats.std_time());
-    std::string const tr_err   = fmt::format("{:.2f}%", stats.mean_tr_error() * 100);
-    std::string const te_err   = fmt::format("{:.2f}%", stats.mean_te_error() * 100);
+    std::string tr_err;
+    std::string te_err;
+
+    if (stats.mode == types::Mode::Classification) {
+      tr_err = fmt::format("{:.2f}%", stats.mean_tr_error() * 100);
+      te_err = fmt::format("{:.2f}%", stats.mean_te_error() * 100);
+    } else {
+      tr_err = fmt::format("{:.4f}", stats.mean_tr_error());
+      te_err = fmt::format("{:.4f}", stats.mean_te_error());
+    }
 
     Row cells = {
         fmt::format("{}", stats.tr_times.size()),
@@ -65,7 +76,7 @@ namespace ppforest2::io {
   }
 
   void print_variable_importance(
-      Output& out, VariableImportance const& vi, std::vector<std::string> const& feature_names, int max_rows
+      Output& out, VariableImportance const& vi, types::Names const& feature_names, int max_rows
   ) {
     using namespace style;
     using namespace layout;
@@ -79,8 +90,7 @@ namespace ppforest2::io {
 
     bool const has_names = static_cast<int>(feature_names.size()) == p;
 
-    std::vector<int> order(static_cast<std::size_t>(p));
-    std::iota(order.begin(), order.end(), 0);
+    std::vector<int> order = utils::range_vector(p);
     std::stable_sort(order.begin(), order.end(), [&vi2](int a, int b) { return std::isgreater(vi2(a), vi2(b)); });
 
     bool const show_vi1 = vi1.size() == vi2.size();
@@ -177,10 +187,7 @@ namespace ppforest2::io {
   }
 
   void print_confusion_matrix(
-      Output& out,
-      stats::ConfusionMatrix const& cm,
-      std::string const& title,
-      std::vector<std::string> const& group_names
+      Output& out, stats::ConfusionMatrix const& cm, std::string const& title, types::Names const& group_names
   ) {
     using namespace style;
 
@@ -195,9 +202,7 @@ namespace ppforest2::io {
       for (auto const& [label, idx] : cm.label_index) {
         int const name_len = static_cast<int>(group_names[static_cast<std::size_t>(label)].size());
 
-        if (name_len + 1 > col_width) {
-          col_width = name_len + 1;
-        }
+        col_width = std::max(name_len + 1, col_width);
       }
     }
 
@@ -208,9 +213,7 @@ namespace ppforest2::io {
       for (auto const& [label, idx] : cm.label_index) {
         int const name_len = static_cast<int>(group_names[static_cast<std::size_t>(label)].size());
 
-        if (name_len > row_label_width) {
-          row_label_width = name_len;
-        }
+        row_label_width = std::max(name_len, row_label_width);
       }
     }
 
@@ -251,6 +254,86 @@ namespace ppforest2::io {
     }
 
     out.newline();
+  }
+
+  void print_regression_metrics(Output& out, stats::RegressionMetrics const& rm, std::string const& title) {
+    using namespace style;
+    using namespace layout;
+
+    out.println("{}", emphasis(title + ":"));
+    out.newline();
+
+    std::vector<Column> columns = {
+        {"Metric", 18, Align::left},
+        {"Value", 18, Align::right},
+    };
+
+    Row header = header_labels(columns);
+    out.println("{}", format_row(columns, header));
+    out.println("{}", muted(format_separator(columns)));
+
+    out.println("{}", format_row(columns, {"MSE", fmt::format("{:.6f}", rm.mse)}));
+    out.println("{}", format_row(columns, {"MAE", fmt::format("{:.6f}", rm.mae)}));
+    out.println("{}", format_row(columns, {"R\xc2\xb2", fmt::format("{:.6f}", rm.r_squared)}));
+
+    out.newline();
+  }
+
+  namespace {
+    // Empty label produces "Error:"; "Training" produces "Training Error:".
+    std::string prefixed(std::string const& label, std::string const& title) {
+      return label.empty() ? title : label + " " + title;
+    }
+  }
+
+  void print_metrics_block(
+      Output& out, stats::ClassificationMetrics const& cm, std::string const& label, types::Names const& group_names
+  ) {
+    using namespace style;
+    out.println("{} {}", emphasis(prefixed(label, "Error:")), fmt::format("{:.2f}%", cm.error_rate() * 100));
+    print_confusion_matrix(out, cm.confusion_matrix, prefixed(label, "Confusion Matrix"), group_names);
+  }
+
+  void print_metrics_block(
+      Output& out, stats::RegressionMetrics const& rm, std::string const& label, types::Names const& /*group_names*/
+  ) {
+    using namespace style;
+    out.println("{} {}", emphasis(prefixed(label, "MSE:")), fmt::format("{:.6f}", rm.mse));
+    print_regression_metrics(out, rm, prefixed(label, "Regression Metrics"));
+  }
+
+  void print_metrics_block(
+      Output& out, stats::Metrics const& metrics, std::string const& label, types::Names const& group_names
+  ) {
+    std::visit([&](auto const& m) { print_metrics_block(out, m, label, group_names); }, metrics);
+  }
+
+  void print_metrics_block(Output& out, stats::ClassificationMetrics const& m, types::Names const& group_names) {
+    print_metrics_block(out, m, "", group_names);
+  }
+
+  void print_metrics_block(Output& out, stats::RegressionMetrics const& m, types::Names const& group_names) {
+    print_metrics_block(out, m, "", group_names);
+  }
+
+  void print_metrics_block(Output& out, stats::Metrics const& m, types::Names const& group_names) {
+    print_metrics_block(out, m, "", group_names);
+  }
+
+  namespace {
+    void print_metrics_from_json(
+        Output& out,
+        nlohmann::json const& model_data,
+        std::string const& key,
+        std::string const& label,
+        types::Mode mode,
+        types::Names const& group_names
+    ) {
+      if (!serialization::has_value(model_data, key)) {
+        return;
+      }
+      print_metrics_block(out, serialization::metrics_from_json(model_data[key], mode), label, group_names);
+    }
   }
 
   namespace {
@@ -313,7 +396,7 @@ namespace ppforest2::io {
         }
 
         if (key == "cutpoint") {
-          return cutpoint::SplitCutpoint::from_json(section)->display_name();
+          return cutpoint::Cutpoint::from_json(section)->display_name();
         }
 
         if (key == "stop") {
@@ -324,8 +407,8 @@ namespace ppforest2::io {
           return binarize::Binarization::from_json(section)->display_name();
         }
 
-        if (key == "partition") {
-          return partition::StepPartition::from_json(section)->display_name();
+        if (key == "grouping") {
+          return grouping::Grouping::from_json(section)->display_name();
         }
 
         if (key == "leaf") {
@@ -414,8 +497,10 @@ namespace ppforest2::io {
       out.println("{}", format_row(columns, {"features", std::to_string(meta["features"].get<int>())}));
     }
 
-    if (meta.contains("groups")) {
-      auto group_names = meta["groups"].get<std::vector<std::string>>();
+    // Only emit the groups rows for classification models. Regression's
+    // `meta.groups` is an empty array — printing "groups 0" would be noise.
+    auto const group_names = meta.value("groups", types::Names{});
+    if (!group_names.empty()) {
       out.println("{}", format_row(columns, {"groups", std::to_string(group_names.size())}));
 
       std::string names;
@@ -437,19 +522,13 @@ namespace ppforest2::io {
   void print_summary(Output& out, nlohmann::json const& model_data, ConfigDisplayHints const& hints) {
     using namespace style;
 
-    std::vector<std::string> group_names;
-    std::vector<std::string> feature_names;
+    types::Names group_names;
+    types::Names feature_names;
 
     if (model_data.contains("meta")) {
       auto const& meta = model_data["meta"];
-
-      if (meta.contains("groups")) {
-        group_names = meta["groups"].get<std::vector<std::string>>();
-      }
-
-      if (meta.contains("feature_names")) {
-        feature_names = meta["feature_names"].get<std::vector<std::string>>();
-      }
+      group_names      = meta.value("groups", types::Names{});
+      feature_names    = meta.value("feature_names", types::Names{});
     }
 
     if (model_data.contains("config")) {
@@ -484,27 +563,14 @@ namespace ppforest2::io {
       out.newline();
     }
 
-    // Training confusion matrix
-    if (model_data.contains("training_confusion_matrix")) {
-      auto cm = model_data["training_confusion_matrix"].get<stats::ConfusionMatrix>();
-      out.println("{} {}", emphasis("Training Error:"), fmt::format("{:.2f}%", cm.error() * 100));
-      print_confusion_matrix(out, cm, "Training Confusion Matrix", group_names);
-    }
 
-    // OOB error and confusion matrix
-    if (model_data.contains("oob_error")) {
-      out.println("{} {}", emphasis("OOB Error:"), fmt::format("{:.2f}%", model_data["oob_error"].get<double>() * 100));
-    }
+    types::Mode const mode = types::mode_from_string(model_data.at("config").at("mode").get<std::string>());
 
-    if (model_data.contains("oob_confusion_matrix")) {
-      auto cm = model_data["oob_confusion_matrix"].get<stats::ConfusionMatrix>();
-      print_confusion_matrix(out, cm, "OOB Confusion Matrix", group_names);
-    } else {
-      out.newline();
-    }
+    print_metrics_from_json(out, model_data, "training_metrics", "Training", mode, group_names);
+    print_metrics_from_json(out, model_data, "oob_metrics", "OOB", mode, group_names);
 
     // Variable importance
-    if (model_data.contains("variable_importance")) {
+    if (has_value(model_data, "variable_importance")) {
       auto vi = model_data["variable_importance"].get<VariableImportance>();
       print_variable_importance(out, vi, feature_names);
     }

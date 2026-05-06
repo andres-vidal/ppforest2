@@ -3,7 +3,6 @@
 #include <cmath>
 
 #include "utils/Types.hpp"
-#include "utils/Macros.hpp"
 
 #define APPROX_THRESHOLD 0.01
 

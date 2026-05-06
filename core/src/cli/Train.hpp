@@ -9,9 +9,6 @@
 #pragma once
 
 #include "cli/CLIOptions.hpp"
-#include "io/Output.hpp"
-#include "stats/DataPacket.hpp"
-#include "stats/Stats.hpp"
 #include "utils/Types.hpp"
 #include "models/Model.hpp"
 
@@ -33,22 +30,17 @@ namespace ppforest2::cli {
   };
 
   /**
-   * @brief Load or simulate data based on CLI options.
-   *
-   * If data_path is set, reads a CSV file; otherwise generates simulated data.
-   * Ensures the response vector is contiguous (sorted by group).
-   */
-  ppforest2::stats::DataPacket read_data(Params const& params, ppforest2::stats::RNG& rng);
-
-  /**
    * @brief Train a single model (Forest or Tree) on the given dataset.
+   *
+   * Takes `x` / `y` by const ref and copies internally — regression training
+   * (ByCutpoint) permutes rows in place via `std::stable_sort`, which would
+   * leak across calls if we passed the caller's matrix straight through.
+   * Centralising the copy here keeps the mutation contract internal and lets
+   * callers (warmup loops, multi-iteration evaluate, etc.) reuse the same
+   * input across calls without per-call boilerplate.
    */
-  TrainResult train_model(
-      ppforest2::types::FeatureMatrix const& x,
-      ppforest2::types::OutcomeVector const& y,
-      Params const& params,
-      ppforest2::stats::RNG& rng
-  );
+  TrainResult
+  train_model(ppforest2::types::FeatureMatrix const& x, ppforest2::types::OutcomeVector const& y, Params const& params);
 
   /**
    * @brief Run the train subcommand.

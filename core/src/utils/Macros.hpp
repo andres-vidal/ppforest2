@@ -8,7 +8,7 @@
  * initializer to work around a GCC miscompilation issue.
  */
 
-#include "utils/Invariant.hpp"
+#include "utils/Invariant.hpp" // IWYU pragma: keep
 #include "utils/Math.hpp"
 #include <Eigen/Dense>
 

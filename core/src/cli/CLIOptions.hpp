@@ -66,6 +66,16 @@ namespace ppforest2::cli {
     void resolve_seed();
 
     /**
+     * @brief Load the training data: from the `--data` CSV when set,
+     *        or simulated from `--simulate` params otherwise.
+     *
+     * Side effect: when `model.mode_input` is empty, infers it — from the
+     * CSV's y column shape (regression if `group_names` is empty) or
+     * defaults to "classification" for simulated data.
+     */
+    stats::DataPacket read_data(stats::RNG& rng);
+
+    /**
      * @brief Fill in runtime defaults (seed, threads, vars, strategy configs).
      *
      * @param total_vars Total number of feature columns.

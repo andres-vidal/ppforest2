@@ -63,28 +63,14 @@ namespace ppforest2::io {
       }
     }
 
-    /**
-     * @brief Flush stdout. For interactive output like progress bars.
-     */
-    void flush() const { std::fflush(stdout); }
-
-    // -- stderr (always prints, no indent) -------------------------------
-
-    /**
-     * @brief Print formatted content + newline to stderr. Always prints.
-     */
-    template<typename... Args> void errorln(fmt::format_string<Args...> fmt_str, Args&&... args) const {
-      fmt::print(stderr, fmt_str, std::forward<Args>(args)...);
-      fmt::print(stderr, "\n");
-    }
-
     // -- indentation -----------------------------------------------------
 
     void indent() { ++indent_level; }
 
     void dedent() {
-      if (indent_level > 0)
+      if (indent_level > 0) {
         --indent_level;
+      }
     }
 
     // -- high-level patterns ---------------------------------------------
@@ -101,11 +87,12 @@ namespace ppforest2::io {
      * Prints a final newline when current == total.
      */
     void progress(int current, int total, int bar_width = 50) const {
-      if (quiet)
+      if (quiet) {
         return;
+      }
 
-      float pct = static_cast<float>(current) / total;
-      int pos   = static_cast<int>(bar_width * pct);
+      float pct = static_cast<float>(current) / static_cast<float>(total);
+      int pos   = static_cast<int>(static_cast<float>(bar_width) * pct);
 
       std::string bar_tpl = style::emphasis("{} |");
       std::string bar     = std::string(pos, '-') + std::string(bar_width - pos, ' ');

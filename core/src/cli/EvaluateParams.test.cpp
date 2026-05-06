@@ -7,7 +7,6 @@
 #include <algorithm>
 
 #include "cli/EvaluateParams.hpp"
-#include "cli/Validation.hpp"
 
 using json = nlohmann::json;
 using ppforest2::cli::EvaluateParams;
@@ -250,27 +249,42 @@ TEST(SimulateParams, DefaultConstruction) {
   EXPECT_EQ(p.rows, 1000);
   EXPECT_EQ(p.cols, 10);
   EXPECT_EQ(p.n_groups, 2);
-  EXPECT_FLOAT_EQ(p.mean, 100.0F);
-  EXPECT_FLOAT_EQ(p.mean_separation, 50.0F);
-  EXPECT_FLOAT_EQ(p.sd, 10.0F);
+  EXPECT_FLOAT_EQ(p.classification.mean, 100.0F);
+  EXPECT_FLOAT_EQ(p.classification.mean_separation, 50.0F);
+  EXPECT_FLOAT_EQ(p.classification.sd, 10.0F);
+  EXPECT_EQ(p.regression.n_informative, 0);
+  EXPECT_FLOAT_EQ(p.regression.y_intercept, 0.0F);
+  EXPECT_FLOAT_EQ(p.regression.y_sd, 0.1F);
+  EXPECT_FLOAT_EQ(p.regression.sd, 1.0F);
 }
 
 TEST(SimulateParams, ConstructFromJson) {
   json config = {
-      {"simulate", "200x5x3"}, {"simulate_mean", 50.0}, {"simulate_mean_separation", 25.0}, {"simulate_sd", 5.0}
+      {"simulate", "200x5x3"},
+      {"simulate_mean", 50.0},
+      {"simulate_mean_separation", 25.0},
+      {"simulate_sd", 5.0},
+      {"simulate_n_informative", 3},
+      {"simulate_y_intercept", 1.5},
+      {"simulate_y_sd", 0.25},
   };
 
   SimulateParams p(config);
   EXPECT_EQ(p.format, "200x5x3");
-  EXPECT_FLOAT_EQ(p.mean, 50.0F);
-  EXPECT_FLOAT_EQ(p.mean_separation, 25.0F);
-  EXPECT_FLOAT_EQ(p.sd, 5.0F);
+  EXPECT_FLOAT_EQ(p.classification.mean, 50.0F);
+  EXPECT_FLOAT_EQ(p.classification.mean_separation, 25.0F);
+  EXPECT_FLOAT_EQ(p.classification.sd, 5.0F);
+  EXPECT_FLOAT_EQ(p.regression.sd, 5.0F);
+  EXPECT_EQ(p.regression.n_informative, 3);
+  EXPECT_FLOAT_EQ(p.regression.y_intercept, 1.5F);
+  EXPECT_FLOAT_EQ(p.regression.y_sd, 0.25F);
 }
 
 TEST(SimulateParams, ConstructFromEmptyJson) {
   SimulateParams p(json::object());
   EXPECT_TRUE(p.format.empty());
-  EXPECT_FLOAT_EQ(p.mean, 100.0F);
+  EXPECT_FLOAT_EQ(p.classification.mean, 100.0F);
+  EXPECT_FLOAT_EQ(p.regression.sd, 1.0F);
 }
 
 // ---------------------------------------------------------------------------

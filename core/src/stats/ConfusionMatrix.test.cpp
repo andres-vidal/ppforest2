@@ -10,13 +10,11 @@
 
 #include "stats/ConfusionMatrix.hpp"
 #include "utils/Types.hpp"
-#include "io/Color.hpp"
 #include "io/Presentation.hpp"
 #include "serialization/Json.hpp"
 
 #include "utils/Macros.hpp"
 
-#include <sstream>
 #include <nlohmann/json.hpp>
 
 using namespace ppforest2;
@@ -25,12 +23,12 @@ using namespace ppforest2::types;
 
 
 TEST(ConfusionMatrix, Identity) {
-  OutcomeVector actual   = VEC(Outcome, 0, 1, 2);
-  OutcomeVector expected = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual   = VEC(GroupId, 0, 1, 2);
+  GroupIdVector expected = VEC(GroupId, 0, 1, 2);
 
   ConfusionMatrix result = ConfusionMatrix(actual, expected);
 
-  Matrix<int> expected_result_values = MAT(Outcome, rows(3), 1, 0, 0, 0, 1, 0, 0, 0, 1);
+  Matrix<int> expected_result_values = MAT(GroupId, rows(3), 1, 0, 0, 0, 1, 0, 0, 0, 1);
 
   ASSERT_EQ(expected_result_values.size(), result.values.size());
   ASSERT_EQ(expected_result_values.rows(), result.values.rows());
@@ -40,12 +38,12 @@ TEST(ConfusionMatrix, Identity) {
 
 /* Uneven group sizes with perfect predictions give a weighted diagonal. */
 TEST(ConfusionMatrix, Diagonal) {
-  OutcomeVector actual   = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector expected = VEC(Outcome, 0, 1, 1, 2, 2, 2);
+  GroupIdVector actual   = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector expected = VEC(GroupId, 0, 1, 1, 2, 2, 2);
 
   ConfusionMatrix result = ConfusionMatrix(actual, expected);
 
-  Matrix<int> expected_result_values = MAT(Outcome, rows(3), 1, 0, 0, 0, 2, 0, 0, 0, 3);
+  Matrix<int> expected_result_values = MAT(GroupId, rows(3), 1, 0, 0, 0, 2, 0, 0, 0, 3);
 
   ASSERT_EQ(expected_result_values.size(), result.values.size());
   ASSERT_EQ(expected_result_values.rows(), result.values.rows());
@@ -57,12 +55,12 @@ TEST(ConfusionMatrix, Diagonal) {
 
 
 TEST(ConfusionMatrix, InverseDiagonal) {
-  OutcomeVector actual   = VEC(Outcome, 0, 1, 2);
-  OutcomeVector expected = VEC(Outcome, 2, 1, 0);
+  GroupIdVector actual   = VEC(GroupId, 0, 1, 2);
+  GroupIdVector expected = VEC(GroupId, 2, 1, 0);
 
   ConfusionMatrix result = ConfusionMatrix(actual, expected);
 
-  Matrix<int> expected_result_values = MAT(Outcome, rows(3), 0, 0, 1, 0, 1, 0, 1, 0, 0);
+  Matrix<int> expected_result_values = MAT(GroupId, rows(3), 0, 0, 1, 0, 1, 0, 1, 0, 0);
 
   ASSERT_EQ(expected_result_values.size(), result.values.size());
   ASSERT_EQ(expected_result_values.rows(), result.values.rows());
@@ -74,12 +72,12 @@ TEST(ConfusionMatrix, InverseDiagonal) {
 
 /* Every prediction is shifted by one group — zero diagonal. */
 TEST(ConfusionMatrix, ZeroDiagonal) {
-  OutcomeVector actual   = VEC(Outcome, 0, 1, 2);
-  OutcomeVector expected = VEC(Outcome, 1, 2, 0);
+  GroupIdVector actual   = VEC(GroupId, 0, 1, 2);
+  GroupIdVector expected = VEC(GroupId, 1, 2, 0);
 
   ConfusionMatrix result = ConfusionMatrix(actual, expected);
 
-  Matrix<int> expected_result_values = MAT(Outcome, rows(3), 0, 0, 1, 1, 0, 0, 0, 1, 0);
+  Matrix<int> expected_result_values = MAT(GroupId, rows(3), 0, 0, 1, 1, 0, 0, 0, 1, 0);
 
   ASSERT_EQ(expected_result_values.size(), result.values.size());
   ASSERT_EQ(expected_result_values.rows(), result.values.rows());
@@ -91,12 +89,12 @@ TEST(ConfusionMatrix, ZeroDiagonal) {
 
 /* Mixed predictions with one misclassification in group 2. */
 TEST(ConfusionMatrix, Generic) {
-  OutcomeVector actual   = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector expected = VEC(Outcome, 0, 1, 1, 2, 2, 0);
+  GroupIdVector actual   = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector expected = VEC(GroupId, 0, 1, 1, 2, 2, 0);
 
   ConfusionMatrix result = ConfusionMatrix(actual, expected);
 
-  Matrix<int> expected_result_values = MAT(Outcome, rows(3), 1, 0, 1, 0, 2, 0, 0, 0, 2);
+  Matrix<int> expected_result_values = MAT(GroupId, rows(3), 1, 0, 1, 0, 2, 0, 0, 0, 2);
 
   ASSERT_EQ(expected_result_values.size(), result.values.size());
   ASSERT_EQ(expected_result_values.rows(), result.values.rows());
@@ -108,22 +106,22 @@ TEST(ConfusionMatrix, Generic) {
 
 
 TEST(ConfusionMatrix, MorePredictionsThanObservations) {
-  OutcomeVector predictions  = VEC(Outcome, 0, 1, 2);
-  OutcomeVector observations = VEC(Outcome, 0, 1);
+  GroupIdVector predictions  = VEC(GroupId, 0, 1, 2);
+  GroupIdVector observations = VEC(GroupId, 0, 1);
 
   ASSERT_THROW(ConfusionMatrix(predictions, observations), std::invalid_argument);
 }
 
 TEST(ConfusionMatrix, MoreObservationsThanPredictions) {
-  OutcomeVector predictions  = VEC(Outcome, 0, 1);
-  OutcomeVector observations = VEC(Outcome, 0, 1, 2);
+  GroupIdVector predictions  = VEC(GroupId, 0, 1);
+  GroupIdVector observations = VEC(GroupId, 0, 1, 2);
 
   ASSERT_THROW(ConfusionMatrix(predictions, observations), std::invalid_argument);
 }
 
 TEST(ConfusionMatrix, NonConsecutiveLabels) {
-  OutcomeVector actual      = VEC(Outcome, 1, 1, 3, 3, 5, 5);
-  OutcomeVector predictions = VEC(Outcome, 1, 3, 3, 5, 5, 1);
+  GroupIdVector actual      = VEC(GroupId, 1, 1, 3, 3, 5, 5);
+  GroupIdVector predictions = VEC(GroupId, 1, 3, 3, 5, 5, 1);
 
   ConfusionMatrix result = ConfusionMatrix(predictions, actual);
 
@@ -146,8 +144,8 @@ TEST(ConfusionMatrix, NonConsecutiveLabels) {
 
 /* Perfect predictions -> 0% error. */
 TEST(ConfusionMatrix, ErrorMin) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   float result = ConfusionMatrix(predictions, actual).error();
 
@@ -156,8 +154,8 @@ TEST(ConfusionMatrix, ErrorMin) {
 
 /* All predictions wrong -> 100% error. */
 TEST(ConfusionMatrix, ErrorMax) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 2, 0, 1);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 2, 0, 1);
 
   float result = ConfusionMatrix(predictions, actual).error();
 
@@ -166,8 +164,8 @@ TEST(ConfusionMatrix, ErrorMax) {
 
 /* Half of observations misclassified -> 50% error. */
 TEST(ConfusionMatrix, ErrorGeneric) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   float result = ConfusionMatrix(predictions, actual).error();
 
@@ -180,8 +178,8 @@ TEST(ConfusionMatrix, ErrorGeneric) {
 
 /* Perfect predictions -> every group has 0% error. */
 TEST(ConfusionMatrix, ClassErrorsAllZero) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   FeatureVector result = ConfusionMatrix(predictions, actual).group_errors();
 
@@ -193,8 +191,8 @@ TEST(ConfusionMatrix, ClassErrorsAllZero) {
 
 /* Every single prediction is wrong -> every group has 100% error. */
 TEST(ConfusionMatrix, ClassErrorsAllOne) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 1, 2, 2, 1, 1, 1);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 1, 2, 2, 1, 1, 1);
 
   FeatureVector result = ConfusionMatrix(predictions, actual).group_errors();
 
@@ -206,8 +204,8 @@ TEST(ConfusionMatrix, ClassErrorsAllOne) {
 
 /* Mixed results: group 0 perfect, group 1 at 50%, group 2 at ~67%. */
 TEST(ConfusionMatrix, ClassErrorsMixed) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   FeatureVector result = ConfusionMatrix(predictions, actual).group_errors();
 
@@ -227,8 +225,8 @@ TEST(ConfusionMatrix, ClassErrorsMixed) {
 
 /* Identity matrix: verify all expected keys present and "error" absent. */
 TEST(ConfusionMatrix, ToJsonIdentity) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   auto j = serialization::to_json(ConfusionMatrix(predictions, actual));
 
@@ -247,8 +245,8 @@ TEST(ConfusionMatrix, ToJsonIdentity) {
 
 /* Confirm "error" key is absent for a non-trivial confusion matrix. */
 TEST(ConfusionMatrix, ToJsonNoErrorKey) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   auto j = serialization::to_json(ConfusionMatrix(predictions, actual));
 
@@ -260,8 +258,8 @@ TEST(ConfusionMatrix, ToJsonNoErrorKey) {
 
 /* Verify the actual group_errors values in the serialized JSON. */
 TEST(ConfusionMatrix, ToJsonClassErrorsValues) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   auto j = serialization::to_json(ConfusionMatrix(predictions, actual));
 
@@ -274,8 +272,8 @@ TEST(ConfusionMatrix, ToJsonClassErrorsValues) {
 
 /* Verify the labels array in the serialized JSON is sorted and complete. */
 TEST(ConfusionMatrix, ToJsonLabels) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   auto j = serialization::to_json(ConfusionMatrix(predictions, actual));
 
@@ -288,8 +286,8 @@ TEST(ConfusionMatrix, ToJsonLabels) {
 
 /* Generic case: labels array has expected size. */
 TEST(ConfusionMatrix, ToJsonGeneric) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   auto j = serialization::to_json(ConfusionMatrix(predictions, actual));
 
@@ -308,8 +306,8 @@ TEST(ConfusionMatrix, ToJsonGeneric) {
 
 /* Basic print: outputs the header and matrix values. */
 TEST(ConfusionMatrix, Print) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   ConfusionMatrix cm(predictions, actual);
 
@@ -324,8 +322,8 @@ TEST(ConfusionMatrix, Print) {
 
 /* The "Error" column header appears in the printed output. */
 TEST(ConfusionMatrix, PrintIncludesErrorHeader) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   ConfusionMatrix cm(predictions, actual);
 
@@ -339,8 +337,8 @@ TEST(ConfusionMatrix, PrintIncludesErrorHeader) {
 
 /* Each row shows a marginal error percentage matching group_errors(). */
 TEST(ConfusionMatrix, PrintIncludesPerRowError) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 1, 2, 2, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 1, 2, 2, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2, 0, 1, 2);
 
   ConfusionMatrix cm(predictions, actual);
 
@@ -358,8 +356,8 @@ TEST(ConfusionMatrix, PrintIncludesPerRowError) {
 
 /* Perfect predictions: every row shows "0.0%" (three occurrences total). */
 TEST(ConfusionMatrix, PrintPerfectPrediction) {
-  OutcomeVector actual      = VEC(Outcome, 0, 1, 2);
-  OutcomeVector predictions = VEC(Outcome, 0, 1, 2);
+  GroupIdVector actual      = VEC(GroupId, 0, 1, 2);
+  GroupIdVector predictions = VEC(GroupId, 0, 1, 2);
 
   ConfusionMatrix cm(predictions, actual);
 

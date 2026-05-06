@@ -52,7 +52,7 @@ namespace ppforest2::cli {
   struct BenchmarkReport {
     double delta_threshold = 1.0;
 
-    BenchmarkReport(SuiteResult const& r, std::optional<Baseline> const& b = std::nullopt)
+    explicit BenchmarkReport(SuiteResult const& r, std::optional<Baseline> const& b = std::nullopt)
         : result(r)
         , baseline(b) {}
 

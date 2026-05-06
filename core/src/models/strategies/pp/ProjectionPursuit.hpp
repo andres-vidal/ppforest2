@@ -20,12 +20,10 @@ namespace ppforest2::pp {
   /**
    * @brief Abstract strategy for projection pursuit optimization.
    *
-   * Finds the optimal 1D projection for a given dataset and group
-   * partition. Reads from NodeContext: x, var_selection, and the
-   * active partition (y or binary_y). Writes: projector
-   * (full-dimensional, expanded) and pp_index_value.
+   * Writes `ctx.projector` and `ctx.pp_index_value`.
    */
-  struct ProjectionPursuit : public Strategy<ProjectionPursuit> {
+  class ProjectionPursuit : public Strategy<ProjectionPursuit> {
+  public:
     /**
      * @brief Result of a projection pursuit optimization step.
      */
@@ -36,21 +34,11 @@ namespace ppforest2::pp {
       types::Feature index_value = 0;
     };
 
-    /**
-     * @brief Find the optimal projection and store it in the context.
-     *
-     * Reads ctx.x, ctx.var_selection, and ctx.active_partition(). Computes the
-     * optimal projector on the reduced feature space, expands it back
-     * to full dimension via ctx.var_selection.expand(), and writes the result to
-     * ctx.projector and ctx.pp_index_value.
-     *
-     * @param ctx  Node context (reads x, var_selection, active partition; writes projector, pp_index_value).
-     * @param rng  Random number generator (unused by deterministic strategies).
-     */
-    virtual void optimize(NodeContext& ctx, stats::RNG& rng) const = 0;
+    /** @brief Find the optimal projection and store it in the context. */
+    void optimize(NodeContext& ctx, stats::RNG& rng) const;
 
-    /** @brief Callable shorthand for optimize(). */
-    void operator()(NodeContext& ctx, stats::RNG& rng) const { optimize(ctx, rng); }
+  protected:
+    virtual void compute(NodeContext& ctx, stats::RNG& rng) const = 0;
   };
 
   /** @brief Factory function for a PDA projection pursuit strategy. */

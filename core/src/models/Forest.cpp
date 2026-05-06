@@ -1,7 +1,12 @@
 #include "models/Forest.hpp"
-#include "stats/Stats.hpp"
+
+#include "models/ClassificationForest.hpp"
+#include "models/Model.hpp"
+#include "models/RegressionForest.hpp"
 #include "utils/Invariant.hpp"
-#include "utils/Types.hpp"
+
+#include <cstdint>
+#include <exception>
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -11,36 +16,38 @@ using namespace ppforest2::stats;
 using namespace ppforest2::types;
 
 namespace ppforest2 {
-  Forest Forest::train(TrainingSpec const& training_spec, FeatureMatrix const& x, OutcomeVector const& y) {
-    int const size        = training_spec.size;
-    int const seed        = training_spec.seed;
-    int const max_retries = training_spec.max_retries;
+
+  void Forest::build_trees(FeatureMatrix const& x, OutcomeVector const& y) {
+    invariant(this->training_spec != nullptr, "Forest::build_trees: must have training spec");
+    invariant(training_spec->size > 0, "The forest size must be greater than 0.");
+
+    std::uint64_t const size        = static_cast<std::uint64_t>(training_spec->size);
+    std::uint64_t const seed        = static_cast<std::uint64_t>(training_spec->seed);
+    std::uint64_t const max_retries = static_cast<std::uint64_t>(training_spec->max_retries);
 
     // clang-format off
     #ifdef _OPENMP
-    omp_set_num_threads(training_spec.resolve_threads());
+    omp_set_num_threads(training_spec->resolve_threads());
     #endif
     // clang-format on
-    GroupPartition group_spec(y);
 
-    invariant(size > 0, "The forest size must be greater than 0.");
-
-    auto spec = TrainingSpec::make(training_spec);
-
-    std::vector<BootstrapTree::Ptr> trees(size);
+    std::vector<BaggedTree::Ptr> bags(size);
     std::vector<std::exception_ptr> errors(size);
 
     // clang-format off
     #pragma omp parallel for schedule(static)
     // clang-format on
-    for (int i = 0; i < size; i++) {
-      for (int attempt = 0; attempt <= max_retries; ++attempt) {
+    for (std::uint64_t i = 0; i < size; ++i) {
+      for (std::uint64_t attempt = 0; attempt <= max_retries; ++attempt) {
         try {
-          uint64_t stream = static_cast<uint64_t>(i) + static_cast<uint64_t>(attempt) * static_cast<uint64_t>(size);
-          RNG rng(static_cast<uint64_t>(seed), stream);
-          trees[i] = BootstrapTree::train(spec, x, group_spec, rng);
+          // Stream id is load-bearing for golden-file reproducibility (see
+          // CLAUDE.md). Don't change without regenerating every golden file.
+          std::uint64_t const stream = i + attempt * size;
+          RNG rng(seed, stream);
 
-          if (!trees[i]->degenerate) {
+          bags[i] = train_tree(x, y, rng);
+
+          if (!bags[i]->degenerate()) {
             break;
           }
         } catch (...) {
@@ -50,96 +57,36 @@ namespace ppforest2 {
       }
     }
 
-    Forest forest(spec);
-
-    for (int i = 0; i < size; i++) {
-      if (errors[i]) {
-        std::rethrow_exception(errors[i]);
-      }
-
-      if (trees[i]->degenerate) {
-        forest.degenerate = true;
-      }
-
-      forest.add_tree(std::move(trees[i]));
-    }
-
-    return forest;
-  }
-
-  Forest::Forest() {}
-
-  Forest::Forest(TrainingSpec::Ptr training_spec) {
-    this->training_spec = std::move(training_spec);
-  }
-
-  Outcome Forest::predict(FeatureVector const& data) const {
-    std::map<Outcome, int> votes_per_group;
-
-    for (auto const& tree : trees) {
-      Outcome prediction = tree->predict(data);
-      votes_per_group[prediction] += 1;
-    }
-
-    Outcome best   = 0;
-    int best_count = 0;
-
-    for (auto const& [key, votes] : votes_per_group) {
-      if (votes > best_count) {
-        best       = key;
-        best_count = votes;
+    // Rethrow the lowest-index exception, if any. Done outside the parallel
+    // region so the throw runs on the main thread.
+    for (auto const& e : errors) {
+      if (e) {
+        std::rethrow_exception(e);
       }
     }
 
-    return best;
+    for (auto& bag : bags) {
+      add_tree(std::move(bag));
+    }
   }
 
-  OutcomeVector Forest::predict(FeatureMatrix const& data) const {
-    OutcomeVector predictions(data.rows());
+  void Forest::add_tree(BaggedTree::Ptr tree) {
+    invariant(this->training_spec != nullptr, "Forest::add_tree: must have training spec");
+    invariant(tree != nullptr, "Forest::add_tree: tree is null");
+    invariant(tree->model->training_spec != nullptr, "Forest::add_tree: tree must have training spec");
+    invariant(
+        tree->model->training_spec->mode == this->training_spec->mode,
+        "Forest::add_tree: tree mode does not match forest mode "
+        "(attempted to add a tree trained under a different mode)"
+    );
 
-    for (int i = 0; i < data.rows(); i++) {
-      predictions(i) = predict((FeatureVector)data.row(i));
+    // A forest is degenerate iff any of its trees is — propagate here so
+    // every code path that attaches a tree (build_trees, JSON load, hand-
+    // assembled test fixtures) keeps the flag in sync without duplication.
+    if (tree->degenerate()) {
+      this->degenerate = true;
     }
 
-    return predictions;
-  }
-
-  FeatureMatrix Forest::predict(FeatureMatrix const& data, Proportions) const {
-    invariant(!trees.empty(), "Forest has no trees.");
-
-    std::set<Outcome> group_set = trees[0]->root->node_groups();
-    std::vector<Outcome> groups(group_set.begin(), group_set.end());
-    int G = static_cast<int>(groups.size());
-
-    std::map<Outcome, int> group_to_col;
-    for (int g = 0; g < G; ++g) {
-      group_to_col[groups[static_cast<std::size_t>(g)]] = g;
-    }
-
-    int n                     = static_cast<int>(data.rows());
-    FeatureMatrix proportions = FeatureMatrix::Zero(n, G);
-
-    for (int i = 0; i < n; ++i) {
-      for (auto const& tree : trees) {
-        Outcome pred = tree->predict((FeatureVector)data.row(i));
-        auto it      = group_to_col.find(pred);
-
-        if (it != group_to_col.end()) {
-          proportions(i, it->second) += 1;
-        }
-      }
-
-      Feature total = proportions.row(i).sum();
-
-      if (total > 0) {
-        proportions.row(i) /= total;
-      }
-    }
-
-    return proportions;
-  }
-
-  void Forest::add_tree(std::unique_ptr<BootstrapTree> tree) {
     trees.push_back(std::move(tree));
   }
 
@@ -148,7 +95,7 @@ namespace ppforest2 {
       return false;
     }
 
-    for (std::size_t i = 0; i < trees.size(); i++) {
+    for (std::size_t i = 0; i < trees.size(); ++i) {
       if (*trees[i] != *other.trees[i]) {
         return false;
       }
@@ -161,71 +108,18 @@ namespace ppforest2 {
     return !(*this == other);
   }
 
-  void Forest::accept(Model::Visitor& visitor) const {
-    visitor.visit(*this);
+  Forest::Ptr Forest::train(TrainingSpec const& spec, FeatureMatrix const& x, OutcomeVector const& y) {
+    Model::check_train_inputs(x, y);
+
+    Forest::Ptr forest;
+
+    if (is_regression(spec)) {
+      forest = RegressionForest::train(spec, x, y);
+    } else {
+      forest = ClassificationForest::train(spec, x, y);
+    }
+
+    return forest;
   }
 
-  OutcomeVector Forest::oob_predict(FeatureMatrix const& x) const {
-    int const n_total = static_cast<int>(x.rows());
-    int const B       = static_cast<int>(trees.size());
-
-    std::vector<std::map<Outcome, int>> votes(static_cast<std::size_t>(n_total));
-
-    for (int k = 0; k < B; ++k) {
-      BootstrapTree const& tree = *trees[k];
-      std::vector<int> oob_idx  = tree.oob_indices(n_total);
-      OutcomeVector preds       = tree.predict_oob(x, oob_idx);
-
-      for (int j = 0; j < static_cast<int>(oob_idx.size()); ++j) {
-        int i = oob_idx[static_cast<std::size_t>(j)];
-        votes[static_cast<std::size_t>(i)][preds(j)] += 1;
-      }
-    }
-
-    OutcomeVector out(n_total);
-    out.fill(-1);
-
-    for (int i = 0; i < n_total; ++i) {
-      auto const& obs_votes = votes[static_cast<std::size_t>(i)];
-
-      if (obs_votes.empty()) {
-        continue;
-      }
-
-      Outcome best   = 0;
-      int best_count = 0;
-
-      for (auto const& [cls, cnt] : obs_votes) {
-        if (cnt > best_count) {
-          best       = cls;
-          best_count = cnt;
-        }
-      }
-
-      out(i) = best;
-    }
-
-    return out;
-  }
-
-  double Forest::oob_error(FeatureMatrix const& x, OutcomeVector const& y) const {
-    OutcomeVector preds = oob_predict(x);
-
-    std::vector<int> oob_rows;
-
-    for (int i = 0; i < preds.size(); ++i) {
-      if (preds(i) >= 0) {
-        oob_rows.push_back(i);
-      }
-    }
-
-    if (oob_rows.empty()) {
-      return -1.0;
-    }
-
-    OutcomeVector preds_oob = preds(oob_rows, Eigen::all).eval();
-    OutcomeVector y_oob     = y(oob_rows, Eigen::all).eval();
-
-    return stats::error_rate(preds_oob, y_oob);
-  }
 }

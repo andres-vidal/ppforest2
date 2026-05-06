@@ -4,6 +4,8 @@
  */
 #pragma once
 
+#include "stats/Simulation.hpp"
+
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
@@ -15,18 +17,28 @@ namespace ppforest2::cli {
     SimulateParams() = default;
 
     std::string format;
-    int rows              = 1000;
-    int cols              = 10;
-    int n_groups          = 2;
-    float mean            = 100.0F;
-    float mean_separation = 50.0F;
-    float sd              = 10.0F;
+    int rows     = 1000;
+    int cols     = 10;
+    int n_groups = 2;
+
+    stats::simulation::params::Classification classification;
+    stats::simulation::params::Regression regression;
 
     /** @brief Construct from a JSON config object. */
     explicit SimulateParams(nlohmann::json const& config);
 
     /** @brief Parse the NxPxG format string into rows, cols, n_groups. */
     void resolve_format();
+
+    /**
+     * @brief Generate a simulated dataset for the given mode.
+     *
+     * Dispatches to the classification (group-shifted normals) or
+     * regression (linear model) generator based on @p mode. Any failure
+     * surfaces as a `UserError` — simulation parameters come from the
+     * user, not from a programmer-controlled invariant.
+     */
+    stats::DataPacket simulate(types::Mode mode, stats::RNG& rng) const;
   };
 
   /** @brief Evaluate and convergence options (shared by evaluate + benchmark). */
@@ -36,6 +48,20 @@ namespace ppforest2::cli {
     std::optional<float> train_ratio;
     std::optional<int> iterations; ///< Fixed count (disables convergence when set > 0).
     int warmup = 0;                ///< Warmup iterations discarded before measuring.
+    /**
+     * @brief Use the user-provided seed unchanged for every iteration.
+     *
+     * Default (`false`): each iteration draws a fresh seed from `rng` so
+     * models genuinely differ across iterations. `std_*_error` reflects
+     * real algorithmic variance; `std_time_ms` mixes system noise with
+     * model-shape variance.
+     *
+     * `true`: every iteration trains the *same* model. `std_*_error` is
+     * tautologically zero; `std_time_ms` reflects pure timing noise (cache,
+     * scheduling, allocator jitter). Useful when benchmarking the timing
+     * stability of a single configuration.
+     */
+    bool fixed_seed = false;
     std::string export_path;
 
     /** @brief Whether adaptive convergence stopping is active (disabled when iterations is set). */

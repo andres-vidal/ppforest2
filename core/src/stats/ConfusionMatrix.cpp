@@ -6,7 +6,6 @@
 #include "stats/ConfusionMatrix.hpp"
 
 #include "stats/Stats.hpp"
-#include "utils/Invariant.hpp"
 
 #include <set>
 #include <stdexcept>
@@ -14,8 +13,10 @@
 using namespace ppforest2::types;
 
 namespace ppforest2::stats {
-  std::map<int, int> get_labels_map(OutcomeVector const& groups) {
-    std::set<int> labels_set = unique(groups);
+  std::map<int, int> get_labels_map(GroupIdVector const& y_pred, GroupIdVector const& y) {
+    std::set<int> labels_set = unique(y);
+    std::set<int> pred_set   = unique(y_pred);
+    labels_set.insert(pred_set.begin(), pred_set.end());
 
     std::map<int, int> labels_map;
     int i = 0;
@@ -27,18 +28,18 @@ namespace ppforest2::stats {
     return labels_map;
   }
 
-  ConfusionMatrix::ConfusionMatrix(OutcomeVector const& predictions, OutcomeVector const& actual)
-      : label_index(get_labels_map(actual)) {
-    if (predictions.rows() != actual.rows()) {
+  ConfusionMatrix::ConfusionMatrix(GroupIdVector const& y_pred, GroupIdVector const& y)
+      : label_index(get_labels_map(y_pred, y)) {
+    if (y_pred.rows() != y.rows()) {
       throw std::invalid_argument("cannot compute confusion matrix if predictions and observations have different sizes"
       );
     }
 
     values = Matrix<int>::Zero(static_cast<int>(label_index.size()), static_cast<int>(label_index.size()));
 
-    for (int i = 0; i < predictions.rows(); i++) {
-      int const actual_index     = label_index.at(actual(i));
-      int const prediction_index = label_index.at(predictions(i));
+    for (int i = 0; i < y_pred.rows(); i++) {
+      int const actual_index     = label_index.at(y(i));
+      int const prediction_index = label_index.at(y_pred(i));
 
       values(actual_index, prediction_index)++;
     }
@@ -55,6 +56,6 @@ namespace ppforest2::stats {
   }
 
   float ConfusionMatrix::error() const {
-    return 1.0f - static_cast<float>(values.trace()) / static_cast<float>(values.sum());
+    return 1.0F - static_cast<float>(values.trace()) / static_cast<float>(values.sum());
   }
 }

@@ -2,23 +2,15 @@
 % Please edit documentation in R/pprf.R
 \name{summary.pprf}
 \alias{summary.pprf}
-\title{Summarizes a pprf model.}
+\title{Summary of a pprf forest (shared header + VI).}
 \usage{
 \method{summary}{pprf}(object, ...)
 }
 \arguments{
-\item{object}{A pprf model.}
+\item{object}{A \code{pprf} model.}
 
-\item{...}{(unused) other parameters typically passed to summary.}
+\item{...}{Unused.}
 }
 \description{
-Summarizes a pprf model.
-}
-\examples{
-model <- pprf(Type ~ ., data = iris)
-summary(model)
-
-}
-\seealso{
-\code{\link{pprf}}, \code{\link{predict.pprf}}, \code{\link{print.pprf}}
+Summary of a pprf forest (shared header + VI).
 }

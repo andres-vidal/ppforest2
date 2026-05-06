@@ -3,7 +3,6 @@
  * @brief CLI argument parsing, validation, and configuration for ppforest2.
  */
 #include "cli/CLIOptions.hpp"
-#include "cli/JsonApply.hpp"
 #include "cli/Benchmark.hpp"
 #include "cli/Evaluate.hpp"
 #include "cli/Predict.hpp"
@@ -30,7 +29,7 @@ namespace ppforest2::cli {
       : model(config)
       , simulation(config)
       , evaluate(config) {
-    apply(config, "data", data_path);
+    data_path = config.value("data", data_path);
   }
 
   namespace {
@@ -106,6 +105,28 @@ namespace ppforest2::cli {
 
   void Params::resolve_defaults(unsigned int total_vars) {
     model.resolve_defaults(total_vars);
+  }
+
+  stats::DataPacket Params::read_data(stats::RNG& rng) {
+    if (!data_path.empty()) {
+      stats::DataPacket data = io::csv::read_sorted(data_path);
+
+      // Reader auto-detected mode from the y column. Honor that unless the
+      // user passed --mode (which sets `mode_input` non-empty before we get
+      // here); empty group_names means regression shape.
+      if (model.mode_input.empty()) {
+        model.mode_input = data.group_names.empty() ? "regression" : "classification";
+      }
+      return data;
+    }
+
+    // Simulated data: no CSV to auto-detect from, so default to classification
+    // when --mode wasn't passed.
+    if (model.mode_input.empty()) {
+      model.mode_input = "classification";
+    }
+
+    return simulation.simulate(types::mode_from_string(model.mode_input), rng);
   }
 
   nlohmann::json Params::to_json() const {

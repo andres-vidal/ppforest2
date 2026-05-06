@@ -37,9 +37,8 @@ TEST_F(PredictTest, PredictNoMetricsWithoutQuiet) {
   EXPECT_EQ(result.stdout_output.find("Confusion Matrix:"), std::string::npos);
 }
 
-/* --no-metrics omits error_rate and confusion_matrix from JSON output. */
+/* --no-metrics omits the metrics block from JSON output. */
 TEST_F(PredictTest, PredictNoMetricsOutputFile) {
-  // --no-metrics should omit error_rate and confusion_matrix from output file
   TempFile output;
   output.clear();
   auto result =
@@ -48,8 +47,7 @@ TEST_F(PredictTest, PredictNoMetricsOutputFile) {
 
   auto j = json::parse(output.read());
   EXPECT_TRUE(j.contains("predictions"));
-  EXPECT_FALSE(j.contains("error_rate"));
-  EXPECT_FALSE(j.contains("confusion_matrix"));
+  EXPECT_FALSE(j.contains("metrics"));
 }
 
 /* Without --output, predict shows a hint about --output. */
@@ -75,7 +73,7 @@ TEST_F(PredictTest, PredictQuietSuppressesAll) {
   EXPECT_TRUE(result.stdout_output.empty());
 }
 
-/* -o writes predictions, error_rate, confusion_matrix, and proportions to JSON. */
+/* -o writes predictions, metrics, and proportions to JSON. */
 TEST_F(PredictTest, PredictOutputFile) {
   TempFile output;
   output.clear();
@@ -84,8 +82,9 @@ TEST_F(PredictTest, PredictOutputFile) {
 
   auto j = json::parse(output.read());
   EXPECT_TRUE(j.contains("predictions"));
-  EXPECT_TRUE(j.contains("error_rate"));
-  EXPECT_TRUE(j.contains("confusion_matrix"));
+  ASSERT_TRUE(j.contains("metrics"));
+  EXPECT_TRUE(j["metrics"].contains("error_rate"));
+  EXPECT_TRUE(j["metrics"].contains("confusion_matrix"));
   EXPECT_TRUE(j.contains("proportions"));
 }
 
@@ -193,7 +192,8 @@ TEST(CLIPredict, PredictTreeNoProportionsFlag) {
   EXPECT_FALSE(j.contains("proportions"));
 }
 
-/* confusion_matrix in predict output must not contain "error". */
+/* The nested confusion_matrix must not carry its own "error" key — error_rate
+ * lives one level up under `metrics`. */
 TEST(CLIPredict, PredictOutputNoErrorInConfusionMatrix) {
   TempFile model;
   model.clear();
@@ -206,9 +206,8 @@ TEST(CLIPredict, PredictOutputNoErrorInConfusionMatrix) {
   ASSERT_EQ(predict.exit_code, 0);
 
   auto j = json::parse(output.read());
-  EXPECT_TRUE(j.contains("confusion_matrix"));
-  // confusion_matrix should not have an "error" key (error_rate is at top level)
-  EXPECT_FALSE(j["confusion_matrix"].contains("error"));
+  ASSERT_TRUE(j["metrics"].contains("confusion_matrix"));
+  EXPECT_FALSE(j["metrics"]["confusion_matrix"].contains("error"));
 }
 
 // ---------------------------------------------------------------------------
@@ -242,6 +241,7 @@ TEST(CLIPredict, PredictWithSingleTreeModel) {
   auto j = json::parse(output.read());
   EXPECT_TRUE(j.contains("predictions"));
   EXPECT_EQ(j["predictions"].size(), 150u);
-  EXPECT_TRUE(j.contains("error_rate"));
-  EXPECT_TRUE(j.contains("confusion_matrix"));
+  ASSERT_TRUE(j.contains("metrics"));
+  EXPECT_TRUE(j["metrics"].contains("error_rate"));
+  EXPECT_TRUE(j["metrics"].contains("confusion_matrix"));
 }

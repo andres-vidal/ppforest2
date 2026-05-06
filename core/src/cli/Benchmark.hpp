@@ -113,5 +113,5 @@ namespace ppforest2::cli {
    * @param binary_path Path to the ppforest2 binary (typically argv[0]).
    * @return Exit code.
    */
-  int run_benchmark(Params& params, std::string const& binary_path);
+  int run_benchmark(Params const& params, std::string const& binary_path);
 }

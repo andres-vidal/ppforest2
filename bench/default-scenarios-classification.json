@@ -1,0 +1,64 @@
+{
+  "name": "ppforest2 default benchmarks",
+  "defaults": {
+    "size": 100,
+    "lambda": 0.5,
+    "p_vars": 0.5,
+    "train_ratio": 0.7,
+    "seed": 0,
+    "threads": 1,
+    "warmup": 2,
+    "convergence": {
+      "cv": 0.05,
+      "window": 3,
+      "min": 10,
+      "max": 200
+    }
+  },
+  "scenarios": [
+    { "name": "trees-sm", "n": 500, "p": 10, "g": 5, "size": 100 },
+    { "name": "trees-md", "n": 500, "p": 10, "g": 5, "size": 500 },
+    { "name": "trees-lg", "n": 500, "p": 10, "g": 5, "size": 1000 },
+    { "name": "n-sm", "p": 10, "g": 5, "size": 50, "n": 100 },
+    { "name": "n-md", "p": 10, "g": 5, "size": 50, "n": 1000 },
+    { "name": "n-lg", "p": 10, "g": 5, "size": 50, "n": 10000 },
+    { "name": "p-sm", "n": 1000, "g": 5, "size": 50, "p": 20 },
+    { "name": "p-md", "n": 1000, "g": 5, "size": 50, "p": 200 },
+    { "name": "p-lg", "n": 1000, "g": 5, "size": 50, "p": 400 },
+    { "name": "g-sm", "n": 1000, "p": 20, "size": 50, "g": 4 },
+    { "name": "g-md", "n": 1000, "p": 20, "size": 50, "g": 16 },
+    { "name": "g-lg", "n": 1000, "p": 20, "size": 50, "g": 32 },
+    { "name": "data-iris", "data": "data/classification/iris.csv", "size": 50 },
+    { "name": "data-wine", "data": "data/classification/wine.csv", "size": 50 },
+    {
+      "name": "data-olive",
+      "data": "data/classification/olive.csv",
+      "size": 50
+    },
+    {
+      "name": "data-image",
+      "data": "data/classification/image.csv",
+      "size": 50
+    },
+    {
+      "name": "data-glass",
+      "data": "data/classification/glass.csv",
+      "size": 50
+    },
+    {
+      "name": "data-leukemia",
+      "data": "data/classification/leukemia.csv",
+      "size": 50
+    },
+    {
+      "name": "data-lymphoma",
+      "data": "data/classification/lymphoma.csv",
+      "size": 50
+    },
+    {
+      "name": "data-NCI60",
+      "data": "data/classification/NCI60.csv",
+      "size": 50
+    }
+  ]
+}

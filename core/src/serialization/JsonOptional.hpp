@@ -15,6 +15,22 @@
 
 #include <nlohmann/json.hpp>
 #include <optional>
+#include <string_view>
+
+namespace ppforest2::serialization {
+  /**
+   * @brief True iff @p j has a non-null value at @p key.
+   *
+   * Centralises the "key is present and not null" check used when
+   * reading optional fields. Callers that previously wrote
+   * `j.contains(key)` must now use this helper (or equivalent) to
+   * tolerate the `null` that the writer emits for `std::nullopt`.
+   */
+  inline bool has_value(nlohmann::json const& j, std::string_view key) {
+    auto it = j.find(key);
+    return it != j.end() && !it->is_null();
+  }
+}
 
 namespace nlohmann {
   template<typename T> struct adl_serializer<std::optional<T>> {

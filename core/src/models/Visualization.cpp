@@ -513,8 +513,8 @@ namespace ppforest2::viz {
         types::Feature from_y  = y_pos - params.node_h / 2;
         types::Feature child_y = -static_cast<types::Feature>(depth + 1) * params.y_spacing;
 
-        types::Feature left_child_h  = condition.lower->is_leaf() ? params.leaf_h : params.node_h;
-        types::Feature right_child_h = condition.upper->is_leaf() ? params.leaf_h : params.node_h;
+        types::Feature left_child_h  = is_leaf(condition.lower) ? params.leaf_h : params.node_h;
+        types::Feature right_child_h = is_leaf(condition.upper) ? params.leaf_h : params.node_h;
 
         std::string thr = format_cutpoint(condition.cutpoint);
 

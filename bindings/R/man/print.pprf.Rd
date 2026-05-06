@@ -2,23 +2,18 @@
 % Please edit documentation in R/pprf.R
 \name{print.pprf}
 \alias{print.pprf}
-\title{Prints a pprf model.}
+\title{Prints a compact summary of a pprf forest.}
 \usage{
 \method{print}{pprf}(x, ...)
 }
 \arguments{
-\item{x}{A pprf model.}
+\item{x}{A \code{pprf} model.}
 
-\item{...}{(unused) other parameters typically passed to print.}
+\item{...}{Unused.}
 }
 \description{
-Prints a pprf model.
-}
-\examples{
-model <- pprf(Type ~ ., data = iris)
-print(model)
-
+Prints a compact summary of a pprf forest.
 }
 \seealso{
-\code{\link{pprf}}, \code{\link{summary.pprf}}
+\code{\link{summary.pprf}}
 }

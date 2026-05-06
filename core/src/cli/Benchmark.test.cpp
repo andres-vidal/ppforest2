@@ -196,8 +196,14 @@ TEST_F(BenchmarkParsingTest, MissingSeedThrows) {
   EXPECT_THROW(parse_suite(j), ppforest2::UserError);
 }
 
-TEST_F(BenchmarkParsingTest, ParseDefaultScenariosFile) {
-  auto suite = parse_suite(std::string(PPFOREST2_BENCH_SCENARIOS));
+// Parameterised across the two bench scenario files (classification +
+// regression). Both must parse cleanly and both must satisfy the same
+// structural invariants — shared validation means the two files don't
+// drift into incompatible shapes over time.
+class DefaultScenariosFileTest : public BenchmarkParsingTest, public ::testing::WithParamInterface<std::string> {};
+
+TEST_P(DefaultScenariosFileTest, Parses) {
+  auto suite = parse_suite(GetParam());
 
   EXPECT_GT(suite.scenarios.size(), 0U);
 
@@ -209,13 +215,24 @@ TEST_F(BenchmarkParsingTest, ParseDefaultScenariosFile) {
       // Simulation scenarios must have valid dimensions
       EXPECT_GT(s["n"].get<int>(), 0);
       EXPECT_GT(s["p"].get<int>(), 0);
-      EXPECT_GT(s["g"].get<int>(), 1);
+
+      bool is_regression = s.contains("mode") && s["mode"].get<std::string>() == "regression";
+      if (!is_regression) {
+        // Classification simulation requires `g` (number of groups).
+        EXPECT_GT(s["g"].get<int>(), 1);
+      }
     } else {
       // Data scenarios must have a non-empty path
       EXPECT_FALSE(s["data"].get<std::string>().empty());
     }
   }
 }
+
+INSTANTIATE_TEST_SUITE_P(
+    All,
+    DefaultScenariosFileTest,
+    ::testing::Values(std::string(PPFOREST2_BENCH_SCENARIOS_CLS), std::string(PPFOREST2_BENCH_SCENARIOS_REG))
+);
 
 class SuiteResultTest : public ::testing::Test {};
 
@@ -275,14 +292,14 @@ TEST_F(SuiteResultTest, ToJsonOmitsPeakRSSWhenUnset) {
 TEST_F(BenchmarkParsingTest, ParseDataScenario) {
   json const j = {
       {"defaults", {{"seed", 0}, {"lambda", 0.5}, {"p_vars", 0.5}, {"train_ratio", 0.7}}},
-      {"scenarios", {{{"name", "csv-test"}, {"data", "data/iris.csv"}, {"size", 50}}}}
+      {"scenarios", {{{"name", "csv-test"}, {"data", "data/classification/iris.csv"}, {"size", 50}}}}
   };
 
   auto suite = parse_suite(j);
 
   ASSERT_EQ(suite.scenarios.size(), 1U);
   EXPECT_EQ(suite.scenarios[0]["name"], "csv-test");
-  EXPECT_EQ(suite.scenarios[0]["data"], "data/iris.csv");
+  EXPECT_EQ(suite.scenarios[0]["data"], "data/classification/iris.csv");
   EXPECT_EQ(suite.scenarios[0]["size"], 50);
 }
 
@@ -302,7 +319,7 @@ TEST_F(BenchmarkParsingTest, DataScenarioToJsonIncludesDataField) {
 
   ScenarioResult sr;
   sr.name      = "csv-test";
-  sr.data_path = "data/iris.csv";
+  sr.data_path = "data/classification/iris.csv";
   sr.n         = 150;
   sr.p         = 4;
   sr.g         = 3;
@@ -311,7 +328,7 @@ TEST_F(BenchmarkParsingTest, DataScenarioToJsonIncludesDataField) {
 
   auto j = result.to_json();
 
-  EXPECT_EQ(j["results"][0]["data"], "data/iris.csv");
+  EXPECT_EQ(j["results"][0]["data"], "data/classification/iris.csv");
   EXPECT_EQ(j["results"][0]["n"], 150);
 }
 

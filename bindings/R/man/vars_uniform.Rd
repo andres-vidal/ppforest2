@@ -34,7 +34,7 @@ vars_uniform(n_vars = 2)
 vars_uniform(p_vars = 0.5)
 
 # Use with pprf
-pprf(Type ~ ., data = iris, vars = vars_uniform(n_vars = 2))
+pprf(Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 
 }
 \seealso{

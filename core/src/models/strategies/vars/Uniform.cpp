@@ -2,10 +2,11 @@
 
 #include "models/strategies/NodeContext.hpp"
 #include "stats/Uniform.hpp"
+#include "utils/RangeVector.hpp"
 #include "utils/Invariant.hpp"
+#include "utils/JsonReader.hpp"
 
-#include <algorithm>
-#include <numeric>
+#include <limits>
 
 namespace ppforest2::vars {
   Uniform::Uniform(int n_vars)
@@ -17,24 +18,19 @@ namespace ppforest2::vars {
     return {{"name", "uniform"}, {"count", n_vars}};
   }
 
-  void Uniform::select(NodeContext& ctx, stats::RNG& rng) const {
-    ctx.var_selection = compute(ctx.x, rng);
-  }
-
-  VariableSelection::Result Uniform::compute(types::FeatureMatrix const& x, stats::RNG& rng) const {
+  void Uniform::compute(NodeContext& ctx, stats::RNG& rng) const {
     invariant(
-        n_vars <= x.cols(), "The number of variables must be less than or equal to the number of columns in the data."
+        n_vars <= ctx.x.cols(),
+        "The number of variables must be less than or equal to the number of columns in the data."
     );
 
-    if (n_vars == x.cols()) {
-      std::vector<int> all_indices(x.cols());
-      std::iota(all_indices.begin(), all_indices.end(), 0);
-      return VariableSelection::Result(all_indices, x.cols());
+    if (n_vars == ctx.x.cols()) {
+      ctx.var_selection = VariableSelection::Result(utils::range_vector(ctx.x.cols()), ctx.x.cols());
+      return;
     }
 
-    stats::Uniform unif(0, x.cols() - 1);
-
-    return VariableSelection::Result(unif.distinct(n_vars, rng), x.cols());
+    stats::Uniform unif(0, static_cast<int>(ctx.x.cols()) - 1);
+    ctx.var_selection = VariableSelection::Result(unif.distinct(n_vars, rng), ctx.x.cols());
   }
 
   VariableSelection::Ptr uniform(int n_vars) {
@@ -42,16 +38,18 @@ namespace ppforest2::vars {
   }
 
   VariableSelection::Ptr Uniform::from_json(nlohmann::json const& j) {
-    validate_json_keys(j, "uniform vars", {"name", "count", "proportion"});
+    JsonReader const r{j, "uniform"};
+    r.only_keys({"name", "count", "proportion"});
 
-    if (j.contains("proportion")) {
-      float p = j.at("proportion").get<float>();
-      invariant(p > 0 && p <= 1, "proportion must be in (0, 1]");
+    if (r.contains("proportion")) {
+      // `require_number` enforces the (0, 1] range (we use [tiny, 1.0] to
+      // express an open lower bound — exactly zero is rejected).
+      (void)r.require_number("proportion", std::numeric_limits<double>::min(), 1.0);
       // Proportion is resolved to count later when total_vars is known.
       // Return a placeholder — caller must resolve before use.
       return uniform(1);
     }
 
-    return uniform(j.at("count").get<int>());
+    return uniform(static_cast<int>(r.require_int("count", 1)));
   }
 }

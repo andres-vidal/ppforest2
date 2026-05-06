@@ -1,5 +1,8 @@
 CXX_STD = CXX17
 
-PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) -L"../inst/lib" -lppforest2-core
+# Windows/MinGW: whole-archive on `-lppforest2-strategies` so self-registering
+# strategies aren't dead-stripped; `-lppforest2-core` links normally. See
+# the note in Makevars.in for the full rationale.
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) -L"../inst/lib" -Wl,--whole-archive -lppforest2-strategies -Wl,--no-whole-archive -lppforest2-core
 PKG_CPPFLAGS = -I"../inst/include" -I"core/include" -I"core/src" -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
 PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)

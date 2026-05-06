@@ -9,13 +9,13 @@ skip_if_not_installed("ggplot2")
 
 describe("plot.pptr structure", {
   it("returns a ggplot object for type = 'structure'", {
-    model <- pptr(Type ~ ., data = iris, seed = 0)
+    model <- pptr(Species ~ ., data = iris, seed = 0)
     p <- plot(model, type = "structure")
     expect_s3_class(p, "ggplot")
   })
 
   it("tree plot uses C++ node data with histograms", {
-    model <- pptr(Type ~ ., data = iris, seed = 0)
+    model <- pptr(Species ~ ., data = iris, seed = 0)
     nodes <- ppforest2:::ppforest2_tree_node_data(model, model$x, model$y)
     expect_true(length(nodes) > 0)
     expect_false(nodes[[1]]$is_leaf)
@@ -24,14 +24,14 @@ describe("plot.pptr structure", {
   })
 
   it("default plot renders mosaic without error", {
-    model <- pptr(Type ~ ., data = iris, seed = 0)
+    model <- pptr(Species ~ ., data = iris, seed = 0)
     expect_no_error(plot(model))
   })
 })
 
 describe("plot.pprf structure", {
   it("returns a ggplot object for type = 'structure'", {
-    model <- pprf(Type ~ ., data = iris, size = 5, seed = 0, threads = 1)
+    model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
     p <- plot(model, type = "structure", tree_index = 1)
     expect_s3_class(p, "ggplot")
   })
@@ -39,8 +39,9 @@ describe("plot.pprf structure", {
 
 describe("plot.pptr structure snapshots", {
   skip_if_not_installed("vdiffr")
+  skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
-  model <- pptr(Type ~ ., data = iris, seed = 0)
+  model <- pptr(Species ~ ., data = iris, seed = 0)
 
   it("pptr-structure", {
     vdiffr::expect_doppelganger("pptr-structure", plot(model, type = "structure"))
@@ -49,11 +50,29 @@ describe("plot.pptr structure snapshots", {
 
 describe("plot.pprf structure snapshots", {
   skip_if_not_installed("vdiffr")
+  skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
-  model <- pprf(Type ~ ., data = iris, size = 5, seed = 0, threads = 1)
+  model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
 
   it("pprf-structure", {
     vdiffr::expect_doppelganger("pprf-structure", plot(model, type = "structure", tree_index = 1))
+  })
+})
+
+describe("plot.pptr regression structure snapshot", {
+  # Regression trees render their leaves as mean-response values (numeric
+  # labels) rather than majority-vote class names. The snapshot fences
+  # that difference: if a future change accidentally re-routes regression
+  # leaves through the classification renderer (or vice versa), the
+  # rendered text labels will diverge from the saved image.
+  skip_if_not_installed("vdiffr")
+  skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
+
+  data(mtcars)
+  model <- pptr(mpg ~ ., data = mtcars, seed = 0)
+
+  it("pptr-regression-structure", {
+    vdiffr::expect_doppelganger("pptr-regression-structure", plot(model, type = "structure"))
   })
 })
 

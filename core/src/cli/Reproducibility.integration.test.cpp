@@ -39,80 +39,82 @@ static void compare_confusion_matrix(json const& actual, json const& expected) {
 // Golden test macros — train via CLI, predict, compare against golden files
 // ---------------------------------------------------------------------------
 
-#define CLI_GOLDEN_TREE_TEST(TestName, dataset, slug, csv, lambda, seed)                                   \
-  TEST(CLIGolden, TestName) {                                                                              \
-    auto golden = load_golden(dataset, slug);                                                              \
-                                                                                                           \
-    TempFile model;                                                                                        \
-    model.clear();                                                                                         \
-    auto train = run_ppforest2(                                                                            \
-        "-q train -d " + csv +                                                                             \
-        " -n 0"                                                                                            \
-        " -l " +                                                                                           \
-        std::to_string(lambda) + " -r " + std::to_string(seed) + " -s " + model.path()                     \
-    );                                                                                                     \
-    ASSERT_EQ(train.exit_code, 0) << "train failed";                                                       \
-                                                                                                           \
-    auto model_json = json::parse(model.read());                                                           \
-    ASSERT_TRUE(model_json.contains("variable_importance"));                                               \
-    auto vi = model_json["variable_importance"];                                                           \
-    compare_float_array(vi["scale"], golden["variable_importance"]["scale"], 1e-3, #TestName " VI scale"); \
-    compare_float_array(                                                                                   \
-        vi["projections"], golden["variable_importance"]["projections"], 1e-3, #TestName " VI projections" \
-    );                                                                                                     \
-                                                                                                           \
-    TempFile output;                                                                                       \
-    output.clear();                                                                                        \
-    auto predict = run_ppforest2("-q predict -M " + model.path() + " -d " + csv + " -o " + output.path()); \
-    ASSERT_EQ(predict.exit_code, 0) << "predict failed";                                                   \
-                                                                                                           \
-    auto pred_json = json::parse(output.read());                                                           \
-    compare_predictions(pred_json["predictions"], golden["predictions"]);                                  \
-    EXPECT_NEAR(pred_json["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3)           \
-        << #TestName " error_rate";                                                                        \
-    compare_confusion_matrix(pred_json["confusion_matrix"], golden["training_confusion_matrix"]);          \
+#define CLI_GOLDEN_TREE_TEST(TestName, dataset, slug, csv, lambda, seed)                                             \
+  TEST(CLIGolden, TestName) {                                                                                        \
+    auto golden = load_golden(dataset, slug);                                                                        \
+                                                                                                                     \
+    TempFile model;                                                                                                  \
+    model.clear();                                                                                                   \
+    auto train = run_ppforest2(                                                                                      \
+        "-q train -d " + csv +                                                                                       \
+        " -n 0"                                                                                                      \
+        " -l " +                                                                                                     \
+        std::to_string(lambda) + " -r " + std::to_string(seed) + " -s " + model.path()                               \
+    );                                                                                                               \
+    ASSERT_EQ(train.exit_code, 0) << "train failed";                                                                 \
+                                                                                                                     \
+    auto model_json = json::parse(model.read());                                                                     \
+    ASSERT_TRUE(model_json.contains("variable_importance"));                                                         \
+    auto vi = model_json["variable_importance"];                                                                     \
+    compare_float_array(vi["scale"], golden["variable_importance"]["scale"], 1e-3, #TestName " VI scale");           \
+    compare_float_array(                                                                                             \
+        vi["projections"], golden["variable_importance"]["projections"], 1e-3, #TestName " VI projections"           \
+    );                                                                                                               \
+                                                                                                                     \
+    TempFile output;                                                                                                 \
+    output.clear();                                                                                                  \
+    auto predict = run_ppforest2("-q predict -M " + model.path() + " -d " + csv + " -o " + output.path());           \
+    ASSERT_EQ(predict.exit_code, 0) << "predict failed";                                                             \
+                                                                                                                     \
+    auto pred_json = json::parse(output.read());                                                                     \
+    compare_predictions(pred_json["predictions"], golden["predictions"]);                                            \
+    auto const& m = pred_json["metrics"];                                                                            \
+    EXPECT_NEAR(m["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3) << #TestName " error_rate"; \
+    compare_confusion_matrix(m["confusion_matrix"], golden["training_metrics"]["confusion_matrix"]);                 \
   }
 
-#define CLI_GOLDEN_FOREST_TEST(TestName, dataset, slug, csv, n_trees, lambda, n_vars, seed)                  \
-  TEST(CLIGolden, TestName) {                                                                                \
-    auto golden = load_golden(dataset, slug);                                                                \
-                                                                                                             \
-    TempFile model;                                                                                          \
-    model.clear();                                                                                           \
-    auto train = run_ppforest2(                                                                              \
-        "-q train -d " + csv + " -n " + std::to_string(n_trees) + " -l " + std::to_string(lambda) + " -r " + \
-        std::to_string(seed) + " --n-vars " + std::to_string(n_vars) +                                       \
-        " --threads 1"                                                                                       \
-        " -s " +                                                                                             \
-        model.path()                                                                                         \
-    );                                                                                                       \
-    ASSERT_EQ(train.exit_code, 0) << "train failed";                                                         \
-                                                                                                             \
-    auto model_json = json::parse(model.read());                                                             \
-    ASSERT_TRUE(model_json.contains("oob_error"));                                                           \
-    EXPECT_NEAR(model_json["oob_error"].get<double>(), golden["oob_error"].get<double>(), 1e-3)              \
-        << #TestName " oob_error";                                                                           \
-                                                                                                             \
-    ASSERT_TRUE(model_json.contains("variable_importance"));                                                 \
-    auto vi  = model_json["variable_importance"];                                                            \
-    auto gvi = golden["variable_importance"];                                                                \
-    compare_float_array(vi["scale"], gvi["scale"], 1e-3, #TestName " VI scale");                             \
-    compare_float_array(vi["projections"], gvi["projections"], 1e-3, #TestName " VI projections");           \
-    compare_float_array(                                                                                     \
-        vi["weighted_projections"], gvi["weighted_projections"], 1e-3, #TestName " VI weighted_projections"  \
-    );                                                                                                       \
-    compare_float_array(vi["permuted"], gvi["permuted"], 1e-3, #TestName " VI permuted");                    \
-                                                                                                             \
-    TempFile output;                                                                                         \
-    output.clear();                                                                                          \
-    auto predict = run_ppforest2("-q predict -M " + model.path() + " -d " + csv + " -o " + output.path());   \
-    ASSERT_EQ(predict.exit_code, 0) << "predict failed";                                                     \
-                                                                                                             \
-    auto pred_json = json::parse(output.read());                                                             \
-    compare_predictions(pred_json["predictions"], golden["predictions"]);                                    \
-    EXPECT_NEAR(pred_json["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3)             \
-        << #TestName " error_rate";                                                                          \
-    compare_confusion_matrix(pred_json["confusion_matrix"], golden["training_confusion_matrix"]);            \
+#define CLI_GOLDEN_FOREST_TEST(TestName, dataset, slug, csv, n_trees, lambda, n_vars, seed)                            \
+  TEST(CLIGolden, TestName) {                                                                                          \
+    auto golden = load_golden(dataset, slug);                                                                          \
+                                                                                                                       \
+    TempFile model;                                                                                                    \
+    model.clear();                                                                                                     \
+    auto train = run_ppforest2(                                                                                        \
+        "-q train -d " + csv + " -n " + std::to_string(n_trees) + " -l " + std::to_string(lambda) + " -r " +           \
+        std::to_string(seed) + " --n-vars " + std::to_string(n_vars) +                                                 \
+        " --threads 1"                                                                                                 \
+        " -s " +                                                                                                       \
+        model.path()                                                                                                   \
+    );                                                                                                                 \
+    ASSERT_EQ(train.exit_code, 0) << "train failed";                                                                   \
+                                                                                                                       \
+    auto model_json = json::parse(model.read());                                                                       \
+    ASSERT_TRUE(model_json.contains("oob_metrics"));                                                                   \
+    ASSERT_FALSE(model_json["oob_metrics"].is_null());                                                                 \
+    EXPECT_NEAR(                                                                                                       \
+        model_json["oob_metrics"]["error_rate"].get<double>(), golden["oob_metrics"]["error_rate"].get<double>(), 1e-3 \
+    ) << #TestName " oob_error";                                                                                       \
+                                                                                                                       \
+    ASSERT_TRUE(model_json.contains("variable_importance"));                                                           \
+    auto vi  = model_json["variable_importance"];                                                                      \
+    auto gvi = golden["variable_importance"];                                                                          \
+    compare_float_array(vi["scale"], gvi["scale"], 1e-3, #TestName " VI scale");                                       \
+    compare_float_array(vi["projections"], gvi["projections"], 1e-3, #TestName " VI projections");                     \
+    compare_float_array(                                                                                               \
+        vi["weighted_projections"], gvi["weighted_projections"], 1e-3, #TestName " VI weighted_projections"            \
+    );                                                                                                                 \
+    compare_float_array(vi["permuted"], gvi["permuted"], 1e-3, #TestName " VI permuted");                              \
+                                                                                                                       \
+    TempFile output;                                                                                                   \
+    output.clear();                                                                                                    \
+    auto predict = run_ppforest2("-q predict -M " + model.path() + " -d " + csv + " -o " + output.path());             \
+    ASSERT_EQ(predict.exit_code, 0) << "predict failed";                                                               \
+                                                                                                                       \
+    auto pred_json = json::parse(output.read());                                                                       \
+    compare_predictions(pred_json["predictions"], golden["predictions"]);                                              \
+    auto const& m = pred_json["metrics"];                                                                              \
+    EXPECT_NEAR(m["error_rate"].get<double>(), golden["error_rate"].get<double>(), 1e-3) << #TestName " error_rate";   \
+    compare_confusion_matrix(m["confusion_matrix"], golden["training_metrics"]["confusion_matrix"]);                   \
   }
 
 // ---------------------------------------------------------------------------

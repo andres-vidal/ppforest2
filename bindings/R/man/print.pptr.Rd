@@ -2,23 +2,15 @@
 % Please edit documentation in R/pptr.R
 \name{print.pptr}
 \alias{print.pptr}
-\title{Prints a pptr model.}
+\title{Prints the structure of a pptr tree.}
 \usage{
 \method{print}{pptr}(x, ...)
 }
 \arguments{
-\item{x}{A pptr model.}
+\item{x}{A \code{pptr} model.}
 
-\item{...}{(unused) other parameters typically passed to print.}
+\item{...}{Unused.}
 }
 \description{
-Prints a pptr model.
-}
-\examples{
-model <- pptr(Type ~ ., data = iris)
-print(model)
-
-}
-\seealso{
-\code{\link{pptr}}, \code{\link{summary.pptr}}
+Prints the structure of a pptr tree.
 }

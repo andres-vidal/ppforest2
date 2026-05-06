@@ -25,7 +25,7 @@ Train a projection-pursuit tree on the iris dataset:
 ```{r tree}
 library(ppforest2)
 
-tree <- pptr(Type ~ ., data = iris, seed = 0)
+tree <- pptr(Species ~ ., data = iris, seed = 0)
 tree
 ```
 
@@ -39,7 +39,7 @@ Predict new observations:
 
 ```{r tree-predict}
 preds <- predict(tree, iris)
-table(predicted = preds, actual = iris$Type)
+table(predicted = preds, actual = iris$Species)
 ```
 
 ## Random forest
@@ -47,7 +47,7 @@ table(predicted = preds, actual = iris$Type)
 Train a forest of 100 trees, each considering 2 randomly chosen variables at each split:
 
 ```{r forest}
-forest <- pprf(Type ~ ., data = iris, size = 100, n_vars = 2, seed = 0)
+forest <- pprf(Species ~ ., data = iris, size = 100, n_vars = 2, seed = 0)
 summary(forest)
 ```
 
@@ -105,7 +105,7 @@ plot(forest, type = "structure", tree_index = 1)
 Set `lambda > 0` to use Penalized Discriminant Analysis instead of LDA. This can help when features are highly correlated:
 
 ```{r pda}
-tree_pda <- pptr(Type ~ ., data = iris, lambda = 0.5, seed = 0)
+tree_pda <- pptr(Species ~ ., data = iris, lambda = 0.5, seed = 0)
 summary(tree_pda)
 ```
 
@@ -115,9 +115,9 @@ For more control, you can pass strategy objects directly instead of using the sh
 
 ```{r strategies}
 # These two calls produce identical results:
-forest_shortcut <- pprf(Type ~ ., data = iris, size = 10, lambda = 0.5, n_vars = 2, seed = 0)
+forest_shortcut <- pprf(Species ~ ., data = iris, size = 10, lambda = 0.5, n_vars = 2, seed = 0)
 
-forest_explicit <- pprf(Type ~ ., data = iris, size = 10, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2), seed = 0)
+forest_explicit <- pprf(Species ~ ., data = iris, size = 10, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2), seed = 0)
 
 all.equal(predict(forest_shortcut, iris), predict(forest_explicit, iris))
 ```
@@ -138,7 +138,7 @@ spec <- pp_rand_forest(trees = 10) |>
   set_engine("ppforest2", pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2)) |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ])
 ```
 
@@ -154,7 +154,7 @@ spec <- pp_tree(penalty = 0.5) |>
   set_engine("ppforest2") |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ])
 ```
 
@@ -164,6 +164,6 @@ spec <- pp_rand_forest(trees = 50, mtry = 2, penalty = 0.5) |>
   set_engine("ppforest2") |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ], type = "prob")
 ```

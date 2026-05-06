@@ -118,24 +118,6 @@ NULL
 #' @format A data frame contains 2310 observations and 19 variables
 NULL
 
-#' Iris Flower Dataset
-#'
-#' The Iris flower dataset or Fisher's Iris dataset is a multivariate dataset introduced by Sir Ronald Fisher in 1936 as an example of discriminant analysis. It includes measurements for 150 iris flowers from three species, with 50 from each species. The measurements include the length and the width of the sepals and petals.
-#'
-#' @docType data
-#' @format A data frame with 150 rows and 5 variables:
-#' \describe{
-#'   \item{Sepal.Length}{Length of the sepal in cm.}
-#'   \item{Sepal.Width}{Width of the sepal in cm.}
-#'   \item{Petal.Length}{Length of the petal in cm.}
-#'   \item{Petal.Width}{Width of the petal in cm.}
-#'   \item{Type}{A factor with levels `setosa`, `versicolor`, and `virginica` indicating the species of each observation.}
-#' }
-#' @source Fisher, R.A. (1936) The use of multiple measurements in taxonomic problems. Annals of Eugenics, 7, Part II, 179-188.
-#' @name iris
-#'
-NULL
-
 #' Leukemia Dataset
 #'
 #' This dataset comes from a study of gene expression in two types of acute leukemias, acute lymphoblastic leukemia (ALL) and acute myeloid leukemia (AML). Gene expression levels were measured using Affymetrix high density oligonucleotide arrays containing 6817 human genes. A dataset containing 72 observations from 3 leukemia type groups.
@@ -242,6 +224,35 @@ NULL
 #' @usage data(parkinson)
 #' @format A data frame with 195 rows and 23 variables
 #' @source \url{https://archive.ics.uci.edu/ml/datasets/Parkinsons}
+NULL
+
+#' California Housing Dataset
+#'
+#' Median house values and demographic/geographic predictors for 20,433 California
+#' block groups, derived from the 1990 US Census. Classic regression benchmark.
+#' Originally released by Pace & Barry (1997); this version drops the categorical
+#' `ocean_proximity` column (to keep the bundled schema all-numeric, matching the
+#' rest of the package's datasets) and removes rows with missing `total_bedrooms`.
+#' The regression target, `median_house_value`, is the last column.
+#'
+#' \describe{
+#'   \item{longitude}{Longitude of the block group (degrees, negative = west).}
+#'   \item{latitude}{Latitude of the block group (degrees).}
+#'   \item{housing_median_age}{Median age of houses in the block group (years).}
+#'   \item{total_rooms}{Total number of rooms.}
+#'   \item{total_bedrooms}{Total number of bedrooms.}
+#'   \item{population}{Block group population.}
+#'   \item{households}{Number of households.}
+#'   \item{median_income}{Median household income (tens of thousands of USD).}
+#'   \item{median_house_value}{Regression target: median house value (USD).}
+#' }
+#'
+#' @docType data
+#' @keywords datasets
+#' @name california_housing
+#' @usage data(california_housing)
+#' @format A data frame with 20,433 rows and 9 variables.
+#' @source Pace, R.K. and Barry, R. (1997) Sparse spatial autoregressions. Statistics & Probability Letters, 33, 291-297.
 NULL
 
 #' Wine Dataset

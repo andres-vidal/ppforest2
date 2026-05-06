@@ -11,10 +11,14 @@
 namespace ppforest2::stats {
   /**
    * @brief Build a sorted mapping from unique group labels to contiguous indices.
-   * @param groups A response vector containing group labels.
+   *
+   * Includes labels from both `predictions` and `actual` so the confusion
+   * matrix can hold cells for any predicted class — even classes the model
+   * confused into that didn't appear in the ground truth (and vice versa).
+   *
    * @return A map from label value to its 0-based index.
    */
-  std::map<int, int> get_labels_map(types::OutcomeVector const& groups);
+  std::map<int, int> get_labels_map(types::GroupIdVector const& y_pred, types::GroupIdVector const& y);
 
   /**
    * @brief A confusion matrix comparing predicted vs actual group labels.
@@ -44,7 +48,7 @@ namespace ppforest2::stats {
      * @param actual      The true group labels (must have the same size).
      * @throws std::invalid_argument If predictions and actual have different sizes.
      */
-    ConfusionMatrix(types::OutcomeVector const& predictions, types::OutcomeVector const& actual);
+    ConfusionMatrix(types::GroupIdVector const& y_pred, types::GroupIdVector const& y);
 
     /**
      * @brief Compute per-group error rates.

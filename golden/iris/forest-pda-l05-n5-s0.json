@@ -7,13 +7,14 @@
       "name": "mean_of_means"
     },
     "dataset": "iris",
+    "grouping": {
+      "name": "by_label"
+    },
     "leaf": {
       "name": "majority_vote"
     },
     "max_retries": 3,
-    "partition": {
-      "name": "by_group"
-    },
+    "mode": "classification",
     "platform": "macos-clang",
     "pp": {
       "lambda": 0.5,
@@ -71,7 +72,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": -0.32427382469177246,
+            "cutpoint": -0.32427385449409485,
             "degenerate": false,
             "groups": [
               "versicolor",
@@ -448,7 +449,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": -0.0787852481007576,
+          "cutpoint": -0.07878526300191879,
           "degenerate": false,
           "groups": [
             "setosa",
@@ -665,7 +666,7 @@
             0.09381933510303497
           ],
           "upper": {
-            "cutpoint": 0.4378364682197571,
+            "cutpoint": 0.4378364086151123,
             "degenerate": false,
             "groups": [
               "versicolor",
@@ -1042,36 +1043,38 @@
     ]
   },
   "model_type": "forest",
-  "oob_confusion_matrix": {
-    "group_errors": [
-      0.0,
-      0.1190476194024086,
-      0.12765957415103912
-    ],
-    "labels": [
-      "setosa",
-      "versicolor",
-      "virginica"
-    ],
-    "matrix": [
-      [
-        43,
-        0,
-        0
+  "oob_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.0,
+        0.1190476194024086,
+        0.12765957415103912
       ],
-      [
-        2,
-        37,
-        3
+      "labels": [
+        "setosa",
+        "versicolor",
+        "virginica"
       ],
-      [
-        0,
-        6,
-        41
+      "matrix": [
+        [
+          43,
+          0,
+          0
+        ],
+        [
+          2,
+          37,
+          3
+        ],
+        [
+          0,
+          6,
+          41
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.08333331346511841
   },
-  "oob_error": 0.08333331346511841,
   "predictions": [
     "setosa",
     "setosa",
@@ -1224,34 +1227,37 @@
     "virginica",
     "virginica"
   ],
-  "training_confusion_matrix": {
-    "group_errors": [
-      0.0,
-      0.05999999865889549,
-      0.05999999865889549
-    ],
-    "labels": [
-      "setosa",
-      "versicolor",
-      "virginica"
-    ],
-    "matrix": [
-      [
-        50,
-        0,
-        0
+  "training_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.0,
+        0.05999999865889549,
+        0.05999999865889549
       ],
-      [
-        0,
-        47,
-        3
+      "labels": [
+        "setosa",
+        "versicolor",
+        "virginica"
       ],
-      [
-        0,
-        3,
-        47
+      "matrix": [
+        [
+          50,
+          0,
+          0
+        ],
+        [
+          0,
+          47,
+          3
+        ],
+        [
+          0,
+          3,
+          47
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.04000002145767212
   },
   "variable_importance": {
     "permuted": [

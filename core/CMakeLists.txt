@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.24)  # $<LINK_LIBRARY:WHOLE_ARCHIVE,...> for self-registering strategies
 
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/../VERSION" PPFOREST2_VERSION)
 string(STRIP "${PPFOREST2_VERSION}" PPFOREST2_VERSION)
@@ -73,6 +73,19 @@ if(CMAKE_BUILD_TYPE MATCHES Release)
   add_compile_definitions(EIGEN_NO_DEBUG)
 endif()
 
+# GCC 12+ runs aggressive -Wstringop-overflow= analysis that triggers
+# false positives inside Eigen's IndexedView + product template chain
+# (e.g. `x(indices, all).row(i).dot(projector)` ends up inlining
+# multiple template levels, and GCC's diagnostic loses track of the
+# actual destination buffer size, claiming a tiny region from one
+# specialisation while the real allocation is dynamic). The generated
+# code is correct — see Eigen issues #2375 / #2407 — only the warning
+# is bogus. Clang doesn't emit these. Scope the suppression to GCC so
+# we still catch real overflows on the other compilers.
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 12)
+  add_compile_options(-Wno-stringop-overflow)
+endif()
+
 if(WIN32)
   add_link_options(-static)
 endif()
@@ -122,8 +135,22 @@ add_subdirectory(src/utils)
 add_subdirectory(src/io)
 
 # ---------------------------------------------------------------------------
-# Core library (composed from OBJECT libraries)
+# Core libraries
 # ---------------------------------------------------------------------------
+# `ppforest2-core` aggregates OBJECT libraries that are safe to link on
+# demand — their code gets pulled in naturally by whatever references it.
+# Includes `ppforest2-models` (the Tree / Forest / TrainingSpec / etc.
+# infrastructure); non-strategy model code doesn't have the self-
+# registration hazard.
+#
+# Concrete strategies live in a separate STATIC `ppforest2-strategies`
+# library (see `src/models/strategies/CMakeLists.txt`). That target is
+# linked with WHOLE_ARCHIVE by every executable below so the linker
+# can't dead-strip strategy object files whose only external effect is
+# a static-init registration. Keeping strategies in their own archive
+# means consumers that don't want every strategy's code pulled in (e.g.
+# the R bindings skip the CSV reader entirely) still get surgical
+# linkage for everything else in core.
 add_library(ppforest2-core
   $<TARGET_OBJECTS:ppforest2-models>
   $<TARGET_OBJECTS:ppforest2-stats>
@@ -148,7 +175,20 @@ if(NOT PPFOREST2_CORE_ONLY)
 
   add_executable(ppforest2 src/cli/CLI.cpp $<TARGET_OBJECTS:ppforest2-cli>)
   target_include_directories(ppforest2 PRIVATE ${csv_SOURCE_DIR}/include)
-  target_link_libraries(ppforest2 ppforest2-core ppforest2-serialization nlohmann_json::nlohmann_json csv CLI11::CLI11 fmt::fmt)
+  # `ppforest2-core` is wrapped in WHOLE_ARCHIVE so the linker keeps every
+  # object file — even those whose only external effect is a static
+  # initializer (the self-registering strategies via PPFOREST2_REGISTER_*).
+  # Without this, ld64 / ld / lld dead-strip any strategy not directly
+  # referenced from code linked into this executable, the registry stays
+  # empty for that strategy, and `*::from_json` throws "Unknown strategy"
+  # at runtime. CMake 3.24's generator expression handles the platform-
+  # specific flag differences (macOS `-force_load`, GCC `--whole-archive`,
+  # MSVC `/WHOLEARCHIVE`) uniformly.
+  # `ppforest2-models` is WHOLE_ARCHIVE-linked so self-registering strategies
+  # survive the linker's dead-strip pass — see the note on its STATIC split
+  # above. `ppforest2-core` is linked normally; its objects pull in on
+  # demand based on what this executable actually calls.
+  target_link_libraries(ppforest2 $<LINK_LIBRARY:WHOLE_ARCHIVE,ppforest2-strategies> ppforest2-core nlohmann_json::nlohmann_json csv CLI11::CLI11 fmt::fmt)
   target_compile_definitions(ppforest2 PRIVATE PPFOREST2_VERSION="${PROJECT_VERSION}")
 
   # ---------------------------------------------------------------------------
@@ -158,28 +198,53 @@ if(NOT PPFOREST2_CORE_ONLY)
 
   set(PPFOREST2_TEST_SRC
     src/test.cpp
+    src/models/Model.test.cpp
     src/models/Tree.test.cpp
     src/models/Forest.test.cpp
+    src/models/TreeLeaf.test.cpp
+    src/models/TreeBranch.test.cpp
+    src/models/Bagged.test.cpp
+    src/models/ClassificationTree.test.cpp
+    src/models/ClassificationForest.test.cpp
+    src/models/RegressionTree.test.cpp
+    src/models/RegressionForest.test.cpp
+    src/models/Evaluation.test.cpp
+    src/models/strategies/pp/ProjectionPursuit.test.cpp
     src/models/strategies/pp/PDA.test.cpp
+    src/models/strategies/vars/VariableSelection.test.cpp
     src/models/strategies/vars/Uniform.test.cpp
     src/models/strategies/vars/All.test.cpp
+    src/models/strategies/cutpoint/Cutpoint.test.cpp
     src/models/strategies/cutpoint/MeanOfMeans.test.cpp
+    src/models/strategies/stop/StopRule.test.cpp
     src/models/strategies/stop/PureNode.test.cpp
+    src/models/strategies/stop/MinSize.test.cpp
+    src/models/strategies/stop/MinVariance.test.cpp
+    src/models/strategies/stop/CompositeStop.test.cpp
+    src/models/strategies/stop/MaxDepth.test.cpp
+    src/models/strategies/binarize/Binarization.test.cpp
     src/models/strategies/binarize/LargestGap.test.cpp
-    src/models/strategies/partition/ByGroup.test.cpp
+    src/models/strategies/binarize/Disabled.test.cpp
+    src/models/strategies/grouping/Grouping.test.cpp
+    src/models/strategies/grouping/ByLabel.test.cpp
+    src/models/strategies/grouping/ByCutpoint.test.cpp
     src/models/strategies/leaf/MajorityVote.test.cpp
+    src/models/strategies/leaf/MeanResponse.test.cpp
     src/models/TrainingSpec.test.cpp
-    src/models/VariableImportance.test.cpp
     src/models/Visualization.test.cpp
     src/stats/Stats.test.cpp
     src/stats/GroupPartition.test.cpp
     src/stats/ConfusionMatrix.test.cpp
+    src/stats/Metrics.test.cpp
     src/stats/Uniform.test.cpp
     src/stats/Normal.test.cpp
     src/stats/Simulation.test.cpp
+    src/serialization/ExportValidation.test.cpp
     src/serialization/Json.test.cpp
     src/utils/Math.test.cpp
+    src/utils/RangeVector.test.cpp
     src/utils/Invariant.test.cpp
+    src/utils/JsonReader.test.cpp
     src/utils/System.test.cpp
     src/cli/CLIOptions.test.cpp
     src/cli/ModelParams.test.cpp
@@ -202,8 +267,8 @@ if(NOT PPFOREST2_CORE_ONLY)
   add_executable(ppforest2-test ${PPFOREST2_TEST_SRC} $<TARGET_OBJECTS:ppforest2-cli>)
 
   target_link_libraries(ppforest2-test
+    $<LINK_LIBRARY:WHOLE_ARCHIVE,ppforest2-strategies>  # see note on the ppforest2 target above
     ppforest2-core
-    ppforest2-serialization
     nlohmann_json::nlohmann_json
     gtest
     CLI11::CLI11
@@ -220,7 +285,8 @@ if(NOT PPFOREST2_CORE_ONLY)
     PPFOREST2_DATA_DIR="${CMAKE_SOURCE_DIR}/../data"
     PPFOREST2_GOLDEN_DIR="${CMAKE_SOURCE_DIR}/../golden"
     PPFOREST2_FIXTURES_DIR="${CMAKE_SOURCE_DIR}/../fixtures"
-    PPFOREST2_BENCH_SCENARIOS="${CMAKE_SOURCE_DIR}/../bench/default-scenarios.json"
+    PPFOREST2_BENCH_SCENARIOS_CLS="${CMAKE_SOURCE_DIR}/../bench/default-scenarios-classification.json"
+    PPFOREST2_BENCH_SCENARIOS_REG="${CMAKE_SOURCE_DIR}/../bench/default-scenarios-regression.json"
     PPFOREST2_PLATFORM="${PPFOREST2_PLATFORM}"
     PPFOREST2_VERSION="${PROJECT_VERSION}")
 
@@ -235,8 +301,8 @@ if(NOT PPFOREST2_CORE_ONLY)
   add_executable(ppforest2-golden-gen src/golden/GoldenGen.cpp)
 
   target_link_libraries(ppforest2-golden-gen
+    $<LINK_LIBRARY:WHOLE_ARCHIVE,ppforest2-strategies>  # see note on the ppforest2 target above
     ppforest2-core
-    ppforest2-serialization
     nlohmann_json::nlohmann_json
     csv
     fmt::fmt)

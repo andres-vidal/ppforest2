@@ -12,7 +12,7 @@ A \code{leaf_strategy} object.
 \description{
 Creates a leaf strategy that assigns the majority group label as the
 leaf prediction. When groups are tied, the smallest label wins.
-This is the default leaf strategy.
+This is the default leaf strategy for classification.
 }
 \examples{
 leaf_majority_vote()

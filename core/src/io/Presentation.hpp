@@ -5,15 +5,16 @@
  */
 #pragma once
 
-#include "io/Color.hpp"
 #include "io/EvaluateResult.hpp"
 #include "io/Output.hpp"
-#include "models/VariableImportance.hpp"
+#include "models/Evaluation.hpp"
 #include "stats/ConfusionMatrix.hpp"
+#include "stats/Metrics.hpp"
 
 #include <nlohmann/json.hpp>
 
 namespace ppforest2::io {
+
   /**
    * @brief Print evaluation results (timing, errors, memory) to stdout.
    * @param stats The aggregated model statistics.
@@ -32,7 +33,7 @@ namespace ppforest2::io {
    * @param max_rows  Maximum number of rows to print (0 = all).
    */
   void print_variable_importance(
-      Output& out, VariableImportance const& vi, std::vector<std::string> const& feature_names = {}, int max_rows = 20
+      Output& out, VariableImportance const& vi, types::Names const& feature_names = {}, int max_rows = 20
   );
 
   /**
@@ -47,9 +48,54 @@ namespace ppforest2::io {
   void print_confusion_matrix(
       Output& out,
       stats::ConfusionMatrix const& cm,
-      std::string const& title                    = "Confusion Matrix",
-      std::vector<std::string> const& group_names = {}
+      std::string const& title        = "Confusion Matrix",
+      types::Names const& group_names = {}
   );
+
+  /**
+   * @brief Print regression metrics to stdout.
+   *
+   * Displays MSE, MAE, and R-squared.
+   *
+   * @param out     Output context.
+   * @param rm      The regression metrics to print.
+   * @param title   Section title.
+   */
+  void print_regression_metrics(
+      Output& out, stats::RegressionMetrics const& rm, std::string const& title = "Regression Metrics"
+  );
+
+  /**
+   * @brief Print a labeled metrics block — error rate + confusion matrix
+   * for classification, MSE + regression metrics for regression.
+   *
+   * The variant overload dispatches on the alternative; callers that already
+   * carry a `stats::Metrics` (predict, summarize, OOB) can stay mode-agnostic.
+   * Label-less overloads emit unprefixed titles (e.g. "Error:" instead of
+   * "Training Error:") for callers that have no section context to add.
+   *
+   * @param out         Output context.
+   * @param metrics     Mode-specific or variant-typed metrics.
+   * @param label       Prefix used on row labels (e.g. "Training", "OOB").
+   * @param group_names Class labels — used only by the classification path.
+   */
+  void print_metrics_block(
+      Output& out,
+      stats::ClassificationMetrics const& cm,
+      std::string const& label,
+      types::Names const& group_names = {}
+  );
+  void print_metrics_block(
+      Output& out, stats::RegressionMetrics const& rm, std::string const& label, types::Names const& group_names = {}
+  );
+  void print_metrics_block(
+      Output& out, stats::Metrics const& metrics, std::string const& label, types::Names const& group_names = {}
+  );
+
+  /** @copydoc print_metrics_block */
+  void print_metrics_block(Output& out, stats::ClassificationMetrics const& m, types::Names const& group_names = {});
+  void print_metrics_block(Output& out, stats::RegressionMetrics const& m, types::Names const& group_names = {});
+  void print_metrics_block(Output& out, stats::Metrics const& m, types::Names const& group_names = {});
 
   /**
    * @brief Optional display hints for print_configuration.

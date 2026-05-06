@@ -7,13 +7,14 @@
       "name": "mean_of_means"
     },
     "dataset": "crab",
+    "grouping": {
+      "name": "by_label"
+    },
     "leaf": {
       "name": "majority_vote"
     },
     "max_retries": 3,
-    "partition": {
-      "name": "by_group"
-    },
+    "mode": "classification",
     "platform": "macos-clang",
     "pp": {
       "lambda": 0.0,
@@ -91,7 +92,7 @@
         0.03310954570770264
       ],
       "upper": {
-        "cutpoint": 0.1984570324420929,
+        "cutpoint": 0.1984570175409317,
         "degenerate": false,
         "groups": [
           "OrangeMale",
@@ -117,6 +118,7 @@
     }
   },
   "model_type": "tree",
+  "oob_metrics": null,
   "predictions": [
     "BlueMale",
     "BlueMale",
@@ -319,45 +321,48 @@
     "OrangeFemale",
     "OrangeFemale"
   ],
-  "training_confusion_matrix": {
-    "group_errors": [
-      0.10000000149011612,
-      0.05999999865889549,
-      0.0,
-      0.05999999865889549
-    ],
-    "labels": [
-      "BlueMale",
-      "BlueFemale",
-      "OrangeMale",
-      "OrangeFemale"
-    ],
-    "matrix": [
-      [
-        45,
-        5,
-        0,
-        0
+  "training_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.10000000149011612,
+        0.05999999865889549,
+        0.0,
+        0.05999999865889549
       ],
-      [
-        3,
-        47,
-        0,
-        0
+      "labels": [
+        "BlueMale",
+        "BlueFemale",
+        "OrangeMale",
+        "OrangeFemale"
       ],
-      [
-        0,
-        0,
-        50,
-        0
-      ],
-      [
-        0,
-        0,
-        3,
-        47
+      "matrix": [
+        [
+          45,
+          5,
+          0,
+          0
+        ],
+        [
+          3,
+          47,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          50,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          47
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.05500000715255737
   },
   "variable_importance": {
     "projections": [

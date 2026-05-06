@@ -7,10 +7,10 @@ library(ppforest2)
 
 describe("formula.pptr", {
   it("on an object created with the formula interface, returns the formula used to create the model", {
-    model <- pptr(Type ~ ., data = iris)
+    model <- pptr(Species ~ ., data = iris)
     expect_equal(
       formula(model),
-      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width - 1
+      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width - 1
     )
   })
 

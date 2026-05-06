@@ -3,18 +3,21 @@
  * @brief File I/O utilities, JSON and CSV reading/writing.
  */
 #include "io/IO.hpp"
-#include "stats/GroupPartition.hpp"
 #include "stats/Stats.hpp"
 #include "utils/UserError.hpp"
 
-#include "csv.hpp" // IWYU pragma: keep
+#include <csv.hpp> // IWYU pragma: keep
 
 #include <fmt/format.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <unordered_map>
 #include <vector>
+
+using namespace ppforest2::types;
+using namespace ppforest2::stats;
 
 namespace ppforest2::io {
   void check_file_exists(std::string const& path) {
@@ -75,6 +78,18 @@ namespace ppforest2::io::text {
 
 namespace ppforest2::io::csv {
   namespace {
+    // -----------------------------------------------------------------------
+    // Helpers
+    // -----------------------------------------------------------------------
+
+    // Signed-int subscript into a `std::vector` (or any container with
+    // `operator[]`). Tightens the per-callsite `static_cast<std::size_t>(j)`
+    // noise into a single named conversion. Forwards through the proxy
+    // reference returned by `std::vector<bool>` correctly.
+    template<typename Container> decltype(auto) at(Container&& v, int j) {
+      return std::forward<Container>(v)[static_cast<std::size_t>(j)];
+    }
+
     bool is_numeric(std::string const& s) {
       if (s.empty()) {
         return false;
@@ -85,147 +100,205 @@ namespace ppforest2::io::csv {
       return end != s.c_str() && *end == '\0';
     }
 
+    bool is_floating(std::string const& s) {
+      return is_numeric(s) && s.find_first_of(".eE") != std::string::npos;
+    }
+
     struct CategoricalEncoder {
       std::unordered_map<std::string, int> mapping;
 
-      types::Feature encode(std::string const& value) {
+      Feature encode(std::string const& value) {
         auto it = mapping.find(value);
 
         if (it == mapping.end()) {
           int code       = static_cast<int>(mapping.size());
           mapping[value] = code;
-          return static_cast<types::Feature>(code);
+          return static_cast<Feature>(code);
         }
 
-        return static_cast<types::Feature>(it->second);
+        return static_cast<Feature>(it->second);
       }
     };
-  }
 
-  stats::DataPacket read(std::string const& filename) {
-    ::csv::CSVReader reader(filename);
+    // -----------------------------------------------------------------------
+    // Parse pipeline
+    //
+    // CSV → (raw string rows) → (column-type detection + mode detection) →
+    // (typed FeatureMatrix / OutcomeVector + group_names). Mode is detected
+    // from the y column's written form: any value with fractional /
+    // scientific notation (`.`, `e`, `E`) routes to regression (y as float,
+    // empty group_names); otherwise y maps to integer codes (classification,
+    // with group_names populated). Each phase below is one helper.
+    // -----------------------------------------------------------------------
 
-    // Extract feature column names from header (all columns except the last).
-    auto col_names = reader.get_col_names();
-    std::vector<std::string> feature_names;
+    struct RawRows {
+      std::vector<std::vector<std::string>> values;
+      int n_cols = 0;
+    };
 
-    if (!col_names.empty()) {
-      feature_names.assign(col_names.begin(), col_names.end() - 1);
-    }
+    struct ParsedCSV {
+      FeatureMatrix x;
+      OutcomeVector y;
+      types::Names group_names;
+      types::Names feature_names;
+    };
 
-    // First pass: read all raw string values to detect categorical columns.
-    std::vector<std::vector<std::string>> raw_rows;
-    int n_cols = 0;
+    RawRows read_raw_rows(::csv::CSVReader& reader, int expected_cols) {
+      RawRows raw;
+      raw.n_cols = expected_cols;
 
-    for (::csv::CSVRow& row : reader) {
-      int row_num = static_cast<int>(raw_rows.size()) + 1;
-      ppforest2::user_error(
-          row.size() >= 2,
-          fmt::format("Row {} has only {} column(s) — expected at least 2 (features + label)", row_num, row.size())
-      );
+      for (::csv::CSVRow& row : reader) {
+        int const row_num = static_cast<int>(raw.values.size()) + 1;
 
-      std::vector<std::string> values;
+        user_error(
+            row.size() >= 2,
+            fmt::format("Row {} has only {} column(s) — expected at least 2 (features + response)", row_num, row.size())
+        );
+        user_error(
+            static_cast<int>(row.size()) == raw.n_cols,
+            fmt::format("Row {} has {} column(s), expected {} (same as the header)", row_num, row.size(), raw.n_cols)
+        );
 
-      for (int j = 0; j < row.size(); ++j) {
-        values.push_back(row[j].get<std::string>());
-      }
-
-      if (n_cols == 0) {
-        n_cols = static_cast<int>(values.size());
-      }
-
-      raw_rows.push_back(std::move(values));
-    }
-
-    ppforest2::user_error(!raw_rows.empty(), "CSV file is empty or has no data rows");
-
-    int const n_features = n_cols - 1;
-
-    // Detect which feature columns are categorical (non-numeric).
-    std::vector<bool> is_categorical(static_cast<std::size_t>(n_features), false);
-
-    for (int j = 0; j < n_features; ++j) {
-      for (auto const& row : raw_rows) {
-        if (!is_numeric(row[static_cast<std::size_t>(j)])) {
-          is_categorical[static_cast<std::size_t>(j)] = true;
-          break;
+        std::vector<std::string> values;
+        values.reserve(row.size());
+        for (auto&& cell : row) {
+          values.push_back(cell.get<std::string>());
         }
+        raw.values.push_back(std::move(values));
       }
+
+      return raw;
     }
 
-    // Encode features (numeric or categorical) and response labels.
-    std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
-
-    int const n = static_cast<int>(raw_rows.size());
-
-    types::FeatureMatrix x(n, n_features);
-    types::OutcomeVector y(n);
-
-    std::unordered_map<std::string, int> label_mapping;
-    std::vector<std::string> label_names;
-
-    for (int i = 0; i < n; ++i) {
-      auto const& row = raw_rows[static_cast<std::size_t>(i)];
-      ppforest2::user_error(
-          static_cast<int>(row.size()) == n_cols,
-          fmt::format("Row {} has {} column(s), expected {} (same as row 1)", i + 1, row.size(), n_cols)
-      );
+    // A column is categorical if any cell in it fails `is_numeric`.
+    std::vector<bool> is_categorical(RawRows const& raw) {
+      int const n_features = raw.n_cols - 1;
+      std::vector<bool> res(static_cast<std::size_t>(n_features), false);
 
       for (int j = 0; j < n_features; ++j) {
-        auto const& val = row[static_cast<std::size_t>(j)];
-
-        if (is_categorical[static_cast<std::size_t>(j)]) {
-          x(i, j) = encoders[static_cast<std::size_t>(j)].encode(val);
-        } else {
-          x(i, j) = std::stof(val);
+        for (auto const& row : raw.values) {
+          if (!is_numeric(at(row, j))) {
+            at(res, j) = true;
+            break;
+          }
         }
       }
 
-      // Outcome label (last column).
-      std::string const& label_str = row[static_cast<std::size_t>(n_cols - 1)];
+      return res;
+    }
 
-      auto [it, inserted] = label_mapping.try_emplace(label_str, static_cast<int>(label_names.size()));
+    // Auto-detect regression: any y value with fractional / scientific
+    // notation marks y as continuous. Integer-coded labels (e.g. Wine's
+    // "1", "2", "3") look numeric but stay on the classification path.
+    bool is_classification(RawRows const& raw) {
+      int const y_col = raw.n_cols - 1;
+      return std::all_of(raw.values.begin(), raw.values.end(), [&](auto const& row) {
+        return !is_floating(at(row, y_col));
+      });
+    }
 
+    Outcome encode_classification_y(
+        std::string const& y_str, types::Names& group_names, std::unordered_map<std::string, int>& label_mapping
+    ) {
+      auto [it, inserted] = label_mapping.try_emplace(y_str, static_cast<int>(group_names.size()));
       if (inserted) {
-        label_names.push_back(label_str);
+        group_names.push_back(y_str);
+      }
+      return static_cast<Outcome>(it->second);
+    }
+
+    Outcome parse_regression_y(std::string const& y_str, int row_num) {
+      user_error(
+          is_numeric(y_str), fmt::format("Row {} response value '{}' is not numeric (regression mode)", row_num, y_str)
+      );
+      return std::stof(y_str);
+    }
+
+    ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names) {
+      auto const _is_classification = is_classification(raw);
+      auto const _is_categorical    = is_categorical(raw);
+
+      int const n_features = raw.n_cols - 1;
+      int const y_col      = raw.n_cols - 1;
+      int const n          = static_cast<int>(raw.values.size());
+
+      std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
+      FeatureMatrix x(n, n_features);
+      OutcomeVector y(n);
+      types::Names group_names;
+      std::unordered_map<std::string, int> label_mapping;
+
+      for (int i = 0; i < n; ++i) {
+        auto const& row = at(raw.values, i);
+
+        for (int j = 0; j < n_features; ++j) {
+          auto const& val = at(row, j);
+          x(i, j)         = at(_is_categorical, j) ? at(encoders, j).encode(val) : std::stof(val);
+        }
+
+        auto const& y_str = at(row, y_col);
+
+        if (_is_classification) {
+          y(i) = encode_classification_y(y_str, group_names, label_mapping);
+        } else {
+          y(i) = parse_regression_y(y_str, i + 1);
+        }
       }
 
-      y[i] = label_mapping[label_str];
+      return {std::move(x), std::move(y), std::move(group_names), std::move(feature_names)};
     }
 
-    return stats::DataPacket(x, y, label_names, feature_names);
-  }
+    ParsedCSV parse_csv(std::string const& filename) {
+      ::csv::CSVReader reader(filename);
 
-  stats::DataPacket read_sorted(std::string const& filename) {
-    stats::DataPacket data = read(filename);
+      auto const col_names = reader.get_col_names();
+      user_error(col_names.size() >= 2, "CSV header must have at least 2 columns (features + response)");
 
-    types::FeatureMatrix x = data.x;
-    types::OutcomeVector y = data.y;
+      int const n_cols = static_cast<int>(col_names.size());
+      types::Names feature_names(col_names.begin(), col_names.end() - 1);
 
-    if (!stats::GroupPartition::is_contiguous(y)) {
-      stats::sort(x, y);
+      RawRows raw = read_raw_rows(reader, n_cols);
+      user_error(!raw.values.empty(), "CSV file is empty or has no data rows");
+
+      return encode_rows(raw, std::move(feature_names));
     }
 
-    return stats::DataPacket(x, y, data.group_names, data.feature_names);
+    // Picks the `DataPacket` ctor by mode: classification derives groups
+    // from `y` codes (0..G-1); regression has no group concept and passes `{}`.
+    DataPacket make_data_packet(ParsedCSV const& parsed) {
+      if (parsed.group_names.empty()) {
+        return DataPacket(parsed.x, parsed.y, {}, {}, parsed.feature_names);
+      } else {
+        return DataPacket(parsed.x, parsed.y, parsed.group_names, parsed.feature_names);
+      }
+    }
   }
 
-  void write(stats::DataPacket const& data, std::string const& filename) {
+  DataPacket read(std::string const& filename) {
+    return make_data_packet(parse_csv(filename));
+  }
+
+  DataPacket read_sorted(std::string const& filename) {
+    try {
+      auto parsed = parse_csv(filename);
+      sort(parsed.x, parsed.y);
+      return make_data_packet(parsed);
+    } catch (UserError const&) {
+      throw;
+    } catch (std::exception const& e) {
+      throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
+    }
+  }
+
+  void write(DataPacket const& data, std::string const& filename) {
     std::ofstream out(filename);
 
     user_error(out.is_open(), fmt::format("Could not open file for writing: {}", filename));
 
-    for (int i = 0; i < data.x.rows(); ++i) {
-      for (int j = 0; j < data.x.cols(); ++j) {
-        out << data.x(i, j);
+    Eigen::IOFormat const csv_row(Eigen::StreamPrecision, Eigen::DontAlignCols, ",", ",");
 
-        if (j < data.x.cols() - 1) {
-          out << ",";
-        }
-      }
-
-      out << "," << data.y[i] << "\n";
+    for (Eigen::Index i = 0; i < data.x.rows(); ++i) {
+      out << data.x.row(i).format(csv_row) << "," << data.y[i] << "\n";
     }
-
-    out.close();
   }
 }

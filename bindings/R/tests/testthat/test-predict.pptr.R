@@ -8,19 +8,19 @@ library(ppforest2)
 describe("predict.pptr", {
   describe("on an object created with the formula interface", {
     it("returns a factor with the same length as the input matrix", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       predictions <- predict(model, iris)
       expect_equal(length(predictions), nrow(iris))
     })
 
     it("returns a factor with the same levels as the groups in the model", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       predictions <- predict(model, iris)
-      expect_equal(levels(predictions), levels(iris$Type))
+      expect_equal(levels(predictions), levels(iris$Species))
     })
 
     it("with new_data parameter returns the same result as positional", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       pred_positional <- predict(model, iris)
       pred_named <- predict(model, new_data = iris)
       expect_equal(pred_positional, pred_named)
@@ -47,15 +47,15 @@ describe("predict.pptr", {
 
   describe("with type = 'prob'", {
     it("returns a data frame with one column per group", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       probs <- predict(model, iris, type = "prob")
       expect_true(is.data.frame(probs))
-      expect_equal(ncol(probs), length(levels(iris$Type)))
-      expect_equal(colnames(probs), levels(iris$Type))
+      expect_equal(ncol(probs), length(levels(iris$Species)))
+      expect_equal(colnames(probs), levels(iris$Species))
     })
 
     it("returns exactly one 1.0 per row and the rest 0.0", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       probs <- predict(model, iris, type = "prob")
       row_sums <- rowSums(probs)
       expect_equal(row_sums, rep(1.0, nrow(iris)))
@@ -63,7 +63,7 @@ describe("predict.pptr", {
     })
 
     it("the 1.0 column matches the group prediction", {
-      model <- pptr(Type ~ ., data = iris)
+      model <- pptr(Species ~ ., data = iris)
       group_preds <- predict(model, iris, type = "class")
       prob_preds <- predict(model, iris, type = "prob")
       for (i in seq_len(nrow(iris))) {

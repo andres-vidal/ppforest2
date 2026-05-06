@@ -26,14 +26,20 @@ TEST(Threading, ForestSameResultsSingleVsMulti) {
   GTEST_SKIP() << "OpenMP not available";
 #endif
 
-  auto data = io::csv::read_sorted(DATA_DIR + "/iris.csv");
+  auto data = io::csv::read_sorted(DATA_DIR + "/classification/iris.csv");
 
-  Forest const f1 =
-      Forest::train(TrainingSpec::builder().size(10).threads(1).vars(vars::uniform(2)).build(), data.x, data.y);
-  Forest const f4 =
-      Forest::train(TrainingSpec::builder().size(10).threads(4).vars(vars::uniform(2)).build(), data.x, data.y);
+  auto f1 = Forest::train(
+      TrainingSpec::builder(types::Mode::Classification).size(10).threads(1).vars(vars::uniform(2)).build(),
+      data.x,
+      data.y
+  );
+  auto f4 = Forest::train(
+      TrainingSpec::builder(types::Mode::Classification).size(10).threads(4).vars(vars::uniform(2)).build(),
+      data.x,
+      data.y
+  );
 
-  ASSERT_EQ(f1, f4) << "1-thread and 4-thread forests should be identical";
+  ASSERT_EQ(*f1, *f4) << "1-thread and 4-thread forests should be identical";
 }
 
 TEST(Threading, ForestSameResultsAcrossRuns) {
@@ -41,12 +47,17 @@ TEST(Threading, ForestSameResultsAcrossRuns) {
   GTEST_SKIP() << "OpenMP not available";
 #endif
 
-  auto data = io::csv::read_sorted(DATA_DIR + "/iris.csv");
+  auto data = io::csv::read_sorted(DATA_DIR + "/classification/iris.csv");
 
-  Forest const f1 =
-      Forest::train(TrainingSpec::builder().size(10).threads(4).vars(vars::uniform(2)).build(), data.x, data.y);
-  Forest const f2 =
-      Forest::train(TrainingSpec::builder().size(10).threads(4).vars(vars::uniform(2)).build(), data.x, data.y);
-
-  ASSERT_EQ(f1, f2) << "Two runs with same seed and thread count should be identical";
+  auto f1 = Forest::train(
+      TrainingSpec::builder(types::Mode::Classification).size(10).threads(4).vars(vars::uniform(2)).build(),
+      data.x,
+      data.y
+  );
+  auto f2 = Forest::train(
+      TrainingSpec::builder(types::Mode::Classification).size(10).threads(4).vars(vars::uniform(2)).build(),
+      data.x,
+      data.y
+  );
+  ASSERT_EQ(*f1, *f2) << "Two runs with same seed and thread count should be identical";
 }

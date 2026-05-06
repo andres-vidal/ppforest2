@@ -6,16 +6,11 @@
  * fixed seed, computes predictions, metrics, and variable importance, then
  * writes the results as a JSON golden file.
  */
-#include "ppforest2.hpp"
-
 #include "utils/Types.hpp"
 #include "stats/DataPacket.hpp"
-#include "stats/Stats.hpp"
 #include "stats/ConfusionMatrix.hpp"
-#include "models/Tree.hpp"
-#include "models/Forest.hpp"
+#include "models/Model.hpp"
 #include "models/TrainingSpec.hpp"
-#include "models/VariableImportance.hpp"
 #include "serialization/Json.hpp"
 #include "io/Color.hpp"
 #include "io/IO.hpp"
@@ -97,12 +92,12 @@ namespace {
 
     std::filesystem::create_directories(dir);
 
-    DataPacket const data = io::csv::read_sorted(config.csv_path);
+    DataPacket data = io::csv::read_sorted(config.csv_path);
 
     // Train
     auto vars = (config.size > 0) ? vars::uniform(config.n_vars) : vars::all();
 
-    TrainingSpec const spec = TrainingSpec::builder()
+    TrainingSpec const spec = TrainingSpec::builder(Mode::Classification)
                                   .size(config.size)
                                   .seed(config.seed)
                                   .threads(1)
@@ -128,12 +123,13 @@ namespace {
     result["config"]["platform"] = PLATFORM;
     result["config"]["dataset"]  = config.dataset();
 
-    // Golden-specific fields
-    OutcomeVector const predictions = model_export.model->predict(data.x);
-    result["predictions"]           = serialization::to_labels(predictions, data.group_names);
-    result["vote_proportions"]      = to_json(model_export.model->predict(data.x, Proportions{}));
+    OutcomeVector const predictions     = model_export.model->predict(data.x);
+    result["predictions"]               = serialization::to_json(predictions, data.group_names);
+    GroupIdVector const predictions_int = predictions.cast<GroupId>();
+    result["vote_proportions"]          = to_json(predict_proportions(*model_export.model, data.x));
 
-    ConfusionMatrix const cm(predictions, data.y);
+    GroupIdVector const y_int = data.y.cast<GroupId>();
+    ConfusionMatrix const cm(predictions_int, y_int);
     result["error_rate"] = cm.error();
 
     io::json::write_file(result, path);
@@ -141,20 +137,20 @@ namespace {
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) try {
   std::string output_dir = (argc > 1) ? argv[1] : GOLDEN_DIR;
 
   fmt::print("Generating golden files in: {}\n", output_dir);
   fmt::print("Platform: {}\n\n", PLATFORM);
 
   std::vector<GoldenConfig> const configs = {
-      {DATA_DIR + "/iris.csv", 0, 0.0F, 0, 0},
-      {DATA_DIR + "/iris.csv", 5, 0.0F, 2, 0},
-      {DATA_DIR + "/iris.csv", 5, 0.5F, 2, 0},
-      {DATA_DIR + "/crab.csv", 0, 0.0F, 0, 0},
-      {DATA_DIR + "/crab.csv", 10, 0.0F, 3, 0},
-      {DATA_DIR + "/wine.csv", 10, 0.0F, 4, 0},
-      {DATA_DIR + "/glass.csv", 10, 0.0F, 3, 0},
+      {DATA_DIR + "/classification/iris.csv", 0, 0.0F, 0, 0},
+      {DATA_DIR + "/classification/iris.csv", 5, 0.0F, 2, 0},
+      {DATA_DIR + "/classification/iris.csv", 5, 0.5F, 2, 0},
+      {DATA_DIR + "/classification/crab.csv", 0, 0.0F, 0, 0},
+      {DATA_DIR + "/classification/crab.csv", 10, 0.0F, 3, 0},
+      {DATA_DIR + "/classification/wine.csv", 10, 0.0F, 4, 0},
+      {DATA_DIR + "/classification/glass.csv", 10, 0.0F, 3, 0},
   };
 
   for (auto const& config : configs) {
@@ -163,4 +159,7 @@ int main(int argc, char* argv[]) {
 
   fmt::print("\n{}\n", success("Done. " + emphasis(std::to_string(configs.size())) + " golden files generated."));
   return 0;
+} catch (std::exception const& e) {
+  fmt::print(stderr, "Error: {}\n", e.what());
+  return 1;
 }

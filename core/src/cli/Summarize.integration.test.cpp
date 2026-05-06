@@ -4,6 +4,8 @@
  */
 #include "cli/CLI.integration.hpp"
 
+#include <fstream>
+
 // ---------------------------------------------------------------------------
 // Summarize subcommand
 // ---------------------------------------------------------------------------
@@ -26,20 +28,26 @@ TEST(CLISummarize, SummarizeMissingModelFails) {
 // Saved model JSON structure
 // ---------------------------------------------------------------------------
 
-/* Saved model must contain training_confusion_matrix. */
+/* Saved classification model's training_metrics must carry the confusion matrix block. */
 TEST_F(SummarizeTest, HasTrainingConfusionMatrix) {
-  EXPECT_TRUE(model_json_.contains("training_confusion_matrix"));
-  EXPECT_TRUE(model_json_["training_confusion_matrix"].contains("matrix"));
-  EXPECT_TRUE(model_json_["training_confusion_matrix"].contains("labels"));
-  EXPECT_TRUE(model_json_["training_confusion_matrix"].contains("group_errors"));
+  ASSERT_TRUE(model_json_.contains("training_metrics"));
+  ASSERT_FALSE(model_json_["training_metrics"].is_null());
+  auto const& cm = model_json_["training_metrics"]["confusion_matrix"];
+  EXPECT_TRUE(cm.contains("matrix"));
+  EXPECT_TRUE(cm.contains("labels"));
+  EXPECT_TRUE(cm.contains("group_errors"));
+  EXPECT_TRUE(model_json_["training_metrics"].contains("error_rate"));
 }
 
-/* Saved model must contain oob_confusion_matrix. */
+/* Saved classification model's oob_metrics must carry the confusion matrix block. */
 TEST_F(SummarizeTest, HasOOBConfusionMatrix) {
-  EXPECT_TRUE(model_json_.contains("oob_confusion_matrix"));
-  EXPECT_TRUE(model_json_["oob_confusion_matrix"].contains("matrix"));
-  EXPECT_TRUE(model_json_["oob_confusion_matrix"].contains("labels"));
-  EXPECT_TRUE(model_json_["oob_confusion_matrix"].contains("group_errors"));
+  ASSERT_TRUE(model_json_.contains("oob_metrics"));
+  ASSERT_FALSE(model_json_["oob_metrics"].is_null());
+  auto const& cm = model_json_["oob_metrics"]["confusion_matrix"];
+  EXPECT_TRUE(cm.contains("matrix"));
+  EXPECT_TRUE(cm.contains("labels"));
+  EXPECT_TRUE(cm.contains("group_errors"));
+  EXPECT_TRUE(model_json_["oob_metrics"].contains("error_rate"));
 }
 
 /* Saved model meta must contain observations and features. */
@@ -106,6 +114,48 @@ TEST_F(SummarizeTest, SummarizeWithDataSkipsExistingMetrics) {
   // Model already has metrics — providing --data should not change output
   auto result = run_ppforest2("-q summarize -M " + model_->path() + " -d " + IRIS_CSV);
   EXPECT_EQ(result.exit_code, 0);
+}
+
+/* Summarize on a regression-saved model renders regression-mode metrics
+ * (OOB MSE, Regression Metrics table) without recomputation. The unified
+ * `training_metrics` / `oob_metrics` blocks are mode-polymorphic — their
+ * inner shape comes from `meta.mode`, not from "which sibling key is
+ * present", so the reader / presentation layer never has to guess.
+ * Using simulate+--mode regression sidesteps the lack of a regression
+ * CSV in `data/` while still exercising the full train → save →
+ * summarize pipeline end-to-end. */
+TEST(CLISummarize, SummarizeRegressionModelRendersRegressionMetrics) {
+  TempFile const config;
+  {
+    std::ofstream out(config.path());
+    // NxPxG format is mandatory, but the G component is ignored by the
+    // regression `simulate` overload — the regression path only consumes
+    // N and P. Passing `2` keeps the validator happy without changing semantics.
+    out << R"({"simulate": "80x3x2", "mode": "regression", "seed": 0, "size": 5})";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto train = run_ppforest2("-q train --config " + config.path() + " -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0) << train.stderr_output;
+
+  // Saved JSON's training_metrics carries the regression fields (mse / mae /
+  // r_squared); the inner shape is dictated by `config.mode == regression`.
+  auto j = json::parse(model.read());
+  EXPECT_EQ(j["config"]["mode"], "regression");
+  ASSERT_TRUE(j.contains("training_metrics"));
+  ASSERT_FALSE(j["training_metrics"].is_null());
+  EXPECT_TRUE(j["training_metrics"].contains("mse"));
+  EXPECT_FALSE(j["training_metrics"].contains("confusion_matrix"));
+
+  // Summarize without --data: metrics must render from the saved JSON
+  // (no recomputation path available — the saved model carries no x/y).
+  auto result = run_ppforest2("--no-color summarize -M " + model.path());
+  ASSERT_EQ(result.exit_code, 0) << result.stderr_output;
+  EXPECT_NE(result.stdout_output.find("Training MSE"), std::string::npos) << "Regression training metrics must render";
+  EXPECT_NE(result.stdout_output.find("OOB MSE"), std::string::npos) << "Regression OOB metrics must render";
+  EXPECT_EQ(result.stdout_output.find("Confusion Matrix"), std::string::npos)
+      << "Regression model must not render confusion-matrix tables";
 }
 
 // ---------------------------------------------------------------------------

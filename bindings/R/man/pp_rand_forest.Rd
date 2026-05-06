@@ -12,7 +12,7 @@ pp_rand_forest(
 )
 }
 \arguments{
-\item{mode}{A character string for the model type. Only \code{"classification"} is supported.}
+\item{mode}{A character string for the model type. Either \code{"classification"} or \code{"regression"}.}
 
 \item{trees}{The number of trees in the forest (maps to \code{size}).}
 
@@ -31,7 +31,7 @@ Use \code{set_engine("ppforest2")} to select the ppforest2 engine.
 \dontrun{
 library(parsnip)
 spec <- pp_rand_forest(trees = 50, mtry = 2) \%>\% set_engine("ppforest2")
-fit <- spec \%>\% fit(Type ~ ., data = iris)
+fit <- spec \%>\% fit(Species ~ ., data = iris)
 predict(fit, iris)
 predict(fit, iris, type = "prob")
 }

@@ -20,7 +20,7 @@ namespace ppforest2::stats {
     return static_cast<double>(bits) / static_cast<double>(MAX_BITS + 1);
   }
 
-  Feature Normal::denormalize(Feature z) {
+  Feature Normal::denormalize(Feature z) const {
     return mean + std_dev * z;
   }
 
@@ -46,7 +46,7 @@ namespace ppforest2::stats {
 
     cached_z = static_cast<Feature>(z2);
 
-    return denormalize(z1);
+    return denormalize(static_cast<float>(z1));
   }
 
   std::vector<Feature> Normal::operator()(int count, RNG& rng) {

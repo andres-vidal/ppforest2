@@ -74,6 +74,15 @@ clean-tools:
 
 FORMAT_SOURCES = $(shell find core/src core/include -name '*.cpp' -o -name '*.hpp' -o -name '*.h') bindings/R/src/main.cpp bindings/R/inst/include/ppforest2.h
 TIDY_SOURCES = $(shell find core/src -name '*.cpp' ! -name '*.test.cpp')
+# .hpp included too: `misc-include-cleaner` only reports at the top-level
+# TU, so headers need to be scanned directly (mirroring clangd's per-file
+# open behaviour).
+INCLUDE_CHECK_SOURCES = $(shell find core/src -name '*.cpp' -o -name '*.hpp')
+# Mirrors the `.clangd` IgnoreHeader list — third-party headers where the
+# check misfires on by-value returns or ADL-resolved overloads.
+INCLUDE_CHECK_IGNORE = nlohmann/json\.hpp;fmt/format\.h;serialization/Json\.hpp;serialization/JsonOptional\.hpp
+
+PARALLEL = $$(nproc 2>/dev/null || sysctl -n hw.ncpu)
 
 format:
 	@clang-format -i ${FORMAT_SOURCES}
@@ -82,25 +91,27 @@ format-dry:
 	@clang-format --dry-run --Werror ${FORMAT_SOURCES}
 
 tidy: build
-	@echo ${TIDY_SOURCES} | tr ' ' '\n' | xargs -P $$(nproc 2>/dev/null || sysctl -n hw.ncpu) -n 1 clang-tidy -p ${BUILD_DIR}
+	@echo ${TIDY_SOURCES} | tr ' ' '\n' | xargs -P ${PARALLEL} -n 1 clang-tidy -p ${BUILD_DIR}
+	@echo ${INCLUDE_CHECK_SOURCES} | tr ' ' '\n' | \
+		xargs -P ${PARALLEL} -n 1 \
+		clang-tidy -p ${BUILD_DIR} --checks='-*,misc-include-cleaner' \
+		--config="{CheckOptions: [{key: misc-include-cleaner.IgnoreHeaders, value: '${INCLUDE_CHECK_IGNORE}'}]}" \
+		2>/dev/null | grep -E "not used directly" || echo "No unused includes found."
 
 analyze:
-	@cppcheck --enable=all --check-level=exhaustive --suppress=missingIncludeSystem --suppress=duplInheritedMember --quiet core -Icore/src -Icore/include
+	@cppcheck --enable=all --check-level=exhaustive --inline-suppr \
+		--suppress=missingIncludeSystem --suppress=duplInheritedMember \
+		--suppress='unusedFunction:bindings/R/src/*' \
+		--suppress='moduloofone:*.test.cpp' \
+		--suppress='syntaxError:core/src/io/IO.test.cpp' \
+		--suppress='syntaxError:core/src/utils/UserError.hpp' \
+		--quiet \
+		core/src bindings/R/src/main.cpp bindings/R/inst/include/ppforest2.h \
+		-Icore/src -Icore/include -Ibindings/R/inst/include
 
-CPPCLEAN = $(shell python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")/cppclean
-
-cppclean: build
-	@${CPPCLEAN} \
-		--include-path=core/src \
-		--include-path=core/include \
-		--include-path=${BUILD_DIR}/_deps/eigen-src \
-		--include-path=${BUILD_DIR}/_deps/json-src/include \
-		--include-path=${BUILD_DIR}/_deps/pcg-src/include \
-		--include-path=${BUILD_DIR}/_deps/csv-src/include \
-		--include-path=${BUILD_DIR}/_deps/fmt-src/include \
-		--include-path=${BUILD_DIR}/_deps/cli11-src/include \
-		--include-path=${BUILD_DIR}/_deps/googletest-src/googletest/include \
-		core/src 2>&1
+# Aggregate quality gates: format check, clang-tidy (incl. misc-include-cleaner),
+# and cppcheck. No autofix — CI-friendly single entry point.
+check: format-dry tidy analyze
 
 # Targets for the R package
 
@@ -129,8 +140,9 @@ r-build-core: fetch-deps
 		-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 		-DPPFOREST2_CORE_ONLY=ON ${CMAKE_EXTRA} \
 		../core
-	@cd ${R_BUILD_DIR} && make ppforest2-core
+	@cd ${R_BUILD_DIR} && make ppforest2-core ppforest2-strategies
 	@strip -S ${R_BUILD_DIR}/libppforest2-core.a
+	@strip -S ${R_BUILD_DIR}/src/models/strategies/libppforest2-strategies.a
 
 r-clean:
 	@rm -rf \
@@ -209,6 +221,7 @@ docs-r:
 	@make r-prepare
 	@mkdir -p ${R_PACKAGE_DIR}/inst/lib
 	@cp ${R_BUILD_DIR}/libppforest2-core.a ${R_PACKAGE_DIR}/inst/lib/
+	@cp ${R_BUILD_DIR}/src/models/strategies/libppforest2-strategies.a ${R_PACKAGE_DIR}/inst/lib/
 	@cp ${DOCS_DIR}/_pkgdown.yml ${R_PACKAGE_DIR}/_pkgdown.yml
 	@sed -i.bak 's|/ppforest2/main/|/ppforest2/${DOCS_REF}/|g' ${R_PACKAGE_DIR}/_pkgdown.yml ${R_PACKAGE_DIR}/README.md && rm -f ${R_PACKAGE_DIR}/_pkgdown.yml.bak ${R_PACKAGE_DIR}/README.md.bak
 	@Rscript -e "pkgdown::build_site('${R_PACKAGE_DIR}', override=list(destination='../../${DOCS_BUILD_DIR}/r'), preview=FALSE)"
@@ -236,30 +249,50 @@ release-revert:
 
 # Benchmarking
 
-BENCH_SCENARIOS = bench/default-scenarios.json
+# Benchmark scenarios split by mode so baselines track per-family and release
+# notes can render them as separate tables. Both files must stay in defaults
+# alignment (see the `_note` field at the top of each scenarios JSON).
+BENCH_SCENARIOS_CLS = bench/default-scenarios-classification.json
+BENCH_SCENARIOS_REG = bench/default-scenarios-regression.json
 BENCH_REF ?= main
 
 benchmark: build
-	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS}
+	@echo "=== Classification benchmarks ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_CLS}
+	@echo ""
+	@echo "=== Regression benchmarks (experimental) ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_REG}
 
 benchmark-save: build
-	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS} -o bench/results.json -o bench/results.csv
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_CLS} -o bench/results-classification.json -o bench/results-classification.csv
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_REG} -o bench/results-regression.json -o bench/results-regression.csv
 
 benchmark-compare: build
-	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS} -b bench/results.json
+	@echo "=== Classification ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_CLS} -b bench/results-classification.json
+	@echo ""
+	@echo "=== Regression (experimental) ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_REG} -b bench/results-regression.json
 
 benchmark-vs: build
 	@echo "Building and benchmarking current branch..."
-	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS} -o bench/.current-results.json -q
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_CLS} -o bench/.current-cls.json -q
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_REG} -o bench/.current-reg.json -q
 	@echo "Setting up baseline (${BENCH_REF})..."
 	@git worktree add -f .bench-worktree ${BENCH_REF} 2>/dev/null || { echo "Error: Could not create worktree for ref '${BENCH_REF}'"; exit 1; }
 	@mkdir -p .bench-worktree/bench
-	@cp ${BENCH_SCENARIOS} .bench-worktree/bench/default-scenarios.json 2>/dev/null || true
+	@cp ${BENCH_SCENARIOS_CLS} .bench-worktree/bench/default-scenarios-classification.json 2>/dev/null || true
+	@cp ${BENCH_SCENARIOS_REG} .bench-worktree/bench/default-scenarios-regression.json 2>/dev/null || true
 	@echo "Building baseline..."
 	@cd .bench-worktree && mkdir -p .build && cd .build && cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ../core > /dev/null 2>&1 && make -j > /dev/null 2>&1
 	@echo "Running baseline benchmarks..."
-	@cd .bench-worktree && .build/ppforest2 benchmark -s bench/default-scenarios.json -o bench/.baseline-results.json -q
+	@cd .bench-worktree && .build/ppforest2 benchmark -s bench/default-scenarios-classification.json -o bench/.baseline-cls.json -q
+	@cd .bench-worktree && .build/ppforest2 benchmark -s bench/default-scenarios-regression.json -o bench/.baseline-reg.json -q
 	@echo ""
-	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS} -b .bench-worktree/bench/.baseline-results.json
-	@rm -f bench/.current-results.json
+	@echo "=== Classification ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_CLS} -b .bench-worktree/bench/.baseline-cls.json
+	@echo ""
+	@echo "=== Regression (experimental) ==="
+	@${BUILD_DIR}/ppforest2 benchmark -s ${BENCH_SCENARIOS_REG} -b .bench-worktree/bench/.baseline-reg.json
+	@rm -f bench/.current-cls.json bench/.current-reg.json
 	@git worktree remove -f .bench-worktree 2>/dev/null || true

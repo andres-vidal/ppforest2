@@ -2,18 +2,15 @@
 % Please edit documentation in R/json.R
 \name{save_json}
 \alias{save_json}
-\alias{save_json.pptr}
-\alias{save_json.pprf}
+\alias{save_json.ppmodel}
 \title{Save a model to a JSON file.}
 \usage{
 save_json(model, path, ...)
 
-\method{save_json}{pptr}(model, path, include_metrics = TRUE, ...)
-
-\method{save_json}{pprf}(model, path, include_metrics = TRUE, ...)
+\method{save_json}{ppmodel}(model, path, include_metrics = TRUE, ...)
 }
 \arguments{
-\item{model}{A \code{pptr} or \code{pprf} model.}
+\item{model}{A \code{pptr} or \code{pprf} model (inheriting from \code{ppmodel}).}
 
 \item{path}{File path to write the JSON to.}
 
@@ -29,7 +26,7 @@ with the C++ CLI. The JSON includes the model structure, group labels,
 training parameters, and optionally variable importance metrics.
 }
 \examples{
-model <- pptr(Type ~ ., data = iris, seed = 0)
+model <- pptr(Species ~ ., data = iris, seed = 0)
 path <- tempfile(fileext = ".json")
 save_json(model, path)
 

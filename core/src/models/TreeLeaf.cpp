@@ -1,4 +1,5 @@
 #include "models/TreeLeaf.hpp"
+#include "models/TreeBranch.hpp"
 
 #include <memory>
 
@@ -16,13 +17,24 @@ namespace ppforest2 {
     return value;
   }
 
-  Outcome TreeLeaf::predict(FeatureVector const& data) const {
+  Outcome TreeLeaf::predict(FeatureVector const& /*x*/) const {
     return value;
   }
 
   bool TreeLeaf::equals(TreeNode const& other) const {
-    auto const* resp = dynamic_cast<TreeLeaf const*>(&other);
-    return resp && (value == resp->value);
+    struct EqualsVisitor : TreeNode::Visitor {
+      Outcome value;
+      bool result = false;
+
+      explicit EqualsVisitor(Outcome v)
+          : value(v) {}
+
+      void visit(TreeLeaf const& leaf) override { result = (value == leaf.value); }
+    };
+
+    EqualsVisitor visitor(value);
+    other.accept(visitor);
+    return visitor.result;
   }
 
   TreeNode::Ptr TreeLeaf::clone() const {

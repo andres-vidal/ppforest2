@@ -41,7 +41,7 @@ importance metric.
 }
 \examples{
 \dontrun{
-forest <- pprf(Type ~ ., data = iris, size = 10)
+forest <- pprf(Species ~ ., data = iris, size = 10)
 plot(forest)                                    # all metrics side by side
 plot(forest, metric = "permuted")               # single metric
 plot(forest, type = "structure", tree_index = 1)

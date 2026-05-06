@@ -9,41 +9,42 @@
 
 namespace ppforest2::stats {
   /**
-   * @brief Bundled dataset: features, responses, and group labels.
+   * @brief Bundled dataset: features, response, and group labels.
    *
-   * Convenience struct that groups a feature matrix, a response vector,
-   * and the set of unique group labels.  Used primarily for passing
-   * data through the training pipeline.
+   * Convenience struct that groups a feature matrix and a response vector
+   * with dataset-level metadata (unique group labels, column names).  Used
+   * primarily for passing data through the training pipeline.
+   *
    */
   struct DataPacket {
     /** @brief Feature matrix (n × p). */
-    types::FeatureMatrix const x;
-    /** @brief Outcome vector (n). */
-    types::Vector<types::Outcome> const y;
-    /** @brief Set of distinct group labels. */
-    std::set<types::Outcome> const groups;
+    types::FeatureMatrix x;
+    /** @brief Response vector (n) — integer labels (classification) or continuous response (regression). */
+    types::OutcomeVector y;
+    /** @brief Set of distinct group labels (classification only; empty for regression). */
+    std::set<types::GroupId> groups;
     /**
      * @brief Original group label names, indexed by integer code.
      *
      * When populated, group_names[i] is the original string label
      * that maps to integer code i.  Empty when data is not read
-     * from CSV (e.g., simulated data).
+     * from CSV (e.g., simulated data) or for regression.
      */
-    std::vector<std::string> const group_names;
+    types::Names group_names;
     /**
      * @brief Original feature column names from the CSV header.
      *
      * When populated, feature_names[j] is the header label for
      * column j of x.  Empty when data is simulated.
      */
-    std::vector<std::string> const feature_names;
+    types::Names feature_names;
 
     DataPacket(
         types::FeatureMatrix const& x,
-        types::Vector<types::Outcome> const& y,
-        std::set<types::Outcome> const& groups,
-        std::vector<std::string> const& group_names   = {},
-        std::vector<std::string> const& feature_names = {}
+        types::OutcomeVector const& y,
+        std::set<types::GroupId> const& groups,
+        types::Names const& group_names   = {},
+        types::Names const& feature_names = {}
     )
         : x(x)
         , y(y)
@@ -53,19 +54,16 @@ namespace ppforest2::stats {
 
     DataPacket(
         types::FeatureMatrix const& x,
-        types::Vector<types::Outcome> const& y,
-        std::vector<std::string> const& group_names   = {},
-        std::vector<std::string> const& feature_names = {}
+        types::OutcomeVector const& y,
+        types::Names const& group_names   = {},
+        types::Names const& feature_names = {}
     )
         : x(x)
         , y(y)
-        , groups(unique(y))
+        , groups(unique(y.cast<types::GroupId>()))
         , group_names(group_names)
         , feature_names(feature_names) {}
 
-    DataPacket()
-        : x(types::FeatureMatrix())
-        , y(types::Vector<types::Outcome>())
-        , groups(std::set<types::Outcome>()) {}
+    DataPacket() = default;
   };
 }

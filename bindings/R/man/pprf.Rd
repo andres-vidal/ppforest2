@@ -9,6 +9,7 @@ pprf(
   data = NULL,
   x = NULL,
   y = NULL,
+  mode = NULL,
   size = 2,
   lambda = 0,
   n_vars = NULL,
@@ -21,7 +22,7 @@ pprf(
   cutpoint = NULL,
   stop = NULL,
   binarize = NULL,
-  partition = NULL,
+  grouping = NULL,
   leaf = NULL
 )
 }
@@ -33,6 +34,8 @@ pprf(
 \item{x}{A matrix containing the features for each observation.}
 
 \item{y}{A matrix containing the labels for each observation.}
+
+\item{mode}{Training mode: either \code{"classification"} or \code{"regression"}. When \code{NULL} (default), mode is auto-detected from \code{y}'s type — factor or character vectors trigger classification, numeric vectors trigger regression. Setting it explicitly is useful for the binary-integer-labels case (\code{mode = "classification"} with integer 0/1 labels) and for failing fast on a type mismatch (\code{mode = "regression"} with a factor \code{y} errors immediately).}
 
 \item{size}{The number of trees in the forest.}
 
@@ -54,16 +57,27 @@ pprf(
 
 \item{cutpoint}{A split cutpoint strategy object created by \code{\link{cutpoint_mean_of_means}} (default).}
 
-\item{stop}{A stopping rule object created by \code{\link{stop_pure_node}} (default).}
+\item{stop}{A stopping rule object. Default depends on mode:
+\code{\link{stop_pure_node}()} for classification, and
+\code{stop_any(stop_min_size(5), stop_min_variance(0.01))} for regression.}
 
-\item{binarize}{A binarization strategy object created by \code{\link{binarize_largest_gap}} (default).}
+\item{binarize}{A binarization strategy object. Default depends on mode:
+\code{\link{binarize_largest_gap}()} for classification, and
+\code{\link{binarize_disabled}()} for regression (regression's default
+grouping always yields a 2-group partition, so no binarization is needed).}
 
-\item{partition}{A partition strategy object created by \code{\link{partition_by_group}} (default).}
+\item{grouping}{A grouping strategy object. Default depends on mode:
+\code{\link{grouping_by_label}()} for classification, and
+\code{\link{grouping_by_cutpoint}()} for regression.}
 
-\item{leaf}{A leaf strategy object created by \code{\link{leaf_majority_vote}} (default).}
+\item{leaf}{A leaf strategy object. Default depends on mode:
+\code{\link{leaf_majority_vote}()} for classification, and
+\code{\link{leaf_mean_response}()} for regression.}
 }
 \value{
-A pprf model trained on \code{x} and \code{y}.
+A \code{pprf} model. Its S3 class vector is
+  \code{c("pprf_classification", "pprf", "ppmodel")} or
+  \code{c("pprf_regression", "pprf", "ppmodel")} depending on the mode.
 }
 \description{
 This function trains a Random Forest of Project-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
@@ -71,13 +85,18 @@ The number of trees is controlled by the \code{size} parameter. Each tree is tra
 The number of variables to consider at each split is controlled by the \code{n_vars} parameter.
 If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA).
 }
+\details{
+Mode is taken from the \code{mode} argument when explicit, and otherwise auto-detected from `y` (factor/character → classification, numeric → regression). Pass \code{mode = "classification"} to force classification on integer labels (e.g. binary 0/1), or \code{mode = "regression"} to assert intent on numeric responses.
+
+OOB error, OOB predictions, permuted variable importance, and weighted variable importance are computed lazily on first access via the accessor functions (`oob_error()`, `oob_predictions()`, `permuted_importance()`, `weighted_importance()`). Training itself is fast because these OOB-based computations are deferred.
+}
 \examples{
 
 # Example 1: formula interface with the `iris` dataset
-pprf(Type ~ ., data = iris)
+pprf(Species ~ ., data = iris)
 
 # Example 2: formula interface with the `iris` dataset with regularization
-pprf(Type ~ ., data = iris, lambda = 0.5)
+pprf(Species ~ ., data = iris, lambda = 0.5)
 
 # Example 3: matrix interface with the `iris` dataset
 pprf(x = iris[, 1:4], y = iris[, 5])
@@ -93,5 +112,5 @@ pprf(Type ~ ., data = crabs, lambda = 0.5)
 
 }
 \seealso{
-\code{\link{predict.pprf}}, \code{\link{formula.pprf}}, \code{\link{summary.pprf}}, \code{\link{print.pprf}}, \code{\link{save_json}}, \code{\link{load_json}}, \code{\link{pp_rand_forest}} for parsnip integration, \code{\link{pp_pda}}, \code{\link{vars_uniform}}, \code{\link{vars_all}}, \code{\link{cutpoint_mean_of_means}}, \code{\link{stop_pure_node}}, \code{\link{binarize_largest_gap}}, \code{\link{partition_by_group}}, \code{\link{leaf_majority_vote}}, \code{vignette("introduction")} for a tutorial
+\code{\link{predict.pprf_classification}}, \code{\link{predict.pprf_regression}}, \code{\link{formula.ppmodel}}, \code{\link{oob_error}}, \code{\link{save_json}}, \code{\link{load_json}}, \code{\link{pp_rand_forest}} for parsnip integration, \code{vignette("introduction")} for a tutorial
 }

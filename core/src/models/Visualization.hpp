@@ -114,7 +114,8 @@ namespace ppforest2::viz {
    * observation reaching a split goes to the lower child if its projected
    * value < cutpoint, otherwise to the upper child.
    */
-  struct NodeDataVisitor : public TreeNode::Visitor {
+  class NodeDataVisitor : public TreeNode::Visitor {
+  public:
     types::FeatureMatrix const& x; ///< Full observation matrix (n × p).
     types::OutcomeVector const& y; ///< Full response vector (n).
     std::vector<int> indices;      ///< Indices of observations reaching the current node.
@@ -379,7 +380,8 @@ namespace ppforest2::viz {
    * each split node (e.g. clip and emit a boundary segment) and
    * visit(TreeLeaf) for leaf-specific work.
    */
-  struct SpatialVisitor : public TreeNode::Visitor {
+  class SpatialVisitor : public TreeNode::Visitor {
+  public:
     int var_i, var_j;                                       ///< Indices of the two displayed feature variables.
     std::vector<std::pair<int, types::Feature>> fixed_vars; ///< Fixed (index, value) pairs.
     types::Feature x_min, x_max, y_min, y_max;              ///< Visible bounding box.
@@ -432,7 +434,8 @@ namespace ppforest2::viz {
    *   // visitor.segments contains all visible boundary segments
    * @endcode
    */
-  struct BoundaryVisitor : public SpatialVisitor {
+  class BoundaryVisitor : public SpatialVisitor {
+  public:
     using SpatialVisitor::SpatialVisitor;
     std::vector<BoundarySegment> segments; ///< Output: clipped boundary segments.
 
@@ -463,7 +466,8 @@ namespace ppforest2::viz {
    *   // visitor.regions has one polygon per reachable leaf
    * @endcode
    */
-  struct RegionVisitor : public SpatialVisitor {
+  class RegionVisitor : public SpatialVisitor {
+  public:
     using SpatialVisitor::SpatialVisitor;
     std::vector<RegionPolygon> regions; ///< Output: one polygon per reachable leaf.
 

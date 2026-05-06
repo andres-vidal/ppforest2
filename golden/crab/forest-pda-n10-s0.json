@@ -7,13 +7,14 @@
       "name": "mean_of_means"
     },
     "dataset": "crab",
+    "grouping": {
+      "name": "by_label"
+    },
     "leaf": {
       "name": "majority_vote"
     },
     "max_retries": 3,
-    "partition": {
-      "name": "by_group"
-    },
+    "mode": "classification",
     "platform": "macos-clang",
     "pp": {
       "lambda": 0.0,
@@ -54,7 +55,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": -0.028619008138775826,
+          "cutpoint": -0.028619013726711273,
           "degenerate": false,
           "groups": [
             "BlueMale",
@@ -95,7 +96,7 @@
             0.0697483941912651
           ],
           "upper": {
-            "cutpoint": -0.2741118371486664,
+            "cutpoint": -0.274111807346344,
             "degenerate": false,
             "groups": [
               "OrangeMale",
@@ -597,7 +598,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": 0.047768741846084595,
+          "cutpoint": 0.047768734395504,
           "degenerate": false,
           "groups": [
             "BlueMale",
@@ -606,7 +607,7 @@
             "OrangeFemale"
           ],
           "lower": {
-            "cutpoint": -0.05517814680933952,
+            "cutpoint": -0.05517815053462982,
             "degenerate": false,
             "groups": [
               "BlueFemale",
@@ -614,7 +615,7 @@
               "OrangeFemale"
             ],
             "lower": {
-              "cutpoint": -0.12573011219501495,
+              "cutpoint": -0.12573015689849854,
               "degenerate": false,
               "groups": [
                 "BlueFemale",
@@ -869,7 +870,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": -0.010950854048132896,
+          "cutpoint": -0.01095086894929409,
           "degenerate": false,
           "groups": [
             "BlueMale",
@@ -890,7 +891,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": -0.06578098237514496,
+            "cutpoint": -0.06578098982572556,
             "degenerate": false,
             "groups": [
               "BlueFemale",
@@ -1162,7 +1163,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": 0.07477173954248428,
+            "cutpoint": 0.07477176934480667,
             "degenerate": false,
             "groups": [
               "BlueMale",
@@ -1413,7 +1414,7 @@
       {
         "degenerate": false,
         "root": {
-          "cutpoint": 0.04961651191115379,
+          "cutpoint": 0.049616508185863495,
           "degenerate": false,
           "groups": [
             "BlueMale",
@@ -1454,7 +1455,7 @@
             0.0
           ],
           "upper": {
-            "cutpoint": 0.22852295637130737,
+            "cutpoint": 0.22852294147014618,
             "degenerate": false,
             "groups": [
               "OrangeMale",
@@ -1693,7 +1694,7 @@
             "OrangeFemale"
           ],
           "lower": {
-            "cutpoint": 0.4454326331615448,
+            "cutpoint": 0.4454326033592224,
             "degenerate": false,
             "groups": [
               "BlueMale",
@@ -1725,7 +1726,7 @@
             -0.005542580503970385
           ],
           "upper": {
-            "cutpoint": -0.2312498390674591,
+            "cutpoint": -0.23124980926513672,
             "degenerate": false,
             "groups": [
               "BlueFemale",
@@ -1964,7 +1965,7 @@
             "OrangeFemale"
           ],
           "lower": {
-            "cutpoint": 0.1819317489862442,
+            "cutpoint": 0.1819317638874054,
             "degenerate": false,
             "groups": [
               "OrangeMale",
@@ -1996,7 +1997,7 @@
             -0.03632661700248718
           ],
           "upper": {
-            "cutpoint": 0.18141716718673706,
+            "cutpoint": 0.18141718208789825,
             "degenerate": false,
             "groups": [
               "BlueMale",
@@ -2247,7 +2248,7 @@
             -0.04069986939430237
           ],
           "upper": {
-            "cutpoint": -0.07710142433643341,
+            "cutpoint": -0.07710141688585281,
             "degenerate": false,
             "groups": [
               "BlueMale",
@@ -2507,7 +2508,7 @@
             "OrangeFemale"
           ],
           "lower": {
-            "cutpoint": 0.13685013353824615,
+            "cutpoint": 0.13685007393360138,
             "degenerate": false,
             "groups": [
               "BlueFemale",
@@ -2539,7 +2540,7 @@
             0.035802725702524185
           ],
           "upper": {
-            "cutpoint": 0.05782175436615944,
+            "cutpoint": 0.057821739464998245,
             "degenerate": false,
             "groups": [
               "BlueMale",
@@ -2769,47 +2770,49 @@
     ]
   },
   "model_type": "forest",
-  "oob_confusion_matrix": {
-    "group_errors": [
-      0.10638298094272614,
-      0.08163265138864517,
-      0.02083333395421505,
-      0.1599999964237213
-    ],
-    "labels": [
-      "BlueMale",
-      "BlueFemale",
-      "OrangeMale",
-      "OrangeFemale"
-    ],
-    "matrix": [
-      [
-        42,
-        4,
-        1,
-        0
+  "oob_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.10638298094272614,
+        0.08163265138864517,
+        0.02083333395421505,
+        0.1599999964237213
       ],
-      [
-        4,
-        45,
-        0,
-        0
+      "labels": [
+        "BlueMale",
+        "BlueFemale",
+        "OrangeMale",
+        "OrangeFemale"
       ],
-      [
-        1,
-        0,
-        47,
-        0
-      ],
-      [
-        0,
-        2,
-        6,
-        42
+      "matrix": [
+        [
+          42,
+          4,
+          1,
+          0
+        ],
+        [
+          4,
+          45,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          47,
+          0
+        ],
+        [
+          0,
+          2,
+          6,
+          42
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.09278351068496704
   },
-  "oob_error": 0.09278351068496704,
   "predictions": [
     "BlueMale",
     "BlueMale",
@@ -3012,45 +3015,48 @@
     "OrangeFemale",
     "OrangeFemale"
   ],
-  "training_confusion_matrix": {
-    "group_errors": [
-      0.07999999821186066,
-      0.019999999552965164,
-      0.0,
-      0.07999999821186066
-    ],
-    "labels": [
-      "BlueMale",
-      "BlueFemale",
-      "OrangeMale",
-      "OrangeFemale"
-    ],
-    "matrix": [
-      [
-        46,
-        4,
-        0,
-        0
+  "training_metrics": {
+    "confusion_matrix": {
+      "group_errors": [
+        0.07999999821186066,
+        0.019999999552965164,
+        0.0,
+        0.07999999821186066
       ],
-      [
-        1,
-        49,
-        0,
-        0
+      "labels": [
+        "BlueMale",
+        "BlueFemale",
+        "OrangeMale",
+        "OrangeFemale"
       ],
-      [
-        0,
-        0,
-        50,
-        0
-      ],
-      [
-        0,
-        0,
-        4,
-        46
+      "matrix": [
+        [
+          46,
+          4,
+          0,
+          0
+        ],
+        [
+          1,
+          49,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          50,
+          0
+        ],
+        [
+          0,
+          0,
+          4,
+          46
+        ]
       ]
-    ]
+    },
+    "error_rate": 0.04500001668930054
   },
   "variable_importance": {
     "permuted": [

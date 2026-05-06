@@ -7,7 +7,6 @@
 #include <algorithm>
 
 #include "cli/ModelParams.hpp"
-#include "cli/Validation.hpp"
 #include "utils/UserError.hpp"
 
 using ppforest2::cli::parse_proportion;
@@ -208,7 +207,70 @@ TEST(StrategyStringToJson, ZeroInteger) {
 }
 
 TEST(StrategyStringToJson, MissingEqualsThrows) {
+  // `pda:lambda` is not shorthand (the bare token is a string, not a
+  // number), so this still goes through the key=value parser and fails
+  // with the standard "expected key=value" error — guards against
+  // accidentally interpreting `pda:lambda` as `{name: pda, lambda: "lambda"}`.
   EXPECT_THROW(strategy_string_to_json("pda:lambda"), std::runtime_error);
+}
+
+// ---------------------------------------------------------------------------
+// strategy_string_to_json — positional shorthand
+// ---------------------------------------------------------------------------
+
+TEST(StrategyStringToJsonShorthand, MinSize) {
+  auto j = strategy_string_to_json("min_size:5");
+  EXPECT_EQ(j["name"], "min_size");
+  EXPECT_EQ(j["min_size"].get<int>(), 5);
+  EXPECT_EQ(j.size(), 2U);
+}
+
+TEST(StrategyStringToJsonShorthand, MinVariance) {
+  // Primary param name is `threshold`, not the strategy name.
+  auto j = strategy_string_to_json("min_variance:0.01");
+  EXPECT_EQ(j["name"], "min_variance");
+  EXPECT_DOUBLE_EQ(j["threshold"].get<double>(), 0.01);
+  EXPECT_FALSE(j.contains("min_variance"));
+}
+
+TEST(StrategyStringToJsonShorthand, MaxDepth) {
+  auto j = strategy_string_to_json("max_depth:8");
+  EXPECT_EQ(j["name"], "max_depth");
+  EXPECT_EQ(j["max_depth"].get<int>(), 8);
+}
+
+TEST(StrategyStringToJsonShorthand, PdaLambda) {
+  auto j = strategy_string_to_json("pda:0.3");
+  EXPECT_EQ(j["name"], "pda");
+  EXPECT_DOUBLE_EQ(j["lambda"].get<double>(), 0.3);
+}
+
+TEST(StrategyStringToJsonShorthand, UniformCount) {
+  auto j = strategy_string_to_json("uniform:3");
+  EXPECT_EQ(j["name"], "uniform");
+  EXPECT_EQ(j["count"].get<int>(), 3);
+}
+
+TEST(StrategyStringToJsonShorthand, ExplicitStillWorks) {
+  // Explicit key=value must behave identically to pre-shorthand. The
+  // shorthand path is skipped when the input contains `=`, so this
+  // exercises the fallback.
+  auto j = strategy_string_to_json("min_size:min_size=5");
+  EXPECT_EQ(j["name"], "min_size");
+  EXPECT_EQ(j["min_size"].get<int>(), 5);
+}
+
+TEST(StrategyStringToJsonShorthand, MultiParamStrategyBypassesShorthand) {
+  // Strategies without a primary-param entry fall through: `custom:5`
+  // is a missing-equals error, not silently a positional shorthand.
+  EXPECT_THROW(strategy_string_to_json("custom:5"), std::runtime_error);
+}
+
+TEST(StrategyStringToJsonShorthand, CommaDisablesShorthand) {
+  // A comma implies multiple params, so shorthand doesn't apply even if
+  // the strategy has a primary-param entry. `min_size:5,extra=1` goes
+  // through the key=value parser and fails on the `5` token.
+  EXPECT_THROW(strategy_string_to_json("min_size:5,extra=1"), std::runtime_error);
 }
 
 TEST(StrategyStringToJson, MissingEqualsInSecondParamThrows) {

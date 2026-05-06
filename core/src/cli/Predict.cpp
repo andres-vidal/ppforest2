@@ -3,20 +3,19 @@
  * @brief Predict subcommand handler.
  */
 #include "cli/Predict.hpp"
-#include "ppforest2.hpp"
 
 #include <CLI/CLI.hpp>
 #include <fmt/format.h>
-#include <fstream>
+#include <optional>
 #include <vector>
 
-#include "stats/DataPacket.hpp"
-#include "stats/ConfusionMatrix.hpp"
-#include "io/Presentation.hpp"
 #include "io/Color.hpp"
-#include "io/Output.hpp"
 #include "io/IO.hpp"
+#include "io/Output.hpp"
+#include "io/Presentation.hpp"
 #include "serialization/Json.hpp"
+#include "stats/DataPacket.hpp"
+#include "stats/Metrics.hpp"
 #include "utils/UserError.hpp"
 
 #include <nlohmann/json.hpp>
@@ -42,140 +41,64 @@ namespace ppforest2::cli {
 
     sub->callback([&]() { params.subcommand = Subcommand::predict; });
   }
-}
 
-namespace ppforest2::cli {
   namespace {
-    json proportions_to_json(FeatureMatrix const& proportions) {
-      std::vector<std::vector<Feature>> rows;
-      rows.reserve(proportions.rows());
-
-      for (Eigen::Index i = 0; i < proportions.rows(); ++i) {
-        std::vector<Feature> row(proportions.cols());
-
-        for (Eigen::Index j = 0; j < proportions.cols(); ++j) {
-          row[j] = proportions(i, j);
-        }
-
-        rows.push_back(std::move(row));
-      }
-
-      return rows;
+    std::string model_display_name(json const& model_data) {
+      return model_data.value("model_type", "tree") == "forest" ? "Random Forest" : "Decision Tree";
     }
 
-    struct ProportionsVisitor : Model::Visitor {
-      FeatureMatrix const& data;
-      FeatureMatrix proportions;
-      bool has_proportions = false;
-
-      explicit ProportionsVisitor(FeatureMatrix const& data)
-          : data(data) {}
-
-      void visit(Tree const& tree) override {
-        has_proportions = true;
-        proportions     = tree.predict(data, Proportions{});
-      }
-
-      void visit(Forest const& forest) override {
-        has_proportions = true;
-        proportions     = forest.predict(data, Proportions{});
-      }
-    };
-
-    json build_predict_result(
-        OutcomeVector const& predictions,
-        DataPacket const& data,
-        Model const& model,
-        std::vector<std::string> const& group_names,
-        bool no_metrics,
-        bool no_proportions
-    ) {
-      json result;
-
-      if (group_names.empty()) {
-        std::vector<int> pred_vec(predictions.data(), predictions.data() + predictions.size());
-        result["predictions"] = pred_vec;
-      } else {
-        result["predictions"] = serialization::to_labels(predictions, group_names);
-      }
-
-      bool has_labels   = data.y.size() > 0;
-      bool show_metrics = has_labels && !no_metrics;
-
-      if (show_metrics) {
-        ConfusionMatrix cm(predictions, data.y);
-        result["error_rate"] = cm.error();
-        result["confusion_matrix"] =
-            group_names.empty() ? serialization::to_json(cm) : serialization::to_json(cm, group_names);
-      }
-
-      if (!no_proportions) {
-        ProportionsVisitor visitor(data.x);
-        model.accept(visitor);
-
-        if (visitor.has_proportions) {
-          result["proportions"] = proportions_to_json(visitor.proportions);
-        }
-      }
-
-      return result;
-    }
   }
 
-  int run_predict(Params& params) {
+  int run_predict(Params const& params) {
     io::Output out(params.quiet);
 
-    // Validate output path before doing work
     if (!params.output_path.empty()) {
       io::check_file_not_exists(params.output_path);
     }
 
-    DataPacket data = [&]() -> DataPacket {
-      try {
-        return io::csv::read_sorted(params.data_path);
-      } catch (ppforest2::UserError const&) {
-        throw;
-      } catch (std::exception const& e) {
-        throw ppforest2::UserError(fmt::format("Error reading CSV file: {}", e.what()));
-      }
-    }();
+    json const model_data = io::json::read_file(params.model_path, user_error);
+    auto const exported   = model_data.get<serialization::Export<Model::Ptr>>();
+    Mode const mode       = exported.spec->mode;
 
-    json model_data  = io::json::read_file(params.model_path, user_error);
-    auto model       = model_data.get<serialization::Export<Model::Ptr>>().model;
-    auto predictions = model->predict(data.x);
+    DataPacket const data  = io::csv::read_sorted(params.data_path);
+    auto const& model      = *exported.model;
+    auto const predictions = model.predict(data.x);
 
-    bool has_labels   = data.y.size() > 0;
-    bool show_metrics = has_labels && !params.no_metrics;
+    // `exported.groups` is the canonical training-label space — non-empty for
+    // classification (validate_*_export enforces this), empty for regression.
+    auto const& group_names = exported.groups;
 
-    // Resolve group names: prefer CSV data, fall back to saved model metadata.
-    std::vector<std::string> group_names = data.group_names;
+    bool const has_labels      = data.y.size() > 0;
+    bool const has_metrics     = has_labels && !params.no_metrics;
+    bool const has_output_file = !params.output_path.empty();
 
-    if (group_names.empty() && model_data.contains("meta") && model_data["meta"].contains("groups")) {
-      group_names = model_data["meta"]["groups"].get<std::vector<std::string>>();
+    json result;
+    if (has_output_file) {
+      result["predictions"] = serialization::to_json(predictions, group_names);
     }
 
-    // Terminal output
-    if (show_metrics) {
-      std::string model_type = model_data.value("model_type", "tree") == "forest" ? "Random Forest" : "Decision Tree";
+    if (has_output_file && is_classification(mode) && !params.no_proportions) {
+      result["proportions"] = predict_proportions(model, data.x);
+    }
 
-      out.println("{}", emphasis("Prediction results for " + model_type));
+    if (has_metrics) {
+      Metrics const metrics = metrics_from_outcomes(predictions, data.y, mode);
+
+      out.println("{}", emphasis("Prediction results for " + model_display_name(model_data)));
       out.newline();
+      io::print_metrics_block(out, metrics, group_names);
 
-      ConfusionMatrix cm(predictions, data.y);
-      out.println("{} {}", emphasis("Error:"), fmt::format("{:.2f}%", cm.error() * 100));
-      print_confusion_matrix(out, cm, "Confusion Matrix", group_names);
+      if (has_output_file) {
+        result["metrics"] = serialization::to_json(metrics, group_names);
+      }
     }
 
-    // Hint about --output when not used
-    if (show_metrics && params.output_path.empty()) {
+    if (has_metrics && !has_output_file) {
       out.println("{}", muted("Tip: use --output <file> to save individual predictions"));
     }
 
-    // Save results to file if requested
-    if (!params.output_path.empty()) {
-      json file_result =
-          build_predict_result(predictions, data, *model, group_names, params.no_metrics, params.no_proportions);
-      io::json::write_file(file_result, params.output_path, user_error);
+    if (has_output_file) {
+      io::json::write_file(result, params.output_path, user_error);
       out.saved("Results", params.output_path);
     }
 

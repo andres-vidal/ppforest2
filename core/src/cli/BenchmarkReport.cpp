@@ -36,6 +36,25 @@ namespace ppforest2::cli {
     std::string format_opt_delta(std::optional<double> const& val) {
       return val ? fmt::format("{:.1f}", *val) : "";
     }
+
+    /**
+     * @brief Format an error metric for display.
+     *
+     * Classification → percentage (`5.3%`). Regression MSE → raw with
+     * three decimals (`12.345`).
+     */
+    std::string format_err(double v, types::Mode mode) {
+
+      std::string res;
+
+      if (mode == types::Mode::Regression) {
+        res = fmt::format("{:.3f}", v);
+      } else {
+        res = fmt::format("{:.1f}%", v * 100);
+      }
+
+      return res;
+    }
   }
 
   // --- BenchmarkReport ---
@@ -236,9 +255,9 @@ namespace ppforest2::cli {
           decorate(d.time),
           format_rss(r.peak_rss_mb),
           decorate(d.rss),
-          fmt::format("{:.1f}%", r.mean_tr_error * 100),
+          format_err(r.mean_tr_error, r.mode),
           decorate(d.tr_err),
-          fmt::format("{:.1f}%", r.mean_te_error * 100),
+          format_err(r.mean_te_error, r.mode),
           decorate(d.te_err),
       };
 

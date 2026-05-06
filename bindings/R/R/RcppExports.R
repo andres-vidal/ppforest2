@@ -13,8 +13,8 @@ ppforest2_predict_tree <- function(tree, data) {
     .Call('_ppforest2_ppforest2_predict_tree', PACKAGE = 'ppforest2', tree, data)
 }
 
-ppforest2_predict_tree_forest <- function(forest, data) {
-    .Call('_ppforest2_ppforest2_predict_tree_forest', PACKAGE = 'ppforest2', forest, data)
+ppforest2_predict_forest <- function(forest, data) {
+    .Call('_ppforest2_ppforest2_predict_forest', PACKAGE = 'ppforest2', forest, data)
 }
 
 ppforest2_predict_tree_prob <- function(tree, data) {

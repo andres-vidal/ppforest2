@@ -1,27 +1,14 @@
 #include "stats/Stats.hpp"
 #include "utils/Invariant.hpp"
 
-#include <algorithm>
-#include <cmath>
-#include <numeric>
-#include <vector>
 #include <Eigen/Dense>
+#include <map>
 
 using namespace ppforest2::types;
 
 namespace ppforest2::stats {
-  void sort(FeatureMatrix& x, OutcomeVector& y) {
-    std::vector<int> indices(x.rows());
-    std::iota(indices.begin(), indices.end(), 0);
-
-    std::stable_sort(indices.begin(), indices.end(), [&y](int idx1, int idx2) { return y(idx1) < y(idx2); });
-
-    x = x(indices, Eigen::all).eval();
-    y = y(indices, Eigen::all).eval();
-  }
-
-  std::set<Outcome> unique(OutcomeVector const& column) {
-    std::set<Outcome> unique_values;
+  std::set<GroupId> unique(GroupIdVector const& column) {
+    std::set<GroupId> unique_values;
 
     for (int i = 0; i < column.rows(); i++) {
       unique_values.insert(column(i));
@@ -30,34 +17,52 @@ namespace ppforest2::stats {
     return unique_values;
   }
 
-  float accuracy(OutcomeVector const& predictions, OutcomeVector const& actual) {
-    if (predictions.rows() != actual.rows()) {
-      throw std::invalid_argument("predictions and actual must have the same number of rows");
-    }
+  FeatureVector var(FeatureMatrix const& data) {
+    invariant(data.rows() >= 2, "var: matrix must have at least 2 rows");
 
-    int correct = 0;
-    for (int i = 0; i < predictions.rows(); i++) {
-      if (predictions(i) == actual(i)) {
-        correct++;
-      }
-    }
-
-    return static_cast<float>(correct) / static_cast<float>(predictions.rows());
-  }
-
-  double error_rate(OutcomeVector const& predictions, OutcomeVector const& actual) {
-    if (predictions.rows() != actual.rows()) {
-      throw std::invalid_argument("predictions and actual must have the same number of rows");
-    }
-
-    return 1.0 - accuracy(predictions, actual);
+    FeatureMatrix centered = data.rowwise() - data.colwise().mean();
+    return centered.array().square().colwise().sum() / static_cast<Feature>(data.rows() - 1);
   }
 
   FeatureVector sd(FeatureMatrix const& data) {
-    invariant(data.rows() >= 2, "sd: matrix must have at least 2 rows");
+    return var(data).array().sqrt();
+  }
 
-    FeatureMatrix centered = data.rowwise() - data.colwise().mean();
+  Outcome majority_vote(std::vector<Outcome> const& preds) {
+    invariant(!preds.empty(), "majority_vote: preds must be non-empty");
 
-    return (centered.array().square().colwise().sum() / static_cast<Feature>(data.rows() - 1)).sqrt();
+    std::map<GroupId, int> votes;
+    for (auto p : preds) {
+      votes[static_cast<GroupId>(p)] += 1;
+    }
+
+    GroupId best   = 0;
+    int best_count = 0;
+    for (auto const& [cls, cnt] : votes) {
+      if (cnt > best_count) {
+        best       = cls;
+        best_count = cnt;
+      }
+    }
+    return static_cast<Outcome>(best);
+  }
+
+  Outcome mean(std::vector<Outcome> const& preds) {
+    invariant(!preds.empty(), "mean: preds must be non-empty");
+
+    double sum = 0.0;
+    for (auto p : preds) {
+      sum += static_cast<double>(p);
+    }
+    return static_cast<Outcome>(sum / static_cast<double>(preds.size()));
+  }
+
+  std::map<GroupId, int> group_indices(std::set<GroupId> const& groups) {
+    std::map<GroupId, int> indices;
+    int g = 0;
+    for (auto const& key : groups) {
+      indices[key] = g++;
+    }
+    return indices;
   }
 }

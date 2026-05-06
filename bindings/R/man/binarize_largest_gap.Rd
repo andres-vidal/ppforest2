@@ -11,13 +11,13 @@ A \code{binarize_strategy} object.
 }
 \description{
 Creates a binarization strategy that reduces multiclass nodes to binary
-by projecting group means and splitting at the largest gap. This is the
-default binarization strategy.
+by projecting group means and splitting at the largest gap. Default
+for classification specs.
 }
 \examples{
 binarize_largest_gap()
 
 }
 \seealso{
-\code{\link{pptr}}, \code{\link{pprf}}
+\code{\link{pptr}}, \code{\link{pprf}}, \code{\link{binarize_disabled}}
 }

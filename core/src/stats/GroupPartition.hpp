@@ -1,9 +1,7 @@
 #pragma once
 
 
-#include "stats/Stats.hpp"
 #include "utils/Types.hpp"
-#include "utils/Map.hpp"
 #include "utils/Invariant.hpp"
 
 #include <map>
@@ -26,25 +24,25 @@ namespace ppforest2::stats {
    *
    * @code
    *   // y must be sorted so equal values are contiguous.
-   *   GroupPartition gp(y);
+   *   GroupPartition y_part(y);
    *
    *   // Extract rows belonging to group 0:
-   *   auto x_group0 = gp.group(x, 0);
+   *   auto x_group0 = y_part.group(x, 0);
    *
    *   // Between- and within-group statistics:
-   *   auto B = gp.bgss(x);   // between-group sum of squares (p × p)
-   *   auto W = gp.wgss(x);   // within-group sum of squares  (p × p)
+   *   auto B = y_part.bgss(x);   // between-group sum of squares (p × p)
+   *   auto W = y_part.wgss(x);   // within-group sum of squares  (p × p)
    *
    *   // Restrict to a subset of groups:
-   *   GroupPartition sub = gp.subset({0, 2});
+   *   GroupPartition sub = y_part.subset({0, 2});
    * @endcode
    */
   class GroupPartition {
-    using Group       = types::Outcome;
-    using GroupSet    = std::set<types::Outcome>;
-    using GroupMap    = std::map<types::Outcome, types::Outcome>;
-    using GroupInvMap = std::map<types::Outcome, GroupSet>;
-    using GroupVector = types::Vector<types::Outcome>;
+    using Group       = types::GroupId;
+    using GroupSet    = std::set<types::GroupId>;
+    using GroupMap    = std::map<types::GroupId, types::GroupId>;
+    using GroupInvMap = std::map<types::GroupId, GroupSet>;
+    using GroupVector = types::GroupIdVector;
 
   public:
     /** @brief Check whether all equal values in @p y form a single contiguous block. */
@@ -55,7 +53,36 @@ namespace ppforest2::stats {
        *
        * @param y  Outcome vector (n) with contiguous group blocks.
        */
-    GroupPartition(types::OutcomeVector const& y);
+    explicit GroupPartition(types::GroupIdVector const& y);
+
+    /**
+     * @brief Construct from a float-typed response vector.
+     *
+     * Classification `y` is carried as `OutcomeVector` (float) throughout the
+     * training pipeline; this overload casts to integer labels internally
+     * before building the block map. Values must encode integer labels.
+     */
+    explicit GroupPartition(types::OutcomeVector const& y);
+
+    /**
+     * @brief Construct a single-group partition covering rows `[start, end]`.
+     *
+     * Group label is `0`. Use `bisect(mid)` to split into a 2-group partition.
+     */
+    GroupPartition(int start, int end);
+
+    /**
+     * @brief Bisect a single-group partition at row index @p mid into two groups.
+     *
+     * Group 0 covers `[start, mid - 1]`, group 1 covers `[mid, end]`. The
+     * receiver must currently be a single-group partition (typically built
+     * via the `(int, int)` ctor). Distinct from `split(SplitSizes)` below,
+     * which subsets a multi-group partition along its existing structure.
+     *
+     * @throws via invariant if the partition has more than one group, or
+     *         if @p mid is outside `(start, end]`.
+     */
+    GroupPartition bisect(int mid) const;
 
     /** @brief First row index of the block for @p group. */
     int group_start(Group const& group) const;
@@ -63,6 +90,28 @@ namespace ppforest2::stats {
     int group_end(Group const& group) const;
     /** @brief Number of observations in @p group. */
     int group_size(Group const& group) const;
+
+    /**
+     * @brief Smallest group label in the partition.
+     *
+     * `groups` is a `std::set<GroupId>` so iteration is in ascending key
+     * order; this returns the first such label. Caller must ensure the
+     * partition is non-empty.
+     */
+    Group first_group() const {
+      invariant(!groups.empty(), "GroupPartition::first_group: partition is empty");
+      return *groups.begin();
+    }
+
+    /**
+     * @brief Total number of observations across all groups in the partition.
+     *
+     * Used by the tree builder to detect "no-progress" grouping splits:
+     * if a child partition covers the same row count as its parent, the
+     * split failed to partition the data and the builder converts the node
+     * to a leaf to avoid unbounded recursion.
+     */
+    int total_size() const;
 
     /**
        * @brief Extract rows belonging to a group (or supergroup).
@@ -99,7 +148,7 @@ namespace ppforest2::stats {
     template<typename Derived> auto data(Eigen::MatrixBase<Derived> const& x) const {
       std::vector<int> indices;
 
-      for (auto const& kv : Blocks) {
+      for (auto const& kv : blocks) {
         auto const& g = kv.first;
         for (int i = group_start(g); i <= group_end(g); ++i) {
           indices.push_back(i);
@@ -124,7 +173,7 @@ namespace ppforest2::stats {
        */
     GroupPartition subset(GroupSet const& groups) const;
 
-    using SplitSizes = std::map<types::Outcome, int>;
+    using SplitSizes = std::map<types::GroupId, int>;
 
     /**
        * @brief Split each group's block into left and right children.
@@ -169,22 +218,22 @@ namespace ppforest2::stats {
       int start;
       int end;
       int size;
-      std::optional<types::Outcome> next;
-      std::optional<types::Outcome> prev;
+      std::optional<types::GroupId> next;
+      std::optional<types::GroupId> prev;
     };
 
-    using BlockMap = std::map<types::Outcome, Block>;
-    BlockMap const Blocks;
+    using BlockMap = std::map<types::GroupId, Block>;
+    BlockMap const blocks;
 
     static BlockMap init_blocks(GroupVector const& y);
     static GroupMap init_supergroups(GroupSet const& groups);
 
-    explicit GroupPartition(BlockMap const& Blocks);
+    explicit GroupPartition(BlockMap const& blocks);
 
-    GroupPartition(BlockMap const& Blocks, GroupSet const& groups);
+    GroupPartition(BlockMap const& blocks, GroupSet const& groups);
 
-    GroupPartition(BlockMap const& Blocks, GroupMap const& supergroups);
+    GroupPartition(BlockMap const& blocks, GroupMap const& supergroups);
 
-    GroupPartition(BlockMap const& Blocks, GroupSet const& groups, GroupMap const& supergroups);
+    GroupPartition(BlockMap const& blocks, GroupSet const& groups, GroupMap const& supergroups);
   };
 }

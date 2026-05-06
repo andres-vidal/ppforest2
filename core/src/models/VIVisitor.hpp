@@ -21,7 +21,8 @@ namespace ppforest2 {
    * The caller is responsible for forest-level aggregation and normalization
    * described in Da Silva et al. (2021).
    */
-  struct VIVisitor : public TreeNode::Visitor {
+  class VIVisitor : public TreeNode::Visitor {
+  public:
     /** @brief VI2 contributions per variable (size p). */
     std::vector<types::Feature> vi2_contributions;
 

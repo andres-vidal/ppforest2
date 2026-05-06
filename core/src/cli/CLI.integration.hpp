@@ -36,10 +36,15 @@ using json = nlohmann::json;
 inline const std::string BINARY     = PPFOREST2_BINARY_PATH;
 inline std::string const DATA_DIR   = PPFOREST2_DATA_DIR;
 inline std::string const GOLDEN_DIR = PPFOREST2_GOLDEN_DIR;
-inline std::string const IRIS_CSV   = DATA_DIR + "/iris.csv";
-inline std::string const CRAB_CSV   = DATA_DIR + "/crab.csv";
-inline std::string const WINE_CSV   = DATA_DIR + "/wine.csv";
-inline std::string const GLASS_CSV  = DATA_DIR + "/glass.csv";
+// Classification datasets live under `${DATA_DIR}/classification/`, regression
+// under `${DATA_DIR}/regression/`. Path constants pin the subfolder explicitly
+// so tests don't have to know the layout convention.
+inline std::string const IRIS_CSV    = DATA_DIR + "/classification/iris.csv";
+inline std::string const CRAB_CSV    = DATA_DIR + "/classification/crab.csv";
+inline std::string const WINE_CSV    = DATA_DIR + "/classification/wine.csv";
+inline std::string const GLASS_CSV   = DATA_DIR + "/classification/glass.csv";
+inline std::string const MTCARS_CSV  = DATA_DIR + "/regression/mtcars.csv";
+inline std::string const HOUSING_CSV = DATA_DIR + "/regression/california_housing.csv";
 
 /**
  * @brief Captured output of a child-process invocation.

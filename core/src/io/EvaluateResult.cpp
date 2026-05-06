@@ -8,6 +8,7 @@
 namespace ppforest2::io {
   nlohmann::json EvaluateResult::to_json() const {
     nlohmann::json j = {
+        {"mode", types::to_string(mode)},
         {"n", n},
         {"p", p},
         {"g", g},
@@ -42,6 +43,7 @@ namespace ppforest2::io {
 
   EvaluateResult::EvaluateResult(nlohmann::json const& j)
       : data_path(j.value("data", ""))
+      , mode(types::mode_from_string(j.value("mode", "classification")))
       , n(j.value("n", 0))
       , p(j.value("p", 0))
       , g(j.value("g", 0))
@@ -60,6 +62,7 @@ namespace ppforest2::io {
   EvaluateResult ModelStats::summarize() const {
     EvaluateResult r;
     r.data_path     = data_path;
+    r.mode          = mode;
     r.n             = n;
     r.p             = p;
     r.g             = g;

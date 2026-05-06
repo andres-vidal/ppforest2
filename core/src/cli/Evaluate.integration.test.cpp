@@ -49,6 +49,40 @@ TEST(CLIEvaluate, EvaluateOutputFile) {
   EXPECT_TRUE(j.contains("peak_rss_bytes"));
 }
 
+/* Multiple iterations must train *distinct* models — otherwise the std-error
+ * fields are tautologically zero. Fences the per-iteration seed derivation
+ * in `evaluate_model`: each loop iteration uses a fresh seed drawn from the
+ * caller's RNG, so bagging variance produces different forests and therefore
+ * non-zero error variance across iterations. Iris is the smallest dataset
+ * with enough overlap between groups to surface real bagging variance —
+ * `--simulate` defaults are too well-separated (forests classify trivially). */
+TEST(CLIEvaluate, EvaluateIterationsProduceModelVariance) {
+  TempFile const output;
+  output.clear();
+  auto result = run_ppforest2("-q evaluate -d " + IRIS_CSV + " -n 5 -r 0 -i 5 --train-ratio 0.5 -o " + output.path());
+  EXPECT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  EXPECT_GT(j["std_train_error"].get<double>(), 0.0);
+  EXPECT_GT(j["std_test_error"].get<double>(), 0.0);
+}
+
+/* `--fixed-seed` opts out of per-iteration variance: every iteration trains
+ * the same model, so `std_*_error` is exactly zero. Useful for measuring
+ * pure timing noise without algorithmic variance. */
+TEST(CLIEvaluate, EvaluateFixedSeedProducesZeroErrorVariance) {
+  TempFile const output;
+  output.clear();
+  auto result = run_ppforest2(
+      "-q evaluate -d " + IRIS_CSV + " -n 5 -r 0 -i 5 --train-ratio 0.5 --fixed-seed -o " + output.path()
+  );
+  EXPECT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  EXPECT_DOUBLE_EQ(j["std_train_error"].get<double>(), 0.0);
+  EXPECT_DOUBLE_EQ(j["std_test_error"].get<double>(), 0.0);
+}
+
 /* -e exports config.json, data.csv, and results.json to a directory. */
 TEST(CLIEvaluate, EvaluateExport) {
   TempDir const dir;

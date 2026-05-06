@@ -1,10 +1,8 @@
 #include "models/TreeBranch.hpp"
-#include "models/TreeLeaf.hpp"
+#include "utils/Math.hpp"
 
-#include <algorithm>
 #include <stdexcept>
 #include <utility>
-#include <vector>
 
 using namespace ppforest2::types;
 using namespace ppforest2::pp;
@@ -12,10 +10,10 @@ using namespace ppforest2::pp;
 namespace ppforest2 {
   TreeBranch::TreeBranch(
       Projector projector,
-      Cutpoint cutpoint,
+      Feature cutpoint,
       TreeNode::Ptr lower,
       TreeNode::Ptr upper,
-      std::set<Outcome> groups,
+      std::set<GroupId> groups,
       Feature pp_index_value
   )
       : projector(std::move(projector))
@@ -35,22 +33,38 @@ namespace ppforest2 {
     throw std::invalid_argument("Cannot get response from a condition node");
   }
 
-  Outcome TreeBranch::predict(FeatureVector const& data) const {
-    Feature const projected = data.dot(projector);
+  Outcome TreeBranch::predict(FeatureVector const& x) const {
+    Feature const projected = x.dot(projector);
 
     if (projected < cutpoint) {
-      return lower->predict(data);
+      return lower->predict(x);
     }
 
-    return upper->predict(data);
+    return upper->predict(x);
   }
 
   bool TreeBranch::equals(TreeNode const& other) const {
-    auto const* cond = dynamic_cast<TreeBranch const*>(&other);
+    struct EqualsVisitor : TreeNode::Visitor {
+      TreeBranch const& self;
+      bool result = false;
 
-    // Intentionally structural equality (metadata ignored).
-    return (cond != nullptr) && math::collinear(projector, cond->projector) &&
-           math::is_approx(cutpoint, cond->cutpoint) && *lower == *(cond->lower) && *upper == *(cond->upper);
+      explicit EqualsVisitor(TreeBranch const& self)
+          : self(self) {}
+
+      void visit(TreeBranch const& branch) override {
+        bool projectors_collinear = math::collinear(self.projector, branch.projector);
+        bool cutpoint_approximate = math::is_approx(self.cutpoint, branch.cutpoint);
+
+        bool lower_equal = *self.lower == *branch.lower;
+        bool upper_equal = *self.upper == *branch.upper;
+
+        result = projectors_collinear && cutpoint_approximate && lower_equal && upper_equal;
+      }
+    };
+
+    EqualsVisitor visitor(*this);
+    other.accept(visitor);
+    return visitor.result;
   }
 
   TreeNode::Ptr TreeBranch::clone() const {
@@ -59,14 +73,14 @@ namespace ppforest2 {
 
   TreeBranch::Ptr TreeBranch::make(
       Projector projector,
-      Cutpoint cutpoint,
+      Feature cutpoint,
       TreeNode::Ptr lower,
       TreeNode::Ptr upper,
-      std::set<Outcome> groups,
+      std::set<GroupId> groups,
       Feature pp_index_value
   ) {
     return std::make_unique<TreeBranch>(
-        std::move(projector), std::move(cutpoint), std::move(lower), std::move(upper), std::move(groups), pp_index_value
+        std::move(projector), cutpoint, std::move(lower), std::move(upper), std::move(groups), pp_index_value
     );
   }
 }

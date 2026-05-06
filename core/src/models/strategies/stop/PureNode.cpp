@@ -1,6 +1,6 @@
 #include "models/strategies/stop/PureNode.hpp"
-
 #include "models/strategies/NodeContext.hpp"
+#include "utils/JsonReader.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -9,7 +9,7 @@ namespace ppforest2::stop {
     return {{"name", "pure_node"}};
   }
 
-  bool PureNode::should_stop(NodeContext const& ctx, stats::RNG& /*rng*/) const {
+  bool PureNode::compute(NodeContext const& ctx, stats::RNG& /*rng*/) const {
     return ctx.y.groups.size() <= 1;
   }
 
@@ -18,7 +18,7 @@ namespace ppforest2::stop {
   }
 
   StopRule::Ptr PureNode::from_json(nlohmann::json const& j) {
-    validate_json_keys(j, "pure_node stop", {"name"});
+    JsonReader{j, "pure_node"}.only_keys({"name"});
     return pure_node();
   }
 }

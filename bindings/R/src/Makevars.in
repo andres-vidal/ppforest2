@@ -1,5 +1,18 @@
 CXX_STD = CXX17
 
-PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_LIBS@ -L"../inst/lib" -lppforest2-core
+# `libppforest2-strategies.a` carries the concrete strategies that self-
+# register at static-init time. Without whole-archive linking, any strategy
+# whose factory isn't directly called from the R bindings would be dead-
+# stripped and its registration never fires — `load_json(...)` for a model
+# using that strategy throws "Unknown strategy" at runtime.
+# `@WHOLE_ARCHIVE_STRATEGIES_LIB@` is substituted by `configure` to the
+# platform-appropriate fragment (macOS `-Wl,-force_load,<path>`; GNU/MinGW
+# `-Wl,--whole-archive -lppforest2-strategies -Wl,--no-whole-archive`).
+#
+# `-lppforest2-core` links normally: its models / stats / serialization /
+# utils / io objects pull in on demand based on what the R bindings
+# actually reference. This keeps code paths R doesn't use (e.g. the CLI's
+# CSV reader) out of the linked shared library.
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_LIBS@ -L"../inst/lib" @WHOLE_ARCHIVE_STRATEGIES_LIB@ -lppforest2-core
 PKG_CPPFLAGS = -I"../inst/include" -I"core/include" -I"core/src" -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
 PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_CXXFLAGS@ @COMPILER_FLAGS@

@@ -26,6 +26,7 @@ using json = nlohmann::json;
 
 namespace ppforest2::cli {
   void add_model_options(CLI::App* sub, ModelParams& model) {
+    sub->add_option("-m,--mode", model.mode_input, "Training mode (classification or regression)");
     sub->add_option("-n,--size", model.size, "Number of trees (default: 100, 0 for single tree)");
     sub->add_option("-l,--lambda", model.lambda, "Method selection (0=LDA, (0,1]=PDA)");
     sub->add_option("--threads", model.threads, "Number of threads (default: CPU cores)");
@@ -37,9 +38,15 @@ namespace ppforest2::cli {
     sub->add_option("--pp", model.pp_input, "PP strategy (e.g. pda, pda:lambda=0.5)");
     sub->add_option("--vars", model.vars_input, "Variable selection strategy (e.g. all, uniform:count=3)");
     sub->add_option("--cutpoint", model.cutpoint_input, "Split cutpoint strategy (e.g. mean_of_means)");
-    sub->add_option("--stop", model.stop_input, "Stop rule strategy (e.g. pure_node)");
+    sub->add_option(
+        "--stop",
+        model.stop_inputs,
+        "Stop rule strategy (e.g. pure_node, min_size:min_size=5). "
+        "Repeat to compose rules via any(...) — e.g. "
+        "--stop min_size:min_size=5 --stop min_variance:threshold=0.01."
+    );
     sub->add_option("--binarize", model.binarize_input, "Binarization strategy (e.g. largest_gap)");
-    sub->add_option("--partition", model.partition_input, "Partition strategy (e.g. by_group)");
+    sub->add_option("--grouping", model.grouping_input, "Grouping strategy (e.g. by_label)");
     sub->add_option("--leaf", model.leaf_input, "Leaf strategy (e.g. majority_vote)");
 
     // Mutual exclusions (all configurable via config, so no CLI11 validators)
@@ -73,33 +80,7 @@ namespace ppforest2::cli {
 }
 
 namespace ppforest2::cli {
-  DataPacket read_data(Params const& params, ppforest2::stats::RNG& rng) {
-    if (!params.data_path.empty()) {
-      try {
-        return io::csv::read_sorted(params.data_path);
-      } catch (ppforest2::UserError const&) {
-        throw;
-      } catch (std::exception const& e) {
-        throw ppforest2::UserError(fmt::format("Error reading CSV file '{}': {}", params.data_path, e.what()));
-      }
-    }
-
-    SimulationParams simulation_params;
-    simulation_params.mean            = params.simulation.mean;
-    simulation_params.mean_separation = params.simulation.mean_separation;
-    simulation_params.sd              = params.simulation.sd;
-
-    try {
-      return simulate(
-          params.simulation.rows, params.simulation.cols, params.simulation.n_groups, rng, simulation_params
-      );
-    } catch (std::exception const& e) {
-      throw ppforest2::UserError(fmt::format("Error simulating data: {}", e.what()));
-    }
-  }
-
-  TrainResult
-  train_model(FeatureMatrix const& x, OutcomeVector const& y, Params const& params, ppforest2::stats::RNG& rng) {
+  TrainResult train_model(FeatureMatrix const& x, OutcomeVector const& y, Params const& params) {
     auto const& m = params.model;
 
     auto spec = TrainingSpec::from_json({
@@ -108,15 +89,23 @@ namespace ppforest2::cli {
         {"cutpoint", m.cutpoint_config},
         {"stop", m.stop_config},
         {"binarize", m.binarize_config},
-        {"partition", m.partition_config},
+        {"grouping", m.grouping_config},
         {"leaf", m.leaf_config},
+        {"mode", m.mode_input},
         {"size", m.size},
         {"seed", *m.seed},
         {"threads", *m.threads},
         {"max_retries", m.max_retries},
     });
 
-    auto [model, ms] = io::measure_time_ms([&] { return Model::train(*spec, x, y); });
+    // Per-call copies: `Model::train` may permute its inputs (regression's
+    // ByCutpoint sorts rows in place). Copying here keeps the caller's
+    // matrices intact so they can be reused across iterations / for
+    // post-train predictions.
+    FeatureMatrix x_local = x;
+    OutcomeVector y_local = y;
+
+    auto [model, ms] = io::measure_time_ms([&] { return Model::train(*spec, x_local, y_local); });
 
     return {std::move(model), ms};
   }
@@ -144,26 +133,23 @@ namespace ppforest2::cli {
     }
 
     ppforest2::stats::RNG rng(*params.model.seed);
-    auto data = read_data(params, rng);
+    auto data = params.read_data(rng);
 
     params.resolve_defaults(data.x.cols());
 
-    FeatureMatrix const x = data.x;
-    OutcomeVector const y = data.y;
-
-    auto train_result = train_model(x, y, params, rng);
+    auto train_result = train_model(data.x, data.y, params);
 
     serialization::Export<Model::Ptr> model_export{
         std::move(train_result.model),
-        data.group_names,
+        std::move(data.group_names), // empty for regression, non-empty for classification
         nullptr,
-        static_cast<int>(x.rows()),
-        static_cast<int>(x.cols()),
+        static_cast<int>(data.x.rows()),
+        static_cast<int>(data.x.cols()),
         data.feature_names,
     };
 
     if (!params.no_metrics) {
-      model_export.compute_metrics(x, y);
+      model_export.compute_metrics(data.x, data.y);
     }
 
     json model_json = model_export.to_json();

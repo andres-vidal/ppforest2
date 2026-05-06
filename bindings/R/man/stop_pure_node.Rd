@@ -11,7 +11,7 @@ A \code{stop_strategy} object.
 }
 \description{
 Creates a stopping rule that stops splitting when a node contains only one
-group. This is the default stopping rule.
+group. This is the default stopping rule for classification.
 }
 \examples{
 stop_pure_node()
