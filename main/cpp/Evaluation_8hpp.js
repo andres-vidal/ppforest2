@@ -1,0 +1,25 @@
+var Evaluation_8hpp =
+[
+    [ "ppforest2::VariableImportance", "structppforest2_1_1VariableImportance.html", "structppforest2_1_1VariableImportance" ],
+    [ "ppforest2::error", "namespaceppforest2.html#a71acf8b37e1f8b7aa601bd831172927a", null ],
+    [ "ppforest2::error", "namespaceppforest2.html#a8614eddc159741e001a586b770a3799f", null ],
+    [ "ppforest2::oob_error", "namespaceppforest2.html#a4dc073a1581696608c8b70a228dd440c", null ],
+    [ "ppforest2::oob_error", "namespaceppforest2.html#a6594cb204bd0b5ced885e287bc575ceb", null ],
+    [ "ppforest2::oob_error", "namespaceppforest2.html#af58453800b190cb53b10619d15c4bb27", null ],
+    [ "ppforest2::oob_error", "namespaceppforest2.html#a6953f1299c2f07c8751c88de7cf6fde1", null ],
+    [ "ppforest2::oob_metrics", "namespaceppforest2.html#a0b7d4db5d82ff1a8984489fadc83ee41", null ],
+    [ "ppforest2::oob_metrics", "namespaceppforest2.html#a5a8f8d16032550d7992048fb47509648", null ],
+    [ "ppforest2::oob_predict", "namespaceppforest2.html#afcbda70fb0dafda9d9dd0a42e885af5a", null ],
+    [ "ppforest2::oob_predict", "namespaceppforest2.html#a189f7a1fdc4f638951a31807e9885d8b", null ],
+    [ "ppforest2::variable_importance", "namespaceppforest2.html#a95a65eebef6ae26e80be5873c9ead8cf", null ],
+    [ "ppforest2::variable_importance", "namespaceppforest2.html#a089122996572dd39d75e361bb0787637", null ],
+    [ "ppforest2::variable_importance", "namespaceppforest2.html#a284811e42da22ef5fcf0f7e81268d945", null ],
+    [ "ppforest2::variable_importance", "namespaceppforest2.html#a4c70d0eaf76fd5bef33f87afeafefe37", null ],
+    [ "ppforest2::vi_permuted", "namespaceppforest2.html#a7b22ccbda74e9c7628e70e454a58077b", null ],
+    [ "ppforest2::vi_permuted", "namespaceppforest2.html#ae23dab8df6d02ffb67cc60e021ec3980", null ],
+    [ "ppforest2::vi_projections", "namespaceppforest2.html#a69b0f163a81834d957d31120be97471d", null ],
+    [ "ppforest2::vi_projections", "namespaceppforest2.html#a9d83a795dd0225d46e2168684be311ce", null ],
+    [ "ppforest2::vi_projections", "namespaceppforest2.html#aede8c22e65deb01bb0508a4a197387ac", null ],
+    [ "ppforest2::vi_weighted_projections", "namespaceppforest2.html#a1a050e25a68e5083a0dd3c3149e16a71", null ],
+    [ "ppforest2::vi_weighted_projections", "namespaceppforest2.html#ac7e49d0bca0945d6b3217f1ac190dea7", null ]
+];

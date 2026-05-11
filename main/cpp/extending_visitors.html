@@ -130,9 +130,11 @@ How double dispatch works</h1>
 Implementing a TreeNode::Visitor</h1>
 <h2><a class="anchor" id="vis_treenode_interface"></a>
 Interface to implement</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>TreeNode::Visitor {</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; condition) = 0;</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp; response) = 0;</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  <span class="keyword">virtual</span> ~Visitor()                                = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; condition)   = 0;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp; response)      = 0;</div>
 <div class="line">};</div>
 </div><!-- fragment --><p><b>TreeBranch</b> (internal split node) provides:</p><ul>
 <li><code>projector</code> — the projection vector (p) used at this split</li>
@@ -164,7 +166,8 @@ Example: computing tree depth</h2>
 <div class="line"> </div>
 <div class="line"><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceppforest2.html">ppforest2</a> {</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">struct </span>DepthVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"><span class="keyword">class </span>DepthVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
 <div class="line">  <span class="keywordtype">int</span> max_depth = 0;</div>
 <div class="line">  <span class="keywordtype">int</span> current_depth = 0;</div>
 <div class="line"> </div>
@@ -196,7 +199,8 @@ Example: computing tree depth</h2>
 <div class="line"><span class="keywordtype">int</span> depth = visitor.max_depth;</div>
 </div><!-- fragment --><h2><a class="anchor" id="vis_treenode_example2"></a>
 Example: counting leaves</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>LeafCountVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>LeafCountVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
 <div class="line">  <span class="keywordtype">int</span> count = 0;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; cond)<span class="keyword"> override </span>{</div>
@@ -216,18 +220,22 @@ Implementing a Model::Visitor</h1>
 <p>Model::Visitor dispatches over Tree and Forest, useful when you need to handle them differently (e.g. serialisation, summary statistics).</p>
 <h2><a class="anchor" id="vis_model_interface"></a>
 Interface to implement</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Model::Visitor {</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree) = 0;</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>Model::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  <span class="keyword">virtual</span> ~Visitor()                       = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree)     = 0;</div>
 <div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Forest&amp; forest) = 0;</div>
 <div class="line">};</div>
 </div><!-- fragment --><h2><a class="anchor" id="vis_model_example"></a>
 Example: collecting all leaf labels</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>AllLabelsVisitor : <span class="keyword">public</span> Model::Visitor {</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>AllLabelsVisitor : <span class="keyword">public</span> Model::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
 <div class="line">  std::set&lt;types::Outcome&gt; labels;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree)<span class="keyword"> override </span>{</div>
 <div class="line">    <span class="comment">// Use a TreeNode::Visitor to walk the tree:</span></div>
-<div class="line">    <span class="keyword">struct </span>LabelCollector : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line">    <span class="keyword">class </span>LabelCollector : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line">     <span class="keyword">public</span>:</div>
 <div class="line">      std::set&lt;types::Outcome&gt;&amp; labels;</div>
 <div class="line">      LabelCollector(std::set&lt;types::Outcome&gt;&amp; l) : labels(l) {}</div>
 <div class="line"> </div>

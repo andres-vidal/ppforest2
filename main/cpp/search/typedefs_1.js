@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['errorhandler_0',['ErrorHandler',['../namespaceppforest2_1_1io_1_1json.html#a31a35114954164986de8ad9d9cde19da',1,'ppforest2::io::json::ErrorHandler'],['../namespaceppforest2_1_1io_1_1text.html#a3aab94f939be855338010b564970d2dc',1,'ppforest2::io::text::ErrorHandler']]]
+  ['columns_0',['Columns',['../structppforest2_1_1cli_1_1BenchmarkReport_1_1Style.html#a6ec5918219621015f0ef42e935625513',1,'ppforest2::cli::BenchmarkReport::Style']]]
 ];

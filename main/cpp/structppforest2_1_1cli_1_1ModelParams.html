@@ -108,7 +108,7 @@ $(function(){initNavTree('structppforest2_1_1cli_1_1ModelParams.html',''); initR
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="structppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  
+<p><a class="el" href="classppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ModelParams_8hpp_source.html">ModelParams.hpp</a>&gt;</code></p>
@@ -146,6 +146,10 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a7db56bd3a419f8fc663d1808cdcff3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a246ac5b306c61a5943417d8d93c4056a" id="r_a246ac5b306c61a5943417d8d93c4056a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a246ac5b306c61a5943417d8d93c4056a">cutpoint_input</a></td></tr>
 <tr class="separator:a246ac5b306c61a5943417d8d93c4056a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40845ab47ee23b1c67a9d498c378a697" id="r_a40845ab47ee23b1c67a9d498c378a697"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40845ab47ee23b1c67a9d498c378a697">grouping_config</a></td></tr>
+<tr class="separator:a40845ab47ee23b1c67a9d498c378a697"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f8120211a669c0b71520cec1b23981c" id="r_a8f8120211a669c0b71520cec1b23981c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f8120211a669c0b71520cec1b23981c">grouping_input</a></td></tr>
+<tr class="separator:a8f8120211a669c0b71520cec1b23981c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10629e456e9af2b64b4f7de4c6139028" id="r_a10629e456e9af2b64b4f7de4c6139028"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10629e456e9af2b64b4f7de4c6139028">lambda</a> = 0.5</td></tr>
 <tr class="separator:a10629e456e9af2b64b4f7de4c6139028"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44abbe2a11d5ab621b5122910130947e" id="r_a44abbe2a11d5ab621b5122910130947e"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44abbe2a11d5ab621b5122910130947e">leaf_config</a></td></tr>
@@ -154,18 +158,17 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a933a7000536657a1171de26cf913ad10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8de1b7d764b9c1be2028c68980bd398e" id="r_a8de1b7d764b9c1be2028c68980bd398e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8de1b7d764b9c1be2028c68980bd398e">max_retries</a> = 3</td></tr>
 <tr class="separator:a8de1b7d764b9c1be2028c68980bd398e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac86fca356112b49aef9a44c60992168b" id="r_ac86fca356112b49aef9a44c60992168b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac86fca356112b49aef9a44c60992168b">mode_input</a></td></tr>
+<tr class="memdesc:ac86fca356112b49aef9a44c60992168b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Training mode ("classification" or "regression").  <br /></td></tr>
+<tr class="separator:ac86fca356112b49aef9a44c60992168b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab556797cdea1d74424f5b1068663a051" id="r_ab556797cdea1d74424f5b1068663a051"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab556797cdea1d74424f5b1068663a051">n_vars</a></td></tr>
 <tr class="separator:ab556797cdea1d74424f5b1068663a051"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab29cef4e4e8d3b64e5e933bdb91ecfe5" id="r_ab29cef4e4e8d3b64e5e933bdb91ecfe5"><td class="memItemLeft" align="right" valign="top">std::optional&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab29cef4e4e8d3b64e5e933bdb91ecfe5">p_vars</a></td></tr>
 <tr class="separator:ab29cef4e4e8d3b64e5e933bdb91ecfe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a532ff35a4811305bab2f318be3e71c9c" id="r_a532ff35a4811305bab2f318be3e71c9c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a532ff35a4811305bab2f318be3e71c9c">p_vars_input</a></td></tr>
 <tr class="separator:a532ff35a4811305bab2f318be3e71c9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e0d8ceef48bfabf373a60a9fa513d1c" id="r_a8e0d8ceef48bfabf373a60a9fa513d1c"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e0d8ceef48bfabf373a60a9fa513d1c">partition_config</a></td></tr>
-<tr class="separator:a8e0d8ceef48bfabf373a60a9fa513d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a227450206179957460cf38465d9be771" id="r_a227450206179957460cf38465d9be771"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a227450206179957460cf38465d9be771">partition_input</a></td></tr>
-<tr class="separator:a227450206179957460cf38465d9be771"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad23c8e70afa4e9741c3088459fffc342" id="r_ad23c8e70afa4e9741c3088459fffc342"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad23c8e70afa4e9741c3088459fffc342">pp_config</a></td></tr>
-<tr class="memdesc:ad23c8e70afa4e9741c3088459fffc342"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structStrategy.html" title="CRTP base class providing self-registration for strategy types.">Strategy</a> JSON objects (from <a class="el" href="namespaceCLI.html">CLI</a> strings or config file).  <br /></td></tr>
+<tr class="memdesc:ad23c8e70afa4e9741c3088459fffc342"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classStrategy.html" title="CRTP base class providing self-registration for strategy types.">Strategy</a> JSON objects (from <a class="el" href="namespaceCLI.html">CLI</a> strings or config file).  <br /></td></tr>
 <tr class="separator:ad23c8e70afa4e9741c3088459fffc342"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b392c21acee031188a6a80fac5bad40" id="r_a4b392c21acee031188a6a80fac5bad40"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b392c21acee031188a6a80fac5bad40">pp_input</a></td></tr>
 <tr class="memdesc:a4b392c21acee031188a6a80fac5bad40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicit strategy inputs (&ndash;X flags).  <br /></td></tr>
@@ -176,8 +179,9 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a1633723a5c34a8100c99d7baaa022901"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56e949fd89746a6db004e8d6f0a5ffef" id="r_a56e949fd89746a6db004e8d6f0a5ffef"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56e949fd89746a6db004e8d6f0a5ffef">stop_config</a></td></tr>
 <tr class="separator:a56e949fd89746a6db004e8d6f0a5ffef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0863403d90f61f12736a9e506f545b62" id="r_a0863403d90f61f12736a9e506f545b62"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0863403d90f61f12736a9e506f545b62">stop_input</a></td></tr>
-<tr class="separator:a0863403d90f61f12736a9e506f545b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae63ba65656fd0add743f992d244a539f" id="r_ae63ba65656fd0add743f992d244a539f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae63ba65656fd0add743f992d244a539f">stop_inputs</a></td></tr>
+<tr class="memdesc:ae63ba65656fd0add743f992d244a539f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repeated <code>--stop</code> flag values.  <br /></td></tr>
+<tr class="separator:ae63ba65656fd0add743f992d244a539f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0985975f8dc6e485a9400bd94d574d54" id="r_a0985975f8dc6e485a9400bd94d574d54"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0985975f8dc6e485a9400bd94d574d54">threads</a></td></tr>
 <tr class="separator:a0985975f8dc6e485a9400bd94d574d54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d499b240b40739ba273d64a831d2443" id="r_a2d499b240b40739ba273d64a831d2443"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d499b240b40739ba273d64a831d2443">vars_config</a></td></tr>
@@ -186,7 +190,7 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae4084e7308940cdb2ad792c17f17e1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="structppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate. </p>
+<div class="textblock"><p><a class="el" href="classppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a29a589d06a2172b3622951e037004d0a" name="a29a589d06a2172b3622951e037004d0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a29a589d06a2172b3622951e037004d0a">&#9670;&#160;</a></span>ModelParams() <span class="overload">[1/2]</span></h2>
@@ -284,9 +288,6 @@ Public Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">nlohmann::json ppforest2::cli::ModelParams::to_json </td>
@@ -295,11 +296,6 @@ Public Attributes</h2></td></tr>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Serialize to JSON config. </p>
@@ -394,6 +390,34 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a40845ab47ee23b1c67a9d498c378a697" name="a40845ab47ee23b1c67a9d498c378a697"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40845ab47ee23b1c67a9d498c378a697">&#9670;&#160;</a></span>grouping_config</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nlohmann::json ppforest2::cli::ModelParams::grouping_config</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8f8120211a669c0b71520cec1b23981c" name="a8f8120211a669c0b71520cec1b23981c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f8120211a669c0b71520cec1b23981c">&#9670;&#160;</a></span>grouping_input</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ppforest2::cli::ModelParams::grouping_input</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a10629e456e9af2b64b4f7de4c6139028" name="a10629e456e9af2b64b4f7de4c6139028"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10629e456e9af2b64b4f7de4c6139028">&#9670;&#160;</a></span>lambda</h2>
 
@@ -450,6 +474,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac86fca356112b49aef9a44c60992168b" name="ac86fca356112b49aef9a44c60992168b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac86fca356112b49aef9a44c60992168b">&#9670;&#160;</a></span>mode_input</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ppforest2::cli::ModelParams::mode_input</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Training mode ("classification" or "regression"). </p>
+<p>Empty default = "infer from data": for <code>--data</code>, the CSV reader detects regression from fractional y values and <code>read_data</code> populates this; for <code>--simulate</code>, no data exists yet so we fall back to "classification". <code>-m,--mode</code> overrides both paths. </p>
+
+</div>
+</div>
 <a id="ab556797cdea1d74424f5b1068663a051" name="ab556797cdea1d74424f5b1068663a051"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab556797cdea1d74424f5b1068663a051">&#9670;&#160;</a></span>n_vars</h2>
 
@@ -492,34 +533,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8e0d8ceef48bfabf373a60a9fa513d1c" name="a8e0d8ceef48bfabf373a60a9fa513d1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e0d8ceef48bfabf373a60a9fa513d1c">&#9670;&#160;</a></span>partition_config</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">nlohmann::json ppforest2::cli::ModelParams::partition_config</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a227450206179957460cf38465d9be771" name="a227450206179957460cf38465d9be771"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a227450206179957460cf38465d9be771">&#9670;&#160;</a></span>partition_input</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string ppforest2::cli::ModelParams::partition_input</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ad23c8e70afa4e9741c3088459fffc342" name="ad23c8e70afa4e9741c3088459fffc342"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad23c8e70afa4e9741c3088459fffc342">&#9670;&#160;</a></span>pp_config</h2>
 
@@ -532,7 +545,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structStrategy.html" title="CRTP base class providing self-registration for strategy types.">Strategy</a> JSON objects (from <a class="el" href="namespaceCLI.html">CLI</a> strings or config file). </p>
+<p><a class="el" href="classStrategy.html" title="CRTP base class providing self-registration for strategy types.">Strategy</a> JSON objects (from <a class="el" href="namespaceCLI.html">CLI</a> strings or config file). </p>
 
 </div>
 </div>
@@ -594,17 +607,20 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0863403d90f61f12736a9e506f545b62" name="a0863403d90f61f12736a9e506f545b62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0863403d90f61f12736a9e506f545b62">&#9670;&#160;</a></span>stop_input</h2>
+<a id="ae63ba65656fd0add743f992d244a539f" name="ae63ba65656fd0add743f992d244a539f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae63ba65656fd0add743f992d244a539f">&#9670;&#160;</a></span>stop_inputs</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string ppforest2::cli::ModelParams::stop_input</td>
+          <td class="memname">std::vector&lt;std::string&gt; ppforest2::cli::ModelParams::stop_inputs</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Repeated <code>--stop</code> flag values. </p>
+<p>The only strategy flag that accepts repeats: multiple occurrences collect into this vector and are composed into a <code>CompositeStop</code> <code>any</code>-rule at <code><a class="el" href="#a04b786adde16fc97a775495da3bd50fc" title="Parse strategy input strings and p_vars input into their final form.">resolve()</a></code> time. A single <code>--stop</code> behaves unchanged. </p>
 
 </div>
 </div>

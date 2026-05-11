@@ -8,6 +8,7 @@ var structppforest2_1_1io_1_1EvaluateResult =
     [ "mean_te_error", "structppforest2_1_1io_1_1EvaluateResult.html#aac646a6f79130e027a69afd30024c624", null ],
     [ "mean_time_ms", "structppforest2_1_1io_1_1EvaluateResult.html#a1a19836c7295f0b4babb5533abcc466c", null ],
     [ "mean_tr_error", "structppforest2_1_1io_1_1EvaluateResult.html#a6b7f5683778ad6c8ff1a886c9981444c", null ],
+    [ "mode", "structppforest2_1_1io_1_1EvaluateResult.html#a94b3e76e53810f1c06954d6230582116", null ],
     [ "n", "structppforest2_1_1io_1_1EvaluateResult.html#a549b53d2372eca63f389651c732deead", null ],
     [ "n_vars", "structppforest2_1_1io_1_1EvaluateResult.html#aac2d6ef4645056f4b3d30a6a9b3a6bac", null ],
     [ "p", "structppforest2_1_1io_1_1EvaluateResult.html#a870ba7276b1afb66ae3c105e06a092ce", null ],

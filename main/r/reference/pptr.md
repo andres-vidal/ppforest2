@@ -17,13 +17,14 @@ pptr(
   data = NULL,
   x = NULL,
   y = NULL,
+  mode = NULL,
   lambda = 0,
   seed = NULL,
   pp = NULL,
   cutpoint = NULL,
   stop = NULL,
   binarize = NULL,
-  partition = NULL,
+  grouping = NULL,
   leaf = NULL
 )
 ```
@@ -46,6 +47,16 @@ pptr(
 - y:
 
   A matrix containing the labels for each observation.
+
+- mode:
+
+  Training mode: either `"classification"` or `"regression"`. When
+  `NULL` (default), mode is auto-detected from `y`'s type — factor or
+  character vectors trigger classification, numeric vectors trigger
+  regression. Setting it explicitly is useful for the
+  binary-integer-labels case (`mode = "classification"` with integer 0/1
+  labels) and for failing fast on a type mismatch (`mode = "regression"`
+  with a factor `y` errors immediately).
 
 - lambda:
 
@@ -76,56 +87,66 @@ pptr(
 
 - stop:
 
-  A stopping rule object created by
-  [`stop_pure_node`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md)
-  (default).
+  A stopping rule object. Default depends on mode:
+  [`stop_pure_node()`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md)
+  for classification, and
+  `stop_any(stop_min_size(5), stop_min_variance(0.01))` for regression.
 
 - binarize:
 
-  A binarization strategy object created by
-  [`binarize_largest_gap`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md)
-  (default).
+  A binarization strategy object. Default depends on mode:
+  [`binarize_largest_gap()`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md)
+  for classification, and
+  [`binarize_disabled()`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_disabled.md)
+  for regression (regression's default grouping always yields a 2-group
+  partition, so no binarization is needed).
 
-- partition:
+- grouping:
 
-  A partition strategy object created by
-  [`partition_by_group`](https://andres-vidal.github.io/ppforest2/main/r/reference/partition_by_group.md)
-  (default).
+  A grouping strategy object. Default depends on mode:
+  [`grouping_by_label()`](https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_label.md)
+  for classification, and
+  [`grouping_by_cutpoint()`](https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_cutpoint.md)
+  for regression.
 
 - leaf:
 
-  A leaf strategy object created by
-  [`leaf_majority_vote`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md)
-  (default).
+  A leaf strategy object. Default depends on mode:
+  [`leaf_majority_vote()`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md)
+  for classification, and
+  [`leaf_mean_response()`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_mean_response.md)
+  for regression.
 
 ## Value
 
-A pptr model trained on `x` and `y`.
+A `pptr` model. Its S3 class vector is
+`c("pptr_classification", "pptr", "ppmodel")` or
+`c("pptr_regression", "pptr", "ppmodel")` depending on the mode.
+
+## Details
+
+Mode is taken from the `mode` argument when explicit, and otherwise
+auto-detected from \`y\` (factor/character → classification, numeric →
+regression). Pass `mode = "classification"` to force classification on
+integer labels (e.g. binary 0/1), or `mode = "regression"` to assert
+intent on numeric responses.
 
 ## See also
 
-[`predict.pptr`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pptr.md),
-[`formula.pptr`](https://andres-vidal.github.io/ppforest2/main/r/reference/formula.pptr.md),
-[`summary.pptr`](https://andres-vidal.github.io/ppforest2/main/r/reference/summary.pptr.md),
+[`predict.pptr_classification`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pptr_classification.md),
+[`predict.pptr_regression`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pptr_regression.md),
+[`formula.ppmodel`](https://andres-vidal.github.io/ppforest2/main/r/reference/formula.ppmodel.md),
 [`print.pptr`](https://andres-vidal.github.io/ppforest2/main/r/reference/print.pptr.md),
 [`save_json`](https://andres-vidal.github.io/ppforest2/main/r/reference/save_json.md),
 [`load_json`](https://andres-vidal.github.io/ppforest2/main/r/reference/load_json.md),
 [`pp_tree`](https://andres-vidal.github.io/ppforest2/main/r/reference/pp_tree.md)
-for parsnip integration,
-[`pp_pda`](https://andres-vidal.github.io/ppforest2/main/r/reference/pp_pda.md),
-[`cutpoint_mean_of_means`](https://andres-vidal.github.io/ppforest2/main/r/reference/cutpoint_mean_of_means.md),
-[`stop_pure_node`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md),
-[`binarize_largest_gap`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md),
-[`partition_by_group`](https://andres-vidal.github.io/ppforest2/main/r/reference/partition_by_group.md),
-[`leaf_majority_vote`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md),
-[`vignette("introduction")`](https://andres-vidal.github.io/ppforest2/main/r/articles/introduction.md)
-for a tutorial
+for parsnip integration
 
 ## Examples
 
 ``` r
 # Example 1: formula interface with the `iris` dataset
-pptr(Type ~ ., data = iris)
+pptr(Species ~ ., data = iris)
 #> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
@@ -138,7 +159,7 @@ pptr(Type ~ ., data = iris)
 #> 
 
 # Example 2: formula interface with the `iris` dataset with regularization
-pptr(Type ~ ., data = iris, lambda = 0.5)
+pptr(Species ~ ., data = iris, lambda = 0.5)
 #> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
@@ -152,6 +173,8 @@ pptr(Type ~ ., data = iris, lambda = 0.5)
 
 # Example 3: matrix interface with the `iris` dataset
 pptr(x = iris[, 1:4], y = iris[, 5])
+#> 
+#> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
 #>    Predict: virginica 
@@ -159,36 +182,5 @@ pptr(x = iris[, 1:4], y = iris[, 5])
 #>    Predict: versicolor 
 #> Else:
 #>   Predict: setosa 
-#> 
-
-# Example 4: matrix interface with the `iris` dataset with regularization
-pptr(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
-#> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0.03 -0.06 -0.15 ] * x) < -0.4503323:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
-
-# Example 5: formula interface with the `crabs` dataset
-pptr(Type ~ ., data = crabs)
-#> 
-#> Project-Pursuit Oblique Decision Tree:
-#> If ([ 0 0 0 0 0 0 0 ] * x) < 0.004743028:
-#>   Predict: B 
-#> Else:
-#>   Predict: O 
-#> 
-
-# Example 6: formula interface with the `crabs` dataset with regularization
-pptr(Type ~ ., data = crabs, lambda = 0.5)
-#> 
-#> Project-Pursuit Oblique Decision Tree:
-#> If ([ 0 0 0.01 0 0 0 0.01 ] * x) < 0.324472:
-#>   Predict: B 
-#> Else:
-#>   Predict: O 
 #> 
 ```

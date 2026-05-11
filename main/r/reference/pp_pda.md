@@ -50,7 +50,7 @@ pp_pda(0.5)
 #> [1] "pp_strategy"
 
 # Use with pptr
-pptr(Type ~ ., data = iris, pp = pp_pda(0.5))
+pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 #> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
@@ -63,27 +63,12 @@ pptr(Type ~ ., data = iris, pp = pp_pda(0.5))
 #> 
 
 # Use with pprf
-pprf(Type ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
+pprf(Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 0 0.03 0.04 ] * x) < 0.1317591:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0 0.04 0.17 ] * x) < 0.4950379:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> 
-#> Tree 2:
-#> If ([ 0 0.05 0 -0.09 ] * x) < 0.06891914:
-#>  If ([ 0 0 0.06 0.16 ] * x) < 0.5307753:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> Else:
-#>   Predict: setosa 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
+#>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
 #> 
 ```

@@ -1,10 +1,14 @@
 var classppforest2_1_1stats_1_1GroupPartition =
 [
-    [ "SplitSizes", "classppforest2_1_1stats_1_1GroupPartition.html#a9e7b978334c0942ce7cf2b2408bf505e", null ],
+    [ "SplitSizes", "classppforest2_1_1stats_1_1GroupPartition.html#abe77dab07c6d489e285d31c72c1f2ce8", null ],
+    [ "GroupPartition", "classppforest2_1_1stats_1_1GroupPartition.html#a0a8b465878fd2f688b5703f14a47995f", null ],
     [ "GroupPartition", "classppforest2_1_1stats_1_1GroupPartition.html#aa7bee186e3741bed72fb5de3f6561093", null ],
+    [ "GroupPartition", "classppforest2_1_1stats_1_1GroupPartition.html#a97997ae812e848e57da6adb7ffadc3a2", null ],
     [ "bgss", "classppforest2_1_1stats_1_1GroupPartition.html#a8c26c6a76b3c37fc0db844351acabd90", null ],
+    [ "bisect", "classppforest2_1_1stats_1_1GroupPartition.html#a19b183deacf0c3d32db03ab44d00c73c", null ],
     [ "collapse", "classppforest2_1_1stats_1_1GroupPartition.html#ae309e07418f3315f94e4501646cff612", null ],
     [ "data", "classppforest2_1_1stats_1_1GroupPartition.html#a9462169118e52e5345b8bce762bf3c69", null ],
+    [ "first_group", "classppforest2_1_1stats_1_1GroupPartition.html#a2ad129a7da929f84d23fce2700976a6f", null ],
     [ "group", "classppforest2_1_1stats_1_1GroupPartition.html#aeecac3a6d8477466483066db93466fe0", null ],
     [ "group_end", "classppforest2_1_1stats_1_1GroupPartition.html#a9b872a690cf53ec757d3b2538b243e5a", null ],
     [ "group_size", "classppforest2_1_1stats_1_1GroupPartition.html#ae08ce9003aaf1548074e392aa48c1431", null ],
@@ -14,6 +18,7 @@ var classppforest2_1_1stats_1_1GroupPartition =
     [ "remap", "classppforest2_1_1stats_1_1GroupPartition.html#a00a4207e9ae26ad217b46f6ef506fce5", null ],
     [ "split", "classppforest2_1_1stats_1_1GroupPartition.html#aeb93c814425f78941f33a13849537f20", null ],
     [ "subset", "classppforest2_1_1stats_1_1GroupPartition.html#aa248cfefb808710f06c748251b4f0e48", null ],
+    [ "total_size", "classppforest2_1_1stats_1_1GroupPartition.html#aa124a09a24aa9952ba90a5a4125fdb11", null ],
     [ "wgss", "classppforest2_1_1stats_1_1GroupPartition.html#a332e13fca827ef071096980bb35521fc", null ],
     [ "groups", "classppforest2_1_1stats_1_1GroupPartition.html#a6f94f02c89f225d4e28d2369af86bc50", null ],
     [ "subgroups", "classppforest2_1_1stats_1_1GroupPartition.html#afbb149d3071b0fb6fefda324d2246b5d", null ],

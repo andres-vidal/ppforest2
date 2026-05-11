@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['evaluate_0',['evaluate',['../namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890',1,'ppforest2::cli']]]
+  ['classification_0',['Classification',['../namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75ea5c9335b28e6277ddbe0137f04e5e58a7',1,'ppforest2::types']]]
 ];

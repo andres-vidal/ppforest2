@@ -111,22 +111,28 @@ $(function(){initNavTree('namespaceppforest2_1_1leaf.html',''); initResizable(tr
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1leaf_1_1LeafStrategy.html">LeafStrategy</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract strategy for creating leaf nodes.  <a href="structppforest2_1_1leaf_1_1LeafStrategy.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1leaf_1_1LeafStrategy.html">LeafStrategy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract strategy for creating leaf nodes.  <a href="classppforest2_1_1leaf_1_1LeafStrategy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1leaf_1_1MajorityVote.html">MajorityVote</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaf creation by majority vote.  <a href="structppforest2_1_1leaf_1_1MajorityVote.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1leaf_1_1MajorityVote.html">MajorityVote</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaf creation by majority vote.  <a href="classppforest2_1_1leaf_1_1MajorityVote.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1leaf_1_1MeanResponse.html">MeanResponse</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaf creation by mean response value.  <a href="classppforest2_1_1leaf_1_1MeanResponse.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8f0900a222040866b97fdbc9d0c371e8" id="r_a8f0900a222040866b97fdbc9d0c371e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0900a222040866b97fdbc9d0c371e8">majority_vote</a> ()</td></tr>
+<tr class="memitem:a8f0900a222040866b97fdbc9d0c371e8" id="r_a8f0900a222040866b97fdbc9d0c371e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f0900a222040866b97fdbc9d0c371e8">majority_vote</a> ()</td></tr>
 <tr class="memdesc:a8f0900a222040866b97fdbc9d0c371e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for majority-vote leaf strategy.  <br /></td></tr>
 <tr class="separator:a8f0900a222040866b97fdbc9d0c371e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ababdc0909196ee6a1451f932ce581d61" id="r_ababdc0909196ee6a1451f932ce581d61"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ababdc0909196ee6a1451f932ce581d61">mean_response</a> ()</td></tr>
+<tr class="memdesc:ababdc0909196ee6a1451f932ce581d61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for mean-response leaf strategy.  <br /></td></tr>
+<tr class="separator:ababdc0909196ee6a1451f932ce581d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Leaf creation strategies. </p>
-<p>Controls what leaf node is produced when the tree stops splitting, whether triggered by the stop rule or by a degenerate condition. The default <a class="el" href="structppforest2_1_1leaf_1_1MajorityVote.html" title="Leaf creation by majority vote.">MajorityVote</a> returns a <a class="el" href="structppforest2_1_1TreeLeaf.html" title="Leaf node in a projection pursuit tree.">TreeLeaf</a> with the most frequent class. Future strategies can return probability leaves, regression leaves, etc. </p>
+<p>Controls what leaf node is produced when the tree stops splitting, whether triggered by the stop rule or by a degenerate condition. The default <a class="el" href="classppforest2_1_1leaf_1_1MajorityVote.html" title="Leaf creation by majority vote.">MajorityVote</a> returns a <a class="el" href="classppforest2_1_1TreeLeaf.html" title="Leaf node in a projection pursuit tree.">TreeLeaf</a> with the most frequent class. Future strategies can return probability leaves, regression leaves, etc. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a8f0900a222040866b97fdbc9d0c371e8" name="a8f0900a222040866b97fdbc9d0c371e8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f0900a222040866b97fdbc9d0c371e8">&#9670;&#160;</a></span>majority_vote()</h2>
@@ -135,7 +141,7 @@ Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a> ppforest2::leaf::majority_vote </td>
+          <td class="memname"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a> ppforest2::leaf::majority_vote </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -144,6 +150,25 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Factory function for majority-vote leaf strategy. </p>
+
+</div>
+</div>
+<a id="ababdc0909196ee6a1451f932ce581d61" name="ababdc0909196ee6a1451f932ce581d61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ababdc0909196ee6a1451f932ce581d61">&#9670;&#160;</a></span>mean_response()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">LeafStrategy::Ptr</a> ppforest2::leaf::mean_response </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Factory function for mean-response leaf strategy. </p>
 
 </div>
 </div>

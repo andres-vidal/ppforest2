@@ -1,22 +1,7 @@
 var searchData=
 [
-  ['p_0',['p',['../structppforest2_1_1io_1_1EvaluateResult.html#a870ba7276b1afb66ae3c105e06a092ce',1,'ppforest2::io::EvaluateResult::p'],['../structppforest2_1_1io_1_1ModelStats.html#ad2db767820cd0ce4088d0141a1dc31a0',1,'ppforest2::io::ModelStats::p']]],
-  ['p_5fvars_1',['p_vars',['../structppforest2_1_1cli_1_1ModelParams.html#ab29cef4e4e8d3b64e5e933bdb91ecfe5',1,'ppforest2::cli::ModelParams::p_vars'],['../structppforest2_1_1io_1_1EvaluateResult.html#a515b248e28bfedcc429f68691700b83a',1,'ppforest2::io::EvaluateResult::p_vars'],['../structppforest2_1_1io_1_1ModelStats.html#ab8a01e43d84944430b71861d91392d6c',1,'ppforest2::io::ModelStats::p_vars']]],
-  ['p_5fvars_5finput_2',['p_vars_input',['../structppforest2_1_1cli_1_1ModelParams.html#a532ff35a4811305bab2f318be3e71c9c',1,'ppforest2::cli::ModelParams']]],
-  ['partition_3',['partition',['../structppforest2_1_1TrainingSpec.html#af31c39d28afac9ae29c99fae98405130',1,'ppforest2::TrainingSpec']]],
-  ['partition_5f_4',['partition_',['../structppforest2_1_1TrainingSpec_1_1Builder.html#a638a4938fec79482f6ade4546a25f09f',1,'ppforest2::TrainingSpec::Builder']]],
-  ['partition_5fconfig_5',['partition_config',['../structppforest2_1_1cli_1_1ModelParams.html#a8e0d8ceef48bfabf373a60a9fa513d1c',1,'ppforest2::cli::ModelParams']]],
-  ['partition_5finput_6',['partition_input',['../structppforest2_1_1cli_1_1ModelParams.html#a227450206179957460cf38465d9be771',1,'ppforest2::cli::ModelParams']]],
-  ['peak_5frss_5fbytes_7',['peak_rss_bytes',['../structppforest2_1_1io_1_1EvaluateResult.html#a7116382292d9633a5402702d9f095d65',1,'ppforest2::io::EvaluateResult::peak_rss_bytes'],['../structppforest2_1_1io_1_1ModelStats.html#a15c61c5f80ed5d882213a4a7fe3c91e2',1,'ppforest2::io::ModelStats::peak_rss_bytes']]],
-  ['peak_5frss_5fmb_8',['peak_rss_mb',['../structppforest2_1_1io_1_1EvaluateResult.html#ac3865318c259df2f37ff7b509caea360',1,'ppforest2::io::EvaluateResult']]],
-  ['permuted_9',['permuted',['../structppforest2_1_1VariableImportance.html#a56fdf2538c7867b8c5d7183a7268a4d3',1,'ppforest2::VariableImportance']]],
-  ['pp_10',['pp',['../structppforest2_1_1TrainingSpec.html#a2ae18542c420d4166891ea8a9083ac17',1,'ppforest2::TrainingSpec']]],
-  ['pp_5f_11',['pp_',['../structppforest2_1_1TrainingSpec_1_1Builder.html#a914035fdd4cb7b0209624f6021caf831',1,'ppforest2::TrainingSpec::Builder']]],
-  ['pp_5fconfig_12',['pp_config',['../structppforest2_1_1cli_1_1ModelParams.html#ad23c8e70afa4e9741c3088459fffc342',1,'ppforest2::cli::ModelParams']]],
-  ['pp_5findex_5fvalue_13',['pp_index_value',['../structppforest2_1_1NodeContext.html#a16bc492d9e175858cad0f8a8f403a752',1,'ppforest2::NodeContext::pp_index_value'],['../structppforest2_1_1TreeBranch.html#ad726f1e576ac105747d1fe038d8a681a',1,'ppforest2::TreeBranch::pp_index_value']]],
-  ['pp_5finput_14',['pp_input',['../structppforest2_1_1cli_1_1ModelParams.html#a4b392c21acee031188a6a80fac5bad40',1,'ppforest2::cli::ModelParams']]],
-  ['predicted_5fgroup_15',['predicted_group',['../structppforest2_1_1viz_1_1RegionPolygon.html#ab0c22ab7a2a0347c8ab5d9a75915f501',1,'ppforest2::viz::RegionPolygon']]],
-  ['projected_5fvalues_16',['projected_values',['../structppforest2_1_1viz_1_1NodeData.html#ace58e17809ab9eaddad15054fda49529',1,'ppforest2::viz::NodeData']]],
-  ['projections_17',['projections',['../structppforest2_1_1VariableImportance.html#a9d993434c9ada143fd61ad34d87eadc7',1,'ppforest2::VariableImportance']]],
-  ['projector_18',['projector',['../structppforest2_1_1NodeContext.html#acc0aefa34ec66cb182242f2c7eace2e8',1,'ppforest2::NodeContext::projector'],['../structppforest2_1_1pp_1_1ProjectionPursuit_1_1Result.html#adde0a826d0e8a2abdc22d8a5ee9ba987',1,'ppforest2::pp::ProjectionPursuit::Result::projector'],['../structppforest2_1_1TreeBranch.html#ae2dead5ab6fc48626544775f94afa6ab',1,'ppforest2::TreeBranch::projector'],['../structppforest2_1_1viz_1_1NodeData.html#a55dac264b4dda8e0bec8a4ad51bd4e52',1,'ppforest2::viz::NodeData::projector'],['../structppforest2_1_1viz_1_1HalfSpace.html#a1bb7b742a6cf3ad0867ae59361ca7934',1,'ppforest2::viz::HalfSpace::projector']]]
+  ['oob_5fmetrics_0',['oob_metrics',['../structppforest2_1_1serialization_1_1Export.html#ac4d17aab5d23a5d87fb0239fc5b9c8c3',1,'ppforest2::serialization::Export']]],
+  ['original_5fsize_1',['original_size',['../structppforest2_1_1vars_1_1VariableSelection_1_1Result.html#a3cc593066d71c4605708184feb5c24a0',1,'ppforest2::vars::VariableSelection::Result']]],
+  ['output_5fpath_2',['output_path',['../structppforest2_1_1cli_1_1Params.html#abd2ddf92bfd15e00dc9940b44078cc93',1,'ppforest2::cli::Params']]],
+  ['outputs_3',['outputs',['../structppforest2_1_1cli_1_1BenchmarkParams.html#a53cc833159d7fe4de006ac2a5a8ff428',1,'ppforest2::cli::BenchmarkParams']]]
 ];

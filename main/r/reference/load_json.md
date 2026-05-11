@@ -1,8 +1,12 @@
 # Load a model from a JSON file.
 
 Deserializes a `pptr` or `pprf` model from a JSON file. The model can be
-used for prediction immediately. If variable importance metrics were
-saved, they are restored as well.
+used for prediction immediately. If variable importance metrics and OOB
+fields were saved, they are restored into the model's lazy-computation
+cache so later accessor calls
+([`oob_error()`](https://andres-vidal.github.io/ppforest2/main/r/reference/oob_error.md),
+[`permuted_importance()`](https://andres-vidal.github.io/ppforest2/main/r/reference/permuted_importance.md),
+etc.) return the stored values without recomputation.
 
 ## Usage
 
@@ -18,14 +22,15 @@ load_json(path)
 
 ## Value
 
-A `pptr` or `pprf` model.
+A `pptr` or `pprf` model (with the appropriate `_classification` /
+`_regression` subclass).
 
 ## Details
 
 Note that `formula`, `x`, and `y` are not stored in the JSON and will be
-`NULL` on the loaded model. This means formula-based
-[`predict()`](https://rdrr.io/r/stats/predict.html) (passing a data
-frame) will not work; pass a numeric matrix instead.
+`NULL` on the loaded model. Formula-based prediction and any accessor
+that requires training data will error unless the user re-attaches those
+fields.
 
 ## See also
 
@@ -36,7 +41,7 @@ frame) will not work; pass a numeric matrix instead.
 ## Examples
 
 ``` r
-model <- pptr(Type ~ ., data = iris, seed = 0)
+model <- pptr(Species ~ ., data = iris, seed = 0)
 path <- tempfile(fileext = ".json")
 save_json(model, path)
 loaded <- load_json(path)

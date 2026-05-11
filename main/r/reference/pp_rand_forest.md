@@ -18,8 +18,8 @@ pp_rand_forest(
 
 - mode:
 
-  A character string for the model type. Only `"classification"` is
-  supported.
+  A character string for the model type. Either `"classification"` or
+  `"regression"`.
 
 - trees:
 
@@ -50,7 +50,7 @@ for single trees
 if (FALSE) { # \dontrun{
 library(parsnip)
 spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
-fit <- spec %>% fit(Type ~ ., data = iris)
+fit <- spec %>% fit(Species ~ ., data = iris)
 predict(fit, iris)
 predict(fit, iris, type = "prob")
 } # }

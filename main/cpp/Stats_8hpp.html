@@ -106,10 +106,15 @@ $(function(){initNavTree('Stats_8hpp.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Stats.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="Types_8hpp_source.html">utils/Types.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="RangeVector_8hpp_source.html">utils/RangeVector.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Types_8hpp_source.html">utils/Types.hpp</a>&quot;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;Eigen/Dense&gt;</code><br />
 <code>#include &lt;pcg_random.hpp&gt;</code><br />
 </div>
 <p><a href="Stats_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -130,25 +135,36 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a6d13599d382a66c5416f0845042c25e5" id="r_a6d13599d382a66c5416f0845042c25e5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a6d13599d382a66c5416f0845042c25e5">ppforest2::stats::accuracy</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
-<tr class="memdesc:a6d13599d382a66c5416f0845042c25e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accuracy of a prediction.  <br /></td></tr>
-<tr class="separator:a6d13599d382a66c5416f0845042c25e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a595e644d7dee128f05fd09b07ed874d9" id="r_a595e644d7dee128f05fd09b07ed874d9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a595e644d7dee128f05fd09b07ed874d9">ppforest2::stats::error_rate</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
-<tr class="memdesc:a595e644d7dee128f05fd09b07ed874d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error rate of a prediction.  <br /></td></tr>
-<tr class="separator:a595e644d7dee128f05fd09b07ed874d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcf38be8ed069d3e434e1ada7c688950" id="r_adcf38be8ed069d3e434e1ada7c688950"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#adcf38be8ed069d3e434e1ada7c688950">ppforest2::stats::group_indices</a> (std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt; const &amp;groups)</td></tr>
+<tr class="memdesc:adcf38be8ed069d3e434e1ada7c688950"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map each label in <code class="param">groups</code> to its index in iteration order.  <br /></td></tr>
+<tr class="separator:adcf38be8ed069d3e434e1ada7c688950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab72eec479a60be5955b6589600bfa0f3" id="r_ab72eec479a60be5955b6589600bfa0f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#ab72eec479a60be5955b6589600bfa0f3">ppforest2::stats::majority_vote</a> (std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;preds)</td></tr>
+<tr class="memdesc:ab72eec479a60be5955b6589600bfa0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Majority vote over a sequence of integer-coded class labels.  <br /></td></tr>
+<tr class="separator:ab72eec479a60be5955b6589600bfa0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bbbe27d52190328fcdb5a88c1e16a7" id="r_ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#ae5bbbe27d52190328fcdb5a88c1e16a7">ppforest2::stats::mean</a> (std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;preds)</td></tr>
+<tr class="memdesc:ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arithmetic mean of a sequence of outcome values.  <br /></td></tr>
+<tr class="separator:ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a1e816c8f6bb4dbba44d12a20199ad2" id="r_a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memTemplParams" colspan="2">template&lt;typename Derived&gt; </td></tr>
 <tr class="memitem:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a5a1e816c8f6bb4dbba44d12a20199ad2">ppforest2::stats::sd</a> (Eigen::MatrixBase&lt; Derived &gt; const &amp;data)</td></tr>
-<tr class="memdesc:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample standard deviation of a vector.  <br /></td></tr>
+<tr class="memdesc:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample standard deviation of a vector — <code>sqrt(var(data))</code>.  <br /></td></tr>
 <tr class="separator:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acae7cd1b6168c96ba1c850b1c27a70fc" id="r_acae7cd1b6168c96ba1c850b1c27a70fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#acae7cd1b6168c96ba1c850b1c27a70fc">ppforest2::stats::sd</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;data)</td></tr>
-<tr class="memdesc:acae7cd1b6168c96ba1c850b1c27a70fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample standard deviation of a matrix.  <br /></td></tr>
+<tr class="memdesc:acae7cd1b6168c96ba1c850b1c27a70fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample standard deviation — element-wise <code>sqrt</code> of <code>var</code>.  <br /></td></tr>
 <tr class="separator:acae7cd1b6168c96ba1c850b1c27a70fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5a296990bfd2c0035fd53511545211f" id="r_ac5a296990bfd2c0035fd53511545211f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#ac5a296990bfd2c0035fd53511545211f">ppforest2::stats::sort</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;x, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> &amp;y)</td></tr>
-<tr class="memdesc:ac5a296990bfd2c0035fd53511545211f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a feature matrix and a response vector by the response values.  <br /></td></tr>
-<tr class="separator:ac5a296990bfd2c0035fd53511545211f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2216d11e8e1074307bff60f0a5c27403" id="r_a2216d11e8e1074307bff60f0a5c27403"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a25e0aa0a8a8179e427aa0b47c9441170">types::Outcome</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a2216d11e8e1074307bff60f0a5c27403">ppforest2::stats::unique</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;column)</td></tr>
-<tr class="memdesc:a2216d11e8e1074307bff60f0a5c27403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique values of a response vector.  <br /></td></tr>
-<tr class="separator:a2216d11e8e1074307bff60f0a5c27403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eb44ede118ca7c7a40ebc84e90d841f" id="r_a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memTemplParams" colspan="2">template&lt;typename Y&gt; </td></tr>
+<tr class="memitem:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a3eb44ede118ca7c7a40ebc84e90d841f">ppforest2::stats::sort</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;x, Y &amp;y)</td></tr>
+<tr class="memdesc:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a feature matrix and a response vector by the response values.  <br /></td></tr>
+<tr class="separator:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ea03f1f289c2237e6fe1cd4da5e6d6" id="r_a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a68ea03f1f289c2237e6fe1cd4da5e6d6">ppforest2::stats::unique</a> (<a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;column)</td></tr>
+<tr class="memdesc:a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique group labels in a response vector.  <br /></td></tr>
+<tr class="separator:a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42939f5d76943c055d0a06dfaa4d2788" id="r_a42939f5d76943c055d0a06dfaa4d2788"><td class="memTemplParams" colspan="2">template&lt;typename Derived&gt; </td></tr>
+<tr class="memitem:a42939f5d76943c055d0a06dfaa4d2788"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a42939f5d76943c055d0a06dfaa4d2788">ppforest2::stats::var</a> (Eigen::MatrixBase&lt; Derived &gt; const &amp;data)</td></tr>
+<tr class="memdesc:a42939f5d76943c055d0a06dfaa4d2788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample variance of a vector (unbiased, <code>n-1</code> denominator).  <br /></td></tr>
+<tr class="separator:a42939f5d76943c055d0a06dfaa4d2788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081702fbab6c2d8b2fe775949c144776" id="r_a081702fbab6c2d8b2fe775949c144776"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a081702fbab6c2d8b2fe775949c144776">ppforest2::stats::var</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;data)</td></tr>
+<tr class="memdesc:a081702fbab6c2d8b2fe775949c144776"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample variance of a matrix.  <br /></td></tr>
+<tr class="separator:a081702fbab6c2d8b2fe775949c144776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

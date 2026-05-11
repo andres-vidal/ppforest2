@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['_7emodel_0',['~Model',['../structppforest2_1_1Model.html#af5ba2e98757f7e4f53ec963f40b39b2d',1,'ppforest2::Model']]],
-  ['_7estrategy_1',['~Strategy',['../structStrategy.html#ae907514e63d4662491af488f4e80480f',1,'Strategy']]],
-  ['_7estyle_2',['~Style',['../structppforest2_1_1cli_1_1BenchmarkReport_1_1Style.html#acb1e35f63ec5d7b442edd9197419179a',1,'ppforest2::cli::BenchmarkReport::Style']]],
-  ['_7etempdir_3',['~TempDir',['../classppforest2_1_1io_1_1TempDir.html#a4c117b58887fedbdceff3a5b72e1f588',1,'ppforest2::io::TempDir::~TempDir()'],['../classTempDir.html#a4c117b58887fedbdceff3a5b72e1f588',1,'TempDir::~TempDir()']]],
-  ['_7etempfile_4',['~TempFile',['../classppforest2_1_1io_1_1TempFile.html#ac954f33900b574f17076d8b628c92f42',1,'ppforest2::io::TempFile::~TempFile()'],['../classTempFile.html#ac954f33900b574f17076d8b628c92f42',1,'TempFile::~TempFile()']]],
-  ['_7etreenode_5',['~TreeNode',['../structppforest2_1_1TreeNode.html#adda9ba5c464c0520a77d6a8496c2f239',1,'ppforest2::TreeNode']]]
+  ['warn_5funused_5fparams_0',['warn_unused_params',['../namespaceppforest2_1_1cli.html#a7a8789e09c16fdf281d4231c662e8bbe',1,'ppforest2::cli']]],
+  ['warning_1',['warning',['../namespaceppforest2_1_1io_1_1style.html#aca30a95edc3caf674e86f35bcc0fdd42',1,'ppforest2::io::style']]],
+  ['wgss_2',['wgss',['../classppforest2_1_1stats_1_1GroupPartition.html#a332e13fca827ef071096980bb35521fc',1,'ppforest2::stats::GroupPartition']]],
+  ['write_3',['write',['../namespaceppforest2_1_1io_1_1csv.html#a3c0009a801161f7c53fcc8c92a4fc1d5',1,'ppforest2::io::csv']]],
+  ['write_5ffile_4',['write_file',['../namespaceppforest2_1_1io_1_1json.html#ae4c294e34ceb3fbf6b874bcc1816d3de',1,'ppforest2::io::json::write_file()'],['../namespaceppforest2_1_1io_1_1text.html#a03789b6a6901bf15ad883b62f87c81b4',1,'ppforest2::io::text::write_file()']]]
 ];

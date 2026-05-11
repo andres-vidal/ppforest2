@@ -119,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb5d06585331ce02ddfedc9e92d84f52" id="r_aeb5d06585331ce02ddfedc9e92d84f52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb5d06585331ce02ddfedc9e92d84f52">Params</a> (nlohmann::json const &amp;config)</td></tr>
 <tr class="memdesc:aeb5d06585331ce02ddfedc9e92d84f52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a JSON config object.  <br /></td></tr>
 <tr class="separator:aeb5d06585331ce02ddfedc9e92d84f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e060ca3e8c64ff53cdd54971b2fede" id="r_ab3e060ca3e8c64ff53cdd54971b2fede"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3e060ca3e8c64ff53cdd54971b2fede">read_data</a> (<a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">stats::RNG</a> &amp;rng)</td></tr>
+<tr class="memdesc:ab3e060ca3e8c64ff53cdd54971b2fede"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the training data: from the <code>--data</code> CSV when set, or simulated from <code>--simulate</code> params otherwise.  <br /></td></tr>
+<tr class="separator:ab3e060ca3e8c64ff53cdd54971b2fede"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa6c552496915eec890c72fedfd100a5" id="r_aaa6c552496915eec890c72fedfd100a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa6c552496915eec890c72fedfd100a5">resolve</a> ()</td></tr>
 <tr class="memdesc:aaa6c552496915eec890c72fedfd100a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve intermediate representations into final form.  <br /></td></tr>
 <tr class="separator:aaa6c552496915eec890c72fedfd100a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,6 +223,26 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab3e060ca3e8c64ff53cdd54971b2fede" name="ab3e060ca3e8c64ff53cdd54971b2fede"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e060ca3e8c64ff53cdd54971b2fede">&#9670;&#160;</a></span>read_data()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a> ppforest2::cli::Params::read_data </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">stats::RNG</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rng</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Load the training data: from the <code>--data</code> CSV when set, or simulated from <code>--simulate</code> params otherwise. </p>
+<p>Side effect: when <code>model.mode_input</code> is empty, infers it — from the CSV's y column shape (regression if <code>group_names</code> is empty) or defaults to "classification" for simulated data. </p>
+
+</div>
+</div>
 <a id="aaa6c552496915eec890c72fedfd100a5" name="aaa6c552496915eec890c72fedfd100a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa6c552496915eec890c72fedfd100a5">&#9670;&#160;</a></span>resolve()</h2>
 

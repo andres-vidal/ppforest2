@@ -9,10 +9,7 @@ parameters, and optionally variable importance metrics.
 ``` r
 save_json(model, path, ...)
 
-# S3 method for class 'pptr'
-save_json(model, path, include_metrics = TRUE, ...)
-
-# S3 method for class 'pprf'
+# S3 method for class 'ppmodel'
 save_json(model, path, include_metrics = TRUE, ...)
 ```
 
@@ -20,7 +17,7 @@ save_json(model, path, include_metrics = TRUE, ...)
 
 - model:
 
-  A `pptr` or `pprf` model.
+  A `pptr` or `pprf` model (inheriting from `ppmodel`).
 
 - path:
 
@@ -45,7 +42,7 @@ save_json(model, path, include_metrics = TRUE, ...)
 ## Examples
 
 ``` r
-model <- pptr(Type ~ ., data = iris, seed = 0)
+model <- pptr(Species ~ ., data = iris, seed = 0)
 path <- tempfile(fileext = ".json")
 save_json(model, path)
 ```

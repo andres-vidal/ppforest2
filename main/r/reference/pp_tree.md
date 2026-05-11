@@ -13,8 +13,8 @@ pp_tree(mode = "classification", penalty = NULL)
 
 - mode:
 
-  A character string for the model type. Only `"classification"` is
-  supported.
+  A character string for the model type. Either `"classification"` or
+  `"regression"`.
 
 - penalty:
 
@@ -37,7 +37,7 @@ for forests
 if (FALSE) { # \dontrun{
 library(parsnip)
 spec <- pp_tree(penalty = 0) %>% set_engine("ppforest2")
-fit <- spec %>% fit(Type ~ ., data = iris)
+fit <- spec %>% fit(Species ~ ., data = iris)
 predict(fit, iris)
 } # }
 ```

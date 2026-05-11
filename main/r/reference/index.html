@@ -52,10 +52,31 @@
 
         <dt>
 
+          <code><a href="bag_samples.html">bag_samples()</a></code>
+
+        </dt>
+        <dd>In-bag row indices per tree.</dd>
+
+        <dt>
+
+          <code><a href="binarize_disabled.html">binarize_disabled()</a></code>
+
+        </dt>
+        <dd>Disabled binarization strategy (placeholder).</dd>
+
+        <dt>
+
           <code><a href="binarize_largest_gap.html">binarize_largest_gap()</a></code>
 
         </dt>
         <dd>Largest-gap binarization strategy.</dd>
+
+        <dt>
+
+          <code><a href="california_housing.html">california_housing</a></code>
+
+        </dt>
+        <dd>California Housing Dataset</dd>
 
         <dt>
 
@@ -87,17 +108,10 @@
 
         <dt>
 
-          <code><a href="formula.pprf.html">formula(<i>&lt;pprf&gt;</i>)</a></code>
+          <code><a href="formula.ppmodel.html">formula(<i>&lt;ppmodel&gt;</i>)</a></code>
 
         </dt>
-        <dd>Extracts the formula used to train a pprf model.</dd>
-
-        <dt>
-
-          <code><a href="formula.pptr.html">formula(<i>&lt;pptr&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Extracts the formula used to train a pptr model.</dd>
+        <dd>Formula extractor for ppforest2 models.</dd>
 
         <dt>
 
@@ -108,6 +122,20 @@
 
         <dt>
 
+          <code><a href="grouping_by_cutpoint.html">grouping_by_cutpoint()</a></code>
+
+        </dt>
+        <dd>Cutpoint-based grouping strategy (regression).</dd>
+
+        <dt>
+
+          <code><a href="grouping_by_label.html">grouping_by_label()</a></code>
+
+        </dt>
+        <dd>Label-based grouping strategy.</dd>
+
+        <dt>
+
           <code><a href="image.html">image</a></code>
 
         </dt>
@@ -115,17 +143,17 @@
 
         <dt>
 
-          <code><a href="iris.html">iris</a></code>
-
-        </dt>
-        <dd>Iris Flower Dataset</dd>
-
-        <dt>
-
           <code><a href="leaf_majority_vote.html">leaf_majority_vote()</a></code>
 
         </dt>
         <dd>Majority-vote leaf strategy.</dd>
+
+        <dt>
+
+          <code><a href="leaf_mean_response.html">leaf_mean_response()</a></code>
+
+        </dt>
+        <dd>Mean-response leaf strategy.</dd>
 
         <dt>
 
@@ -157,6 +185,27 @@
 
         <dt>
 
+          <code><a href="oob_error.html">oob_error()</a></code>
+
+        </dt>
+        <dd>Out-of-bag error for a random forest.</dd>
+
+        <dt>
+
+          <code><a href="oob_predictions.html">oob_predictions()</a></code>
+
+        </dt>
+        <dd>Out-of-bag predictions for a random forest.</dd>
+
+        <dt>
+
+          <code><a href="oob_samples.html">oob_samples()</a></code>
+
+        </dt>
+        <dd>Out-of-bag row indices per tree.</dd>
+
+        <dt>
+
           <code><a href="parkinson.html">parkinson</a></code>
 
         </dt>
@@ -164,10 +213,10 @@
 
         <dt>
 
-          <code><a href="partition_by_group.html">partition_by_group()</a></code>
+          <code><a href="permuted_importance.html">permuted_importance()</a></code>
 
         </dt>
-        <dd>Group-based partition strategy.</dd>
+        <dd>Permuted variable importance for a random forest.</dd>
 
         <dt>
 
@@ -220,31 +269,45 @@
 
         <dt>
 
-          <code><a href="predict.pprf.html">predict(<i>&lt;pprf&gt;</i>)</a></code>
+          <code><a href="predict.pprf_classification.html">predict(<i>&lt;pprf_classification&gt;</i>)</a></code>
 
         </dt>
-        <dd>Predicts the labels or vote proportions of a set of observations using a pprf model.</dd>
+        <dd>Predicts labels or vote proportions from a pprf model (classification mode).</dd>
 
         <dt>
 
-          <code><a href="predict.pptr.html">predict(<i>&lt;pptr&gt;</i>)</a></code>
+          <code><a href="predict.pprf_regression.html">predict(<i>&lt;pprf_regression&gt;</i>)</a></code>
 
         </dt>
-        <dd>Predicts the labels or group indicators of a set of observations using a pptr model.</dd>
+        <dd>Predicts numeric responses from a pprf model (regression mode).</dd>
+
+        <dt>
+
+          <code><a href="predict.pptr_classification.html">predict(<i>&lt;pptr_classification&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Predicts labels or per-group one-hot proportions from a pptr model (classification mode).</dd>
+
+        <dt>
+
+          <code><a href="predict.pptr_regression.html">predict(<i>&lt;pptr_regression&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Predicts numeric responses from a pptr model (regression mode).</dd>
 
         <dt>
 
           <code><a href="print.pprf.html">print(<i>&lt;pprf&gt;</i>)</a></code>
 
         </dt>
-        <dd>Prints a pprf model.</dd>
+        <dd>Prints a compact summary of a pprf forest.</dd>
 
         <dt>
 
           <code><a href="print.pptr.html">print(<i>&lt;pptr&gt;</i>)</a></code>
 
         </dt>
-        <dd>Prints a pptr model.</dd>
+        <dd>Prints the structure of a pptr tree.</dd>
 
         <dt>
 
@@ -252,6 +315,34 @@
 
         </dt>
         <dd>Save a model to a JSON file.</dd>
+
+        <dt>
+
+          <code><a href="stop_any.html">stop_any()</a></code>
+
+        </dt>
+        <dd>Composite stopping rule (logical OR).</dd>
+
+        <dt>
+
+          <code><a href="stop_max_depth.html">stop_max_depth()</a></code>
+
+        </dt>
+        <dd>Maximum-depth stopping rule.</dd>
+
+        <dt>
+
+          <code><a href="stop_min_size.html">stop_min_size()</a></code>
+
+        </dt>
+        <dd>Minimum-size stopping rule.</dd>
+
+        <dt>
+
+          <code><a href="stop_min_variance.html">stop_min_variance()</a></code>
+
+        </dt>
+        <dd>Minimum-variance stopping rule.</dd>
 
         <dt>
 
@@ -265,14 +356,7 @@
           <code><a href="summary.pprf.html">summary(<i>&lt;pprf&gt;</i>)</a></code>
 
         </dt>
-        <dd>Summarizes a pprf model.</dd>
-
-        <dt>
-
-          <code><a href="summary.pptr.html">summary(<i>&lt;pptr&gt;</i>)</a></code>
-
-        </dt>
-        <dd>Summarizes a pptr model.</dd>
+        <dd>Summary of a pprf forest (shared header + VI).</dd>
 
         <dt>
 
@@ -287,6 +371,13 @@
 
         </dt>
         <dd>Uniform random variable selection strategy.</dd>
+
+        <dt>
+
+          <code><a href="weighted_importance.html">weighted_importance()</a></code>
+
+        </dt>
+        <dd>Weighted projection variable importance for a random forest.</dd>
 
         <dt>
 

@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['x_0',['x',['../structppforest2_1_1NodeContext.html#a4e4bde09cbf00a9e036cb1e72425ba07',1,'ppforest2::NodeContext::x'],['../structppforest2_1_1viz_1_1NodeDataVisitor.html#a31702e09e70a9acb6d2d5af2f8afc0f3',1,'ppforest2::viz::NodeDataVisitor::x'],['../structppforest2_1_1viz_1_1LayoutNode.html#a418e37ccde76bd70d65b5d2fefd6cab4',1,'ppforest2::viz::LayoutNode::x'],['../structppforest2_1_1stats_1_1DataPacket.html#ac8e179b22dcd0976a124267a134115d6',1,'ppforest2::stats::DataPacket::x']]],
-  ['x_5fend_1',['x_end',['../structppforest2_1_1viz_1_1BoundarySegment.html#aee1e9bdeb800ce3a562c17d4cc3a0acc',1,'ppforest2::viz::BoundarySegment']]],
-  ['x_5fmax_2',['x_max',['../structppforest2_1_1viz_1_1SpatialVisitor.html#a17eda4eeb21b85a9af94738613701371',1,'ppforest2::viz::SpatialVisitor']]],
-  ['x_5fmin_3',['x_min',['../structppforest2_1_1viz_1_1SpatialVisitor.html#a5e43fcc9e036c830300fffaa5d1a0128',1,'ppforest2::viz::SpatialVisitor']]],
-  ['x_5fstart_4',['x_start',['../structppforest2_1_1viz_1_1BoundarySegment.html#a805777bb19f16db3d7e3b647cccb1b57',1,'ppforest2::viz::BoundarySegment']]]
+  ['warmup_0',['warmup',['../structppforest2_1_1cli_1_1EvaluateParams.html#ad309f13550d0bef0afdf54ab34b8d8a1',1,'ppforest2::cli::EvaluateParams']]],
+  ['weighted_5fprojections_1',['weighted_projections',['../structppforest2_1_1VariableImportance.html#aedc45885ac99406da00595eba4fc5a44',1,'ppforest2::VariableImportance']]],
+  ['width_2',['width',['../structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447',1,'ppforest2::io::layout::Column']]],
+  ['window_3',['window',['../structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html#abdf424f806b31a0dfefadadd51849113',1,'ppforest2::cli::EvaluateParams::Convergence']]],
+  ['wine_5fcsv_4',['WINE_CSV',['../CLI_8integration_8hpp.html#ad9f4659aaaa02ddc54c7bf68e5afc857',1,'CLI.integration.hpp']]]
 ];

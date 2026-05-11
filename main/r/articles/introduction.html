@@ -72,13 +72,8 @@ groups.</p>
 <p>Train a projection-pursuit tree on the iris dataset:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ppforest2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'ppforest2'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:datasets':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     iris</span></span>
 <span></span>
-<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pptr.html">pptr</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pptr.html">pptr</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="va">tree</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Project-Pursuit Oblique Decision Tree:</span></span>
@@ -101,7 +96,7 @@ groups.</p>
 <span><span class="co">#&gt; cutpoint method: Mean of means</span></span>
 <span><span class="co">#&gt; stop rule: Pure node</span></span>
 <span><span class="co">#&gt; binarize method: Largest gap</span></span>
-<span><span class="co">#&gt; partition method: By group</span></span>
+<span><span class="co">#&gt; grouping method: By label</span></span>
 <span><span class="co">#&gt; leaf method: Majority vote</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -110,7 +105,7 @@ groups.</p>
 <span><span class="co">#&gt;   features:     4 </span></span>
 <span><span class="co">#&gt;   groups:       3 </span></span>
 <span><span class="co">#&gt;   group names:  setosa, versicolor, virginica </span></span>
-<span><span class="co">#&gt;   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
+<span><span class="co">#&gt;   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Confusion Matrix:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -137,7 +132,7 @@ groups.</p>
 <p>Predict new observations:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">preds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">tree</span>, <span class="va">iris</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>predicted <span class="op">=</span> <span class="va">preds</span>, actual <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Type</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>predicted <span class="op">=</span> <span class="va">preds</span>, actual <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">Species</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             actual</span></span>
 <span><span class="co">#&gt; predicted    setosa versicolor virginica</span></span>
 <span><span class="co">#&gt;   setosa         50          0         0</span></span>
@@ -150,10 +145,10 @@ groups.</p>
 <p>Train a forest of 100 trees, each considering 2 randomly chosen
 variables at each split:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">100</span>, n_vars <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">100</span>, n_vars <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Random Forest of Project-Pursuit Oblique Decision Tree</span></span>
+<span><span class="co">#&gt; Random Forest of Project-Pursuit Oblique Decision Trees</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Size: 100 trees</span></span>
 <span><span class="co">#&gt; pp method: LDA (lambda=0)</span></span>
@@ -161,7 +156,7 @@ variables at each split:</p>
 <span><span class="co">#&gt; cutpoint method: Mean of means</span></span>
 <span><span class="co">#&gt; stop rule: Pure node</span></span>
 <span><span class="co">#&gt; binarize method: Largest gap</span></span>
-<span><span class="co">#&gt; partition method: By group</span></span>
+<span><span class="co">#&gt; grouping method: By label</span></span>
 <span><span class="co">#&gt; leaf method: Majority vote</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -170,7 +165,7 @@ variables at each split:</p>
 <span><span class="co">#&gt;   features:     4 </span></span>
 <span><span class="co">#&gt;   groups:       3 </span></span>
 <span><span class="co">#&gt;   group names:  setosa, versicolor, virginica </span></span>
-<span><span class="co">#&gt;   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
+<span><span class="co">#&gt;   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Training Confusion Matrix:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -265,7 +260,7 @@ available. Individual trees can be plotted by specifying a
 <p>Set <code>lambda &gt; 0</code> to use Penalized Discriminant Analysis
 instead of LDA. This can help when features are highly correlated:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tree_pda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pptr.html">pptr</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">tree_pda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pptr.html">pptr</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">tree_pda</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Project-Pursuit Oblique Decision Tree</span></span>
@@ -275,7 +270,7 @@ instead of LDA. This can help when features are highly correlated:</p>
 <span><span class="co">#&gt; cutpoint method: Mean of means</span></span>
 <span><span class="co">#&gt; stop rule: Pure node</span></span>
 <span><span class="co">#&gt; binarize method: Largest gap</span></span>
-<span><span class="co">#&gt; partition method: By group</span></span>
+<span><span class="co">#&gt; grouping method: By label</span></span>
 <span><span class="co">#&gt; leaf method: Majority vote</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -284,7 +279,7 @@ instead of LDA. This can help when features are highly correlated:</p>
 <span><span class="co">#&gt;   features:     4 </span></span>
 <span><span class="co">#&gt;   groups:       3 </span></span>
 <span><span class="co">#&gt;   group names:  setosa, versicolor, virginica </span></span>
-<span><span class="co">#&gt;   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
+<span><span class="co">#&gt;   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Confusion Matrix:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -318,9 +313,9 @@ using the shortcut parameters (<code>lambda</code>, <code>n_vars</code>,
 explicit:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># These two calls produce identical results:</span></span>
-<span><span class="va">forest_shortcut</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">10</span>, lambda <span class="op">=</span> <span class="fl">0.5</span>, n_vars <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">forest_shortcut</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">10</span>, lambda <span class="op">=</span> <span class="fl">0.5</span>, n_vars <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">forest_explicit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">10</span>, pp <span class="op">=</span> <span class="fu"><a href="../reference/pp_pda.html">pp_pda</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="../reference/vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">forest_explicit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">10</span>, pp <span class="op">=</span> <span class="fu"><a href="../reference/pp_pda.html">pp_pda</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="../reference/vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">forest_shortcut</span>, <span class="va">iris</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">forest_explicit</span>, <span class="va">iris</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -348,7 +343,7 @@ parsnip:</p>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ppforest2"</span>, pp <span class="op">=</span> <span class="fu"><a href="../reference/pp_pda.html">pp_pda</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="../reference/vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 1</span></span></span>
 <span><span class="co">#&gt;   .pred_class</span></span>
@@ -371,7 +366,7 @@ parsnip:</p>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ppforest2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 1</span></span></span>
 <span><span class="co">#&gt;   .pred_class</span></span>
@@ -387,7 +382,7 @@ parsnip:</p>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_engine.html" class="external-link">set_engine</a></span><span class="op">(</span><span class="st">"ppforest2"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://parsnip.tidymodels.org/reference/set_args.html" class="external-link">set_mode</a></span><span class="op">(</span><span class="st">"classification"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">spec</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html" class="external-link">fit</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
 <span><span class="co">#&gt;   .pred_setosa .pred_versicolor .pred_virginica</span></span>

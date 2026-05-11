@@ -1,7 +1,7 @@
 # Pure-node stopping rule.
 
 Creates a stopping rule that stops splitting when a node contains only
-one group. This is the default stopping rule.
+one group. This is the default stopping rule for classification.
 
 ## Usage
 

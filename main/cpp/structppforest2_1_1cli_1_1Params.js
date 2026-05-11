@@ -2,6 +2,7 @@ var structppforest2_1_1cli_1_1Params =
 [
     [ "Params", "structppforest2_1_1cli_1_1Params.html#a9c88832316302530f5923c0bd309e109", null ],
     [ "Params", "structppforest2_1_1cli_1_1Params.html#aeb5d06585331ce02ddfedc9e92d84f52", null ],
+    [ "read_data", "structppforest2_1_1cli_1_1Params.html#ab3e060ca3e8c64ff53cdd54971b2fede", null ],
     [ "resolve", "structppforest2_1_1cli_1_1Params.html#aaa6c552496915eec890c72fedfd100a5", null ],
     [ "resolve_defaults", "structppforest2_1_1cli_1_1Params.html#ad2f267008eb0011afb475e4143638c55", null ],
     [ "resolve_seed", "structppforest2_1_1cli_1_1Params.html#a2334e9db885b90495c313d5bdfcc68db", null ],

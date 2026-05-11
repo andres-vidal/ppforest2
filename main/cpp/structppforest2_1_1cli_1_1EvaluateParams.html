@@ -152,6 +152,9 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a9371b051b409b767f056085fab4d4da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a661eccd34b18a474550737dd3cd23ac7" id="r_a661eccd34b18a474550737dd3cd23ac7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a661eccd34b18a474550737dd3cd23ac7">export_path</a></td></tr>
 <tr class="separator:a661eccd34b18a474550737dd3cd23ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e72746922a96e7f9e082cdd668a36c2" id="r_a0e72746922a96e7f9e082cdd668a36c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e72746922a96e7f9e082cdd668a36c2">fixed_seed</a> = false</td></tr>
+<tr class="memdesc:a0e72746922a96e7f9e082cdd668a36c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the user-provided seed unchanged for every iteration.  <br /></td></tr>
+<tr class="separator:a0e72746922a96e7f9e082cdd668a36c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68c5e0949a3be151e4fea8ac79edf30a" id="r_a68c5e0949a3be151e4fea8ac79edf30a"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68c5e0949a3be151e4fea8ac79edf30a">iterations</a></td></tr>
 <tr class="memdesc:a68c5e0949a3be151e4fea8ac79edf30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixed count (disables convergence when set &gt; 0).  <br /></td></tr>
 <tr class="separator:a68c5e0949a3be151e4fea8ac79edf30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -358,6 +361,24 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0e72746922a96e7f9e082cdd668a36c2" name="a0e72746922a96e7f9e082cdd668a36c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e72746922a96e7f9e082cdd668a36c2">&#9670;&#160;</a></span>fixed_seed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ppforest2::cli::EvaluateParams::fixed_seed = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use the user-provided seed unchanged for every iteration. </p>
+<p>Default (<code>false</code>): each iteration draws a fresh seed from <code>rng</code> so models genuinely differ across iterations. <code>std_*_error</code> reflects real algorithmic variance; <code>std_time_ms</code> mixes system noise with model-shape variance.</p>
+<p><code>true</code>: every iteration trains the <em>same</em> model. <code>std_*_error</code> is tautologically zero; <code>std_time_ms</code> reflects pure timing noise (cache, scheduling, allocator jitter). Useful when benchmarking the timing stability of a single configuration. </p>
 
 </div>
 </div>

@@ -83,7 +83,7 @@ If <code>lambda &gt; 0</code>, the model uses Penalized Discriminant Analysis (P
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "pp_strategy"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use with pptr</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="pptr.html">pptr</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pptr.html">pptr</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Project-Pursuit Oblique Decision Tree:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span>
@@ -96,28 +96,13 @@ If <code>lambda &gt; 0</code>, the model uses Penalized Discriminant Analysis (P
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Use with pprf</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="pprf.html">pprf</a></span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 0 0.03 0.04 ] * x) &lt; 0.1317591:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0 0.04 0.17 ] * x) &lt; 0.4950379:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 0.05 0 -0.09 ] * x) &lt; 0.06891914:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0 0.06 0.16 ] * x) &lt; 0.5307753:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

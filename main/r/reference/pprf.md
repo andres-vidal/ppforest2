@@ -20,6 +20,7 @@ pprf(
   data = NULL,
   x = NULL,
   y = NULL,
+  mode = NULL,
   size = 2,
   lambda = 0,
   n_vars = NULL,
@@ -32,7 +33,7 @@ pprf(
   cutpoint = NULL,
   stop = NULL,
   binarize = NULL,
-  partition = NULL,
+  grouping = NULL,
   leaf = NULL
 )
 ```
@@ -55,6 +56,16 @@ pprf(
 - y:
 
   A matrix containing the labels for each observation.
+
+- mode:
+
+  Training mode: either `"classification"` or `"regression"`. When
+  `NULL` (default), mode is auto-detected from `y`'s type — factor or
+  character vectors trigger classification, numeric vectors trigger
+  regression. Setting it explicitly is useful for the
+  binary-integer-labels case (`mode = "classification"` with integer 0/1
+  labels) and for failing fast on a type mismatch (`mode = "regression"`
+  with a factor `y` errors immediately).
 
 - size:
 
@@ -121,50 +132,66 @@ pprf(
 
 - stop:
 
-  A stopping rule object created by
-  [`stop_pure_node`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md)
-  (default).
+  A stopping rule object. Default depends on mode:
+  [`stop_pure_node()`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md)
+  for classification, and
+  `stop_any(stop_min_size(5), stop_min_variance(0.01))` for regression.
 
 - binarize:
 
-  A binarization strategy object created by
-  [`binarize_largest_gap`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md)
-  (default).
+  A binarization strategy object. Default depends on mode:
+  [`binarize_largest_gap()`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md)
+  for classification, and
+  [`binarize_disabled()`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_disabled.md)
+  for regression (regression's default grouping always yields a 2-group
+  partition, so no binarization is needed).
 
-- partition:
+- grouping:
 
-  A partition strategy object created by
-  [`partition_by_group`](https://andres-vidal.github.io/ppforest2/main/r/reference/partition_by_group.md)
-  (default).
+  A grouping strategy object. Default depends on mode:
+  [`grouping_by_label()`](https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_label.md)
+  for classification, and
+  [`grouping_by_cutpoint()`](https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_cutpoint.md)
+  for regression.
 
 - leaf:
 
-  A leaf strategy object created by
-  [`leaf_majority_vote`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md)
-  (default).
+  A leaf strategy object. Default depends on mode:
+  [`leaf_majority_vote()`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md)
+  for classification, and
+  [`leaf_mean_response()`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_mean_response.md)
+  for regression.
 
 ## Value
 
-A pprf model trained on `x` and `y`.
+A `pprf` model. Its S3 class vector is
+`c("pprf_classification", "pprf", "ppmodel")` or
+`c("pprf_regression", "pprf", "ppmodel")` depending on the mode.
+
+## Details
+
+Mode is taken from the `mode` argument when explicit, and otherwise
+auto-detected from \`y\` (factor/character → classification, numeric →
+regression). Pass `mode = "classification"` to force classification on
+integer labels (e.g. binary 0/1), or `mode = "regression"` to assert
+intent on numeric responses.
+
+OOB error, OOB predictions, permuted variable importance, and weighted
+variable importance are computed lazily on first access via the accessor
+functions (\`oob_error()\`, \`oob_predictions()\`,
+\`permuted_importance()\`, \`weighted_importance()\`). Training itself
+is fast because these OOB-based computations are deferred.
 
 ## See also
 
-[`predict.pprf`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pprf.md),
-[`formula.pprf`](https://andres-vidal.github.io/ppforest2/main/r/reference/formula.pprf.md),
-[`summary.pprf`](https://andres-vidal.github.io/ppforest2/main/r/reference/summary.pprf.md),
-[`print.pprf`](https://andres-vidal.github.io/ppforest2/main/r/reference/print.pprf.md),
+[`predict.pprf_classification`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pprf_classification.md),
+[`predict.pprf_regression`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pprf_regression.md),
+[`formula.ppmodel`](https://andres-vidal.github.io/ppforest2/main/r/reference/formula.ppmodel.md),
+[`oob_error`](https://andres-vidal.github.io/ppforest2/main/r/reference/oob_error.md),
 [`save_json`](https://andres-vidal.github.io/ppforest2/main/r/reference/save_json.md),
 [`load_json`](https://andres-vidal.github.io/ppforest2/main/r/reference/load_json.md),
 [`pp_rand_forest`](https://andres-vidal.github.io/ppforest2/main/r/reference/pp_rand_forest.md)
 for parsnip integration,
-[`pp_pda`](https://andres-vidal.github.io/ppforest2/main/r/reference/pp_pda.md),
-[`vars_uniform`](https://andres-vidal.github.io/ppforest2/main/r/reference/vars_uniform.md),
-[`vars_all`](https://andres-vidal.github.io/ppforest2/main/r/reference/vars_all.md),
-[`cutpoint_mean_of_means`](https://andres-vidal.github.io/ppforest2/main/r/reference/cutpoint_mean_of_means.md),
-[`stop_pure_node`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md),
-[`binarize_largest_gap`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md),
-[`partition_by_group`](https://andres-vidal.github.io/ppforest2/main/r/reference/partition_by_group.md),
-[`leaf_majority_vote`](https://andres-vidal.github.io/ppforest2/main/r/reference/leaf_majority_vote.md),
 [`vignette("introduction")`](https://andres-vidal.github.io/ppforest2/main/r/articles/introduction.md)
 for a tutorial
 
@@ -172,140 +199,60 @@ for a tutorial
 
 ``` r
 # Example 1: formula interface with the `iris` dataset
-pprf(Type ~ ., data = iris)
+pprf(Species ~ ., data = iris)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0.01 0.05 -0.04 -0.02 ] * x) < 0.08010742:
-#>  If ([ 0.04 0.07 -0.07 -0.19 ] * x) < -0.1760359:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa 
-#> 
-#> Tree 2:
-#> If ([ 0 -0.05 0.04 0.01 ] * x) < -0.01472723:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0.03 0.1 -0.06 -0.2 ] * x) < -0.1889343:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
+#>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
 #> 
 
 # Example 2: formula interface with the `iris` dataset with regularization
-pprf(Type ~ ., data = iris, lambda = 0.5)
+pprf(Species ~ ., data = iris, lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01002465:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0.04 -0.07 -0.13 ] * x) < -0.4705565:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
-#> Tree 2:
-#> If ([ 0.01 -0.04 0.03 0.03 ] * x) < 0.01345929:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0.01 0.03 -0.06 -0.15 ] * x) < -0.3937009:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
+#>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
 #> 
 
 # Example 3: matrix interface with the `iris` dataset
 pprf(x = iris[, 1:4], y = iris[, 5])
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06329576:
-#>  If ([ 0.05 0.07 -0.09 -0.14 ] * x) < -0.1844155:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa 
-#> 
-#> Tree 2:
-#> If ([ 0.01 0.05 -0.04 -0.01 ] * x) < 0.04926682:
-#>  If ([ 0.04 0.06 -0.1 -0.15 ] * x) < -0.3085878:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
 #> 
 
 # Example 4: matrix interface with the `iris` dataset with regularization
 pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 -0.04 0.02 0.04 ] * x) < 0.007346343:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0.01 0.01 -0.05 -0.16 ] * x) < -0.4444733:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
-#> Tree 2:
-#> If ([ 0 -0.03 0.03 0.03 ] * x) < 0.05736751:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0.01 -0.05 -0.17 ] * x) < -0.4873528:
-#>    Predict: virginica 
-#>  Else:
-#>    Predict: versicolor 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
 #> 
 
 # Example 5: formula interface with the `crabs` dataset
 pprf(Type ~ ., data = crabs)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0.14 0 0 0 0 0 0 ] * x) < 0.06798445:
-#>   Predict: O 
-#> Else:
-#>   Predict: B 
-#> 
-#> Tree 2:
-#> If ([ 0.14 0 0 0 0 0 0 ] * x) < 0.06735082:
-#>   Predict: O 
-#> Else:
-#>   Predict: B 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: B, O
+#>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1
 #> 
 
 # Example 6: formula interface with the `crabs` dataset with regularization
 pprf(Type ~ ., data = crabs, lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 0 -0.01 0 0 0 -0.01 ] * x) < -0.3166611:
-#>   Predict: O 
-#> Else:
-#>   Predict: B 
-#> 
-#> Tree 2:
-#> If ([ 0.01 -0.01 -0.01 0 0 0 -0.01 ] * x) < -0.3029013:
-#>   Predict: O 
-#> Else:
-#>   Predict: B 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: B, O
+#>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1
 #> 
 ```

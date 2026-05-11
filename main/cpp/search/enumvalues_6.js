@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['summarize_0',['summarize',['../namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65',1,'ppforest2::cli']]]
+  ['regression_0',['Regression',['../namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75eaced9b681c2824b1aa4e53cfbd6965912',1,'ppforest2::types']]],
+  ['right_1',['right',['../namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d',1,'ppforest2::io::layout']]]
 ];

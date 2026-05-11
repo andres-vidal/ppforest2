@@ -111,7 +111,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:ae218cd92b9213fafd1ab3936a857223c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a CSV file into a DataPacket.  <br /></td></tr>
 <tr class="separator:ae218cd92b9213fafd1ab3936a857223c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90b7b870d6c273bdc1dea4577b4319c4" id="r_a90b7b870d6c273bdc1dea4577b4319c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90b7b870d6c273bdc1dea4577b4319c4">read_sorted</a> (std::string const &amp;filename)</td></tr>
-<tr class="memdesc:a90b7b870d6c273bdc1dea4577b4319c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a CSV file and sort rows so that response groups are contiguous.  <br /></td></tr>
+<tr class="memdesc:a90b7b870d6c273bdc1dea4577b4319c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a CSV file and sort rows ascending by the response column.  <br /></td></tr>
 <tr class="separator:a90b7b870d6c273bdc1dea4577b4319c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c0009a801161f7c53fcc8c92a4fc1d5" id="r_a3c0009a801161f7c53fcc8c92a4fc1d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c0009a801161f7c53fcc8c92a4fc1d5">write</a> (<a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a> const &amp;data, std::string const &amp;filename)</td></tr>
 <tr class="memdesc:a3c0009a801161f7c53fcc8c92a4fc1d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a DataPacket to a CSV file (features followed by label, no header).  <br /></td></tr>
@@ -166,15 +166,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Read a CSV file and sort rows so that response groups are contiguous. </p>
-<p>Calls <a class="el" href="#ae218cd92b9213fafd1ab3936a857223c" title="Read a CSV file into a DataPacket.">read()</a> and then sorts the data if the response vector is not already contiguous, as required by the training routines.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td>Path to the CSV file. </td></tr>
+<p>Read a CSV file and sort rows ascending by the response column. </p>
+<p>Mode is detected from the y column's <em>written form</em>:</p><ul>
+<li>If any value carries fractional or scientific notation (<code>.</code>, <code>e</code>, <code>E</code>), y is parsed as a continuous <code>float</code> response (regression shape) and <code>group_names</code> is empty.</li>
+<li>Otherwise, y is mapped to integer codes in first-appearance order and <code>group_names</code> carries the original label strings (classification shape). This keeps integer-coded label CSVs like Wine and Glass on the classification path.</li>
+</ul>
+<p>Rows are sorted ascending by the encoded y, which gives the training routines what they need: classification — contiguous groups; regression — y-ordered rows for <code>ByCutpoint::init</code>'s median split.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a></td><td>on any failure (missing file, parse error, malformed shape) — CSV reading failures are user-facing by nature. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A DataPacket with contiguous group ordering. </dd></dl>
 
 </div>
 </div>

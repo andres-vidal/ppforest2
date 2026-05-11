@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['y_0',['y',['../structppforest2_1_1NodeContext.html#a2aaed014adb00a38d1d9cfea5da9a48c',1,'ppforest2::NodeContext::y'],['../structppforest2_1_1viz_1_1NodeDataVisitor.html#a80edb4b28c03438707930fa7cf7d3485',1,'ppforest2::viz::NodeDataVisitor::y'],['../structppforest2_1_1viz_1_1LayoutNode.html#a3e37371446b4631bf5e8aa7e90d67e16',1,'ppforest2::viz::LayoutNode::y'],['../structppforest2_1_1stats_1_1DataPacket.html#ae364cec99459cddf6aa24a0cd0182d4b',1,'ppforest2::stats::DataPacket::y']]],
-  ['y_5fend_1',['y_end',['../structppforest2_1_1viz_1_1BoundarySegment.html#a05dff1b0d28292f3832c0adde79389bd',1,'ppforest2::viz::BoundarySegment']]],
-  ['y_5fmax_2',['y_max',['../structppforest2_1_1viz_1_1SpatialVisitor.html#aab133c76a9d21ae9232f774376647fd6',1,'ppforest2::viz::SpatialVisitor']]],
-  ['y_5fmin_3',['y_min',['../structppforest2_1_1viz_1_1SpatialVisitor.html#a0229f3d2352fe106cbc4a5957f8caffe',1,'ppforest2::viz::SpatialVisitor']]],
-  ['y_5fspacing_4',['y_spacing',['../structppforest2_1_1viz_1_1LayoutParams.html#add3c41e263e8ec2a790ad1aa94d6f323',1,'ppforest2::viz::LayoutParams']]],
-  ['y_5fstart_5',['y_start',['../structppforest2_1_1viz_1_1BoundarySegment.html#a5bb9c22fcee34178e5929ef323af32aa',1,'ppforest2::viz::BoundarySegment']]]
+  ['x_0',['x',['../structppforest2_1_1NodeContext.html#a372ea1902f6025f451a433523a6d3ac2',1,'ppforest2::NodeContext::x'],['../classppforest2_1_1viz_1_1NodeDataVisitor.html#a31702e09e70a9acb6d2d5af2f8afc0f3',1,'ppforest2::viz::NodeDataVisitor::x'],['../structppforest2_1_1viz_1_1LayoutNode.html#a418e37ccde76bd70d65b5d2fefd6cab4',1,'ppforest2::viz::LayoutNode::x'],['../structppforest2_1_1stats_1_1DataPacket.html#a0607ff21e5b94e9827476cc53d3092c7',1,'ppforest2::stats::DataPacket::x'],['../structppforest2_1_1test_1_1NodeContextFixture.html#a545d33cb796b16a875f9c3e00c24a764',1,'ppforest2::test::NodeContextFixture::x']]],
+  ['x_5fend_1',['x_end',['../structppforest2_1_1viz_1_1BoundarySegment.html#aee1e9bdeb800ce3a562c17d4cc3a0acc',1,'ppforest2::viz::BoundarySegment']]],
+  ['x_5fmax_2',['x_max',['../classppforest2_1_1viz_1_1SpatialVisitor.html#a17eda4eeb21b85a9af94738613701371',1,'ppforest2::viz::SpatialVisitor']]],
+  ['x_5fmin_3',['x_min',['../classppforest2_1_1viz_1_1SpatialVisitor.html#a5e43fcc9e036c830300fffaa5d1a0128',1,'ppforest2::viz::SpatialVisitor']]],
+  ['x_5fstart_4',['x_start',['../structppforest2_1_1viz_1_1BoundarySegment.html#a805777bb19f16db3d7e3b647cccb1b57',1,'ppforest2::viz::BoundarySegment']]]
 ];

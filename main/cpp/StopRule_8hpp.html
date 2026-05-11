@@ -108,13 +108,14 @@ $(function(){initNavTree('StopRule_8hpp.html',''); initResizable(true); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="Strategy_8hpp_source.html">models/strategies/Strategy.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Stats_8hpp_source.html">stats/Stats.hpp</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div>
 <p><a href="StopRule_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stop_1_1StopRule.html">ppforest2::stop::StopRule</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract strategy for tree stopping rules.  <a href="structppforest2_1_1stop_1_1StopRule.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1stop_1_1StopRule.html">ppforest2::stop::StopRule</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract strategy for tree stopping rules.  <a href="classppforest2_1_1stop_1_1StopRule.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -127,7 +128,19 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afa5a9adfdd8f61e9ee548181f9c0bdf2" id="r_afa5a9adfdd8f61e9ee548181f9c0bdf2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#afa5a9adfdd8f61e9ee548181f9c0bdf2">ppforest2::stop::pure_node</a> ()</td></tr>
+<tr class="memitem:a5ce994204d8df0b3be215f2d9a5c2c2b" id="r_a5ce994204d8df0b3be215f2d9a5c2c2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#a5ce994204d8df0b3be215f2d9a5c2c2b">ppforest2::stop::any</a> (std::vector&lt; <a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a> &gt; rules)</td></tr>
+<tr class="memdesc:a5ce994204d8df0b3be215f2d9a5c2c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for composite stop rule (logical OR).  <br /></td></tr>
+<tr class="separator:a5ce994204d8df0b3be215f2d9a5c2c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a937a396cf0948ec9b1bd74e0ef653443" id="r_a937a396cf0948ec9b1bd74e0ef653443"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#a937a396cf0948ec9b1bd74e0ef653443">ppforest2::stop::max_depth</a> (int n)</td></tr>
+<tr class="memdesc:a937a396cf0948ec9b1bd74e0ef653443"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for max-depth stop rule.  <br /></td></tr>
+<tr class="separator:a937a396cf0948ec9b1bd74e0ef653443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab80dadd996fe8e5a423f8ad2d7a8d977" id="r_ab80dadd996fe8e5a423f8ad2d7a8d977"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#ab80dadd996fe8e5a423f8ad2d7a8d977">ppforest2::stop::min_size</a> (int n)</td></tr>
+<tr class="memdesc:ab80dadd996fe8e5a423f8ad2d7a8d977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for minimum-size stop rule.  <br /></td></tr>
+<tr class="separator:ab80dadd996fe8e5a423f8ad2d7a8d977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b91085c56ee25eab52c22c812bbb5f9" id="r_a1b91085c56ee25eab52c22c812bbb5f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#a1b91085c56ee25eab52c22c812bbb5f9">ppforest2::stop::min_variance</a> (<a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a> threshold)</td></tr>
+<tr class="memdesc:a1b91085c56ee25eab52c22c812bbb5f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for minimum-variance stop rule.  <br /></td></tr>
+<tr class="separator:a1b91085c56ee25eab52c22c812bbb5f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa5a9adfdd8f61e9ee548181f9c0bdf2" id="r_afa5a9adfdd8f61e9ee548181f9c0bdf2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classStrategy.html#a30c651b4431c97d3504039607df398c9">StopRule::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stop.html#afa5a9adfdd8f61e9ee548181f9c0bdf2">ppforest2::stop::pure_node</a> ()</td></tr>
 <tr class="memdesc:afa5a9adfdd8f61e9ee548181f9c0bdf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Factory function for pure-node stop rule.  <br /></td></tr>
 <tr class="separator:afa5a9adfdd8f61e9ee548181f9c0bdf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

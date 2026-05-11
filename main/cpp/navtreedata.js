@@ -28,6 +28,7 @@ var NAVTREE =
     [ "ppforest2 — C++ API Reference", "index.html", "index" ],
     [ "Extending: Custom Strategies", "extending_strategies.html", [
       [ "Architecture", "extending_strategies.html#strat_architecture", null ],
+      [ "NVI pattern (public entry + protected compute)", "extending_strategies.html#strat_nvi", null ],
       [ "Conventions", "extending_strategies.html#strat_conventions", null ],
       [ "Self-Registration", "extending_strategies.html#strat_registration", null ],
       [ "Adding a new pp::ProjectionPursuit", "extending_strategies.html#strat_pp", [
@@ -37,7 +38,7 @@ var NAVTREE =
       [ "Adding a new vars::VariableSelection", "extending_strategies.html#strat_vars", [
         [ "Interface to implement", "extending_strategies.html#strat_vars_interface", null ]
       ] ],
-      [ "Adding a new cutpoint::SplitCutpoint", "extending_strategies.html#strat_cutpoint", [
+      [ "Adding a new cutpoint::Cutpoint", "extending_strategies.html#strat_cutpoint", [
         [ "Interface to implement", "extending_strategies.html#strat_cutpoint_interface", null ]
       ] ],
       [ "Composing strategies", "extending_strategies.html#strat_compose", null ],
@@ -61,8 +62,8 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
@@ -95,13 +96,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "All_8hpp.html",
-"classppforest2_1_1stats_1_1Normal.html#a3d2b17c0123f09f9c4201df396753345",
-"namespaceppforest2_1_1io_1_1text.html",
-"structppforest2_1_1TrainingSpec.html#a5fd12b597b37db0545299815eaa0b115",
-"structppforest2_1_1binarize_1_1LargestGap.html",
-"structppforest2_1_1cli_1_1ScenarioResult.html#a4aba54b9a903d47386853443c7654f89",
-"structppforest2_1_1pp_1_1PDA.html#adaf7f625cd8f09fee60c45d5dcecac02",
-"structppforest2_1_1viz_1_1NodeData.html#afa33392d520aff7a552fbaecfa8bb1e3"
+"classppforest2_1_1ClassificationForest.html#aac5fb9fbab88c3fdc05b08574b10d7f0",
+"classppforest2_1_1TrainingSpec.html#aa9f5dc71138d63f21d7de276fa92e3fd",
+"classppforest2_1_1cutpoint_1_1MeanOfMeans.html#ae4ed0d71ec9d4ddeed4f45af19c22d29",
+"classppforest2_1_1stop_1_1MaxDepth.html#aea95453ec5844ea50d3e417fb5150022",
+"functions_type.html",
+"namespaceppforest2_1_1serialization.html#a13a7b08b11331d1417c8c2d307bf25bb",
+"structppforest2_1_1TrainingSpec_1_1Builder_1_1Config.html#ad9fafa47c09cdef0dbd28eb03ace708c",
+"structppforest2_1_1cli_1_1Params.html#afa5909b3a7a98f16fa84a6e6e3b620f1",
+"structppforest2_1_1stats_1_1DataPacket.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

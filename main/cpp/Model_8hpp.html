@@ -101,7 +101,8 @@ $(function(){initNavTree('Model_8hpp.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Model.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -113,14 +114,14 @@ $(function(){initNavTree('Model_8hpp.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1Model.html">ppforest2::Model</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for predictive models (trees and forests).  <a href="structppforest2_1_1Model.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1Model.html">ppforest2::Model</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract base class for predictive models (trees and forests).  <a href="classppforest2_1_1Model.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1Proportions.html">ppforest2::Proportions</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag type for requesting vote-proportion predictions.  <a href="structppforest2_1_1Proportions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1Model_1_1Visitor.html">ppforest2::Model::Visitor</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structppforest2_1_1Model_1_1Visitor.html" title="Visitor interface for model dispatch.">Visitor</a> interface for model dispatch.  <a href="structppforest2_1_1Model_1_1Visitor.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1Model_1_1Visitor.html">ppforest2::Model::Visitor</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classppforest2_1_1Model_1_1Visitor.html" title="Visitor interface for model dispatch.">Visitor</a> interface for model dispatch.  <a href="classppforest2_1_1Model_1_1Visitor.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -128,6 +129,27 @@ Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
 <tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a437c348adea4fd0331c6c9113597bc22" id="r_a437c348adea4fd0331c6c9113597bc22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a437c348adea4fd0331c6c9113597bc22">ppforest2::is_classification</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const &amp;model)</td></tr>
+<tr class="memdesc:a437c348adea4fd0331c6c9113597bc22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code class="param">model</code> was trained for classification.  <br /></td></tr>
+<tr class="separator:a437c348adea4fd0331c6c9113597bc22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a696573a8aa5ddf56e9c3762168456b71" id="r_a696573a8aa5ddf56e9c3762168456b71"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a696573a8aa5ddf56e9c3762168456b71">ppforest2::is_classification</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const *model)</td></tr>
+<tr class="memdesc:a696573a8aa5ddf56e9c3762168456b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer overload — null-safe; returns <code>false</code> for a null model.  <br /></td></tr>
+<tr class="separator:a696573a8aa5ddf56e9c3762168456b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5649e851a0135de769368cbe98abb1e9" id="r_a5649e851a0135de769368cbe98abb1e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a5649e851a0135de769368cbe98abb1e9">ppforest2::is_regression</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const &amp;model)</td></tr>
+<tr class="memdesc:a5649e851a0135de769368cbe98abb1e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether <code class="param">model</code> was trained for regression.  <br /></td></tr>
+<tr class="separator:a5649e851a0135de769368cbe98abb1e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2241aeea5140a871e608596d97557cb1" id="r_a2241aeea5140a871e608596d97557cb1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a2241aeea5140a871e608596d97557cb1">ppforest2::is_regression</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const *model)</td></tr>
+<tr class="memdesc:a2241aeea5140a871e608596d97557cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer overload — null-safe; returns <code>false</code> for a null model.  <br /></td></tr>
+<tr class="separator:a2241aeea5140a871e608596d97557cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47e43a9b2a6435e903551ad2f3da5ca4" id="r_a47e43a9b2a6435e903551ad2f3da5ca4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a47e43a9b2a6435e903551ad2f3da5ca4">ppforest2::predict_proportions</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const &amp;model, <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;x)</td></tr>
+<tr class="memdesc:a47e43a9b2a6435e903551ad2f3da5ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute vote proportions for a classification model.  <br /></td></tr>
+<tr class="separator:a47e43a9b2a6435e903551ad2f3da5ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f6ca844fbad1ecaae630d9d31811c7c" id="r_a0f6ca844fbad1ecaae630d9d31811c7c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html#a0f6ca844fbad1ecaae630d9d31811c7c">ppforest2::predict_proportions</a> (<a class="el" href="classppforest2_1_1Model.html">Model</a> const &amp;model, <a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> const &amp;x)</td></tr>
+<tr class="memdesc:a0f6ca844fbad1ecaae630d9d31811c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Single-row vote proportions for a classification model.  <br /></td></tr>
+<tr class="separator:a0f6ca844fbad1ecaae630d9d31811c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

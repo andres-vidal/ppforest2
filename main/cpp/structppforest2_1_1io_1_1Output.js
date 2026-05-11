@@ -2,8 +2,6 @@ var structppforest2_1_1io_1_1Output =
 [
     [ "Output", "structppforest2_1_1io_1_1Output.html#a50de1293a5494f9168e2f67d1c933606", null ],
     [ "dedent", "structppforest2_1_1io_1_1Output.html#ae59e648ea9ef2701147d3c932119b015", null ],
-    [ "errorln", "structppforest2_1_1io_1_1Output.html#a914caeddb5b39d6d094cf76b5d89af25", null ],
-    [ "flush", "structppforest2_1_1io_1_1Output.html#a3af377b8a53f2166f839cdf5af89be89", null ],
     [ "indent", "structppforest2_1_1io_1_1Output.html#ab34e6a707aa1d473f3d07407e6f02664", null ],
     [ "newline", "structppforest2_1_1io_1_1Output.html#aa1cb68f29776067a47c27aa219be818e", null ],
     [ "print", "structppforest2_1_1io_1_1Output.html#a683d89281a4a39fbb209b3b1c845c619", null ],

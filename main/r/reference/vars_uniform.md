@@ -80,27 +80,12 @@ vars_uniform(p_vars = 0.5)
 #> [1] "vars_strategy"
 
 # Use with pprf
-pprf(Type ~ ., data = iris, vars = vars_uniform(n_vars = 2))
+pprf(Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 0.06 -0.04 0 ] * x) < 0.05315946:
-#>  If ([ 0.13 0.05 0 0 ] * x) < 0.9475403:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> Else:
-#>   Predict: setosa 
-#> 
-#> Tree 2:
-#> If ([ -0.03 0 0.06 0 ] * x) < 0.01866319:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0 0.05 0.17 ] * x) < 0.5432764:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> 
+#> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Trees:       2
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
+#>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
 #> 
 ```

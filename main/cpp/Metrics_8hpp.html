@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ppforest2: core/src/cli/Metrics.hpp File Reference</title>
+<title>ppforest2: core/src/stats/Metrics.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -100,44 +100,80 @@ $(function(){initNavTree('Metrics_8hpp.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Metrics.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Compute model metrics (confusion matrices, variable importance) and add them to a JSON model representation.  
+<p>Mode-specific evaluation metric blocks.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="Model_8hpp_source.html">models/Model.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="ConfusionMatrix_8hpp_source.html">stats/ConfusionMatrix.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Types_8hpp_source.html">utils/Types.hpp</a>&quot;</code><br />
-<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
 </div>
 <p><a href="Metrics_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">ppforest2::stats::ClassificationMetrics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classification evaluation metrics.  <a href="structppforest2_1_1stats_1_1ClassificationMetrics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">ppforest2::stats::RegressionMetrics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regression evaluation metrics.  <a href="structppforest2_1_1stats_1_1RegressionMetrics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html">ppforest2::cli</a></td></tr>
-<tr class="memdesc:namespaceppforest2_1_1cli"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. <br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html">ppforest2::stats</a></td></tr>
+<tr class="memdesc:namespaceppforest2_1_1stats"><td class="mdescLeft">&#160;</td><td class="mdescRight">Statistical infrastructure for training and evaluation. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a400001293548f4ee072898d84f869104" id="r_a400001293548f4ee072898d84f869104"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">ppforest2::stats::Metrics</a> = std::variant&lt;<a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">ClassificationMetrics</a>, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">RegressionMetrics</a>&gt;</td></tr>
+<tr class="memdesc:a400001293548f4ee072898d84f869104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode-polymorphic metrics block.  <br /></td></tr>
+<tr class="separator:a400001293548f4ee072898d84f869104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adfe76ac9b201ce33d21783a1d77148e9" id="r_adfe76ac9b201ce33d21783a1d77148e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#adfe76ac9b201ce33d21783a1d77148e9">ppforest2::cli::compute_metrics</a> (nlohmann::json &amp;model_data, const <a class="el" href="structppforest2_1_1Model.html">Model</a> &amp;model, const <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;x, const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;y, const std::vector&lt; std::string &gt; &amp;group_names, int seed=42)</td></tr>
-<tr class="memdesc:adfe76ac9b201ce33d21783a1d77148e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute and add metrics to a model JSON object.  <br /></td></tr>
-<tr class="separator:adfe76ac9b201ce33d21783a1d77148e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c00a51160bb78d3a9750e076bf16923" id="r_a5c00a51160bb78d3a9750e076bf16923"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a5c00a51160bb78d3a9750e076bf16923">ppforest2::stats::accuracy</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a5c00a51160bb78d3a9750e076bf16923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction of predictions matching the ground-truth class label.  <br /></td></tr>
+<tr class="separator:a5c00a51160bb78d3a9750e076bf16923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a65f2b6ddf141a1888923cc3b5e52c0" id="r_a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a7a65f2b6ddf141a1888923cc3b5e52c0">ppforest2::stats::error_rate</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Misclassification rate — <code>1 - accuracy</code>.  <br /></td></tr>
+<tr class="separator:a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a595e644d7dee128f05fd09b07ed874d9" id="r_a595e644d7dee128f05fd09b07ed874d9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a595e644d7dee128f05fd09b07ed874d9">ppforest2::stats::error_rate</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a595e644d7dee128f05fd09b07ed874d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload: float-typed labels (cast to <code>GroupId</code> locally).  <br /></td></tr>
+<tr class="separator:a595e644d7dee128f05fd09b07ed874d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd" id="r_a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a10b22e3a2ddd4fdc357bc8cb6ee7cbfd">ppforest2::stats::mae</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mean absolute error.  <br /></td></tr>
+<tr class="separator:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72afa434969c699638a805f4c43f25ab" id="r_a72afa434969c699638a805f4c43f25ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">Metrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a72afa434969c699638a805f4c43f25ab">ppforest2::stats::metrics_from_outcomes</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;y_pred, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;y, <a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75e">types::Mode</a> mode)</td></tr>
+<tr class="memdesc:a72afa434969c699638a805f4c43f25ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a mode-appropriate <code><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104" title="Mode-polymorphic metrics block.">Metrics</a></code> variant from in-memory tensors.  <br /></td></tr>
+<tr class="separator:a72afa434969c699638a805f4c43f25ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ac18ab77f113b03bab9d3dadbfe341" id="r_ae1ac18ab77f113b03bab9d3dadbfe341"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#ae1ac18ab77f113b03bab9d3dadbfe341">ppforest2::stats::mse</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:ae1ac18ab77f113b03bab9d3dadbfe341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mean squared error.  <br /></td></tr>
+<tr class="separator:ae1ac18ab77f113b03bab9d3dadbfe341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cd86cc9ed1f4542f5039024f1fd27cf" id="r_a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats.html#a0cd86cc9ed1f4542f5039024f1fd27cf">ppforest2::stats::r_squared</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coefficient of determination (R²). Returns 0 when total variance is 0.  <br /></td></tr>
+<tr class="separator:a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Compute model metrics (confusion matrices, variable importance) and add them to a JSON model representation. </p>
+<div class="textblock"><p>Mode-specific evaluation metric blocks. </p>
+<p>Pairs <code>ClassificationMetrics</code> (confusion matrix + error rate) with <code>RegressionMetrics</code> (MSE / MAE / R²). Both are consumed together by the OOB / variant-based code paths in <code><a class="el" href="Evaluation_8hpp.html" title="Free-function API for evaluating trained models — variable importance, out-of-bag diagnostics,...">models/Evaluation.hpp</a></code>, serialization, and presentation, so they live side by side. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_90fd98a0ba30abf7a6068a44995d2d6b.html">src</a></li><li class="navelem"><a class="el" href="dir_9f0ff4d550d1abc059642f8890f22cf1.html">cli</a></li><li class="navelem"><a class="el" href="Metrics_8hpp.html">Metrics.hpp</a></li>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_90fd98a0ba30abf7a6068a44995d2d6b.html">src</a></li><li class="navelem"><a class="el" href="dir_11e7ae285700b0aaf33838b90699bfdc.html">stats</a></li><li class="navelem"><a class="el" href="Metrics_8hpp.html">Metrics.hpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['none_0',['none',['../namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'ppforest2::cli']]]
+  ['left_0',['left',['../namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a811882fecd5c7618d7099ebbd39ea254',1,'ppforest2::io::layout']]]
 ];

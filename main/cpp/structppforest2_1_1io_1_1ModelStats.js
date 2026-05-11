@@ -10,6 +10,7 @@ var structppforest2_1_1io_1_1ModelStats =
     [ "to_json", "structppforest2_1_1io_1_1ModelStats.html#aed2a4c89084b01ea4ea3ef43aeb678ce", null ],
     [ "data_path", "structppforest2_1_1io_1_1ModelStats.html#a69bf8c73f8faedc42bb636440f9886e3", null ],
     [ "g", "structppforest2_1_1io_1_1ModelStats.html#a33317edf185490923fb94d8850441392", null ],
+    [ "mode", "structppforest2_1_1io_1_1ModelStats.html#a6c8558b600a51c1f8f5cc3a3e5ea9a72", null ],
     [ "n", "structppforest2_1_1io_1_1ModelStats.html#a1c09e6ef7f7227839d18dfc2e4161140", null ],
     [ "n_vars", "structppforest2_1_1io_1_1ModelStats.html#acb9e3935637b5cd1bd7fd772ad05b408", null ],
     [ "p", "structppforest2_1_1io_1_1ModelStats.html#ad2db767820cd0ce4088d0141a1dc31a0", null ],

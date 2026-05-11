@@ -11,13 +11,8 @@ Train a projection-pursuit tree on the iris dataset:
 
 ``` r
 library(ppforest2)
-#> 
-#> Attaching package: 'ppforest2'
-#> The following object is masked from 'package:datasets':
-#> 
-#>     iris
 
-tree <- pptr(Type ~ ., data = iris, seed = 0)
+tree <- pptr(Species ~ ., data = iris, seed = 0)
 tree
 #> 
 #> Project-Pursuit Oblique Decision Tree:
@@ -44,7 +39,7 @@ summary(tree)
 #> cutpoint method: Mean of means
 #> stop rule: Pure node
 #> binarize method: Largest gap
-#> partition method: By group
+#> grouping method: By label
 #> leaf method: Majority vote
 #> 
 #> 
@@ -53,7 +48,7 @@ summary(tree)
 #>   features:     4 
 #>   groups:       3 
 #>   group names:  setosa, versicolor, virginica 
-#>   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
+#>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
 #> Confusion Matrix:
 #> 
@@ -83,7 +78,7 @@ Predict new observations:
 
 ``` r
 preds <- predict(tree, iris)
-table(predicted = preds, actual = iris$Type)
+table(predicted = preds, actual = iris$Species)
 #>             actual
 #> predicted    setosa versicolor virginica
 #>   setosa         50          0         0
@@ -97,10 +92,10 @@ Train a forest of 100 trees, each considering 2 randomly chosen
 variables at each split:
 
 ``` r
-forest <- pprf(Type ~ ., data = iris, size = 100, n_vars = 2, seed = 0)
+forest <- pprf(Species ~ ., data = iris, size = 100, n_vars = 2, seed = 0)
 summary(forest)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
+#> Random Forest of Project-Pursuit Oblique Decision Trees
 #> 
 #> Size: 100 trees
 #> pp method: LDA (lambda=0)
@@ -108,7 +103,7 @@ summary(forest)
 #> cutpoint method: Mean of means
 #> stop rule: Pure node
 #> binarize method: Largest gap
-#> partition method: By group
+#> grouping method: By label
 #> leaf method: Majority vote
 #> 
 #> 
@@ -117,7 +112,7 @@ summary(forest)
 #>   features:     4 
 #>   groups:       3 
 #>   group names:  setosa, versicolor, virginica 
-#>   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
+#>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
 #> Training Confusion Matrix:
 #> 
@@ -230,7 +225,7 @@ Set `lambda > 0` to use Penalized Discriminant Analysis instead of LDA.
 This can help when features are highly correlated:
 
 ``` r
-tree_pda <- pptr(Type ~ ., data = iris, lambda = 0.5, seed = 0)
+tree_pda <- pptr(Species ~ ., data = iris, lambda = 0.5, seed = 0)
 summary(tree_pda)
 #> 
 #> Project-Pursuit Oblique Decision Tree
@@ -240,7 +235,7 @@ summary(tree_pda)
 #> cutpoint method: Mean of means
 #> stop rule: Pure node
 #> binarize method: Largest gap
-#> partition method: By group
+#> grouping method: By label
 #> leaf method: Majority vote
 #> 
 #> 
@@ -249,7 +244,7 @@ summary(tree_pda)
 #>   features:     4 
 #>   groups:       3 
 #>   group names:  setosa, versicolor, virginica 
-#>   formula:      Type ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
+#>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
 #> Confusion Matrix:
 #> 
@@ -283,9 +278,9 @@ equivalent but makes the strategy choice explicit:
 
 ``` r
 # These two calls produce identical results:
-forest_shortcut <- pprf(Type ~ ., data = iris, size = 10, lambda = 0.5, n_vars = 2, seed = 0)
+forest_shortcut <- pprf(Species ~ ., data = iris, size = 10, lambda = 0.5, n_vars = 2, seed = 0)
 
-forest_explicit <- pprf(Type ~ ., data = iris, size = 10, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2), seed = 0)
+forest_explicit <- pprf(Species ~ ., data = iris, size = 10, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2), seed = 0)
 
 all.equal(predict(forest_shortcut, iris), predict(forest_explicit, iris))
 #> [1] TRUE
@@ -310,7 +305,7 @@ spec <- pp_rand_forest(trees = 10) |>
   set_engine("ppforest2", pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2)) |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ])
 #> # A tibble: 5 × 1
 #>   .pred_class
@@ -334,7 +329,7 @@ spec <- pp_tree(penalty = 0.5) |>
   set_engine("ppforest2") |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ])
 #> # A tibble: 5 × 1
 #>   .pred_class
@@ -352,7 +347,7 @@ spec <- pp_rand_forest(trees = 50, mtry = 2, penalty = 0.5) |>
   set_engine("ppforest2") |>
   set_mode("classification")
 
-fit <- spec |> fit(Type ~ ., data = iris)
+fit <- spec |> fit(Species ~ ., data = iris)
 predict(fit, iris[1:5, ], type = "prob")
 #> # A tibble: 5 × 3
 #>   .pred_setosa .pred_versicolor .pred_virginica

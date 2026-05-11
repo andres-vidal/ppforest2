@@ -9,7 +9,7 @@ ppforest2 trains trees by composing six pluggable strategies:
 | **Threshold** (split cutpoint) | Compute the split cutpoint in projected space      | [`cutpoint_mean_of_means()`](https://andres-vidal.github.io/ppforest2/main/r/reference/cutpoint_mean_of_means.md)                                                                    |
 | **Stop** (stopping rule)       | Decide when to stop growing                        | [`stop_pure_node()`](https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.md)                                                                                    |
 | **Binarize** (binarization)    | Reduce multiclass to binary at each node           | [`binarize_largest_gap()`](https://andres-vidal.github.io/ppforest2/main/r/reference/binarize_largest_gap.md)                                                                        |
-| **Partition** (data partition) | Route observations to children                     | [`partition_by_group()`](https://andres-vidal.github.io/ppforest2/main/r/reference/partition_by_group.md)                                                                            |
+| **Grouping** (group partition) | Route observations to children                     | [`grouping_by_label()`](https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_label.md)                                                                              |
 
 You can add new strategies without modifying the core tree-building
 logic. This vignette walks through the process.
@@ -22,11 +22,6 @@ Each strategy is an R list with a `name` field that identifies it, a
 
 ``` r
 library(ppforest2)
-#> 
-#> Attaching package: 'ppforest2'
-#> The following object is masked from 'package:datasets':
-#> 
-#>     iris
 
 pp_pda(0.5)
 #> $name
@@ -117,7 +112,7 @@ struct MyMethod : public ProjectionPursuit {
   }
 
   static ProjectionPursuit::Ptr from_json(const nlohmann::json& j) {
-    validate_json_keys(j, "my_method PP", {"name", "alpha"});
+    JsonReader{j, "my_method"}.only_keys({"name", "alpha"});
     return my_method(j.at("alpha").get<float>());
   }
 
@@ -180,7 +175,7 @@ The constructor should:
   with clear messages is better than a C++ exception.
 - **Set the S3 class** to `pp_strategy`, `vars_strategy`,
   `cutpoint_strategy`, `stop_strategy`, `binarize_strategy`, or
-  `partition_strategy`. This is checked by `resolve_strategies()`.
+  `grouping_strategy`. This is checked by `resolve_strategies()`.
 - **Include `display_name`** for readable output in
   [`summary()`](https://rdrr.io/r/base/summary.html).
 - **Use the same parameter names** as `to_json()` in C++. The R list is
@@ -192,10 +187,10 @@ Once both sides are in place, the new strategy works like any built-in:
 
 ``` r
 # Single tree
-tree <- pptr(Type ~ ., data = iris, pp = pp_my_method(alpha = 0.5))
+tree <- pptr(Species ~ ., data = iris, pp = pp_my_method(alpha = 0.5))
 
 # Forest
-forest <- pprf(Type ~ ., data = iris, pp = pp_my_method(alpha = 0.5), vars = vars_uniform(n_vars = 2))
+forest <- pprf(Species ~ ., data = iris, pp = pp_my_method(alpha = 0.5), vars = vars_uniform(n_vars = 2))
 
 # Summary shows the strategy
 summary(tree)
@@ -258,19 +253,19 @@ problem.
 
     regroup(projected_x, group_partition) -> Result
 
-### Partition: Data partition
+### Grouping: Group partition
 
 Controls how observations are routed to children after a split.
 
-    split(binary_y, lower_group, upper_group) -> Result
+    split(partition, lower_group, upper_group) -> Result
 
 ## Checklist
 
 1.  Create `core/src/models/strategies/<family>/MyStrategy.hpp` (and
     `.cpp` if needed).
 2.  Inherit from the appropriate base class (`ProjectionPursuit`,
-    `VariableSelection`, `SplitCutpoint`, `StopRule`, `Binarization`, or
-    `StepPartition`).
+    `VariableSelection`, `Cutpoint`, `StopRule`, `Binarization`, or
+    `Grouping`).
 3.  Implement the pure virtual methods.
 4.  Implement `to_json()` with a `"name"` field.
 5.  Implement `display_name()` for human-readable summaries.

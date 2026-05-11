@@ -55,6 +55,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  lambda <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  n_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -67,7 +68,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 <span>  cutpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  stop <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  binarize <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  partition <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grouping <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  leaf <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -90,6 +91,10 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 <dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
 <dd><p>A matrix containing the labels for each observation.</p></dd>
+
+
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
+<dd><p>Training mode: either <code>"classification"</code> or <code>"regression"</code>. When <code>NULL</code> (default), mode is auto-detected from <code>y</code>'s type — factor or character vectors trigger classification, numeric vectors trigger regression. Setting it explicitly is useful for the binary-integer-labels case (<code>mode = "classification"</code> with integer 0/1 labels) and for failing fast on a type mismatch (<code>mode = "regression"</code> with a factor <code>y</code> errors immediately).</p></dd>
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
@@ -133,169 +138,105 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 
 <dt id="arg-stop">stop<a class="anchor" aria-label="anchor" href="#arg-stop"></a></dt>
-<dd><p>A stopping rule object created by <code><a href="stop_pure_node.html">stop_pure_node</a></code> (default).</p></dd>
+<dd><p>A stopping rule object. Default depends on mode:
+<code><a href="stop_pure_node.html">stop_pure_node()</a></code> for classification, and
+<code>stop_any(stop_min_size(5), stop_min_variance(0.01))</code> for regression.</p></dd>
 
 
 <dt id="arg-binarize">binarize<a class="anchor" aria-label="anchor" href="#arg-binarize"></a></dt>
-<dd><p>A binarization strategy object created by <code><a href="binarize_largest_gap.html">binarize_largest_gap</a></code> (default).</p></dd>
+<dd><p>A binarization strategy object. Default depends on mode:
+<code><a href="binarize_largest_gap.html">binarize_largest_gap()</a></code> for classification, and
+<code><a href="binarize_disabled.html">binarize_disabled()</a></code> for regression (regression's default
+grouping always yields a 2-group partition, so no binarization is needed).</p></dd>
 
 
-<dt id="arg-partition">partition<a class="anchor" aria-label="anchor" href="#arg-partition"></a></dt>
-<dd><p>A partition strategy object created by <code><a href="partition_by_group.html">partition_by_group</a></code> (default).</p></dd>
+<dt id="arg-grouping">grouping<a class="anchor" aria-label="anchor" href="#arg-grouping"></a></dt>
+<dd><p>A grouping strategy object. Default depends on mode:
+<code><a href="grouping_by_label.html">grouping_by_label()</a></code> for classification, and
+<code><a href="grouping_by_cutpoint.html">grouping_by_cutpoint()</a></code> for regression.</p></dd>
 
 
 <dt id="arg-leaf">leaf<a class="anchor" aria-label="anchor" href="#arg-leaf"></a></dt>
-<dd><p>A leaf strategy object created by <code><a href="leaf_majority_vote.html">leaf_majority_vote</a></code> (default).</p></dd>
+<dd><p>A leaf strategy object. Default depends on mode:
+<code><a href="leaf_majority_vote.html">leaf_majority_vote()</a></code> for classification, and
+<code><a href="leaf_mean_response.html">leaf_mean_response()</a></code> for regression.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A pprf model trained on <code>x</code> and <code>y</code>.</p>
+    <p>A <code>pprf</code> model. Its S3 class vector is
+  <code>c("pprf_classification", "pprf", "ppmodel")</code> or
+  <code>c("pprf_regression", "pprf", "ppmodel")</code> depending on the mode.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Mode is taken from the <code>mode</code> argument when explicit, and otherwise auto-detected from `y` (factor/character → classification, numeric → regression). Pass <code>mode = "classification"</code> to force classification on integer labels (e.g. binary 0/1), or <code>mode = "regression"</code> to assert intent on numeric responses.</p>
+<p>OOB error, OOB predictions, permuted variable importance, and weighted variable importance are computed lazily on first access via the accessor functions (`oob_error()`, `oob_predictions()`, `permuted_importance()`, `weighted_importance()`). Training itself is fast because these OOB-based computations are deferred.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="predict.pprf.html">predict.pprf</a></code>, <code><a href="formula.pprf.html">formula.pprf</a></code>, <code><a href="summary.pprf.html">summary.pprf</a></code>, <code><a href="print.pprf.html">print.pprf</a></code>, <code><a href="save_json.html">save_json</a></code>, <code><a href="load_json.html">load_json</a></code>, <code><a href="pp_rand_forest.html">pp_rand_forest</a></code> for parsnip integration, <code><a href="pp_pda.html">pp_pda</a></code>, <code><a href="vars_uniform.html">vars_uniform</a></code>, <code><a href="vars_all.html">vars_all</a></code>, <code><a href="cutpoint_mean_of_means.html">cutpoint_mean_of_means</a></code>, <code><a href="stop_pure_node.html">stop_pure_node</a></code>, <code><a href="binarize_largest_gap.html">binarize_largest_gap</a></code>, <code><a href="partition_by_group.html">partition_by_group</a></code>, <code><a href="leaf_majority_vote.html">leaf_majority_vote</a></code>, <code><a href="../articles/introduction.html">vignette("introduction")</a></code> for a tutorial</p></div>
+    <div class="dont-index"><p><code><a href="predict.pprf_classification.html">predict.pprf_classification</a></code>, <code><a href="predict.pprf_regression.html">predict.pprf_regression</a></code>, <code><a href="formula.ppmodel.html">formula.ppmodel</a></code>, <code><a href="oob_error.html">oob_error</a></code>, <code><a href="save_json.html">save_json</a></code>, <code><a href="load_json.html">load_json</a></code>, <code><a href="pp_rand_forest.html">pp_rand_forest</a></code> for parsnip integration, <code><a href="../articles/introduction.html">vignette("introduction")</a></code> for a tutorial</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 1: formula interface with the `iris` dataset</span></span></span>
-<span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.05 -0.04 -0.02 ] * x) &lt; 0.08010742:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.04 0.07 -0.07 -0.19 ] * x) &lt; -0.1760359:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.05 0.04 0.01 ] * x) &lt; -0.01472723:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.03 0.1 -0.06 -0.2 ] * x) &lt; -0.1889343:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2: formula interface with the `iris` dataset with regularization</span></span></span>
-<span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01002465:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0.04 -0.07 -0.13 ] * x) &lt; -0.4705565:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 -0.04 0.03 0.03 ] * x) &lt; 0.01345929:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.01 0.03 -0.06 -0.15 ] * x) &lt; -0.3937009:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3: matrix interface with the `iris` dataset</span></span></span>
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06329576:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.05 0.07 -0.09 -0.14 ] * x) &lt; -0.1844155:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.05 -0.04 -0.01 ] * x) &lt; 0.04926682:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.04 0.06 -0.1 -0.15 ] * x) &lt; -0.3085878:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 4: matrix interface with the `iris` dataset with regularization</span></span></span>
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.02 0.04 ] * x) &lt; 0.007346343:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.01 0.01 -0.05 -0.16 ] * x) &lt; -0.4444733:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.03 0.03 0.03 ] * x) &lt; 0.05736751:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0.01 -0.05 -0.17 ] * x) &lt; -0.4873528:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 5: formula interface with the `crabs` dataset</span></span></span>
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">crabs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.14 0 0 0 0 0 0 ] * x) &lt; 0.06798445:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: O </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: B </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.14 0 0 0 0 0 0 ] * x) &lt; 0.06735082:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: O </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: B </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 6: formula interface with the `crabs` dataset with regularization</span></span></span>
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">crabs</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Tree</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 1:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 0 -0.01 0 0 0 -0.01 ] * x) &lt; -0.3166611:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: O </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: B </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Tree 2:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 -0.01 -0.01 0 0 0 -0.01 ] * x) &lt; -0.3029013:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: O </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: B </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
