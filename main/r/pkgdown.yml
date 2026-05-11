@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   custom-strategies: custom-strategies.html
   introduction: introduction.html
-last_built: 2026-05-11T03:47Z
+last_built: 2026-05-11T03:59Z
 urls:
   reference: https://andres-vidal.github.io/ppforest2/main/r/reference
   article: https://andres-vidal.github.io/ppforest2/main/r/articles
