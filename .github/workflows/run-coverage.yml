@@ -9,14 +9,14 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: hrishikesh-kadam/setup-lcov@v1
         with:
           ref: v2.4
 
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .coverage/_deps
           key: ${{ runner.os }}-cmake-deps-coverage-${{ hashFiles('core/Dependencies.cmake') }}
@@ -27,7 +27,7 @@ jobs:
 
       - name: Post or update PR comment
         if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         env:
           REPORT: ${{ steps.report.outputs.report }}
         with:
@@ -61,7 +61,7 @@ jobs:
 
       - name: Update coverage badge
         if: github.ref == 'refs/heads/main'
-        uses: schneegans/dynamic-badges-action@v1.7.0
+        uses: schneegans/dynamic-badges-action@v1.8.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ vars.COVERAGE_GIST_ID }}

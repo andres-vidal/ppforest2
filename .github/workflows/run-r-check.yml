@@ -7,7 +7,7 @@ jobs:
   Ubuntu:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-tinytex@v2
       - name: Install system dependencies for CRAN check
@@ -17,7 +17,7 @@ jobs:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -28,7 +28,7 @@ jobs:
   Mac:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-tinytex@v2
       - uses: r-lib/actions/setup-r-dependencies@v2
@@ -36,7 +36,7 @@ jobs:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -47,7 +47,7 @@ jobs:
   MacOpenMP:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-tinytex@v2
       - run: brew install libomp
@@ -56,7 +56,7 @@ jobs:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -70,7 +70,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: r-lib/actions/setup-r@v2
       - uses: r-lib/actions/setup-tinytex@v2
         env:
@@ -80,7 +80,7 @@ jobs:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
