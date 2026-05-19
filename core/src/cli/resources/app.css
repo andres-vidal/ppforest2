@@ -1,0 +1,385 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui,
+    sans-serif;
+  background: #fafafa;
+  color: #222;
+  line-height: 1.5;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.nav a:hover {
+  color: #111;
+}
+
+.nav a.active {
+  color: #111;
+  border-bottom-color: #3b82f6;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.stat .value {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.stat .label {
+  display: block;
+  color: #666;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+}
+
+dt {
+  color: #555;
+}
+
+dd {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+table.bars {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.bars td {
+  padding: 0.4rem 0;
+  vertical-align: middle;
+}
+
+table.bars td:first-child {
+  width: 30%;
+  white-space: nowrap;
+  padding-right: 1rem;
+  color: #333;
+}
+
+table.bars td:last-child {
+  width: 80px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.bar {
+  display: block;
+  height: 8px;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 4px;
+}
+
+.endpoints ul {
+  list-style: none;
+}
+
+.endpoints li {
+  padding: 0.35rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+code {
+  background: #f0f0f0;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85em;
+  color: #111;
+}
+
+footer {
+  margin-top: 2rem;
+  color: #888;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+input[type="file"] {
+  font: inherit;
+  color: #444;
+}
+
+button {
+  background: #3b82f6;
+  color: #fff;
+  border: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+}
+
+button:hover {
+  background: #2563eb;
+}
+
+#predict-result {
+  margin-top: 1rem;
+  background: #f5f5f5;
+  border-radius: 6px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #222;
+  min-height: 0;
+}
+
+#predict-result:empty {
+  display: none;
+}
+
+#predict-result main {
+  padding: 0;
+}
+
+#predict-result main > header {
+  margin: 0 0 1rem 0;
+}
+
+#predict-result main > header h1 {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+}
+
+#predict-result main > header .subtitle {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+#predict-result main > section.card {
+  border: 1px solid #eee;
+  padding: 1rem;
+  margin: 0;
+}
+
+#predict-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.predict-error {
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+}
+
+table.predictions {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.predictions th,
+table.predictions td {
+  padding: 0.4rem 0.75rem;
+  text-align: left;
+}
+
+table.predictions thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+table.predictions tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+table.predictions tbody tr:last-child {
+  border-bottom: 0;
+}
+
+table.predictions tbody td {
+  font-variant-numeric: tabular-nums;
+  color: #333;
+}
+
+table.predictions tbody td:first-child {
+  color: #888;
+  width: 3rem;
+}
+
+table.confusion {
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+table.confusion th,
+table.confusion td {
+  padding: 0.4rem 0.75rem;
+  text-align: right;
+  border: 1px solid #eee;
+}
+
+table.confusion thead th {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #888;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+table.confusion th.row-label {
+  font-weight: 500;
+  color: #333;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+table.confusion td.cell {
+  color: #444;
+}
+
+table.confusion td.cell.correct {
+  background: #ecfdf5;
+  color: #047857;
+  font-weight: 600;
+}
+
+table.confusion td.cell.wrong {
+  background: #fef2f2;
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+table.confusion td.cell.zero {
+  color: #c5c5c5;
+}
+
+table.confusion td.error-col,
+table.confusion th.error-col {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.card-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-toolbar h2 {
+  margin-bottom: 0;
+}
+
+.card-toolbar button {
+  background: #f0f0f0;
+  color: #222;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.85rem;
+}
+
+.card-toolbar button:hover {
+  background: #e5e5e5;
+}

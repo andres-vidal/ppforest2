@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ppforest2 — predict</title>
+    {{ style_tag }}
+  </head>
+  <body>
+    <main>
+      <nav class="nav">
+        <a href="/">Summary</a>
+        <a href="/predict" class="active">Predict</a>
+      </nav>
+
+      <header>
+        <h1>ppforest2</h1>
+        <p class="subtitle">Predict · {{ model_info }}</p>
+      </header>
+
+      <section class="card">
+        <h2>Upload CSV</h2>
+        <form id="predict-form">
+          <input
+            type="file"
+            id="predict-file"
+            accept=".csv,text/csv"
+            required="required"
+          />
+          <button type="submit">Predict</button>
+        </form>
+        <div id="predict-result" aria-live="polite"></div>
+      </section>
+
+      {% if result.present %} {% if length(result.metrics) > 0 %}
+      <section class="card">
+        <h2>Metrics</h2>
+        <dl>
+          {% for row in result.metrics %}
+          <dt>{{ row.label }}</dt>
+          <dd>{{ row.value }}</dd>
+          {% endfor %}
+        </dl>
+      </section>
+      {% endif %} {% if result.confusion.present %}
+      <section class="card">
+        <h2>
+          Confusion matrix
+          <span class="muted">(rows = actual, cols = predicted)</span>
+        </h2>
+        <table class="confusion">
+          <thead>
+            <tr>
+              <th></th>
+              {% for name in result.confusion.labels %}
+              <th>{{ name }}</th>
+              {% endfor %}
+              <th class="error-col">error</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in result.confusion.rows %}
+            <tr>
+              <th class="row-label">{{ row.label }}</th>
+              {% for cell in row.cells %}
+              <td class="cell {{ cell.kind }}">{{ cell.v }}</td>
+              {% endfor %}
+              <td class="error-col">{{ row.error }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+      {% endif %}
+
+      <section class="card">
+        <div class="card-toolbar">
+          <h2>
+            Results <span class="muted">({{ result.count_caption }})</span>
+          </h2>
+          <button type="button" id="download-csv">Download CSV</button>
+        </div>
+        <table class="predictions">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Prediction</th>
+              {% for name in result.extra_headers %}
+              <th>{{ name }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in result.rows %}
+            <tr>
+              <td>{{ row.index }}</td>
+              <td>{{ row.prediction }}</td>
+              {% for v in row.extra_cells %}
+              <td>{{ v }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+      {% endif %}
+
+      <footer>ppforest2 {{ version }}</footer>
+    </main>
+
+    {{ script_tag }}
+  </body>
+</html>

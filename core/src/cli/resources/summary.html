@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ppforest2 — {{ model_info }}</title>
+    {{ style_tag }}
+  </head>
+  <body>
+    <main>
+      <nav class="nav">
+        <a href="/" class="active">Summary</a>
+        <a href="/predict">Predict</a>
+      </nav>
+
+      <header>
+        <h1>ppforest2</h1>
+        <p class="subtitle">Summary · {{ model_info }}</p>
+      </header>
+
+      <section class="stats">
+        <div class="stat">
+          <span class="value">{{ obs }}</span>
+          <span class="label">observations</span>
+        </div>
+        <div class="stat">
+          <span class="value">{{ feat }}</span>
+          <span class="label">features</span>
+        </div>
+        {% if is_classification %}
+        <div class="stat">
+          <span class="value">{{ groups_count }}</span>
+          <span class="label">groups</span>
+        </div>
+        {% else %}
+        <div class="stat">
+          <span class="value">—</span>
+          <span class="label">regression</span>
+        </div>
+        {% endif %}
+      </section>
+
+      {% if length(config) > 0 %}
+      <section class="card">
+        <h2>Configuration</h2>
+        <dl>
+          {% for row in config %}
+          <dt>{{ row.label }}</dt>
+          <dd>{{ row.value }}</dd>
+          {% endfor %}
+        </dl>
+      </section>
+      {% endif %} {% if length(metrics) > 0 %}
+      <section class="card">
+        <h2>Metrics</h2>
+        <dl>
+          {% for row in metrics %}
+          <dt>{{ row.label }}</dt>
+          <dd>{{ row.value }}</dd>
+          {% endfor %}
+        </dl>
+      </section>
+      {% endif %} {% if length(importance) > 0 %}
+      <section class="card">
+        <h2>Variable importance (permuted)</h2>
+        <table class="bars">
+          {% for row in importance %}
+          <tr>
+            <td>{{ row.name }}</td>
+            <td>
+              <span class="bar" style="width:{{ row.width_pct }}%"></span>
+            </td>
+            <td>{{ row.value }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </section>
+      {% endif %}
+
+      <section class="card">
+        <h2>Predict</h2>
+        <form id="predict-form">
+          <input
+            type="file"
+            id="predict-file"
+            accept=".csv,text/csv"
+            required="required"
+          />
+          <button type="submit">Predict</button>
+        </form>
+        <div id="predict-result" aria-live="polite"></div>
+      </section>
+
+      <footer>ppforest2 {{ version }}</footer>
+    </main>
+
+    {{ script_tag }}
+  </body>
+</html>

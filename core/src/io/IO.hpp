@@ -114,4 +114,32 @@ namespace ppforest2::io::csv {
    * @param filename Output file path.
    */
   void write(stats::DataPacket const& data, std::string const& filename);
+
+  /**
+   * @brief Result of parsing a feature-only CSV (no response column).
+   *
+   * `raw_rows[i][j]` is the original text of the j-th column on row i. It is
+   * kept around so callers can inspect columns that aren't part of the model
+   * (e.g. a response column carried over from training data, used to compute
+   * metrics on /predict).
+   */
+  struct FeatureSet {
+    types::FeatureMatrix x;
+    types::Names feature_names;
+    std::vector<std::vector<std::string>> raw_rows;
+  };
+
+  /**
+   * @brief Parse a feature-only CSV from an in-memory string.
+   *
+   * The first row is the header (feature names); every subsequent row is one
+   * observation. There is no response column. Used by the `serve` subcommand
+   * to parse `POST /predict` request bodies — categorical encoding runs
+   * per-call, so callers must encode categoricals consistently with the
+   * training data.
+   *
+   * @throws UserError on empty body, missing header, no data rows, or
+   *         malformed shape.
+   */
+  FeatureSet read_features_from_string(std::string const& content);
 }

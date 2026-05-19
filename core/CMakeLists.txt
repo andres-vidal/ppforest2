@@ -188,7 +188,12 @@ if(NOT PPFOREST2_CORE_ONLY)
   # survive the linker's dead-strip pass — see the note on its STATIC split
   # above. `ppforest2-core` is linked normally; its objects pull in on
   # demand based on what this executable actually calls.
-  target_link_libraries(ppforest2 $<LINK_LIBRARY:WHOLE_ARCHIVE,ppforest2-strategies> ppforest2-core nlohmann_json::nlohmann_json csv CLI11::CLI11 fmt::fmt)
+  # `httplib::httplib` is listed explicitly (rather than relying on
+  # ppforest2-cli's PUBLIC link interface) because OBJECT libraries don't
+  # propagate link deps through `$<TARGET_OBJECTS:>` extraction. Without it
+  # the Windows MinGW build can't find the Winsock symbols cpp-httplib
+  # brings in transitively (`ws2_32`).
+  target_link_libraries(ppforest2 $<LINK_LIBRARY:WHOLE_ARCHIVE,ppforest2-strategies> ppforest2-core nlohmann_json::nlohmann_json csv CLI11::CLI11 fmt::fmt httplib::httplib)
   target_compile_definitions(ppforest2 PRIVATE PPFOREST2_VERSION="${PROJECT_VERSION}")
 
   # ---------------------------------------------------------------------------
@@ -256,6 +261,8 @@ if(NOT PPFOREST2_CORE_ONLY)
     src/cli/Benchmark.integration.test.cpp
     src/cli/Reproducibility.integration.test.cpp
     src/cli/CLI.integration.test.cpp
+    src/cli/ServeHandlers.test.cpp
+    src/cli/Serve.integration.test.cpp
     src/golden/Reproducibility.test.cpp
     src/golden/Threading.test.cpp
     src/cli/Validation.test.cpp
@@ -273,7 +280,8 @@ if(NOT PPFOREST2_CORE_ONLY)
     gtest
     CLI11::CLI11
     csv
-    fmt::fmt)
+    fmt::fmt
+    httplib::httplib)
 
   target_include_directories(ppforest2-test PRIVATE
     ${csv_SOURCE_DIR}/include

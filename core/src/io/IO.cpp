@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
@@ -151,10 +152,6 @@ namespace ppforest2::io::csv {
         int const row_num = static_cast<int>(raw.values.size()) + 1;
 
         user_error(
-            row.size() >= 2,
-            fmt::format("Row {} has only {} column(s) — expected at least 2 (features + response)", row_num, row.size())
-        );
-        user_error(
             static_cast<int>(row.size()) == raw.n_cols,
             fmt::format("Row {} has {} column(s), expected {} (same as the header)", row_num, row.size(), raw.n_cols)
         );
@@ -171,8 +168,7 @@ namespace ppforest2::io::csv {
     }
 
     // A column is categorical if any cell in it fails `is_numeric`.
-    std::vector<bool> is_categorical(RawRows const& raw) {
-      int const n_features = raw.n_cols - 1;
+    std::vector<bool> is_categorical(RawRows const& raw, int n_features) {
       std::vector<bool> res(static_cast<std::size_t>(n_features), false);
 
       for (int j = 0; j < n_features; ++j) {
@@ -215,12 +211,12 @@ namespace ppforest2::io::csv {
     }
 
     ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names) {
-      auto const _is_classification = is_classification(raw);
-      auto const _is_categorical    = is_categorical(raw);
-
       int const n_features = raw.n_cols - 1;
       int const y_col      = raw.n_cols - 1;
       int const n          = static_cast<int>(raw.values.size());
+
+      auto const _is_classification = is_classification(raw);
+      auto const _is_categorical    = is_categorical(raw, n_features);
 
       std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
       FeatureMatrix x(n, n_features);
@@ -263,6 +259,31 @@ namespace ppforest2::io::csv {
       return encode_rows(raw, std::move(feature_names));
     }
 
+    // Feature-only encoding for the `serve` path. No response column, no
+    // mode detection, no `group_names`. The raw string rows are moved into
+    // the returned `FeatureSet` so callers can pull out non-feature columns
+    // (e.g. a response label) without re-parsing the CSV.
+    FeatureSet encode_features(RawRows raw, types::Names feature_names) {
+      int const n_features = raw.n_cols;
+      int const n          = static_cast<int>(raw.values.size());
+
+      auto const _is_categorical = is_categorical(raw, n_features);
+
+      std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
+      FeatureMatrix x(n, n_features);
+
+      for (int i = 0; i < n; ++i) {
+        auto const& row = at(raw.values, i);
+
+        for (int j = 0; j < n_features; ++j) {
+          auto const& val = at(row, j);
+          x(i, j)         = at(_is_categorical, j) ? at(encoders, j).encode(val) : std::stof(val);
+        }
+      }
+
+      return FeatureSet{std::move(x), std::move(feature_names), std::move(raw.values)};
+    }
+
     // Picks the `DataPacket` ctor by mode: classification derives groups
     // from `y` codes (0..G-1); regression has no group concept and passes `{}`.
     DataPacket make_data_packet(ParsedCSV const& parsed) {
@@ -299,6 +320,33 @@ namespace ppforest2::io::csv {
 
     for (Eigen::Index i = 0; i < data.x.rows(); ++i) {
       out << data.x.row(i).format(csv_row) << "," << data.y[i] << "\n";
+    }
+  }
+
+  FeatureSet read_features_from_string(std::string const& content) {
+    try {
+      user_error(!content.empty(), "CSV body is empty");
+
+      ::csv::CSVFormat format;
+      format.variable_columns(::csv::VariableColumnPolicy::THROW);
+
+      std::stringstream stream(content);
+      ::csv::CSVReader reader(stream, format);
+
+      auto const col_names = reader.get_col_names();
+      user_error(!col_names.empty(), "CSV header must have at least 1 column");
+
+      int const n_cols = static_cast<int>(col_names.size());
+      types::Names feature_names(col_names.begin(), col_names.end());
+
+      RawRows raw = read_raw_rows(reader, n_cols);
+      user_error(!raw.values.empty(), "CSV has no data rows");
+
+      return encode_features(std::move(raw), std::move(feature_names));
+    } catch (UserError const&) {
+      throw;
+    } catch (std::exception const& e) {
+      throw UserError(fmt::format("Error parsing CSV: {}", e.what()));
     }
   }
 }

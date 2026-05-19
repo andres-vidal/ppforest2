@@ -6,6 +6,7 @@
 #include "cli/CLIOptions.hpp"
 #include "cli/Evaluate.hpp"
 #include "cli/Predict.hpp"
+#include "cli/Serve.hpp"
 #include "cli/Summarize.hpp"
 #include "cli/Train.hpp"
 #include "io/Color.hpp"
@@ -48,6 +49,7 @@ int main(int argc, char* argv[]) {
       case Subcommand::evaluate: return run_evaluate(params);
       case Subcommand::benchmark: return run_benchmark(params, argv[0]);
       case Subcommand::summarize: return run_summarize(params);
+      case Subcommand::serve: return run_serve(params);
 
       default: fmt::print(stderr, "Error: No subcommand specified\n"); return 1;
     }

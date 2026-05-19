@@ -240,3 +240,29 @@ TEST(FileHelpers, CheckFileExistsOnExisting) {
 TEST(FileHelpers, CheckFileExistsOnNonexistent) {
   EXPECT_THROW(io::check_file_exists("/nonexistent/path.csv"), ppforest2::UserError);
 }
+
+/* read_features_from_string parses a feature-only CSV body. */
+TEST(ReadFeaturesFromString, ParsesNumericCsv) {
+  auto set = io::csv::read_features_from_string("a,b,c\n1.0,2.0,3.0\n4.0,5.0,6.0\n");
+
+  ASSERT_EQ(set.feature_names.size(), 3U);
+  EXPECT_EQ(set.feature_names[0], "a");
+  EXPECT_EQ(set.feature_names[2], "c");
+
+  ASSERT_EQ(set.x.rows(), 2);
+  ASSERT_EQ(set.x.cols(), 3);
+  EXPECT_FLOAT_EQ(set.x(0, 0), 1.0F);
+  EXPECT_FLOAT_EQ(set.x(1, 2), 6.0F);
+}
+
+TEST(ReadFeaturesFromString, EmptyBodyThrows) {
+  EXPECT_THROW(io::csv::read_features_from_string(""), ppforest2::UserError);
+}
+
+TEST(ReadFeaturesFromString, HeaderOnlyThrows) {
+  EXPECT_THROW(io::csv::read_features_from_string("a,b,c\n"), ppforest2::UserError);
+}
+
+TEST(ReadFeaturesFromString, RaggedRowsThrow) {
+  EXPECT_THROW(io::csv::read_features_from_string("a,b,c\n1,2,3\n4,5\n"), ppforest2::UserError);
+}

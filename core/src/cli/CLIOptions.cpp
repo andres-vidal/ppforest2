@@ -6,6 +6,7 @@
 #include "cli/Benchmark.hpp"
 #include "cli/Evaluate.hpp"
 #include "cli/Predict.hpp"
+#include "cli/Serve.hpp"
 #include "cli/Summarize.hpp"
 #include "cli/Train.hpp"
 #include "io/IO.hpp"
@@ -167,6 +168,7 @@ namespace ppforest2::cli {
     setup_evaluate(app, params);
     setup_benchmark(app, params);
     setup_summarize(app, params);
+    setup_serve(app, params);
 
     // Parse — CLI11 throws for both errors and --help/--version.
     // Success (help/version) prints and exits; errors become UserError.

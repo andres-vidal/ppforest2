@@ -131,4 +131,22 @@ namespace ppforest2::io::style {
   inline std::string warning(std::string const& s) {
     return styled(s, fmt::terminal_color::yellow);
   }
+
+  /**
+   * @brief Wrap @p text in an OSC 8 hyperlink targeting @p url.
+   *
+   * Supported by iTerm2, WezTerm, Konsole, modern xterm, Windows Terminal
+   * and others. In terminals that don't recognize the escape sequence the
+   * URL text still shows verbatim, so the only behavioral difference is
+   * "click to open" in capable terminals. Falls back to plain @p text
+   * when colored output is disabled (no-TTY or --no-color).
+   */
+  inline std::string link(std::string const& url, std::string const& text) {
+    if (!color_enabled()) {
+      return text;
+    }
+    // BEL terminator (rather than ST `ESC \`) — more widely accepted by
+    // terminals that implement only a subset of the OSC 8 spec.
+    return fmt::format("\x1b]8;;{}\x07{}\x1b]8;;\x07", url, text);
+  }
 }

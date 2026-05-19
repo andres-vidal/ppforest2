@@ -70,6 +70,9 @@ ppforest2 evaluate --simulate 1000x10x3 --trees 50
 
 # Run performance benchmarks across scenarios
 ppforest2 benchmark -s bench/default-scenarios-classification.json
+
+# Serve predictions over HTTP from a saved model (localhost:8080 by default)
+ppforest2 serve --model model.json
 ```
 
 ### R
@@ -281,6 +284,47 @@ ppforest2 benchmark -s scenarios.json --format markdown
 | `-p, --train-ratio <X>`  | —        | Override train ratio for all scenarios            |
 
 When comparing against a baseline, delta columns show regressions and improvements with color indicators.
+
+### `serve` — HTTP Inference Server
+
+Load a saved model into memory and expose `GET /` (model summary — HTML for browsers, JSON for API clients), `GET /health`, and `POST /predict` over HTTP. The model path is set once at startup; clients never pass paths in requests.
+
+```bash
+# Start a server on localhost:8080
+ppforest2 serve --model model.json
+
+# Bind elsewhere or raise the body cap
+ppforest2 serve --model model.json --host 127.0.0.1 --port 9000 --max-body-bytes 4194304
+```
+
+| Flag                     | Default       | Description                                       |
+|--------------------------|---------------|---------------------------------------------------|
+| `-M, --model <file>`     | *(required)*  | Saved model JSON                                  |
+| `--host <addr>`          | `127.0.0.1`   | Bind address. `0.0.0.0` exposes externally (prints a warning) |
+| `--port <n>`             | `8080`        | TCP port (1–65535)                                |
+| `--max-body-bytes <n>`   | `1048576`     | Maximum `POST /predict` body size                 |
+
+**Endpoints**
+
+Content type is chosen by the request's `Accept` header — browsers (`text/html`) get the dashboard, everything else (`*/*`, explicit `application/json`) gets JSON.
+
+- `GET /` — model summary. JSON returns `meta`, `config`, `training_metrics`, `oob_metrics`, `variable_importance` (the heavy `model` tree is stripped). HTML returns the dashboard.
+- `GET /predict` — predict landing page (HTML only). Without a query string: upload form. With `?id=<hex>`: a previously-computed result from the in-memory cache, with a download button.
+- `POST /predict` — body is feature-only CSV (header + rows). JSON returns `{predictions, [proportions], [metrics], id, url}`. HTML returns the predictions table (plus metrics and a colour-coded confusion matrix when the request CSV included a response column). `Content-Location` and the body's `url` field point to the canonical `/predict?id=<hex>` URL so a single result is refreshable and shareable.
+- `GET /health` — liveness probe. Returns `{"status":"ok","version":"X.Y.Z"}`.
+
+```bash
+# Browser → http://127.0.0.1:8080/ shows the model dashboard.
+curl -s -H 'Accept: application/json' http://127.0.0.1:8080/ | jq 'keys'
+curl -s http://127.0.0.1:8080/health
+curl -s -X POST -H 'Content-Type: text/csv' \
+     --data-binary $'Sepal.Length,Sepal.Width,Petal.Length,Petal.Width\n5.1,3.5,1.4,0.2\n6.7,3.0,5.2,2.3' \
+     http://127.0.0.1:8080/predict | jq
+```
+
+**Request format**: header columns map to the model's training-time feature names; column order may differ from the training CSV. Missing columns produce a `400` with a list of offending names. Extra columns (e.g. a response column carried over from the training CSV) are silently ignored for prediction — but if the rightmost extra parses as the model's response type (classification labels in `meta.groups` or numeric values for regression), it's used as ground truth and the response gains a `metrics` field with accuracy/error-rate or MAE/MSE/R². Categorical features must be encoded by the caller in the same form they had during training.
+
+**Deployment notes**: the default bind is `127.0.0.1` because the server is intentionally minimal — no TLS, no auth, no rate limiting. Those belong in front, not in here. The prediction cache is a bounded in-memory LRU (~32 entries) cleared on restart, so `?id=<hex>` URLs survive a page refresh but not a deploy. For per-user persistence or richer access control, hit the JSON endpoints from your own application.
 
 ### Variable Selection
 

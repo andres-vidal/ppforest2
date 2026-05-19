@@ -10,6 +10,7 @@
 #include "cli/ModelParams.hpp"
 #include "cli/EvaluateParams.hpp"
 #include "cli/BenchmarkParams.hpp"
+#include "cli/ServeParams.hpp"
 #include "io/Output.hpp"
 
 #include <nlohmann/json.hpp>
@@ -21,7 +22,7 @@
  */
 namespace ppforest2::cli {
   /** @brief Available CLI subcommands. */
-  enum class Subcommand : uint8_t { none, train, predict, evaluate, benchmark, summarize };
+  enum class Subcommand : uint8_t { none, train, predict, evaluate, benchmark, summarize, serve };
 
   /**
    * @brief All CLI options and runtime parameters.
@@ -36,6 +37,7 @@ namespace ppforest2::cli {
     SimulateParams simulation;
     EvaluateParams evaluate;
     BenchmarkParams benchmark;
+    ServeParams serve;
 
     std::string data_path;
     std::string save_path = "model.json";

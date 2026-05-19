@@ -63,4 +63,35 @@ if(NOT PPFOREST2_CORE_ONLY)
     SYSTEM
   )
   FetchContent_MakeAvailable(googletest)
+
+  # inja for HTML templating (Jinja2-like, header-only) — backs the
+  # serve dashboard's templates. Depends on nlohmann_json which we already
+  # fetch unconditionally above.
+  set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+  set(BUILD_BENCHMARK OFF CACHE BOOL "" FORCE)
+  set(INJA_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(INJA_USE_EMBEDDED_JSON OFF CACHE BOOL "" FORCE)
+  set(INJA_INSTALL OFF CACHE BOOL "" FORCE)
+  FetchContent_Declare(
+    inja
+    GIT_REPOSITORY https://github.com/pantor/inja.git
+    GIT_TAG v3.4.0
+  )
+  FetchContent_MakeAvailable(inja)
+
+  # cpp-httplib for `serve` subcommand.
+  # Disable optional codecs and OpenSSL — we only need plain HTTP so callers
+  # don't pick up Brotli/zlib/OpenSSL link dependencies just by linking
+  # `ppforest2-cli`. TLS and gzip are out of scope (caller responsibility,
+  # behind a reverse proxy if exposed).
+  set(HTTPLIB_USE_OPENSSL_IF_AVAILABLE OFF CACHE BOOL "" FORCE)
+  set(HTTPLIB_USE_ZLIB_IF_AVAILABLE    OFF CACHE BOOL "" FORCE)
+  set(HTTPLIB_USE_BROTLI_IF_AVAILABLE  OFF CACHE BOOL "" FORCE)
+  set(HTTPLIB_USE_CERTS_FROM_MACOSX_KEYCHAIN OFF CACHE BOOL "" FORCE)
+  FetchContent_Declare(
+    httplib
+    GIT_REPOSITORY https://github.com/yhirose/cpp-httplib.git
+    GIT_TAG v0.18.5
+  )
+  FetchContent_MakeAvailable(httplib)
 endif()
