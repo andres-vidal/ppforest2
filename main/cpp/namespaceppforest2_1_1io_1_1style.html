@@ -125,6 +125,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a67980b6e1d9be22e995d884c69a19b38" id="r_a67980b6e1d9be22e995d884c69a19b38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67980b6e1d9be22e995d884c69a19b38">init_color</a> (bool no_color)</td></tr>
 <tr class="memdesc:a67980b6e1d9be22e995d884c69a19b38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize color support based on TTY detection and user preference.  <br /></td></tr>
 <tr class="separator:a67980b6e1d9be22e995d884c69a19b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9673facd34b1b84e339d526a3e9438e4" id="r_a9673facd34b1b84e339d526a3e9438e4"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9673facd34b1b84e339d526a3e9438e4">link</a> (std::string const &amp;url, std::string const &amp;text)</td></tr>
+<tr class="memdesc:a9673facd34b1b84e339d526a3e9438e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrap <code class="param">text</code> in an OSC 8 hyperlink targeting <code class="param">url</code>.  <br /></td></tr>
+<tr class="separator:a9673facd34b1b84e339d526a3e9438e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af974477fd0c25a5780c0e68e4ceef431" id="r_af974477fd0c25a5780c0e68e4ceef431"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af974477fd0c25a5780c0e68e4ceef431">muted</a> (std::string const &amp;s)</td></tr>
 <tr class="memdesc:af974477fd0c25a5780c0e68e4ceef431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Format text in dim gray (for hints and secondary info).  <br /></td></tr>
 <tr class="separator:af974477fd0c25a5780c0e68e4ceef431"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -283,6 +286,38 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a9673facd34b1b84e339d526a3e9438e4" name="a9673facd34b1b84e339d526a3e9438e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9673facd34b1b84e339d526a3e9438e4">&#9670;&#160;</a></span>link()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ppforest2::io::style::link </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>url</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Wrap <code class="param">text</code> in an OSC 8 hyperlink targeting <code class="param">url</code>. </p>
+<p>Supported by iTerm2, WezTerm, Konsole, modern xterm, Windows Terminal and others. In terminals that don't recognize the escape sequence the URL text still shows verbatim, so the only behavioral difference is "click to open" in capable terminals. Falls back to plain <code class="param">text</code> when colored output is disabled (no-TTY or &ndash;no-color). </p>
 
 </div>
 </div>

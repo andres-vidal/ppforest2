@@ -96,15 +96,16 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "All_8hpp.html",
-"classppforest2_1_1ClassificationForest.html#aac5fb9fbab88c3fdc05b08574b10d7f0",
-"classppforest2_1_1TrainingSpec.html#aa9f5dc71138d63f21d7de276fa92e3fd",
-"classppforest2_1_1cutpoint_1_1MeanOfMeans.html#ae4ed0d71ec9d4ddeed4f45af19c22d29",
-"classppforest2_1_1stop_1_1MaxDepth.html#aea95453ec5844ea50d3e417fb5150022",
-"functions_type.html",
-"namespaceppforest2_1_1serialization.html#a13a7b08b11331d1417c8c2d307bf25bb",
-"structppforest2_1_1TrainingSpec_1_1Builder_1_1Config.html#ad9fafa47c09cdef0dbd28eb03ace708c",
-"structppforest2_1_1cli_1_1Params.html#afa5909b3a7a98f16fa84a6e6e3b620f1",
-"structppforest2_1_1stats_1_1DataPacket.html"
+"classppforest2_1_1ClassificationForest.html#a850a69da06a0f2e8a6661fe2a7593586",
+"classppforest2_1_1TrainingSpec.html#a6b13c28d4494a8eb8f29f79d4e60699a",
+"classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#ab58b14ef45918dcf5852bbb109cff757",
+"classppforest2_1_1stop_1_1CompositeStop.html#ae0d0f0ac79cac3d972c8eaacf0220bd1",
+"functions_func_w.html",
+"namespaceppforest2_1_1io_1_1style.html#a67980b6e1d9be22e995d884c69a19b38",
+"structppforest2_1_1NodeContext.html#ab3792ab9aee84ea9520f68cc73ab7ce8",
+"structppforest2_1_1cli_1_1Params.html#a350b817f6638ad326486f08211e432b1",
+"structppforest2_1_1io_1_1csv_1_1FeatureSet.html#a4126ddf68e0354f6c663b033c91ebd6e",
+"structppforest2_1_1viz_1_1RegionPolygon.html#ab0c22ab7a2a0347c8ab5d9a75915f501"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

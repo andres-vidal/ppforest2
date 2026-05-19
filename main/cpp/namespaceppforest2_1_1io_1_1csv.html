@@ -100,16 +100,26 @@ $(function(){initNavTree('namespaceppforest2_1_1io_1_1csv.html',''); initResizab
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::io::csv Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1io_1_1csv_1_1FeatureSet.html">FeatureSet</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of parsing a feature-only CSV (no response column).  <a href="structppforest2_1_1io_1_1csv_1_1FeatureSet.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae218cd92b9213fafd1ab3936a857223c" id="r_ae218cd92b9213fafd1ab3936a857223c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae218cd92b9213fafd1ab3936a857223c">read</a> (std::string const &amp;filename)</td></tr>
 <tr class="memdesc:ae218cd92b9213fafd1ab3936a857223c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a CSV file into a DataPacket.  <br /></td></tr>
 <tr class="separator:ae218cd92b9213fafd1ab3936a857223c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ce03d1ce5dfb02f7d17ef7ad5ac2c58" id="r_a0ce03d1ce5dfb02f7d17ef7ad5ac2c58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1io_1_1csv_1_1FeatureSet.html">FeatureSet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ce03d1ce5dfb02f7d17ef7ad5ac2c58">read_features_from_string</a> (std::string const &amp;content)</td></tr>
+<tr class="memdesc:a0ce03d1ce5dfb02f7d17ef7ad5ac2c58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a feature-only CSV from an in-memory string.  <br /></td></tr>
+<tr class="separator:a0ce03d1ce5dfb02f7d17ef7ad5ac2c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90b7b870d6c273bdc1dea4577b4319c4" id="r_a90b7b870d6c273bdc1dea4577b4319c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">stats::DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90b7b870d6c273bdc1dea4577b4319c4">read_sorted</a> (std::string const &amp;filename)</td></tr>
 <tr class="memdesc:a90b7b870d6c273bdc1dea4577b4319c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a CSV file and sort rows ascending by the response column.  <br /></td></tr>
 <tr class="separator:a90b7b870d6c273bdc1dea4577b4319c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,6 +155,32 @@ Functions</h2></td></tr>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname">std::runtime_error</td><td>If the file is empty or has inconsistent columns. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0ce03d1ce5dfb02f7d17ef7ad5ac2c58" name="a0ce03d1ce5dfb02f7d17ef7ad5ac2c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ce03d1ce5dfb02f7d17ef7ad5ac2c58">&#9670;&#160;</a></span>read_features_from_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structppforest2_1_1io_1_1csv_1_1FeatureSet.html">FeatureSet</a> ppforest2::io::csv::read_features_from_string </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>content</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse a feature-only CSV from an in-memory string. </p>
+<p>The first row is the header (feature names); every subsequent row is one observation. There is no response column. Used by the <code>serve</code> subcommand to parse <code>POST /predict</code> request bodies — categorical encoding runs per-call, so callers must encode categoricals consistently with the training data.</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a></td><td>on empty body, missing header, no data rows, or malformed shape. </td></tr>
   </table>
   </dd>
 </dl>

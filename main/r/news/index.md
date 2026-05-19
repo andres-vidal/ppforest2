@@ -78,6 +78,15 @@
   training data.
 - CLI: `benchmark` runs multi-scenario performance benchmarks with
   baseline comparison.
+- CLI: `serve` exposes a saved model over HTTP — `GET /` returns the
+  model summary as JSON (or an HTML dashboard for browsers showing
+  configuration, training metrics, and variable importance),
+  `GET /health` is a liveness probe, and `POST /predict` accepts a
+  feature CSV and returns predictions (JSON for API clients, an HTML
+  predictions page for browsers, with a Download CSV button and
+  confusion matrix when the request CSV includes a response column).
+  Results are cached in-memory with shareable `?id=…` URLs; the
+  dashboard binds to `127.0.0.1:8080` by default.
 
 ### Experimental features
 

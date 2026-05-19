@@ -19,6 +19,7 @@ var structppforest2_1_1cli_1_1Params =
     [ "output_path", "structppforest2_1_1cli_1_1Params.html#abd2ddf92bfd15e00dc9940b44078cc93", null ],
     [ "quiet", "structppforest2_1_1cli_1_1Params.html#ad227de06bcea9c373d5126545e8e0bd6", null ],
     [ "save_path", "structppforest2_1_1cli_1_1Params.html#a30706d9a2bd7b65e4273f382b050d4e5", null ],
+    [ "serve", "structppforest2_1_1cli_1_1Params.html#a5ed73b0819aab8070b7e14361affd5fa", null ],
     [ "simulation", "structppforest2_1_1cli_1_1Params.html#a7e2c4867215e7d55952c15f9ac2a0429", null ],
     [ "subcommand", "structppforest2_1_1cli_1_1Params.html#a98029400d36e0a09cfc8015a4b6400d4", null ]
 ];

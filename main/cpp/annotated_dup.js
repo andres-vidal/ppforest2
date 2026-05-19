@@ -18,6 +18,12 @@ var annotated_dup =
         [ "LargestGap", "classppforest2_1_1binarize_1_1LargestGap.html", "classppforest2_1_1binarize_1_1LargestGap" ]
       ] ],
       [ "cli", "namespaceppforest2_1_1cli.html", [
+        [ "serve", "namespaceppforest2_1_1cli_1_1serve.html", [
+          [ "LoadedModel", "structppforest2_1_1cli_1_1serve_1_1LoadedModel.html", "structppforest2_1_1cli_1_1serve_1_1LoadedModel" ],
+          [ "PredictionResult", "structppforest2_1_1cli_1_1serve_1_1PredictionResult.html", "structppforest2_1_1cli_1_1serve_1_1PredictionResult" ],
+          [ "PredictionStore", "classppforest2_1_1cli_1_1serve_1_1PredictionStore.html", "classppforest2_1_1cli_1_1serve_1_1PredictionStore" ],
+          [ "Response", "structppforest2_1_1cli_1_1serve_1_1Response.html", "structppforest2_1_1cli_1_1serve_1_1Response" ]
+        ] ],
         [ "Baseline", "structppforest2_1_1cli_1_1Baseline.html", "structppforest2_1_1cli_1_1Baseline" ],
         [ "BenchmarkParams", "structppforest2_1_1cli_1_1BenchmarkParams.html", "structppforest2_1_1cli_1_1BenchmarkParams" ],
         [ "BenchmarkReport", "structppforest2_1_1cli_1_1BenchmarkReport.html", "structppforest2_1_1cli_1_1BenchmarkReport" ],
@@ -26,6 +32,7 @@ var annotated_dup =
         [ "ModelParams", "structppforest2_1_1cli_1_1ModelParams.html", "structppforest2_1_1cli_1_1ModelParams" ],
         [ "Params", "structppforest2_1_1cli_1_1Params.html", "structppforest2_1_1cli_1_1Params" ],
         [ "ScenarioResult", "structppforest2_1_1cli_1_1ScenarioResult.html", "structppforest2_1_1cli_1_1ScenarioResult" ],
+        [ "ServeParams", "structppforest2_1_1cli_1_1ServeParams.html", "structppforest2_1_1cli_1_1ServeParams" ],
         [ "SimulateParams", "structppforest2_1_1cli_1_1SimulateParams.html", "structppforest2_1_1cli_1_1SimulateParams" ],
         [ "SuiteResult", "structppforest2_1_1cli_1_1SuiteResult.html", "structppforest2_1_1cli_1_1SuiteResult" ],
         [ "TrainResult", "structppforest2_1_1cli_1_1TrainResult.html", "structppforest2_1_1cli_1_1TrainResult" ]
@@ -40,6 +47,9 @@ var annotated_dup =
         [ "Grouping", "classppforest2_1_1grouping_1_1Grouping.html", "classppforest2_1_1grouping_1_1Grouping" ]
       ] ],
       [ "io", "namespaceppforest2_1_1io.html", [
+        [ "csv", "namespaceppforest2_1_1io_1_1csv.html", [
+          [ "FeatureSet", "structppforest2_1_1io_1_1csv_1_1FeatureSet.html", "structppforest2_1_1io_1_1csv_1_1FeatureSet" ]
+        ] ],
         [ "layout", "namespaceppforest2_1_1io_1_1layout.html", [
           [ "Column", "structppforest2_1_1io_1_1layout_1_1Column.html", "structppforest2_1_1io_1_1layout_1_1Column" ]
         ] ],

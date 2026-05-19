@@ -28,12 +28,14 @@ var hierarchy =
       [ "ppforest2::cli::ScenarioResult", "structppforest2_1_1cli_1_1ScenarioResult.html", null ]
     ] ],
     [ "ppforest2::serialization::Export< T >", "structppforest2_1_1serialization_1_1Export.html", null ],
+    [ "ppforest2::io::csv::FeatureSet", "structppforest2_1_1io_1_1csv_1_1FeatureSet.html", null ],
     [ "ppforest2::stats::GroupPartition", "classppforest2_1_1stats_1_1GroupPartition.html", null ],
     [ "ppforest2::viz::HalfSpace", "structppforest2_1_1viz_1_1HalfSpace.html", null ],
     [ "ppforest2::JsonReader", "classppforest2_1_1JsonReader.html", null ],
     [ "ppforest2::viz::LayoutEdge", "structppforest2_1_1viz_1_1LayoutEdge.html", null ],
     [ "ppforest2::viz::LayoutNode", "structppforest2_1_1viz_1_1LayoutNode.html", null ],
     [ "ppforest2::viz::LayoutParams", "structppforest2_1_1viz_1_1LayoutParams.html", null ],
+    [ "ppforest2::cli::serve::LoadedModel", "structppforest2_1_1cli_1_1serve_1_1LoadedModel.html", null ],
     [ "ppforest2::Model", "classppforest2_1_1Model.html", [
       [ "ppforest2::Forest", "classppforest2_1_1Forest.html", [
         [ "ppforest2::ClassificationForest", "classppforest2_1_1ClassificationForest.html", null ],
@@ -52,16 +54,20 @@ var hierarchy =
     [ "ppforest2::stats::Normal", "classppforest2_1_1stats_1_1Normal.html", null ],
     [ "ppforest2::io::Output", "structppforest2_1_1io_1_1Output.html", null ],
     [ "ppforest2::cli::Params", "structppforest2_1_1cli_1_1Params.html", null ],
+    [ "ppforest2::cli::serve::PredictionResult", "structppforest2_1_1cli_1_1serve_1_1PredictionResult.html", null ],
+    [ "ppforest2::cli::serve::PredictionStore", "classppforest2_1_1cli_1_1serve_1_1PredictionStore.html", null ],
     [ "ProcessResult", "structProcessResult.html", null ],
     [ "ppforest2::Proportions", "structppforest2_1_1Proportions.html", null ],
     [ "ppforest2::viz::RegionPolygon", "structppforest2_1_1viz_1_1RegionPolygon.html", null ],
     [ "ppforest2::stats::simulation::params::Regression", "structppforest2_1_1stats_1_1simulation_1_1params_1_1Regression.html", null ],
     [ "ppforest2::stats::RegressionMetrics", "structppforest2_1_1stats_1_1RegressionMetrics.html", null ],
+    [ "ppforest2::cli::serve::Response", "structppforest2_1_1cli_1_1serve_1_1Response.html", null ],
     [ "ppforest2::pp::ProjectionPursuit::Result", "structppforest2_1_1pp_1_1ProjectionPursuit_1_1Result.html", null ],
     [ "ppforest2::vars::VariableSelection::Result", "structppforest2_1_1vars_1_1VariableSelection_1_1Result.html", null ],
     [ "std::runtime_error", null, [
       [ "ppforest2::UserError", "classppforest2_1_1UserError.html", null ]
     ] ],
+    [ "ppforest2::cli::ServeParams", "structppforest2_1_1cli_1_1ServeParams.html", null ],
     [ "ppforest2::cli::SimulateParams", "structppforest2_1_1cli_1_1SimulateParams.html", null ],
     [ "ppforest2::stats::Split", "structppforest2_1_1stats_1_1Split.html", null ],
     [ "Strategy< Derived >", "classStrategy.html", null ],

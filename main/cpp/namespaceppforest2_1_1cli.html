@@ -100,6 +100,7 @@ $(function(){initNavTree('namespaceppforest2_1_1cli.html',''); initResizable(tru
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -110,6 +111,11 @@ $(function(){initNavTree('namespaceppforest2_1_1cli.html',''); initResizable(tru
 <p>Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli_1_1serve.html">serve</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1Baseline.html">Baseline</a></td></tr>
@@ -136,6 +142,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of running a single benchmark scenario.  <a href="structppforest2_1_1cli_1_1ScenarioResult.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ServeParams.html">ServeParams</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>serve</code> subcommand options. CLI-exclusive; no config file roundtrip.  <a href="structppforest2_1_1cli_1_1ServeParams.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1SimulateParams.html">SimulateParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation data source options.  <a href="structppforest2_1_1cli_1_1SimulateParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +165,7 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d">benchmark</a>
 , <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65">summarize</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796">serve</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a2753bfa9baab7fc02affc77e3c364a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands.  <a href="#a2753bfa9baab7fc02affc77e3c364a29">More...</a><br /></td></tr>
@@ -198,6 +208,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad22b99ef105e60c4b7844045776885c1" id="r_ad22b99ef105e60c4b7844045776885c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad22b99ef105e60c4b7844045776885c1">run_scenario</a> (nlohmann::json const &amp;scenario, std::string const &amp;binary_path)</td></tr>
 <tr class="memdesc:ad22b99ef105e60c4b7844045776885c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a single scenario as a subprocess.  <br /></td></tr>
 <tr class="separator:ad22b99ef105e60c4b7844045776885c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58a5de6d81f3a0fa415a3360eb443b68" id="r_a58a5de6d81f3a0fa415a3360eb443b68"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58a5de6d81f3a0fa415a3360eb443b68">run_serve</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:a58a5de6d81f3a0fa415a3360eb443b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the serve subcommand.  <br /></td></tr>
+<tr class="separator:a58a5de6d81f3a0fa415a3360eb443b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec41d4b49e63a3d0e9527264b1699eb9" id="r_aec41d4b49e63a3d0e9527264b1699eb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec41d4b49e63a3d0e9527264b1699eb9">run_suite</a> (<a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> const &amp;suite, std::string const &amp;binary_path, <a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out)</td></tr>
 <tr class="memdesc:aec41d4b49e63a3d0e9527264b1699eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all scenarios in a suite via subprocess invocations.  <br /></td></tr>
 <tr class="separator:aec41d4b49e63a3d0e9527264b1699eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -216,6 +229,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8ffbdb393825bf84b0e9c7d2765e9fe0" id="r_a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ffbdb393825bf84b0e9c7d2765e9fe0">setup_predict</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
 <tr class="memdesc:a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register predict subcommand options on <code class="param">app</code>.  <br /></td></tr>
 <tr class="separator:a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa70eb2f3645d88ebb8009d5cdd8b7a30" id="r_aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa70eb2f3645d88ebb8009d5cdd8b7a30">setup_serve</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register serve subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8b7abe042b3c4ac2fa5d8f95598287c" id="r_ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8b7abe042b3c4ac2fa5d8f95598287c">setup_summarize</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
 <tr class="memdesc:ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register summarize subcommand options on <code class="param">app</code>.  <br /></td></tr>
 <tr class="separator:ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -272,6 +288,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890" name="a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890"></a>evaluate&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d" name="a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d"></a>benchmark&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65" name="a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65"></a>summarize&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796" name="a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796"></a>serve&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -584,6 +601,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a58a5de6d81f3a0fa415a3360eb443b68" name="a58a5de6d81f3a0fa415a3360eb443b68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58a5de6d81f3a0fa415a3360eb443b68">&#9670;&#160;</a></span>run_serve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::cli::run_serve </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run the serve subcommand. </p>
+<dl class="section return"><dt>Returns</dt><dd>Exit code (0 on graceful shutdown, non-zero on bind failure). </dd></dl>
+
+</div>
+</div>
 <a id="aec41d4b49e63a3d0e9527264b1699eb9" name="aec41d4b49e63a3d0e9527264b1699eb9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aec41d4b49e63a3d0e9527264b1699eb9">&#9670;&#160;</a></span>run_suite()</h2>
 
@@ -728,6 +765,29 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Register predict subcommand options on <code class="param">app</code>. </p>
+
+</div>
+</div>
+<a id="aa70eb2f3645d88ebb8009d5cdd8b7a30" name="aa70eb2f3645d88ebb8009d5cdd8b7a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa70eb2f3645d88ebb8009d5cdd8b7a30">&#9670;&#160;</a></span>setup_serve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::setup_serve </td>
+          <td>(</td>
+          <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register serve subcommand options on <code class="param">app</code>. </p>
 
 </div>
 </div>

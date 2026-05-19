@@ -1,10 +1,6 @@
 var namespaceppforest2_1_1io =
 [
-    [ "csv", "namespaceppforest2_1_1io_1_1csv.html", [
-      [ "read", "namespaceppforest2_1_1io_1_1csv.html#ae218cd92b9213fafd1ab3936a857223c", null ],
-      [ "read_sorted", "namespaceppforest2_1_1io_1_1csv.html#a90b7b870d6c273bdc1dea4577b4319c4", null ],
-      [ "write", "namespaceppforest2_1_1io_1_1csv.html#a3c0009a801161f7c53fcc8c92a4fc1d5", null ]
-    ] ],
+    [ "csv", "namespaceppforest2_1_1io_1_1csv.html", "namespaceppforest2_1_1io_1_1csv" ],
     [ "json", "namespaceppforest2_1_1io_1_1json.html", [
       [ "ensure_extension", "namespaceppforest2_1_1io_1_1json.html#ae227d27da9c739ddb238d8b9abc0a7ca", null ],
       [ "read_file", "namespaceppforest2_1_1io_1_1json.html#a2e375343b451d2712caa5c94020a6768", null ],
@@ -17,6 +13,7 @@ var namespaceppforest2_1_1io =
       [ "error", "namespaceppforest2_1_1io_1_1style.html#a3b062ad534d3ae6794a2d8b3e81a063e", null ],
       [ "info", "namespaceppforest2_1_1io_1_1style.html#a825ae1b67524fe3c892964a4c2a54b79", null ],
       [ "init_color", "namespaceppforest2_1_1io_1_1style.html#a67980b6e1d9be22e995d884c69a19b38", null ],
+      [ "link", "namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4", null ],
       [ "muted", "namespaceppforest2_1_1io_1_1style.html#af974477fd0c25a5780c0e68e4ceef431", null ],
       [ "styled", "namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75", null ],
       [ "success", "namespaceppforest2_1_1io_1_1style.html#ae131d36c9e5b7148b15b9bb16c27290f", null ],

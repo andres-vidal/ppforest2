@@ -1,5 +1,6 @@
 var namespaceppforest2_1_1cli =
 [
+    [ "serve", "namespaceppforest2_1_1cli_1_1serve.html", "namespaceppforest2_1_1cli_1_1serve" ],
     [ "Baseline", "structppforest2_1_1cli_1_1Baseline.html", "structppforest2_1_1cli_1_1Baseline" ],
     [ "BenchmarkParams", "structppforest2_1_1cli_1_1BenchmarkParams.html", "structppforest2_1_1cli_1_1BenchmarkParams" ],
     [ "BenchmarkReport", "structppforest2_1_1cli_1_1BenchmarkReport.html", "structppforest2_1_1cli_1_1BenchmarkReport" ],
@@ -8,6 +9,7 @@ var namespaceppforest2_1_1cli =
     [ "ModelParams", "structppforest2_1_1cli_1_1ModelParams.html", "structppforest2_1_1cli_1_1ModelParams" ],
     [ "Params", "structppforest2_1_1cli_1_1Params.html", "structppforest2_1_1cli_1_1Params" ],
     [ "ScenarioResult", "structppforest2_1_1cli_1_1ScenarioResult.html", "structppforest2_1_1cli_1_1ScenarioResult" ],
+    [ "ServeParams", "structppforest2_1_1cli_1_1ServeParams.html", "structppforest2_1_1cli_1_1ServeParams" ],
     [ "SimulateParams", "structppforest2_1_1cli_1_1SimulateParams.html", "structppforest2_1_1cli_1_1SimulateParams" ],
     [ "SuiteResult", "structppforest2_1_1cli_1_1SuiteResult.html", "structppforest2_1_1cli_1_1SuiteResult" ],
     [ "TrainResult", "structppforest2_1_1cli_1_1TrainResult.html", "structppforest2_1_1cli_1_1TrainResult" ],
@@ -17,7 +19,8 @@ var namespaceppforest2_1_1cli =
       [ "predict", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a59a9f87755ec523b0db73207fc8362df", null ],
       [ "evaluate", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890", null ],
       [ "benchmark", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d", null ],
-      [ "summarize", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65", null ]
+      [ "summarize", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65", null ],
+      [ "serve", "namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796", null ]
     ] ],
     [ "add_evaluate_options", "namespaceppforest2_1_1cli.html#a40b7633c711ff9ac0081408fda3513f0", null ],
     [ "add_model_options", "namespaceppforest2_1_1cli.html#a4233edc87e69b2325c6cfcbdf5138afd", null ],
@@ -31,12 +34,14 @@ var namespaceppforest2_1_1cli =
     [ "run_evaluate", "namespaceppforest2_1_1cli.html#a36156ab1e35e55bea08264a7c189e3fc", null ],
     [ "run_predict", "namespaceppforest2_1_1cli.html#ac3971cc20987e1cbbae2b76397582893", null ],
     [ "run_scenario", "namespaceppforest2_1_1cli.html#ad22b99ef105e60c4b7844045776885c1", null ],
+    [ "run_serve", "namespaceppforest2_1_1cli.html#a58a5de6d81f3a0fa415a3360eb443b68", null ],
     [ "run_suite", "namespaceppforest2_1_1cli.html#aec41d4b49e63a3d0e9527264b1699eb9", null ],
     [ "run_summarize", "namespaceppforest2_1_1cli.html#a1c860d39c0427fcd385620375354dc10", null ],
     [ "run_train", "namespaceppforest2_1_1cli.html#a20b3d54613f6367525db962b9f3cdffa", null ],
     [ "setup_benchmark", "namespaceppforest2_1_1cli.html#abd6111d25df8501b1760306547c3aa7a", null ],
     [ "setup_evaluate", "namespaceppforest2_1_1cli.html#ad00b27897102a0ec30c61186a67f6222", null ],
     [ "setup_predict", "namespaceppforest2_1_1cli.html#a8ffbdb393825bf84b0e9c7d2765e9fe0", null ],
+    [ "setup_serve", "namespaceppforest2_1_1cli.html#aa70eb2f3645d88ebb8009d5cdd8b7a30", null ],
     [ "setup_summarize", "namespaceppforest2_1_1cli.html#ae8b7abe042b3c4ac2fa5d8f95598287c", null ],
     [ "setup_train", "namespaceppforest2_1_1cli.html#a05ff3cd9a8daa0a7a7f97a18ce0cb112", null ],
     [ "strategy_string_to_json", "namespaceppforest2_1_1cli.html#a001cc13f5a27308f3150a7dc012ffb78", null ],

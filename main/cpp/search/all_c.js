@@ -20,8 +20,10 @@ var searchData=
   ['leafstrategy_2ehpp_17',['LeafStrategy.hpp',['../LeafStrategy_8hpp.html',1,'']]],
   ['leaves_18',['Example: counting leaves',['../extending_visitors.html#vis_treenode_example2',1,'']]],
   ['left_19',['left',['../namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a811882fecd5c7618d7099ebbd39ea254',1,'ppforest2::io::layout']]],
-  ['locate_20',['locate',['../classppforest2_1_1cutpoint_1_1Cutpoint.html#a287cd649d1f2a8d8b586b7f968a45117',1,'ppforest2::cutpoint::Cutpoint']]],
-  ['lower_21',['lower',['../classppforest2_1_1TreeBranch.html#af6abd793f1d4da4f5ffe1c69a7cbc682',1,'ppforest2::TreeBranch']]],
-  ['lower_5fgroup_22',['lower_group',['../structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251',1,'ppforest2::NodeContext']]],
-  ['lower_5fy_5fpart_23',['lower_y_part',['../structppforest2_1_1NodeContext.html#ab3792ab9aee84ea9520f68cc73ab7ce8',1,'ppforest2::NodeContext']]]
+  ['link_20',['link',['../namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4',1,'ppforest2::io::style']]],
+  ['loadedmodel_21',['LoadedModel',['../structppforest2_1_1cli_1_1serve_1_1LoadedModel.html',1,'ppforest2::cli::serve']]],
+  ['locate_22',['locate',['../classppforest2_1_1cutpoint_1_1Cutpoint.html#a287cd649d1f2a8d8b586b7f968a45117',1,'ppforest2::cutpoint::Cutpoint']]],
+  ['lower_23',['lower',['../classppforest2_1_1TreeBranch.html#af6abd793f1d4da4f5ffe1c69a7cbc682',1,'ppforest2::TreeBranch']]],
+  ['lower_5fgroup_24',['lower_group',['../structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251',1,'ppforest2::NodeContext']]],
+  ['lower_5fy_5fpart_25',['lower_y_part',['../structppforest2_1_1NodeContext.html#ab3792ab9aee84ea9520f68cc73ab7ce8',1,'ppforest2::NodeContext']]]
 ];

@@ -1,8 +1,16 @@
 var searchData=
 [
   ['halfspace_0',['HalfSpace',['../structppforest2_1_1viz_1_1HalfSpace.html',1,'ppforest2::viz::HalfSpace'],['../structppforest2_1_1viz_1_1HalfSpace.html#a1a6ef23b3eacb75fa4dd2f048921add9',1,'ppforest2::viz::HalfSpace::HalfSpace()']]],
-  ['has_5fvalue_1',['has_value',['../namespaceppforest2_1_1serialization.html#ad206f1a59b4bf22203c6c8c527ca2514',1,'ppforest2::serialization']]],
-  ['header_5flabels_2',['header_labels',['../namespaceppforest2_1_1io_1_1layout.html#ad5c891199635c8625f107f565d8d7f06',1,'ppforest2::io::layout']]],
-  ['housing_5fcsv_3',['HOUSING_CSV',['../CLI_8integration_8hpp.html#a293b8f1b86b2327b3c4474fa37d89df6',1,'CLI.integration.hpp']]],
-  ['how_20double_20dispatch_20works_4',['How double dispatch works',['../extending_visitors.html#vis_dispatch',1,'']]]
+  ['handle_5fhealth_1',['handle_health',['../namespaceppforest2_1_1cli_1_1serve.html#ad78952304cbd26b29fafc4a0e5367307',1,'ppforest2::cli::serve']]],
+  ['handle_5fpredict_2',['handle_predict',['../namespaceppforest2_1_1cli_1_1serve.html#af933b2749884e1163ec45eec48cf15ff',1,'ppforest2::cli::serve']]],
+  ['handle_5fpredict_5fhtml_3',['handle_predict_html',['../namespaceppforest2_1_1cli_1_1serve.html#a50033595debdd155bc4d7f335a5a39a7',1,'ppforest2::cli::serve']]],
+  ['handle_5fpredict_5fview_4',['handle_predict_view',['../namespaceppforest2_1_1cli_1_1serve.html#a4825c502f0b700320de91a665633b907',1,'ppforest2::cli::serve']]],
+  ['handle_5fsummarize_5',['handle_summarize',['../namespaceppforest2_1_1cli_1_1serve.html#aafc348d952c0fbece36a6f177d2f05bb',1,'ppforest2::cli::serve']]],
+  ['handle_5fsummary_5fhtml_6',['handle_summary_html',['../namespaceppforest2_1_1cli_1_1serve.html#abc499e0333013d6df713ea719dea22ac',1,'ppforest2::cli::serve']]],
+  ['has_5fvalue_7',['has_value',['../namespaceppforest2_1_1serialization.html#ad206f1a59b4bf22203c6c8c527ca2514',1,'ppforest2::serialization']]],
+  ['header_5flabels_8',['header_labels',['../namespaceppforest2_1_1io_1_1layout.html#ad5c891199635c8625f107f565d8d7f06',1,'ppforest2::io::layout']]],
+  ['headers_9',['headers',['../structppforest2_1_1cli_1_1serve_1_1Response.html#a0cd5b819b626da2fd7846d14b8e91aa9',1,'ppforest2::cli::serve::Response']]],
+  ['host_10',['host',['../structppforest2_1_1cli_1_1ServeParams.html#a65166fe10f229ad12c9a87022b5cfce1',1,'ppforest2::cli::ServeParams']]],
+  ['housing_5fcsv_11',['HOUSING_CSV',['../CLI_8integration_8hpp.html#a293b8f1b86b2327b3c4474fa37d89df6',1,'CLI.integration.hpp']]],
+  ['how_20double_20dispatch_20works_12',['How double dispatch works',['../extending_visitors.html#vis_dispatch',1,'']]]
 ];

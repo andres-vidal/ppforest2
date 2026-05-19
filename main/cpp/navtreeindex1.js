@@ -1,5 +1,11 @@
 var NAVTREEINDEX1 =
 {
+"classppforest2_1_1ClassificationForest.html#a850a69da06a0f2e8a6661fe2a7593586":[3,0,2,19,4],
+"classppforest2_1_1ClassificationForest.html#a850a69da06a0f2e8a6661fe2a7593586":[4,0,1,14,4],
+"classppforest2_1_1ClassificationForest.html#a8d5a3d121aff18fe2c4590b9b065ac37":[3,0,2,19,9],
+"classppforest2_1_1ClassificationForest.html#a8d5a3d121aff18fe2c4590b9b065ac37":[4,0,1,14,9],
+"classppforest2_1_1ClassificationForest.html#a9d3a6bf671921982bc9eb76439cd4ec4":[3,0,2,19,16],
+"classppforest2_1_1ClassificationForest.html#a9d3a6bf671921982bc9eb76439cd4ec4":[4,0,1,14,16],
 "classppforest2_1_1ClassificationForest.html#aac5fb9fbab88c3fdc05b08574b10d7f0":[3,0,2,19,1],
 "classppforest2_1_1ClassificationForest.html#aac5fb9fbab88c3fdc05b08574b10d7f0":[4,0,1,14,1],
 "classppforest2_1_1ClassificationForest.html#ac633915d52dc585726cb464c4622ae40":[3,0,2,19,6],
@@ -243,11 +249,5 @@ var NAVTREEINDEX1 =
 "classppforest2_1_1TrainingSpec.html#a5fd12b597b37db0545299815eaa0b115":[3,0,2,28,16],
 "classppforest2_1_1TrainingSpec.html#a5fd12b597b37db0545299815eaa0b115":[4,0,1,23,16],
 "classppforest2_1_1TrainingSpec.html#a664d94eb4e95f926dd77be129781de5f":[3,0,2,28,5],
-"classppforest2_1_1TrainingSpec.html#a664d94eb4e95f926dd77be129781de5f":[4,0,1,23,5],
-"classppforest2_1_1TrainingSpec.html#a6b13c28d4494a8eb8f29f79d4e60699a":[3,0,2,28,10],
-"classppforest2_1_1TrainingSpec.html#a6b13c28d4494a8eb8f29f79d4e60699a":[4,0,1,23,10],
-"classppforest2_1_1TrainingSpec.html#a9bb9a1243e4c7e3bb467254be9b80aeb":[3,0,2,28,18],
-"classppforest2_1_1TrainingSpec.html#a9bb9a1243e4c7e3bb467254be9b80aeb":[4,0,1,23,18],
-"classppforest2_1_1TrainingSpec.html#aa1cd2d12f894a298043fd9a3f35f32ed":[3,0,2,28,26],
-"classppforest2_1_1TrainingSpec.html#aa1cd2d12f894a298043fd9a3f35f32ed":[4,0,1,23,26]
+"classppforest2_1_1TrainingSpec.html#a664d94eb4e95f926dd77be129781de5f":[4,0,1,23,5]
 };
