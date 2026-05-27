@@ -168,7 +168,14 @@ process_predict_arguments <- function(object, new_data, ...) {
     new_data <- list(...)[[1]]
   }
 
-  if (!is.null(object$formula)) {
+  # Only run model.matrix when `new_data` is a data.frame — that's what
+  # model.matrix actually needs. If the caller already handed us a numeric
+  # matrix (e.g. `predict(fit, fit$x)` or a hand-prepared design matrix),
+  # accept it as-is. Previously this path errored with "data must be a
+  # data.frame, not a matrix or an array" whenever the model was fit via
+  # the formula interface, which is surprising and blocks any downstream
+  # generic that wants to predict on `model$x` (notably `fitted()`).
+  if (!is.null(object$formula) && is.data.frame(new_data)) {
     new_data <- model.matrix(object$formula, new_data)
   }
 

@@ -2,7 +2,7 @@ Package: ppforest2
 Type: Package
 Title: Projection Pursuit Oblique Decision Trees and Random Forests
 Version: 0.1.0
-Date: 2026-05-11
+Date: 2026-05-26
 Author: Andres Vidal, Natalia da Silva
 Maintainer: Andres Vidal <me@andresvidal.dev>
 Description: Builds decision trees by splitting on linear combinations of randomly chosen variables. Projection Pursuit (PP) is used to choose a projection of the variables that best separates the groups. Using linear combinations of variables to separate groups takes the correlation between variables into account which allows ppforest2 to outperform a traditional decision tree when separations between groups occurs in combinations of variables. Single trees can be assembled into random forests for improved accuracy.
@@ -23,9 +23,13 @@ Suggests:
     patchwork,
     rlang,
     rmarkdown,
+    rsample,
     testthat (>= 3.0.0),
     tibble,
-    vdiffr
+    tune,
+    vdiffr,
+    workflows,
+    yardstick
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/testthat/parallel: false

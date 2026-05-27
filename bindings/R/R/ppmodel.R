@@ -306,6 +306,69 @@ formula.ppmodel <- function(x, ...) {
 }
 
 
+#' Number of observations used to fit a ppforest2 model.
+#'
+#' Implements the standard \code{stats::nobs()} contract so downstream tools
+#' (\code{step()}, broom's \code{glance()}, information criteria) can ask for
+#' the training-sample size.
+#'
+#' @param object A \code{pptr} or \code{pprf} model.
+#' @param ... Unused.
+#' @return Integer scalar. Returns \code{NA_integer_} for models loaded from
+#'   JSON without their original training data.
+#' @export
+nobs.ppmodel <- function(object, ...) {
+  if (is.null(object$x)) return(NA_integer_)
+  nrow(object$x)
+}
+
+
+#' Fitted (in-sample) predictions from a ppforest2 model.
+#'
+#' Returns predictions on the training data — a factor for classification,
+#' a numeric vector for regression. For forests, training predictions are
+#' optimistic; use \code{\link{oob_predictions}()} for an honest estimate.
+#'
+#' @param object A \code{pptr} or \code{pprf} model.
+#' @param ... Unused.
+#' @return A factor (classification) or numeric vector (regression), length
+#'   equal to the number of training observations.
+#' @seealso \code{\link{residuals.ppmodel}}, \code{\link{oob_predictions}}
+#' @export
+fitted.ppmodel <- function(object, ...) {
+  .require_training_data(object, "x")
+  # Dispatches through the model's own predict method, which is mode- and
+  # class-aware (pprf vs pptr × classification vs regression). For
+  # classification this returns a factor; for regression a numeric vector.
+  predict(object, object$x)
+}
+
+
+#' Residuals from a regression ppforest2 model.
+#'
+#' Returns \code{y - fitted(model)}. Only defined for regression models —
+#' classification residuals have no canonical scalar form, so this method
+#' errors on classification models rather than inventing a convention.
+#'
+#' @param object A \code{pprf} or \code{pptr} regression model.
+#' @param ... Unused.
+#' @return A numeric vector of length \code{nobs(object)}.
+#' @seealso \code{\link{fitted.ppmodel}}
+#' @export
+residuals.ppmodel <- function(object, ...) {
+  if (!identical(object$mode, "regression")) {
+    stop(
+      "`residuals()` is only defined for regression models. ",
+      "For classification, compare `fitted(model)` against the response directly, ",
+      "or use `oob_predictions(model)` for an out-of-bag misclassification view.",
+      call. = FALSE
+    )
+  }
+  .require_training_data(object, c("x", "y"))
+  as.numeric(object$y) - as.numeric(fitted(object))
+}
+
+
 # ---------------------------------------------------------------------------
 # Internal helpers
 # ---------------------------------------------------------------------------

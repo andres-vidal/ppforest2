@@ -1,6 +1,6 @@
 #' @useDynLib ppforest2
 #' @importFrom Rcpp evalCpp
-#' @importFrom stats model.frame model.matrix model.response formula predict sd terms update
+#' @importFrom stats model.frame model.matrix model.response formula predict sd terms update fitted residuals nobs
 NULL
 
 #' Trains a Random Forest of Project-Pursuit oblique decision trees.
@@ -87,6 +87,11 @@ pprf <- function(
     binarize = NULL,
     grouping = NULL,
     leaf = NULL) {
+  # Capture the call before evaluating anything else so `update()` can
+  # rebuild and re-evaluate it with the user's changes substituted in
+  # (this is the standard `stats::update.default` contract).
+  cl <- match.call()
+
   if (!is.null(seed) && (!is.numeric(seed) || length(seed) != 1 || seed != as.integer(seed)))
     stop("`seed` must be a single integer or NULL.")
 
@@ -160,6 +165,7 @@ pprf <- function(
     }
   }
 
+  model$call    <- cl
   model$seed    <- seed
   model$groups  <- groups
   model$formula <- formula
@@ -263,6 +269,9 @@ predict.pprf_regression <- function(object, new_data = NULL, type = NULL, ...) {
 print.pprf <- function(x, ...) {
   cat("\n")
   cat("Random Forest of Project-Pursuit Oblique Decision Trees\n")
+  if (!is.null(x$call)) {
+    cat("  Call:        ", paste(deparse(x$call, width.cutoff = 80L), collapse = "\n               "), "\n", sep = "")
+  }
   cat("  Trees:       ", length(x$trees), "\n", sep = "")
   cat("  Mode:        ", x$mode, "\n", sep = "")
   if (!is.null(x$groups) && length(x$groups) > 0L) {

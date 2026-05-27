@@ -1,6 +1,6 @@
 #' @useDynLib ppforest2
 #' @importFrom Rcpp evalCpp
-#' @importFrom stats model.frame model.matrix model.response formula predict sd terms update
+#' @importFrom stats model.frame model.matrix model.response formula predict sd terms update fitted residuals nobs
 NULL
 
 #' Trains a Project-Pursuit oblique decision tree.
@@ -62,6 +62,10 @@ pptr <- function(
     binarize = NULL,
     grouping = NULL,
     leaf = NULL) {
+  # See the matching comment in `pprf()` — capture the call up front so
+  # `update()` can rebuild and re-evaluate it.
+  cl <- match.call()
+
   if (!is.null(seed) && (!is.numeric(seed) || length(seed) != 1 || seed != as.integer(seed)))
     stop("`seed` must be a single integer or NULL.")
 
@@ -107,6 +111,7 @@ pptr <- function(
             call. = FALSE)
   }
 
+  model$call    <- cl
   model$seed    <- seed
   model$groups  <- groups
   model$formula <- formula
@@ -203,6 +208,9 @@ predict.pptr_regression <- function(object, new_data = NULL, type = NULL, ...) {
 #' @export
 print.pptr <- function(x, ...) {
   cat("\n")
+  if (!is.null(x$call)) {
+    cat("Call: ", paste(deparse(x$call, width.cutoff = 80L), collapse = "\n      "), "\n\n", sep = "")
+  }
   cat("Project-Pursuit Oblique Decision Tree:\n")
   print_node(x, x$root)
   cat("\n")

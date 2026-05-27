@@ -676,3 +676,35 @@ describe("pprf explicit mode parameter", {
     )
   })
 })
+
+describe("pprf call capture and update()", {
+  # `model$call` powers `stats::update.default`. We stick to checking the
+  # contract (call is captured, update re-fits with the substituted arg)
+  # rather than the exact deparsed form, so the test survives any future
+  # cosmetic tweaks to print or to `match.call`'s output.
+  it("stores the user's call on the fitted model", {
+    model <- pprf(Species ~ ., data = iris, size = 3, lambda = 0.0, threads = 1)
+    expect_false(is.null(model$call))
+    expect_true(is.call(model$call))
+    expect_equal(as.character(model$call)[[1L]], "pprf")
+  })
+
+  it("update() re-fits with the substituted argument", {
+    set.seed(0)
+    fit1 <- pprf(Species ~ ., data = iris, size = 3, lambda = 0.0, threads = 1)
+    expect_equal(fit1$training_spec$pp$lambda, 0.0)
+
+    fit2 <- update(fit1, lambda = 0.5)
+    expect_s3_class(fit2, "pprf")
+    expect_equal(fit2$training_spec$pp$lambda, 0.5)
+    # Unchanged args carry over from the original call.
+    expect_equal(length(fit2$trees), length(fit1$trees))
+  })
+
+  it("print() surfaces the call when present", {
+    model <- pprf(Species ~ ., data = iris, size = 3, lambda = 0.0, threads = 1)
+    out <- capture.output(print(model))
+    expect_true(any(grepl("^\\s*Call:", out)))
+    expect_true(any(grepl("pprf\\(", out)))
+  })
+})

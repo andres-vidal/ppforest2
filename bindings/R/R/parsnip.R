@@ -1,5 +1,7 @@
-# Suppress R CMD check NOTEs for rlang expressions used in parsnip registration
-utils::globalVariables(c("object", "new_data"))
+# Suppress R CMD check NOTEs for rlang expressions used in parsnip registration.
+# `x` / `y` appear in `set_fit(... protect = c("x", "y"))` symbol references;
+# `object` / `new_data` appear in `set_pred(... args = list(...))`.
+utils::globalVariables(c("object", "new_data", "x", "y"))
 
 #' @keywords internal
 .onLoad <- function(libname, pkgname) {
@@ -50,6 +52,30 @@ pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, p
   )
 }
 
+#' Update a \code{pp_rand_forest} model specification.
+#'
+#' Implements parsnip's \code{update} protocol so that \code{tune::tune_grid()}
+#' (and any other caller that finalises a spec via \code{update()}) can fill
+#' in the tuned values for \code{trees}, \code{mtry}, and \code{penalty}.
+#' Without this method, \code{update()} falls back to \code{stats::update.default}
+#' and fails with "need an object with call component".
+#'
+#' @param object A \code{pp_rand_forest} model specification.
+#' @param parameters A named list of parameters to update (alternative to passing them as args).
+#' @param trees,mtry,penalty New values for the corresponding parameters.
+#' @param fresh If \code{TRUE}, drop any previously-set arg whose new value is not provided.
+#' @param ... Engine-specific arguments to update.
+#' @return An updated \code{pp_rand_forest} model specification.
+#' @export
+update.pp_rand_forest <- function(object, parameters = NULL, trees = NULL, mtry = NULL, penalty = NULL, fresh = FALSE, ...) {
+  args <- list(
+    trees = rlang::enquo(trees),
+    mtry = rlang::enquo(mtry),
+    penalty = rlang::enquo(penalty)
+  )
+  update_pp_spec(object, parameters = parameters, args_enquo_list = args, fresh = fresh, cls = "pp_rand_forest", ...)
+}
+
 #' Parsnip model specification for pptr.
 #'
 #' Creates a model specification for a single Projection Pursuit decision tree.
@@ -86,6 +112,69 @@ pp_tree <- function(mode = "classification", penalty = NULL) {
   )
 }
 
+#' Update a \code{pp_tree} model specification.
+#'
+#' Companion to \code{\link{update.pp_rand_forest}} — exists for the same
+#' reason (\code{tune::tune_grid()} relies on \code{update()} to finalise the
+#' spec at each grid point).
+#'
+#' @param object A \code{pp_tree} model specification.
+#' @param parameters A named list of parameters to update (alternative to passing them as args).
+#' @param penalty A new value for the regularisation parameter.
+#' @param fresh If \code{TRUE}, drop any previously-set arg whose new value is not provided.
+#' @param ... Engine-specific arguments to update.
+#' @return An updated \code{pp_tree} model specification.
+#' @export
+update.pp_tree <- function(object, parameters = NULL, penalty = NULL, fresh = FALSE, ...) {
+  args <- list(
+    penalty = rlang::enquo(penalty)
+  )
+  update_pp_spec(object, parameters = parameters, args_enquo_list = args, fresh = fresh, cls = "pp_tree", ...)
+}
+
+# Local re-implementation of parsnip's internal `update_spec()`. We avoid the
+# triple-colon dependency to keep R CMD check clean. Behaviour mirrors
+# `parsnip:::update_spec`: replace main args (and engine args from `...`)
+# either by overlay (default) or completely (`fresh = TRUE`).
+update_pp_spec <- function(object, parameters, args_enquo_list, fresh, cls, ...) {
+  eng_dots <- rlang::enquos(...)
+  if (fresh) {
+    object$args <- args_enquo_list
+    object$eng_args <- if (length(eng_dots)) eng_dots else NULL
+  } else {
+    is_null_arg <- vapply(args_enquo_list, function(q) {
+      e <- rlang::quo_get_expr(q)
+      is.null(e) || (is.symbol(e) && identical(e, quote(expr =)))
+    }, logical(1))
+    new_args <- args_enquo_list[!is_null_arg]
+    if (length(new_args) > 0) {
+      object$args[names(new_args)] <- new_args
+    }
+    if (length(eng_dots) > 0) {
+      object$eng_args <- utils::modifyList(object$eng_args %||% list(), eng_dots)
+    }
+  }
+
+  if (!is.null(parameters)) {
+    if (!is.list(parameters) && !is.data.frame(parameters)) {
+      stop("`parameters` must be a named list or one-row tibble.", call. = FALSE)
+    }
+    for (nm in names(parameters)) {
+      val <- if (is.data.frame(parameters)) parameters[[nm]][[1]] else parameters[[nm]]
+      object$args[[nm]] <- rlang::new_quosure(val, env = rlang::empty_env())
+    }
+  }
+
+  parsnip::new_model_spec(
+    cls,
+    args = object$args,
+    eng_args = object$eng_args,
+    mode = object$mode,
+    method = NULL,
+    engine = object$engine
+  )
+}
+
 register_pp_rand_forest <- function() {
   try(parsnip::set_new_model("pp_rand_forest"), silent = TRUE)
   parsnip::set_model_mode("pp_rand_forest", "classification")
@@ -94,13 +183,27 @@ register_pp_rand_forest <- function() {
   for (mode in c("classification", "regression")) {
     parsnip::set_model_engine("pp_rand_forest", mode = mode, eng = "ppforest2")
 
+    # Use the matrix interface (not formula) on purpose. With `interface =
+    # "formula"`, parsnip's dispatch for x/y-input callers (workflows,
+    # fit_resamples, tune_grid) is `xy_form()`, which synthesises a
+    # `..y ~ x1 + x2 + ...` formula plus a data frame whose response column
+    # is renamed to `..y`. `pprf()` then stores that synthetic formula on
+    # the model, and prediction blows up with "object '..y' not found"
+    # because the test data has no `..y` column. The matrix interface skips
+    # that synthesis: parsnip's dispatch becomes `xy_xy(target = "matrix")`,
+    # which calls the engine as `pprf(x = maybe_matrix(x), y = y, ...)`. We
+    # also flip `predictor_indicators` from "none" to "traditional" so the
+    # formula path (`form_xy()`) dummy-codes factor predictors into a numeric
+    # matrix before handing them to `pprf()` — the old setup relied on
+    # `pprf()` itself running `model.matrix()`, which doesn't happen on the
+    # matrix path.
     parsnip::set_encoding(
       model = "pp_rand_forest",
       eng = "ppforest2",
       mode = mode,
       options = list(
-        predictor_indicators = "none",
-        compute_intercept = FALSE,
+        predictor_indicators = "traditional",
+        compute_intercept = TRUE,
         remove_intercept = TRUE,
         allow_sparse_x = FALSE
       )
@@ -111,8 +214,8 @@ register_pp_rand_forest <- function() {
       eng = "ppforest2",
       mode = mode,
       value = list(
-        interface = "formula",
-        protect = c("formula", "data"),
+        interface = "matrix",
+        protect = c("x", "y"),
         func = c(pkg = "ppforest2", fun = "pprf"),
         # Forward the parsnip-declared mode to the engine function so it
         # round-trips through the wrapper instead of being re-derived from
@@ -205,13 +308,16 @@ register_pp_tree <- function() {
   for (mode in c("classification", "regression")) {
     parsnip::set_model_engine("pp_tree", mode = mode, eng = "ppforest2")
 
+    # Matrix interface — see the matching comment in
+    # `register_pp_rand_forest` for the rationale (`..y` formula synthesis
+    # in parsnip's `xy_form()` breaks prediction through workflows).
     parsnip::set_encoding(
       model = "pp_tree",
       eng = "ppforest2",
       mode = mode,
       options = list(
-        predictor_indicators = "none",
-        compute_intercept = FALSE,
+        predictor_indicators = "traditional",
+        compute_intercept = TRUE,
         remove_intercept = TRUE,
         allow_sparse_x = FALSE
       )
@@ -222,8 +328,8 @@ register_pp_tree <- function() {
       eng = "ppforest2",
       mode = mode,
       value = list(
-        interface = "formula",
-        protect = c("formula", "data"),
+        interface = "matrix",
+        protect = c("x", "y"),
         func = c(pkg = "ppforest2", fun = "pptr"),
         # See the matching comment in `register_pp_rand_forest`.
         defaults = list(mode = mode)

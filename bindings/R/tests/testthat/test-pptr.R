@@ -587,3 +587,29 @@ describe("pptr explicit mode parameter", {
     )
   })
 })
+
+describe("pptr call capture and update()", {
+  # Mirror of the same suite on `pprf` — see comments there.
+  it("stores the user's call on the fitted model", {
+    model <- pptr(Species ~ ., data = iris, lambda = 0.0)
+    expect_false(is.null(model$call))
+    expect_true(is.call(model$call))
+    expect_equal(as.character(model$call)[[1L]], "pptr")
+  })
+
+  it("update() re-fits with the substituted argument", {
+    fit1 <- pptr(Species ~ ., data = iris, lambda = 0.0, seed = 0)
+    expect_equal(fit1$training_spec$pp$lambda, 0.0)
+
+    fit2 <- update(fit1, lambda = 0.5)
+    expect_s3_class(fit2, "pptr")
+    expect_equal(fit2$training_spec$pp$lambda, 0.5)
+  })
+
+  it("print() surfaces the call when present", {
+    model <- pptr(Species ~ ., data = iris, lambda = 0.0)
+    out <- capture.output(print(model))
+    expect_true(any(grepl("^Call:", out)))
+    expect_true(any(grepl("pptr\\(", out)))
+  })
+})
