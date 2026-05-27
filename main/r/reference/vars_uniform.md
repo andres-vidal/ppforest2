@@ -83,6 +83,7 @@ vars_uniform(p_vars = 0.5)
 pprf(Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica

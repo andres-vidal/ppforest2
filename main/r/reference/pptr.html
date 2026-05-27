@@ -147,6 +147,8 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="co"># Example 1: formula interface with the `iris` dataset</span></span></span>
 <span class="r-in"><span><span class="fu">pptr</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(formula = Species ~ ., data = iris)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Project-Pursuit Oblique Decision Tree:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) &lt; -0.2075133:</span>
@@ -160,6 +162,8 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="co"># Example 2: formula interface with the `iris` dataset with regularization</span></span></span>
 <span class="r-in"><span><span class="fu">pptr</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(formula = Species ~ ., data = iris, lambda = 0.5)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Project-Pursuit Oblique Decision Tree:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
@@ -172,6 +176,8 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 3: matrix interface with the `iris` dataset</span></span></span>
 <span class="r-in"><span><span class="fu">pptr</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(x = iris[, 1:4], y = iris[, 5])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Project-Pursuit Oblique Decision Tree:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span>

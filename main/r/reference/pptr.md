@@ -148,6 +148,8 @@ for parsnip integration
 # Example 1: formula interface with the `iris` dataset
 pptr(Species ~ ., data = iris)
 #> 
+#> Call: pptr(formula = Species ~ ., data = iris)
+#> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
@@ -161,6 +163,8 @@ pptr(Species ~ ., data = iris)
 # Example 2: formula interface with the `iris` dataset with regularization
 pptr(Species ~ ., data = iris, lambda = 0.5)
 #> 
+#> Call: pptr(formula = Species ~ ., data = iris, lambda = 0.5)
+#> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
 #>   Predict: setosa 
@@ -173,6 +177,8 @@ pptr(Species ~ ., data = iris, lambda = 0.5)
 
 # Example 3: matrix interface with the `iris` dataset
 pptr(x = iris[, 1:4], y = iris[, 5])
+#> 
+#> Call: pptr(x = iris[, 1:4], y = iris[, 5])
 #> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:

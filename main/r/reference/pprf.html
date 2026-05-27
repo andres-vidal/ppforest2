@@ -185,6 +185,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Species ~ ., data = iris)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
@@ -195,6 +196,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Species ~ ., data = iris, lambda = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
@@ -205,6 +207,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(x = iris[, 1:4], y = iris[, 5])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
@@ -214,6 +217,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span>x <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">iris</span><span class="op">[</span>, <span class="fl">5</span><span class="op">]</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
@@ -223,6 +227,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">crabs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Type ~ ., data = crabs)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>
@@ -233,6 +238,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-in"><span><span class="fu">pprf</span><span class="op">(</span><span class="va">Type</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">crabs</span>, lambda <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Type ~ ., data = crabs, lambda = 0.5)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>

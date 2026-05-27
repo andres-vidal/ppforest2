@@ -85,6 +85,8 @@ If <code>lambda &gt; 0</code>, the model uses Penalized Discriminant Analysis (P
 <span class="r-in"><span><span class="co"># Use with pptr</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pptr.html">pptr</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(formula = Species ~ ., data = iris, pp = pp_pda(0.5))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Project-Pursuit Oblique Decision Tree:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
@@ -99,6 +101,7 @@ If <code>lambda &gt; 0</code>, the model uses Penalized Discriminant Analysis (P
 <span class="r-in"><span><span class="fu"><a href="pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, pp <span class="op">=</span> <span class="fu">pp_pda</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, vars <span class="op">=</span> <span class="fu"><a href="vars_uniform.html">vars_uniform</a></span><span class="op">(</span>n_vars <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>

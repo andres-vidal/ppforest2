@@ -17,6 +17,7 @@
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/crabs.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/cutpoint_mean_of_means.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/fishcatch.html</loc></url>
+<url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/fitted.ppmodel.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/formula.ppmodel.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/glass.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/grouping_by_cutpoint.html</loc></url>
@@ -28,6 +29,7 @@
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/leukemia.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/load_json.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/lymphoma.html</loc></url>
+<url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/nobs.ppmodel.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/olive.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/oob_error.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/oob_predictions.html</loc></url>
@@ -47,6 +49,7 @@
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pptr_regression.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/print.pprf.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/print.pptr.html</loc></url>
+<url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/residuals.ppmodel.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/save_json.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/stop_any.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/stop_max_depth.html</loc></url>
@@ -54,6 +57,8 @@
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/stop_min_variance.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/stop_pure_node.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/summary.pprf.html</loc></url>
+<url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/update.pp_rand_forest.html</loc></url>
+<url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/update.pp_tree.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/vars_all.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/vars_uniform.html</loc></url>
 <url><loc>https://andres-vidal.github.io/ppforest2/main/r/reference/weighted_importance.html</loc></url>

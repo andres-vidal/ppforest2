@@ -52,6 +52,8 @@ pp_pda(0.5)
 # Use with pptr
 pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 #> 
+#> Call: pptr(formula = Species ~ ., data = iris, pp = pp_pda(0.5))
+#> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
 #>   Predict: setosa 
@@ -66,6 +68,7 @@ pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 pprf(Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica

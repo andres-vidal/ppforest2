@@ -202,6 +202,7 @@ for a tutorial
 pprf(Species ~ ., data = iris)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Species ~ ., data = iris)
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
@@ -212,6 +213,7 @@ pprf(Species ~ ., data = iris)
 pprf(Species ~ ., data = iris, lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Species ~ ., data = iris, lambda = 0.5)
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
@@ -222,6 +224,7 @@ pprf(Species ~ ., data = iris, lambda = 0.5)
 pprf(x = iris[, 1:4], y = iris[, 5])
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(x = iris[, 1:4], y = iris[, 5])
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
@@ -231,6 +234,7 @@ pprf(x = iris[, 1:4], y = iris[, 5])
 pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
@@ -240,6 +244,7 @@ pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 pprf(Type ~ ., data = crabs)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Type ~ ., data = crabs)
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: B, O
@@ -250,6 +255,7 @@ pprf(Type ~ ., data = crabs)
 pprf(Type ~ ., data = crabs, lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Type ~ ., data = crabs, lambda = 0.5)
 #>   Trees:       2
 #>   Mode:        classification
 #>   Group names: B, O

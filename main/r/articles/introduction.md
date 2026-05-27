@@ -15,6 +15,8 @@ library(ppforest2)
 tree <- pptr(Species ~ ., data = iris, seed = 0)
 tree
 #> 
+#> Call: pptr(formula = Species ~ ., data = iris, seed = 0)
+#> 
 #> Project-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
