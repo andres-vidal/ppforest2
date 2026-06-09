@@ -146,7 +146,14 @@ TEST_F(ServeHandlersClassificationTest, PredictPagesShowModelIdentifier) {
 }
 
 TEST_F(ServeHandlersClassificationTest, SummaryHtmlShowsStrategyDisplayNames) {
-  auto const loaded = load_from_file(model_->path());
+  // Train with an explicit fractional lambda so the compaction assertion below
+  // exercises trailing-zero trimming independent of the default lambda.
+  TempFile model_file;
+  model_file.clear();
+  auto train = run_ppforest2("-q train -d " + IRIS_CSV + " -n 5 -r 0 -l 0.5 -s " + model_file.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  auto const loaded = load_from_file(model_file.path());
 
   Response const r = handle_summary_html(loaded);
 

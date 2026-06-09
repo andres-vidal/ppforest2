@@ -13,7 +13,7 @@ namespace ppforest2::cli {
   nlohmann::json training_defaults() {
     return {
         {"size", 100},
-        {"lambda", 0.5},
+        {"lambda", 0.0},
         {"train_ratio", 0.7},
         {"max_retries", 3},
     };

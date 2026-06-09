@@ -27,7 +27,7 @@ TEST_F(ValidationDefaultsTest, TrainingDefaultValues) {
   auto defaults = training_defaults();
 
   EXPECT_EQ(defaults["size"], 100);
-  EXPECT_FLOAT_EQ(defaults["lambda"].get<float>(), 0.5F);
+  EXPECT_FLOAT_EQ(defaults["lambda"].get<float>(), 0.0F);
   EXPECT_FLOAT_EQ(defaults["train_ratio"].get<float>(), 0.7F);
   EXPECT_FALSE(defaults.contains("seed"));
   EXPECT_FALSE(defaults.contains("threads"));

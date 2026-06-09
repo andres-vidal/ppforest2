@@ -84,7 +84,7 @@ TEST(ParseArgs, InvalidSubcommandExits) {
 TEST(ParseArgs, TrainDefaultValues) {
   auto opts = parse({"ppforest2", "train", "-d", IRIS_PATH.c_str()});
   EXPECT_EQ(opts.model.size, 100);
-  EXPECT_FLOAT_EQ(opts.model.lambda, 0.5f);
+  EXPECT_FLOAT_EQ(opts.model.lambda, 0.0F);
   EXPECT_FALSE(opts.model.threads.has_value());
   EXPECT_FALSE(opts.model.seed.has_value());
   EXPECT_FALSE(opts.model.p_vars.has_value());
@@ -535,10 +535,10 @@ TEST(ResolveDefaults, ExplicitThreadsPreserved) {
 // resolve_defaults() — default resolution
 // ---------------------------------------------------------------------------
 
-/* Default lambda (0.5) is preserved when not overridden. */
+/* Default lambda (0) is preserved when not overridden. */
 TEST(ResolveDefaults, DefaultLambda) {
   Params params;
-  EXPECT_FLOAT_EQ(params.model.lambda, 0.5F);
+  EXPECT_FLOAT_EQ(params.model.lambda, 0.0F);
 }
 
 /* An explicitly set lambda is preserved. */

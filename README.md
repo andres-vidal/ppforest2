@@ -174,12 +174,12 @@ ppforest2 train -d data.csv --no-metrics         # skip variable importance
 |--------------------------|---------------|--------------------------------------------------------------------|
 | `-d, --data <file>`      | *(required)*  | CSV training data                                                  |
 | `-t, --trees <N>`        | `100`         | Number of trees (`0` for a single tree)                            |
-| `-l, --lambda <X>`       | `0.5`         | PDA penalty; `0` = LDA, `(0,1]` = PDA                              |
+| `-l, --lambda <X>`       | `0`           | PDA penalty; `0` = LDA, `(0,1]` = PDA                              |
 | `-r, --seed <N>`         | *(random)*    | Random seed for reproducibility                                    |
 | `-v, --vars <spec>`      | `0.5`         | Features per split (see [Variable selection](#variable-selection)) |
 | `--threads <N>`          | *(all cores)* | Number of OpenMP threads                                           |
 | `--max-retries <N>`      | `3`           | Max retries for degenerate trees                                   |
-| `--pp-strategy <spec>`        | `pda:lambda=0.5` | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`       |
+| `--pp-strategy <spec>`        | `pda:lambda=0`   | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`       |
 | `--vars-strategy <spec>`      | `uniform`     | Variable selection strategy (e.g. `all`, `uniform:count=3`); excludes `--vars` |
 | `--cutpoint-strategy <spec>`  | `mean_of_means` | Cutpoint strategy (e.g. `mean_of_means`)                       |
 | `--stop-strategy <spec>`      | `pure_node`   | Stop rule (e.g. `pure_node`)                                      |
