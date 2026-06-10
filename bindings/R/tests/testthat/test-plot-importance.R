@@ -72,7 +72,9 @@ describe("plot.pprf importance snapshots", {
   skip_if_not_installed("vdiffr")
   skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
-  model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
+  # Pin to all 4 features so the snapshot is stable under the default
+  # variable subsampling (p_vars = 0.5).
+  model <- pprf(Species ~ ., data = iris, size = 5, n_vars = 4, seed = 0, threads = 1)
 
   it("pprf-importance-projections", {
     vdiffr::expect_doppelganger("pprf-importance-projections", plot(model, metric = "projections"))
@@ -95,7 +97,9 @@ describe("plot.pprf regression importance snapshot", {
   skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
   data(mtcars)
-  model <- pprf(mpg ~ ., data = mtcars, size = 5, seed = 0, threads = 1)
+  # Pin to all 10 features so the snapshot is stable under the default
+  # variable subsampling (p_vars = 0.5).
+  model <- pprf(mpg ~ ., data = mtcars, size = 5, n_vars = 10, seed = 0, threads = 1)
 
   it("pprf-regression-importance-projections", {
     vdiffr::expect_doppelganger(

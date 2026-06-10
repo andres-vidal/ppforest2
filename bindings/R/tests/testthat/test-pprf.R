@@ -166,9 +166,9 @@ describe("pprf training spec", {
     expect_equal(model$training_spec$vars$count, 2)
   })
 
-  it("the n_vars parameter is the number of variables by default", {
+  it("uses half the variables by default", {
     model <- pprf(x = iris[, 1:4], y = iris[, 5], threads = 1)
-    expect_equal(model$training_spec$vars$count, ncol(iris) - 1)
+    expect_equal(model$training_spec$vars$count, 2)  # 0.5 * 4 = 2
   })
 
   it("generates as many trees as indicated by the size parameter", {
@@ -549,7 +549,9 @@ describe("pprf regression", {
     colnames(x) <- c("x1", "x2", "noise")
     y <- 2 * x[, 1] + 3 * x[, 2] + rnorm(n, sd = 0.1)
 
-    model <- pprf(x = x, y = y, size = 20, seed = 0, threads = 1)
+    # Use all features at each split so the signal-vs-noise VI separation is
+    # tested independent of the default variable subsampling (p_vars = 0.5).
+    model <- pprf(x = x, y = y, size = 20, n_vars = ncol(x), seed = 0, threads = 1)
     expect_equal(model$mode, "regression")
 
     vi_perm     <- permuted_importance(model)

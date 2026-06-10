@@ -41,7 +41,7 @@ pprf(
 
 \item{lambda}{A regularization parameter. If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with \code{pp}.}
 
-\item{n_vars}{The number of variables to consider at each split (integer). These are chosen uniformly in each split. The default is all variables. Cannot be used together with \code{p_vars} or \code{dr}.}
+\item{n_vars}{The number of variables to consider at each split (integer). These are chosen uniformly in each split. By default, half of the variables are used (\code{p_vars = 0.5}). Cannot be used together with \code{p_vars} or \code{dr}.}
 
 \item{p_vars}{The proportion of variables to consider at each split (number between 0 and 1, exclusive). For example, \code{p_vars = 0.5} uses half the features. Cannot be used together with \code{n_vars} or \code{dr}.}
 

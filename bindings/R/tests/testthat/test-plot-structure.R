@@ -52,7 +52,9 @@ describe("plot.pprf structure snapshots", {
   skip_if_not_installed("vdiffr")
   skip_on_ci()  # vdiffr SVGs aren't byte-identical across platform LAPACK/BLAS
 
-  model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
+  # Pin to all 4 features so the snapshot is stable under the default
+  # variable subsampling (p_vars = 0.5).
+  model <- pprf(Species ~ ., data = iris, size = 5, n_vars = 4, seed = 0, threads = 1)
 
   it("pprf-structure", {
     vdiffr::expect_doppelganger("pprf-structure", plot(model, type = "structure", tree_index = 1))

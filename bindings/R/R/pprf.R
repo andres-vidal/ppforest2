@@ -21,7 +21,7 @@ NULL
 #' @param mode Training mode: either \code{"classification"} or \code{"regression"}. When \code{NULL} (default), mode is auto-detected from \code{y}'s type — factor or character vectors trigger classification, numeric vectors trigger regression. Setting it explicitly is useful for the binary-integer-labels case (\code{mode = "classification"} with integer 0/1 labels) and for failing fast on a type mismatch (\code{mode = "regression"} with a factor \code{y} errors immediately).
 #' @param size The number of trees in the forest (default: 100).
 #' @param lambda A regularization parameter. If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with \code{pp}.
-#' @param n_vars The number of variables to consider at each split (integer). These are chosen uniformly in each split. The default is all variables. Cannot be used together with \code{p_vars} or \code{dr}.
+#' @param n_vars The number of variables to consider at each split (integer). These are chosen uniformly in each split. By default, half of the variables are used (\code{p_vars = 0.5}). Cannot be used together with \code{p_vars} or \code{dr}.
 #' @param p_vars The proportion of variables to consider at each split (number between 0 and 1, exclusive). For example, \code{p_vars = 0.5} uses half the features. Cannot be used together with \code{n_vars} or \code{dr}.
 #' @param seed An optional integer seed for reproducibility. If \code{NULL} (default), a seed is drawn from R's RNG, so \code{set.seed()} controls reproducibility. If an integer is provided, that value is used directly. The same seed is used for training and for computing permuted variable importance.
 #' @param max_retries Maximum number of retries for degenerate trees (default: 3). When a bootstrap sample yields a singular covariance matrix, the tree is retrained with a different seed up to this many times.
@@ -117,7 +117,7 @@ pprf <- function(
     vars = vars, n_vars = n_vars, n_vars_missing = missing(n_vars),
     p_vars = p_vars, p_vars_missing = missing(p_vars),
     cutpoint = cutpoint, stop = stop, binarize = binarize, grouping = grouping,
-    leaf = leaf, default_vars = vars_uniform(),
+    leaf = leaf, default_vars = vars_uniform(p_vars = 0.5),
     n_features = ncol(x))
 
   if (is.null(seed)) {
