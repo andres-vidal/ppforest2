@@ -392,14 +392,15 @@ summary.pprf_regression <- function(object, ...) {
 .print_vi_table <- function(model, include_oob_importances) {
   cat("Variable Importance:\n\n")
 
-  p <- length(model$vi$projections)
+  projections <- projection_importance(model)
+  p <- length(projections)
   vnames <- if (!is.null(colnames(model$x))) colnames(model$x) else paste0("x", seq_len(p))
-  ord <- order(model$vi$projections, decreasing = TRUE)
+  ord <- order(projections, decreasing = TRUE)
 
   cols <- list(
     Variable   = vnames[ord],
     sigma      = model$vi$scale[ord],
-    Projection = model$vi$projections[ord]
+    Projection = projections[ord]
   )
 
   if (include_oob_importances) {

@@ -291,6 +291,42 @@ weighted_importance.pprf <- function(model) {
 }
 
 
+#' Projection-coefficient variable importance.
+#'
+#' The projection-based importance (VI2): each split's scaled absolute
+#' projection coefficients (`|a_j| * sigma_j`) aggregated into a per-feature
+#' score, averaged over the non-degenerate trees of a forest. Unlike
+#' \code{\link{permuted_importance}} and \code{\link{weighted_importance}},
+#' this measure is not OOB-based — it depends only on the fitted projector
+#' geometry, is computed eagerly at fit time (cheap), and is available for
+#' both single trees (\code{pptr}) and forests (\code{pprf}).
+#'
+#' **Sign semantics.** Entries are non-negative by construction (absolute
+#' coefficients scaled by each feature's standard deviation). Rely on the
+#' ranking rather than re-normalizing.
+#'
+#' @param model A \code{pptr} or \code{pprf} model.
+#' @return A non-negative numeric vector, one entry per feature.
+#' @seealso \code{\link{permuted_importance}}, \code{\link{weighted_importance}}
+#' @export
+projection_importance <- function(model) UseMethod("projection_importance")
+
+#' @export
+projection_importance.default <- function(model) {
+  stop(
+    "`projection_importance()` is only defined for ppforest2 models (`pptr` or `pprf`).",
+    call. = FALSE
+  )
+}
+
+#' @export
+projection_importance.ppmodel <- function(model) {
+  # Computed eagerly at fit time (cheap, not OOB-based) and stored on
+  # `model$vi$projections`; it survives save/load (see `load_json`).
+  model$vi$projections
+}
+
+
 # ---------------------------------------------------------------------------
 # Shared S3 methods at the ppmodel level (both pptr and pprf).
 # ---------------------------------------------------------------------------

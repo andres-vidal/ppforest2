@@ -20,6 +20,18 @@ describe("pprf variable importance", {
     expect_length(permuted_importance(model), p)
   })
 
+  it("projection_importance returns the eager VI2 vector", {
+    model <- pprf(Species ~ ., data = iris, size = 5, threads = 1)
+    pi <- projection_importance(model)
+    expect_length(pi, ncol(model$x))
+    expect_equal(pi, model$vi$projections)
+    expect_true(all(pi >= 0))
+  })
+
+  it("projection_importance errors for non-ppforest2 objects", {
+    expect_error(projection_importance(list()), "only defined for ppforest2")
+  })
+
   it("has oob_error", {
     model <- pprf(Species ~ ., data = iris, size = 5, threads = 1)
     err <- oob_error(model)
@@ -119,6 +131,13 @@ describe("pptr variable importance", {
     p <- ncol(model$x)
     expect_length(model$vi$scale, p)
     expect_length(model$vi$projections, p)
+  })
+
+  it("projection_importance works for single trees", {
+    model <- pptr(Species ~ ., data = iris)
+    pi <- projection_importance(model)
+    expect_length(pi, ncol(model$x))
+    expect_equal(pi, model$vi$projections)
   })
 
   it("summary output contains Variable Importance", {
