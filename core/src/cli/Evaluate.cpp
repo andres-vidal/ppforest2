@@ -323,8 +323,8 @@ namespace ppforest2::cli {
       hints.default_vars     = default_vars;
       hints.default_threads  = default_threads;
       hints.default_seed     = default_seed;
-      hints.training_samples = fmt::format("{} ({}%)", tr_x.rows(), (*params.evaluate.train_ratio * 100));
-      hints.test_samples     = fmt::format("{} ({}%)", te_x.rows(), (1 - *params.evaluate.train_ratio) * 100);
+      hints.training_samples = fmt::format("{} ({:.0f}%)", tr_x.rows(), (*params.evaluate.train_ratio * 100));
+      hints.test_samples     = fmt::format("{} ({:.0f}%)", te_x.rows(), (1 - *params.evaluate.train_ratio) * 100);
 
       io::print_configuration(out, config, hints);
     }
