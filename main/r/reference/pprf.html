@@ -56,7 +56,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  lambda <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  n_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  p_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -98,7 +98,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 
 <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
-<dd><p>The number of trees in the forest.</p></dd>
+<dd><p>The number of trees in the forest (default: 100).</p></dd>
 
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
@@ -106,7 +106,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 
 <dt id="arg-n-vars">n_vars<a class="anchor" aria-label="anchor" href="#arg-n-vars"></a></dt>
-<dd><p>The number of variables to consider at each split (integer). These are chosen uniformly in each split. The default is all variables. Cannot be used together with <code>p_vars</code> or <code>dr</code>.</p></dd>
+<dd><p>The number of variables to consider at each split (integer). These are chosen uniformly in each split. By default, half of the variables are used (<code>p_vars = 0.5</code>). Cannot be used together with <code>p_vars</code> or <code>dr</code>.</p></dd>
 
 
 <dt id="arg-p-vars">p_vars<a class="anchor" aria-label="anchor" href="#arg-p-vars"></a></dt>
@@ -186,7 +186,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Species ~ ., data = iris)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1</span>
@@ -197,7 +197,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Species ~ ., data = iris, lambda = 0.5)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1</span>
@@ -208,7 +208,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(x = iris[, 1:4], y = iris[, 5])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -218,7 +218,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: setosa, versicolor, virginica</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -228,7 +228,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Type ~ ., data = crabs)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1</span>
@@ -239,7 +239,7 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Random Forest of Project-Pursuit Oblique Decision Trees</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Call:        pprf(formula = Type ~ ., data = crabs, lambda = 0.5)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Trees:       100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Mode:        classification</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Group names: B, O</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1</span>

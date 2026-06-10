@@ -28,6 +28,7 @@ var searchData=
   ['progress_25',['progress',['../structppforest2_1_1io_1_1Output.html#a4c6405f8250f801e4f0f1121c641296e',1,'ppforest2::io::Output']]],
   ['project_5f2d_26',['project_2d',['../namespaceppforest2_1_1viz.html#afc5861a44d368bc6472de2033ae4ef30',1,'ppforest2::viz']]],
   ['project_5fhalfspace_5f2d_27',['project_halfspace_2d',['../namespaceppforest2_1_1viz.html#a15cc9eecb78baad458dce491dfd4a783',1,'ppforest2::viz']]],
-  ['pure_5fnode_28',['pure_node',['../namespaceppforest2_1_1stop.html#afa5a9adfdd8f61e9ee548181f9c0bdf2',1,'ppforest2::stop']]],
-  ['put_29',['put',['../classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#a00e20a460d0a7e33bef69c0e152ebeda',1,'ppforest2::cli::serve::PredictionStore']]]
+  ['proportion_5fto_5fcount_28',['proportion_to_count',['../namespaceppforest2_1_1math.html#adc3ba45cb34fc0f9f45661451df20666',1,'ppforest2::math']]],
+  ['pure_5fnode_29',['pure_node',['../namespaceppforest2_1_1stop.html#afa5a9adfdd8f61e9ee548181f9c0bdf2',1,'ppforest2::stop']]],
+  ['put_30',['put',['../classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#a00e20a460d0a7e33bef69c0e152ebeda',1,'ppforest2::cli::serve::PredictionStore']]]
 ];

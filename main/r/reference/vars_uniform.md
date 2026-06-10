@@ -84,7 +84,7 @@ pprf(Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
 #>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1

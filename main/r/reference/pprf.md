@@ -21,7 +21,7 @@ pprf(
   x = NULL,
   y = NULL,
   mode = NULL,
-  size = 2,
+  size = 100,
   lambda = 0,
   n_vars = NULL,
   p_vars = NULL,
@@ -69,7 +69,7 @@ pprf(
 
 - size:
 
-  The number of trees in the forest.
+  The number of trees in the forest (default: 100).
 
 - lambda:
 
@@ -81,8 +81,8 @@ pprf(
 - n_vars:
 
   The number of variables to consider at each split (integer). These are
-  chosen uniformly in each split. The default is all variables. Cannot
-  be used together with `p_vars` or `dr`.
+  chosen uniformly in each split. By default, half of the variables are
+  used (`p_vars = 0.5`). Cannot be used together with `p_vars` or `dr`.
 
 - p_vars:
 
@@ -203,7 +203,7 @@ pprf(Species ~ ., data = iris)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris)
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
 #>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
@@ -214,7 +214,7 @@ pprf(Species ~ ., data = iris, lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris, lambda = 0.5)
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
 #>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
@@ -225,7 +225,7 @@ pprf(x = iris[, 1:4], y = iris[, 5])
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(x = iris[, 1:4], y = iris[, 5])
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
 #> 
@@ -235,7 +235,7 @@ pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: setosa, versicolor, virginica
 #> 
@@ -245,7 +245,7 @@ pprf(Type ~ ., data = crabs)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Type ~ ., data = crabs)
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: B, O
 #>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1
@@ -256,7 +256,7 @@ pprf(Type ~ ., data = crabs, lambda = 0.5)
 #> 
 #> Random Forest of Project-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Type ~ ., data = crabs, lambda = 0.5)
-#>   Trees:       2
+#>   Trees:       100
 #>   Mode:        classification
 #>   Group names: B, O
 #>   Formula:     Type ~ sex + FL + RW + CL + CW + BD - 1

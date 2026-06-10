@@ -126,6 +126,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ace8888ca553032158504ff15745c2fbf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ace8888ca553032158504ff15745c2fbf">is_module_approx</a> (A a, B b)</td></tr>
 <tr class="memdesc:ace8888ca553032158504ff15745c2fbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the absolute values of two scalars are approximately equal.  <br /></td></tr>
 <tr class="separator:ace8888ca553032158504ff15745c2fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc3ba45cb34fc0f9f45661451df20666" id="r_adc3ba45cb34fc0f9f45661451df20666"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc3ba45cb34fc0f9f45661451df20666">proportion_to_count</a> (float p, unsigned int total)</td></tr>
+<tr class="memdesc:adc3ba45cb34fc0f9f45661451df20666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a proportion of a total into a count.  <br /></td></tr>
+<tr class="separator:adc3ba45cb34fc0f9f45661451df20666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Numeric comparison utilities. </p>
@@ -273,6 +276,47 @@ template&lt;typename A, typename B&gt; </div>
 </div><div class="memdoc">
 
 <p>Check whether the absolute values of two scalars are approximately equal. </p>
+
+</div>
+</div>
+<a id="adc3ba45cb34fc0f9f45661451df20666" name="adc3ba45cb34fc0f9f45661451df20666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc3ba45cb34fc0f9f45661451df20666">&#9670;&#160;</a></span>proportion_to_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::math::proportion_to_count </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int</td>          <td class="paramname"><span class="paramname"><em>total</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert a proportion of a total into a count. </p>
+<p>Turns a feature proportion (e.g. <code>p_vars = 0.5</code>) into a variable-selection count, rounding half to even (banker's rounding) to match R's <code>round()</code>, then clamping to at least 1 so a tiny proportion still selects one item (matching R's <code>max(1L, ...)</code>). Shared by the <a class="el" href="namespaceCLI.html">CLI</a> and the R package so both resolve identical counts for the same proportion.</p>
+<p>Half-to-even is computed by hand rather than via <code>std::nearbyint</code> so the result never depends on the current floating-point rounding mode. <code>std::floor</code>, the subtraction, and integer parity are all mode-independent and exact for these inputs, keeping results reproducible across compilers and platforms.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>Proportion in (0, 1]. </td></tr>
+    <tr><td class="paramname">total</td><td>Total number of items (&gt;= 1). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Count in [1, total]. </dd></dl>
 
 </div>
 </div>

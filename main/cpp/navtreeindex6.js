@@ -18,6 +18,7 @@ var NAVTREEINDEX6 =
 "namespaceppforest2_1_1math.html#a486fc087538c291f21b8e796c04fa70c":[3,0,2,6,1],
 "namespaceppforest2_1_1math.html#a75105aa89f414a6c4593318ef6b5541d":[3,0,2,6,0],
 "namespaceppforest2_1_1math.html#ace8888ca553032158504ff15745c2fbf":[3,0,2,6,3],
+"namespaceppforest2_1_1math.html#adc3ba45cb34fc0f9f45661451df20666":[3,0,2,6,4],
 "namespaceppforest2_1_1math.html#aef9bfff79515449a7894e70e661a3daf":[3,0,2,6,2],
 "namespaceppforest2_1_1pp.html":[3,0,2,7],
 "namespaceppforest2_1_1pp.html#a686ed3b4f49bb2ed6b7e842f5557539f":[3,0,2,7,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX6 =
 "structppforest2_1_1NodeContext.html#a8408a3081a9444989ac8c04dac03f3af":[4,0,1,19,15],
 "structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251":[3,0,2,24,5],
 "structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251":[4,0,1,19,5],
-"structppforest2_1_1NodeContext.html#a8f2bf241d5c61c9db87b627f70914c4a":[3,0,2,24,8],
-"structppforest2_1_1NodeContext.html#a8f2bf241d5c61c9db87b627f70914c4a":[4,0,1,19,8]
+"structppforest2_1_1NodeContext.html#a8f2bf241d5c61c9db87b627f70914c4a":[3,0,2,24,8]
 };

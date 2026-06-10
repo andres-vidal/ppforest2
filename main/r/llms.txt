@@ -238,6 +238,9 @@ restored <- load_json("model.json")
 - [`print(`*`<pptr>`*`)`](https://andres-vidal.github.io/ppforest2/main/r/reference/print.pptr.md)
   : Prints the structure of a pptr tree.
 
+- [`projection_importance()`](https://andres-vidal.github.io/ppforest2/main/r/reference/projection_importance.md)
+  : Projection-coefficient variable importance.
+
 - [`residuals(`*`<ppmodel>`*`)`](https://andres-vidal.github.io/ppforest2/main/r/reference/residuals.ppmodel.md)
   : Residuals from a regression ppforest2 model.
 
