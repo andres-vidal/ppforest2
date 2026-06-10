@@ -176,9 +176,9 @@ describe("pprf training spec", {
     expect_equal(length(model$trees), 3)
   })
 
-  it("generates more than one tree if the size parameter is not given", {
+  it("generates 100 trees when the size parameter is not given", {
     model <- pprf(Species ~ ., data = iris, threads = 1)
-    expect_true(length(model$trees) > 1)
+    expect_equal(length(model$trees), 100)
   })
 
   it("the pp strategy is pda", {

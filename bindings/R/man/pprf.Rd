@@ -10,7 +10,7 @@ pprf(
   x = NULL,
   y = NULL,
   mode = NULL,
-  size = 2,
+  size = 100,
   lambda = 0,
   n_vars = NULL,
   p_vars = NULL,
@@ -37,7 +37,7 @@ pprf(
 
 \item{mode}{Training mode: either \code{"classification"} or \code{"regression"}. When \code{NULL} (default), mode is auto-detected from \code{y}'s type — factor or character vectors trigger classification, numeric vectors trigger regression. Setting it explicitly is useful for the binary-integer-labels case (\code{mode = "classification"} with integer 0/1 labels) and for failing fast on a type mismatch (\code{mode = "regression"} with a factor \code{y} errors immediately).}
 
-\item{size}{The number of trees in the forest.}
+\item{size}{The number of trees in the forest (default: 100).}
 
 \item{lambda}{A regularization parameter. If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with \code{pp}.}
 

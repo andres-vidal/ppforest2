@@ -19,7 +19,7 @@ NULL
 #' @param x A matrix containing the features for each observation.
 #' @param y A matrix containing the labels for each observation.
 #' @param mode Training mode: either \code{"classification"} or \code{"regression"}. When \code{NULL} (default), mode is auto-detected from \code{y}'s type — factor or character vectors trigger classification, numeric vectors trigger regression. Setting it explicitly is useful for the binary-integer-labels case (\code{mode = "classification"} with integer 0/1 labels) and for failing fast on a type mismatch (\code{mode = "regression"} with a factor \code{y} errors immediately).
-#' @param size The number of trees in the forest.
+#' @param size The number of trees in the forest (default: 100).
 #' @param lambda A regularization parameter. If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with \code{pp}.
 #' @param n_vars The number of variables to consider at each split (integer). These are chosen uniformly in each split. The default is all variables. Cannot be used together with \code{p_vars} or \code{dr}.
 #' @param p_vars The proportion of variables to consider at each split (number between 0 and 1, exclusive). For example, \code{p_vars = 0.5} uses half the features. Cannot be used together with \code{n_vars} or \code{dr}.
@@ -73,7 +73,7 @@ pprf <- function(
     x = NULL,
     y = NULL,
     mode = NULL,
-    size = 2,
+    size = 100,
     lambda = 0,
     n_vars = NULL,
     p_vars = NULL,
