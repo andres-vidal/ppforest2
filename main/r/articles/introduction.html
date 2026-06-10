@@ -78,7 +78,7 @@ groups.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call: pptr(formula = Species ~ ., data = iris, seed = 0)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Project-Pursuit Oblique Decision Tree:</span></span>
+<span><span class="co">#&gt; Projection-Pursuit Oblique Decision Tree:</span></span>
 <span><span class="co">#&gt; If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span></span>
 <span><span class="co">#&gt;  If ([ 0.04 0.07 -0.09 -0.15 ] * x) &lt; -0.2075133:</span></span>
 <span><span class="co">#&gt;    Predict: virginica </span></span>
@@ -91,7 +91,7 @@ groups.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Project-Pursuit Oblique Decision Tree</span></span>
+<span><span class="co">#&gt; Projection-Pursuit Oblique Decision Tree</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; pp method: LDA (lambda=0)</span></span>
 <span><span class="co">#&gt; vars method: All variables</span></span>
@@ -150,7 +150,7 @@ variables at each split:</p>
 <code class="sourceCode R"><span><span class="va">forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pprf.html">pprf</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, size <span class="op">=</span> <span class="fl">100</span>, n_vars <span class="op">=</span> <span class="fl">2</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">forest</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Random Forest of Project-Pursuit Oblique Decision Trees</span></span>
+<span><span class="co">#&gt; Random Forest of Projection-Pursuit Oblique Decision Trees</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Size: 100 trees</span></span>
 <span><span class="co">#&gt; pp method: LDA (lambda=0)</span></span>
@@ -265,7 +265,7 @@ instead of LDA. This can help when features are highly correlated:</p>
 <code class="sourceCode R"><span><span class="va">tree_pda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pptr.html">pptr</a></span><span class="op">(</span><span class="va">Species</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">iris</span>, lambda <span class="op">=</span> <span class="fl">0.5</span>, seed <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">tree_pda</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Project-Pursuit Oblique Decision Tree</span></span>
+<span><span class="co">#&gt; Projection-Pursuit Oblique Decision Tree</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; pp method: PDA (lambda=0.5)</span></span>
 <span><span class="co">#&gt; vars method: All variables</span></span>

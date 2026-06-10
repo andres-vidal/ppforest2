@@ -1,6 +1,6 @@
-# Trains a Project-Pursuit oblique decision tree.
+# Trains a Projection-Pursuit oblique decision tree.
 
-This function trains a Project-Pursuit oblique decision tree using
+This function trains a Projection-Pursuit oblique decision tree using
 either a formula and data frame interface or a matrix-based interface.
 When using the formula interface, specify the model formula and the data
 frame containing the variables. For the matrix-based interface, provide
@@ -150,7 +150,7 @@ pptr(Species ~ ., data = iris)
 #> 
 #> Call: pptr(formula = Species ~ ., data = iris)
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
 #>    Predict: virginica 
@@ -165,7 +165,7 @@ pptr(Species ~ ., data = iris, lambda = 0.5)
 #> 
 #> Call: pptr(formula = Species ~ ., data = iris, lambda = 0.5)
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
 #>   Predict: setosa 
 #> Else:
@@ -180,7 +180,7 @@ pptr(x = iris[, 1:4], y = iris[, 5])
 #> 
 #> Call: pptr(x = iris[, 1:4], y = iris[, 5])
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
 #>    Predict: virginica 

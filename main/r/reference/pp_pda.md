@@ -54,7 +54,7 @@ pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 #> 
 #> Call: pptr(formula = Species ~ ., data = iris, pp = pp_pda(0.5))
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
 #>   Predict: setosa 
 #> Else:
@@ -67,7 +67,7 @@ pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 # Use with pprf
 pprf(Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #>   Trees:       100
 #>   Mode:        classification

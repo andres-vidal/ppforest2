@@ -1,16 +1,16 @@
-# Trains a Random Forest of Project-Pursuit oblique decision trees.
+# Trains a Random Forest of Projection-Pursuit oblique decision trees.
 
-This function trains a Random Forest of Project-Pursuit oblique decision
-tree using either a formula and data frame interface or a matrix-based
-interface. When using the formula interface, specify the model formula
-and the data frame containing the variables. For the matrix-based
-interface, provide matrices for the features and labels directly. The
-number of trees is controlled by the `size` parameter. Each tree is
-trained on a stratified bootstrap sample drawn from the data. The number
-of variables to consider at each split is controlled by the `n_vars`
-parameter. If `lambda = 0`, the model is trained using Linear
-Discriminant Analysis (LDA). If `lambda > 0`, the model is trained using
-Penalized Discriminant Analysis (PDA).
+This function trains a Random Forest of Projection-Pursuit oblique
+decision tree using either a formula and data frame interface or a
+matrix-based interface. When using the formula interface, specify the
+model formula and the data frame containing the variables. For the
+matrix-based interface, provide matrices for the features and labels
+directly. The number of trees is controlled by the `size` parameter.
+Each tree is trained on a stratified bootstrap sample drawn from the
+data. The number of variables to consider at each split is controlled by
+the `n_vars` parameter. If `lambda = 0`, the model is trained using
+Linear Discriminant Analysis (LDA). If `lambda > 0`, the model is
+trained using Penalized Discriminant Analysis (PDA).
 
 ## Usage
 
@@ -201,7 +201,7 @@ for a tutorial
 # Example 1: formula interface with the `iris` dataset
 pprf(Species ~ ., data = iris)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris)
 #>   Trees:       100
 #>   Mode:        classification
@@ -212,7 +212,7 @@ pprf(Species ~ ., data = iris)
 # Example 2: formula interface with the `iris` dataset with regularization
 pprf(Species ~ ., data = iris, lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris, lambda = 0.5)
 #>   Trees:       100
 #>   Mode:        classification
@@ -223,7 +223,7 @@ pprf(Species ~ ., data = iris, lambda = 0.5)
 # Example 3: matrix interface with the `iris` dataset
 pprf(x = iris[, 1:4], y = iris[, 5])
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(x = iris[, 1:4], y = iris[, 5])
 #>   Trees:       100
 #>   Mode:        classification
@@ -233,7 +233,7 @@ pprf(x = iris[, 1:4], y = iris[, 5])
 # Example 4: matrix interface with the `iris` dataset with regularization
 pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 #>   Trees:       100
 #>   Mode:        classification
@@ -243,7 +243,7 @@ pprf(x = iris[, 1:4], y = iris[, 5], lambda = 0.5)
 # Example 5: formula interface with the `crabs` dataset
 pprf(Type ~ ., data = crabs)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Type ~ ., data = crabs)
 #>   Trees:       100
 #>   Mode:        classification
@@ -254,7 +254,7 @@ pprf(Type ~ ., data = crabs)
 # Example 6: formula interface with the `crabs` dataset with regularization
 pprf(Type ~ ., data = crabs, lambda = 0.5)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Type ~ ., data = crabs, lambda = 0.5)
 #>   Trees:       100
 #>   Mode:        classification

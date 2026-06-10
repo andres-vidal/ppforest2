@@ -17,7 +17,7 @@ tree
 #> 
 #> Call: pptr(formula = Species ~ ., data = iris, seed = 0)
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
 #>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
 #>    Predict: virginica 
@@ -34,7 +34,7 @@ importance:
 ``` r
 summary(tree)
 #> 
-#> Project-Pursuit Oblique Decision Tree
+#> Projection-Pursuit Oblique Decision Tree
 #> 
 #> pp method: LDA (lambda=0)
 #> vars method: All variables
@@ -97,7 +97,7 @@ variables at each split:
 forest <- pprf(Species ~ ., data = iris, size = 100, n_vars = 2, seed = 0)
 summary(forest)
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #> 
 #> Size: 100 trees
 #> pp method: LDA (lambda=0)
@@ -230,7 +230,7 @@ This can help when features are highly correlated:
 tree_pda <- pptr(Species ~ ., data = iris, lambda = 0.5, seed = 0)
 summary(tree_pda)
 #> 
-#> Project-Pursuit Oblique Decision Tree
+#> Projection-Pursuit Oblique Decision Tree
 #> 
 #> pp method: PDA (lambda=0.5)
 #> vars method: All variables

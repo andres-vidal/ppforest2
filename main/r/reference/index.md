@@ -99,10 +99,10 @@
   : Parsnip model specification for pptr.
 
 - [`pprf()`](https://andres-vidal.github.io/ppforest2/main/r/reference/pprf.md)
-  : Trains a Random Forest of Project-Pursuit oblique decision trees.
+  : Trains a Random Forest of Projection-Pursuit oblique decision trees.
 
 - [`pptr()`](https://andres-vidal.github.io/ppforest2/main/r/reference/pptr.md)
-  : Trains a Project-Pursuit oblique decision tree.
+  : Trains a Projection-Pursuit oblique decision tree.
 
 - [`predict(`*`<pprf_classification>`*`)`](https://andres-vidal.github.io/ppforest2/main/r/reference/predict.pprf_classification.md)
   : Predicts labels or vote proportions from a pprf model

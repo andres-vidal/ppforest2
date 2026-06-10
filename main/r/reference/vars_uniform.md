@@ -82,7 +82,7 @@ vars_uniform(p_vars = 0.5)
 # Use with pprf
 pprf(Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Trees
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
 #>   Call:        pprf(formula = Species ~ ., data = iris, vars = vars_uniform(n_vars = 2))
 #>   Trees:       100
 #>   Mode:        classification
