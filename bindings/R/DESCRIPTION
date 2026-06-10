@@ -28,6 +28,7 @@ Suggests:
     tibble,
     tune,
     vdiffr,
+    withr,
     workflows,
     yardstick
 VignetteBuilder: knitr
