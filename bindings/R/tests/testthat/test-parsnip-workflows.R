@@ -25,6 +25,16 @@ library(tune)
 # prediction blew up because new data has no `..y` column. Switching the
 # registration to `interface = "matrix"` made parsnip pass x/y straight
 # through. These tests lock that wiring in.
+
+# The ..y bug surfaced as silent per-fold fit *failures*, which tune records as
+# error-type notes; assert there are none of those. Degenerate-split *warnings*
+# (legitimate on small resampling folds, and more frequent now that the forest
+# default subsamples features) are warning-type notes and must not fail this
+# plumbing test.
+expect_no_fit_errors <- function(rs, label) {
+  expect_equal(sum(collect_notes(rs)$type == "error"), 0L, info = label)
+}
+
 describe("parsnip + workflows integration (..y bug regression)", {
   data(crabs, package = "ppforest2")
 
@@ -74,10 +84,7 @@ describe("parsnip + workflows integration (..y bug regression)", {
       folds <- vfold_cv(train, v = 3, strata = Type)
 
       rs <- fit_resamples(wf, resamples = folds)
-      # The bug manifested as silent per-fold failures recorded as notes;
-      # explicitly assert there are none.
-      expect_equal(nrow(collect_notes(rs)), 0L,
-                   info = "fit_resamples produced model-fit notes")
+      expect_no_fit_errors(rs, "fit_resamples produced fit-error notes")
       metrics <- collect_metrics(rs)
       expect_true("accuracy" %in% metrics$.metric)
       expect_equal(metrics$n[metrics$.metric == "accuracy"], 3L)
@@ -93,8 +100,7 @@ describe("parsnip + workflows integration (..y bug regression)", {
       grid <- tibble::tibble(mtry = c(2L, 3L), penalty = c(0.0, 0.5))
 
       rs <- tune_grid(wf, resamples = folds, grid = grid)
-      expect_equal(nrow(collect_notes(rs)), 0L,
-                   info = "tune_grid produced model-fit notes")
+      expect_no_fit_errors(rs, "tune_grid produced fit-error notes")
       metrics <- collect_metrics(rs)
       expect_equal(length(unique(metrics$.config)), nrow(grid))
     })
@@ -110,8 +116,7 @@ describe("parsnip + workflows integration (..y bug regression)", {
       folds <- vfold_cv(train, v = 3, strata = Type)
 
       rs <- fit_resamples(wf, resamples = folds)
-      expect_equal(nrow(collect_notes(rs)), 0L,
-                   info = "fit_resamples produced model-fit notes")
+      expect_no_fit_errors(rs, "fit_resamples produced fit-error notes")
       expect_true("accuracy" %in% collect_metrics(rs)$.metric)
     })
 
@@ -125,8 +130,7 @@ describe("parsnip + workflows integration (..y bug regression)", {
       grid <- tibble::tibble(penalty = c(0.0, 0.5))
 
       rs <- tune_grid(wf, resamples = folds, grid = grid)
-      expect_equal(nrow(collect_notes(rs)), 0L,
-                   info = "tune_grid produced model-fit notes")
+      expect_no_fit_errors(rs, "tune_grid produced fit-error notes")
       expect_equal(length(unique(collect_metrics(rs)$.config)), nrow(grid))
     })
   })
@@ -142,8 +146,7 @@ describe("parsnip + workflows integration (..y bug regression)", {
       folds <- vfold_cv(df, v = 3)
 
       rs <- fit_resamples(wf, resamples = folds)
-      expect_equal(nrow(collect_notes(rs)), 0L,
-                   info = "regression fit_resamples produced notes")
+      expect_no_fit_errors(rs, "regression fit_resamples produced fit-error notes")
       metrics <- collect_metrics(rs)
       expect_true("rmse" %in% metrics$.metric)
     })
