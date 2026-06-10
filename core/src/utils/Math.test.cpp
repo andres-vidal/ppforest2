@@ -102,15 +102,15 @@ TEST(IsModuleApprox, Different) {
 }
 
 TEST(ProportionToCount, RoundsHalfToEven) {
-  EXPECT_EQ(proportion_to_count(0.5F, 4), 2);  // 2.0
-  EXPECT_EQ(proportion_to_count(0.5F, 5), 2);  // 2.5 -> 2 (even)
-  EXPECT_EQ(proportion_to_count(0.5F, 7), 4);  // 3.5 -> 4 (even)
-  EXPECT_EQ(proportion_to_count(0.5F, 9), 4);  // 4.5 -> 4 (even)
+  EXPECT_EQ(proportion_to_count(0.5F, 4), 2); // 2.0
+  EXPECT_EQ(proportion_to_count(0.5F, 5), 2); // 2.5 -> 2 (even)
+  EXPECT_EQ(proportion_to_count(0.5F, 7), 4); // 3.5 -> 4 (even)
+  EXPECT_EQ(proportion_to_count(0.5F, 9), 4); // 4.5 -> 4 (even)
 }
 
 TEST(ProportionToCount, ClampsToAtLeastOne) {
-  EXPECT_EQ(proportion_to_count(0.1F, 4), 1);  // 0.4 -> 0 -> clamped to 1
-  EXPECT_EQ(proportion_to_count(0.5F, 1), 1);  // 0.5 -> 0 -> clamped to 1
+  EXPECT_EQ(proportion_to_count(0.1F, 4), 1); // 0.4 -> 0 -> clamped to 1
+  EXPECT_EQ(proportion_to_count(0.5F, 1), 1); // 0.5 -> 0 -> clamped to 1
 }
 
 TEST(ProportionToCount, FullProportionSelectsAll) {
