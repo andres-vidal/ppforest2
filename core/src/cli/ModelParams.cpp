@@ -8,10 +8,10 @@
 #include "models/strategies/Strategy.hpp"
 #include "serialization/JsonOptional.hpp"
 #include "utils/Invariant.hpp"
+#include "utils/Math.hpp"
 #include "utils/UserError.hpp"
 
 #include <charconv>
-#include <cmath>
 #include <fmt/format.h>
 #include <nlohmann/json.hpp>
 #include <regex>
@@ -65,10 +65,6 @@ namespace ppforest2::cli {
       } catch (std::exception const& e) {
         throw ppforest2::UserError(fmt::format("Invalid --{} value: {}", flag, e.what()));
       }
-    }
-
-    int proportion_to_count(float p, unsigned int total) {
-      return static_cast<int>(std::round(static_cast<float>(total) * p));
     }
 
     // Single bare token (no `=`, no `,`) maps to the strategy's primary
@@ -322,18 +318,18 @@ namespace ppforest2::cli {
         p_vars      = static_cast<float>(*n_vars) / static_cast<float>(total_vars);
         vars_config = {{"name", "uniform"}, {"count", *n_vars}};
       } else if (p_vars) {
-        n_vars      = proportion_to_count(*p_vars, total_vars);
+        n_vars      = math::proportion_to_count(*p_vars, total_vars);
         vars_config = {{"name", "uniform"}, {"count", *n_vars}};
       } else {
         p_vars      = 0.5F;
-        n_vars      = proportion_to_count(*p_vars, total_vars);
+        n_vars      = math::proportion_to_count(*p_vars, total_vars);
         vars_config = {{"name", "uniform"}, {"count", *n_vars}};
       }
     }
 
     // Resolve proportion to count in explicit vars config
     if (!vars_config.is_null() && vars_config.contains("proportion")) {
-      int count = proportion_to_count(vars_config["proportion"].get<float>(), total_vars);
+      int count = math::proportion_to_count(vars_config["proportion"].get<float>(), total_vars);
       vars_config.erase("proportion");
       vars_config["count"] = count;
     }

@@ -1,6 +1,7 @@
 #include "../inst/include/ppforest2.h"
 #include <RcppEigen.h>
 #include "serialization/Json.hpp"
+#include "utils/Math.hpp"
 
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -24,6 +25,14 @@ bool ppforest2_has_openmp() {
 #else
   return false;
 #endif
+}
+
+// Convert a feature proportion (e.g. p_vars = 0.5) to a variable count using
+// the shared C++ core logic, so the R package and the CLI resolve identical
+// counts for the same proportion. See ppforest2::math::proportion_to_count.
+// [[Rcpp::export]]
+int ppforest2_proportion_to_count(double p, int total) {
+  return ppforest2::math::proportion_to_count(static_cast<float>(p), static_cast<unsigned int>(total));
 }
 
 // Mode-aware Rcpp wrappers. Each function takes a TrainingSpec or a

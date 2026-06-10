@@ -45,3 +45,14 @@ describe("vars_all", {
     expect_equal(s$name, "all")
   })
 })
+
+describe("ppforest2_proportion_to_count (shared C++/R core logic)", {
+  it("rounds half to even and clamps to >= 1, matching the CLI", {
+    f <- ppforest2:::ppforest2_proportion_to_count
+    expect_equal(f(0.5, 4), 2L)
+    expect_equal(f(0.5, 5), 2L)    # 2.5 -> 2 (ties to even)
+    expect_equal(f(0.5, 9), 4L)    # 4.5 -> 4 (ties to even)
+    expect_equal(f(0.1, 4), 1L)    # 0.4 -> 0 -> clamped to 1
+    expect_equal(f(1.0, 10), 10L)
+  })
+})

@@ -614,6 +614,31 @@ TEST(ResolveDefaults, DefaultPVarsAndNVars) {
   EXPECT_EQ(params.model.n_vars.value(), 5);
 }
 
+/* p_vars -> n_vars rounds half to even (banker's rounding), matching R's
+   round(): 0.5 * 5 = 2.5 ties to 2 (even), not 3. Keeps CLI and R
+   variable-selection counts identical for the same proportion. */
+TEST(ResolveDefaults, NVarsRoundsHalfToEven) {
+  Params params;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.model.p_vars     = 0.5F;
+  params.quiet            = true;
+  params.resolve_defaults(5);
+  EXPECT_EQ(params.model.n_vars.value(), 2);
+}
+
+/* A proportion small enough to round to zero still selects one variable,
+   matching R's max(1L, ...) clamp: 0.1 * 4 = 0.4 -> 0 -> clamped to 1. */
+TEST(ResolveDefaults, NVarsClampedToAtLeastOne) {
+  Params params;
+  params.model.mode_input = "classification";
+  params.model.size       = 10;
+  params.model.p_vars     = 0.1F;
+  params.quiet            = true;
+  params.resolve_defaults(4);
+  EXPECT_EQ(params.model.n_vars.value(), 1);
+}
+
 /* Vars computation is skipped for a single tree (trees = 0). */
 TEST(ResolveDefaults, NoVarsWhenSingleTree) {
   Params params;

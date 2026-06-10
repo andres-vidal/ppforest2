@@ -22,6 +22,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// ppforest2_proportion_to_count
+int ppforest2_proportion_to_count(double p, int total);
+RcppExport SEXP _ppforest2_ppforest2_proportion_to_count(SEXP pSEXP, SEXP totalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type p(pSEXP);
+    Rcpp::traits::input_parameter< int >::type total(totalSEXP);
+    rcpp_result_gen = Rcpp::wrap(ppforest2_proportion_to_count(p, total));
+    return rcpp_result_gen;
+END_RCPP
+}
 // ppforest2_train
 Model::Ptr ppforest2_train(TrainingSpec::Ptr spec, FeatureMatrix x, OutcomeVector y);
 RcppExport SEXP _ppforest2_ppforest2_train(SEXP specSEXP, SEXP xSEXP, SEXP ySEXP) {
@@ -250,6 +262,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ppforest2_ppforest2_has_openmp", (DL_FUNC) &_ppforest2_ppforest2_has_openmp, 0},
+    {"_ppforest2_ppforest2_proportion_to_count", (DL_FUNC) &_ppforest2_ppforest2_proportion_to_count, 2},
     {"_ppforest2_ppforest2_train", (DL_FUNC) &_ppforest2_ppforest2_train, 3},
     {"_ppforest2_ppforest2_predict_tree", (DL_FUNC) &_ppforest2_ppforest2_predict_tree, 2},
     {"_ppforest2_ppforest2_predict_forest", (DL_FUNC) &_ppforest2_ppforest2_predict_forest, 2},

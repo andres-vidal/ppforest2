@@ -88,7 +88,9 @@ resolve_strategies <- function(
   # Resolve p_vars to count now that we know the number of features
   if (!is.null(n_features) && vars$name == "uniform") {
     if (!is.null(vars$p_vars)) {
-      vars$count <- max(1L, as.integer(round(vars$p_vars * n_features)))
+      # Shared C++ core logic (banker's rounding + clamp to >= 1) so R and the
+      # CLI resolve identical counts for the same proportion.
+      vars$count <- ppforest2_proportion_to_count(vars$p_vars, n_features)
       vars$p_vars <- NULL
     }
     if (is.null(vars$count)) {

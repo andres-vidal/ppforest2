@@ -5,6 +5,10 @@ ppforest2_has_openmp <- function() {
     .Call('_ppforest2_ppforest2_has_openmp', PACKAGE = 'ppforest2')
 }
 
+ppforest2_proportion_to_count <- function(p, total) {
+    .Call('_ppforest2_ppforest2_proportion_to_count', PACKAGE = 'ppforest2', p, total)
+}
+
 ppforest2_train <- function(spec, x, y) {
     .Call('_ppforest2_ppforest2_train', PACKAGE = 'ppforest2', spec, x, y)
 }
