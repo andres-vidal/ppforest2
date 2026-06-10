@@ -2,7 +2,7 @@
 % Please edit documentation in R/pprf.R
 \name{pprf}
 \alias{pprf}
-\title{Trains a Random Forest of Project-Pursuit oblique decision trees.}
+\title{Trains a Random Forest of Projection-Pursuit oblique decision trees.}
 \usage{
 pprf(
   formula = NULL,
@@ -80,7 +80,7 @@ A \code{pprf} model. Its S3 class vector is
   \code{c("pprf_regression", "pprf", "ppmodel")} depending on the mode.
 }
 \description{
-This function trains a Random Forest of Project-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
+This function trains a Random Forest of Projection-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
 The number of trees is controlled by the \code{size} parameter. Each tree is trained on a stratified bootstrap sample drawn from the data.
 The number of variables to consider at each split is controlled by the \code{n_vars} parameter.
 If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA).

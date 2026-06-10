@@ -3,9 +3,9 @@
 #' @importFrom stats model.frame model.matrix model.response formula predict sd terms update fitted residuals nobs
 NULL
 
-#' Trains a Random Forest of Project-Pursuit oblique decision trees.
+#' Trains a Random Forest of Projection-Pursuit oblique decision trees.
 #'
-#' This function trains a Random Forest of Project-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
+#' This function trains a Random Forest of Projection-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
 #' The number of trees is controlled by the \code{size} parameter. Each tree is trained on a stratified bootstrap sample drawn from the data.
 #' The number of variables to consider at each split is controlled by the \code{n_vars} parameter.
 #' If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA).
@@ -268,7 +268,7 @@ predict.pprf_regression <- function(object, new_data = NULL, type = NULL, ...) {
 #' @export
 print.pprf <- function(x, ...) {
   cat("\n")
-  cat("Random Forest of Project-Pursuit Oblique Decision Trees\n")
+  cat("Random Forest of Projection-Pursuit Oblique Decision Trees\n")
   if (!is.null(x$call)) {
     cat("  Call:        ", paste(deparse(x$call, width.cutoff = 80L), collapse = "\n               "), "\n", sep = "")
   }
@@ -324,9 +324,9 @@ summary.pprf <- function(object, ...) {
 
   cat("\n")
   cat(if (identical(model$mode, "regression")) {
-    "Random Forest of Project-Pursuit Oblique Regression Trees\n"
+    "Random Forest of Projection-Pursuit Oblique Regression Trees\n"
   } else {
-    "Random Forest of Project-Pursuit Oblique Decision Trees\n"
+    "Random Forest of Projection-Pursuit Oblique Decision Trees\n"
   })
   cat("\n")
   cat("Size:", length(model$trees), "trees\n")

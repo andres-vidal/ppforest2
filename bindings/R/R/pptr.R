@@ -3,9 +3,9 @@
 #' @importFrom stats model.frame model.matrix model.response formula predict sd terms update fitted residuals nobs
 NULL
 
-#' Trains a Project-Pursuit oblique decision tree.
+#' Trains a Projection-Pursuit oblique decision tree.
 #'
-#' This function trains a Project-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
+#' This function trains a Projection-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
 #' If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA).
 #'
 #' Mode is taken from the \code{mode} argument when explicit, and otherwise auto-detected from `y` (factor/character → classification, numeric → regression). Pass \code{mode = "classification"} to force classification on integer labels (e.g. binary 0/1), or \code{mode = "regression"} to assert intent on numeric responses.
@@ -211,7 +211,7 @@ print.pptr <- function(x, ...) {
   if (!is.null(x$call)) {
     cat("Call: ", paste(deparse(x$call, width.cutoff = 80L), collapse = "\n      "), "\n\n", sep = "")
   }
-  cat("Project-Pursuit Oblique Decision Tree:\n")
+  cat("Projection-Pursuit Oblique Decision Tree:\n")
   print_node(x, x$root)
   cat("\n")
   invisible(x)
@@ -276,9 +276,9 @@ summary.pptr <- function(object, ...) {
 
   cat("\n")
   cat(if (identical(model$mode, "regression")) {
-    "Project-Pursuit Oblique Regression Tree\n"
+    "Projection-Pursuit Oblique Regression Tree\n"
   } else {
-    "Project-Pursuit Oblique Decision Tree\n"
+    "Projection-Pursuit Oblique Decision Tree\n"
   })
   cat("\n")
   print_training_spec(model$training_spec)

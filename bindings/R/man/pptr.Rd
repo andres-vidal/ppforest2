@@ -2,7 +2,7 @@
 % Please edit documentation in R/pptr.R
 \name{pptr}
 \alias{pptr}
-\title{Trains a Project-Pursuit oblique decision tree.}
+\title{Trains a Projection-Pursuit oblique decision tree.}
 \usage{
 pptr(
   formula = NULL,
@@ -62,7 +62,7 @@ A \code{pptr} model. Its S3 class vector is
   \code{c("pptr_regression", "pptr", "ppmodel")} depending on the mode.
 }
 \description{
-This function trains a Project-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
+This function trains a Projection-Pursuit oblique decision tree using either a formula and data frame interface or a matrix-based interface. When using the formula interface, specify the model formula and the data frame containing the variables. For the matrix-based interface, provide matrices for the features and labels directly.
 If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA).
 }
 \details{
