@@ -101,7 +101,8 @@ $(function(){initNavTree('ModelParams_8hpp.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ModelParams.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -109,23 +110,37 @@ $(function(){initNavTree('ModelParams_8hpp.html',''); initResizable(true); });
 <p>Model training parameters shared by train and evaluate.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div>
 <p><a href="ModelParams_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ModelParams.html">ppforest2::cli::ModelParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  <a href="structppforest2_1_1cli_1_1ModelParams.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  <a href="structppforest2_1_1cli_1_1ModelParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html">ppforest2::cli</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1cli"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a43f3a487718ed69e0b146cf380a812ad" id="r_a43f3a487718ed69e0b146cf380a812ad"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a43f3a487718ed69e0b146cf380a812ad">ppforest2::cli::parse_proportion</a> (nlohmann::json const &amp;j)</td></tr>
+<tr class="separator:a43f3a487718ed69e0b146cf380a812ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9263c712642ffd4e5227dbb815facd3d" id="r_a9263c712642ffd4e5227dbb815facd3d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a9263c712642ffd4e5227dbb815facd3d">ppforest2::cli::parse_proportion</a> (std::string const &amp;input)</td></tr>
+<tr class="memdesc:a9263c712642ffd4e5227dbb815facd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a proportion from a string or JSON value.  <br /></td></tr>
+<tr class="separator:a9263c712642ffd4e5227dbb815facd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a001cc13f5a27308f3150a7dc012ffb78" id="r_a001cc13f5a27308f3150a7dc012ffb78"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a001cc13f5a27308f3150a7dc012ffb78">ppforest2::cli::strategy_string_to_json</a> (std::string const &amp;input)</td></tr>
+<tr class="memdesc:a001cc13f5a27308f3150a7dc012ffb78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="namespaceCLI.html">CLI</a> strategy string into a JSON object.  <br /></td></tr>
+<tr class="separator:a001cc13f5a27308f3150a7dc012ffb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Model training parameters shared by train and evaluate. </p>

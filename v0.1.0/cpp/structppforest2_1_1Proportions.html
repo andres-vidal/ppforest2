@@ -109,7 +109,7 @@ $(function(){initNavTree('structppforest2_1_1Proportions.html',''); initResizabl
 <p><code>#include &lt;<a class="el" href="Model_8hpp_source.html">Model.hpp</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tag type for requesting vote-proportion predictions. </p>
-<p>For forests, returns an (n × G) matrix of per-tree vote proportions. For single trees, returns an (n × G) one-hot matrix (the tree's deterministic prediction encoded as proportions). </p>
+<p>Classification-only. <code><a class="el" href="classppforest2_1_1ClassificationTree.html#af276fcccd29978647dd76db61f540994" title="One-hot encoding of the predicted group for one observation, with columns laid out by groups().">ClassificationTree::predict</a>(data, <a class="el" href="structppforest2_1_1Proportions.html" title="Tag type for requesting vote-proportion predictions.">Proportions</a>{})</code> returns a per-row one-hot of the predicted group; <code><a class="el" href="classppforest2_1_1ClassificationForest.html" title="Random forest of classification trees.">ClassificationForest</a></code> returns the per-tree vote proportions. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>core/src/models/<a class="el" href="Model_8hpp_source.html">Model.hpp</a></li>
 </ul>

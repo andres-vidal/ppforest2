@@ -1,15 +1,13 @@
 var searchData=
 [
-  ['data_0',['data',['../structppforest2_1_1cli_1_1Scenario.html#a36975064c7d84e2c0c11aa781d54f629',1,'ppforest2::cli::Scenario::data'],['../structppforest2_1_1cli_1_1ScenarioResult.html#a6ff2f005b9956a0232fee9a87fd835e6',1,'ppforest2::cli::ScenarioResult::data']]],
-  ['data_5fdir_1',['DATA_DIR',['../CLI_8integration_8hpp.html#ae3e4f7b1d3f1d9db5dadc686f1adf108',1,'CLI.integration.hpp']]],
-  ['data_5fpath_2',['data_path',['../structppforest2_1_1cli_1_1CLIOptions.html#adb34ced694d2733f05f2f3ecf137d6f7',1,'ppforest2::cli::CLIOptions']]],
+  ['data_5fdir_0',['DATA_DIR',['../CLI_8integration_8hpp.html#a2778fb21a3754c7a16a8058f99f96540',1,'CLI.integration.hpp']]],
+  ['data_5fpath_1',['data_path',['../structppforest2_1_1cli_1_1Params.html#a1b3a400b4a7157ee67328138f2559d8f',1,'ppforest2::cli::Params::data_path'],['../structppforest2_1_1io_1_1EvaluateResult.html#aeb66dd06d421ebc3b972cefa59b508b9',1,'ppforest2::io::EvaluateResult::data_path'],['../structppforest2_1_1io_1_1ModelStats.html#a69bf8c73f8faedc42bb636440f9886e3',1,'ppforest2::io::ModelStats::data_path']]],
+  ['default_5fcapacity_2',['DEFAULT_CAPACITY',['../classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#ab58b14ef45918dcf5852bbb109cff757',1,'ppforest2::cli::serve::PredictionStore']]],
   ['default_5fseed_3',['default_seed',['../structppforest2_1_1io_1_1ConfigDisplayHints.html#a933396a23b72178aa487e40921e03094',1,'ppforest2::io::ConfigDisplayHints']]],
   ['default_5fthreads_4',['default_threads',['../structppforest2_1_1io_1_1ConfigDisplayHints.html#a4c446769832f2698fe917cab9604d55a',1,'ppforest2::io::ConfigDisplayHints']]],
   ['default_5fvars_5',['default_vars',['../structppforest2_1_1io_1_1ConfigDisplayHints.html#abb73f903c804554ec525344db7830d68',1,'ppforest2::io::ConfigDisplayHints']]],
-  ['degenerate_6',['degenerate',['../structppforest2_1_1Model.html#a5fbf7fb1e8e977ab594121f3f0dc988c',1,'ppforest2::Model::degenerate'],['../structppforest2_1_1TreeNode.html#a40efb82eb8614b560735f861f803b610',1,'ppforest2::TreeNode::degenerate']]],
-  ['depth_7',['depth',['../structppforest2_1_1viz_1_1NodeData.html#abb2b3fbc6b5a6b7307f3df747fcf9608',1,'ppforest2::viz::NodeData::depth'],['../structppforest2_1_1viz_1_1NodeDataVisitor.html#ade74e86301b1edd5b0986c576f5a1579',1,'ppforest2::viz::NodeDataVisitor::depth'],['../structppforest2_1_1viz_1_1BoundarySegment.html#a3bdd2be1bc18632e41bf54dee200c36a',1,'ppforest2::viz::BoundarySegment::depth'],['../structppforest2_1_1viz_1_1BoundaryVisitor.html#afbc70f9371d61ec53e2aefcf4b72451c',1,'ppforest2::viz::BoundaryVisitor::depth']]],
-  ['dr_5fconfig_8',['dr_config',['../structppforest2_1_1cli_1_1ModelParams.html#a41c6b97f56d530df59558d510fca7502',1,'ppforest2::cli::ModelParams']]],
-  ['dr_5finput_9',['dr_input',['../structppforest2_1_1cli_1_1ModelParams.html#a6480e9e801416e258b60aacaf65a70a9',1,'ppforest2::cli::ModelParams']]],
-  ['dr_5fstrategy_10',['dr_strategy',['../structppforest2_1_1TrainingSpec.html#a8aa2a6073e56c53e91ad9dfa3c37cc6c',1,'ppforest2::TrainingSpec']]],
-  ['duration_11',['duration',['../structppforest2_1_1cli_1_1TrainResult.html#a0c5d55a28246767c68bb7d2967c6841e',1,'ppforest2::cli::TrainResult']]]
+  ['degenerate_6',['degenerate',['../classppforest2_1_1Model.html#a5fbf7fb1e8e977ab594121f3f0dc988c',1,'ppforest2::Model::degenerate'],['../classppforest2_1_1TreeNode.html#a40efb82eb8614b560735f861f803b610',1,'ppforest2::TreeNode::degenerate']]],
+  ['delta_5fthreshold_7',['delta_threshold',['../structppforest2_1_1cli_1_1BenchmarkReport.html#a454597c9b09c15817142c7c5be7ea6ed',1,'ppforest2::cli::BenchmarkReport']]],
+  ['depth_8',['depth',['../structppforest2_1_1NodeContext.html#a06ac5296aa86f786fd629372290a0029',1,'ppforest2::NodeContext::depth'],['../structppforest2_1_1viz_1_1NodeData.html#abb2b3fbc6b5a6b7307f3df747fcf9608',1,'ppforest2::viz::NodeData::depth'],['../classppforest2_1_1viz_1_1NodeDataVisitor.html#ade74e86301b1edd5b0986c576f5a1579',1,'ppforest2::viz::NodeDataVisitor::depth'],['../structppforest2_1_1viz_1_1BoundarySegment.html#a3bdd2be1bc18632e41bf54dee200c36a',1,'ppforest2::viz::BoundarySegment::depth'],['../classppforest2_1_1viz_1_1SpatialVisitor.html#af6bb237f4c7bc6a93b99af23927a5119',1,'ppforest2::viz::SpatialVisitor::depth']]],
+  ['duration_9',['duration',['../structppforest2_1_1cli_1_1TrainResult.html#a0c5d55a28246767c68bb7d2967c6841e',1,'ppforest2::cli::TrainResult']]]
 ];

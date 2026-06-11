@@ -102,6 +102,7 @@ $(function(){initNavTree('namespaceppforest2_1_1io.html',''); initResizable(true
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::io Namespace Reference</div></div>
 </div><!--header-->
@@ -119,14 +120,19 @@ Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1io_1_1style.html">style</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1io_1_1style"><td class="mdescLeft">&#160;</td><td class="mdescRight">TTY-aware ANSI colored output utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1io_1_1text.html">text</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional display hints for print_configuration.  <a href="structppforest2_1_1io_1_1ConfigDisplayHints.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html">EvaluateResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Summary of an evaluation run.  <a href="structppforest2_1_1io_1_1EvaluateResult.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1io_1_1ModelStats.html">ModelStats</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aggregated statistics across multiple training iterations.  <a href="structppforest2_1_1io_1_1ModelStats.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-iteration training statistics.  <a href="structppforest2_1_1io_1_1ModelStats.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quiet-aware, indentation-aware output context.  <a href="structppforest2_1_1io_1_1Output.html#details">More...</a><br /></td></tr>
@@ -138,14 +144,22 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">RAII temporary file with automatic cleanup.  <a href="classppforest2_1_1io_1_1TempFile.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a9a4ac285dd44986b600c95ad4a2f3c0e" id="r_a9a4ac285dd44986b600c95ad4a2f3c0e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a4ac285dd44986b600c95ad4a2f3c0e">ErrorHandler</a> = void (*)(bool, std::string const&amp;)</td></tr>
+<tr class="separator:a9a4ac285dd44986b600c95ad4a2f3c0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae8b077f59b53c46c1279dd269956ecf8" id="r_ae8b077f59b53c46c1279dd269956ecf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8b077f59b53c46c1279dd269956ecf8">check_dir_not_exists</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:ae8b077f59b53c46c1279dd269956ecf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit with an error if a directory already exists at the given path.  <br /></td></tr>
-<tr class="separator:ae8b077f59b53c46c1279dd269956ecf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab05c747dc852ed977dcdb58e81bc42f9" id="r_ab05c747dc852ed977dcdb58e81bc42f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab05c747dc852ed977dcdb58e81bc42f9">check_file_not_exists</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:ab05c747dc852ed977dcdb58e81bc42f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit with an error if a file already exists at the given path.  <br /></td></tr>
-<tr class="separator:ab05c747dc852ed977dcdb58e81bc42f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a587b4620e094a4f498b3df6bfc835e52" id="r_a587b4620e094a4f498b3df6bfc835e52"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a587b4620e094a4f498b3df6bfc835e52">check_dir_not_exists</a> (std::string const &amp;path)</td></tr>
+<tr class="memdesc:a587b4620e094a4f498b3df6bfc835e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit with an error if a directory already exists at the given path.  <br /></td></tr>
+<tr class="separator:a587b4620e094a4f498b3df6bfc835e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b0db555a3583b12ecf5fcf25b91554" id="r_a25b0db555a3583b12ecf5fcf25b91554"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25b0db555a3583b12ecf5fcf25b91554">check_file_exists</a> (std::string const &amp;path)</td></tr>
+<tr class="memdesc:a25b0db555a3583b12ecf5fcf25b91554"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit with an error if a file does not exist at the given path.  <br /></td></tr>
+<tr class="separator:a25b0db555a3583b12ecf5fcf25b91554"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8c7ad637a7a6b11ff927795e2446952" id="r_af8c7ad637a7a6b11ff927795e2446952"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8c7ad637a7a6b11ff927795e2446952">check_file_not_exists</a> (std::string const &amp;path)</td></tr>
+<tr class="memdesc:af8c7ad637a7a6b11ff927795e2446952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exit with an error if a file already exists at the given path.  <br /></td></tr>
+<tr class="separator:af8c7ad637a7a6b11ff927795e2446952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27548afe6815bfe21d68e54f71b37fdd" id="r_a27548afe6815bfe21d68e54f71b37fdd"><td class="memTemplParams" colspan="2">template&lt;typename F&gt; </td></tr>
 <tr class="memitem:a27548afe6815bfe21d68e54f71b37fdd"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a27548afe6815bfe21d68e54f71b37fdd">measure_time_ms</a> (F &amp;&amp;f)</td></tr>
 <tr class="memdesc:a27548afe6815bfe21d68e54f71b37fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure the wall-clock execution time of a callable in milliseconds.  <br /></td></tr>
@@ -153,28 +167,60 @@ Functions</h2></td></tr>
 <tr class="memitem:af3bea8d81a602627c7d483ac468c0870" id="r_af3bea8d81a602627c7d483ac468c0870"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3bea8d81a602627c7d483ac468c0870">now_iso8601</a> ()</td></tr>
 <tr class="memdesc:af3bea8d81a602627c7d483ac468c0870"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current local time as an ISO 8601 string (YYYY-MM-DDTHH:MM:SS).  <br /></td></tr>
 <tr class="separator:af3bea8d81a602627c7d483ac468c0870"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dc8a781bbe1c7c8f4290543fc19d46c" id="r_a7dc8a781bbe1c7c8f4290543fc19d46c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dc8a781bbe1c7c8f4290543fc19d46c">print_configuration</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const nlohmann::json &amp;config, const <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> &amp;hints={})</td></tr>
-<tr class="memdesc:a7dc8a781bbe1c7c8f4290543fc19d46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print model configuration table from a JSON config object.  <br /></td></tr>
-<tr class="separator:a7dc8a781bbe1c7c8f4290543fc19d46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa58e461778488be973d454c41b704dd9" id="r_aa58e461778488be973d454c41b704dd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa58e461778488be973d454c41b704dd9">print_confusion_matrix</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const <a class="el" href="structppforest2_1_1stats_1_1ConfusionMatrix.html">stats::ConfusionMatrix</a> &amp;cm, const std::string &amp;title=&quot;Confusion Matrix&quot;, const std::vector&lt; std::string &gt; &amp;group_names={})</td></tr>
-<tr class="memdesc:aa58e461778488be973d454c41b704dd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a formatted confusion matrix to stdout.  <br /></td></tr>
-<tr class="separator:aa58e461778488be973d454c41b704dd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19eaf80911f0791e0580745b98b0d9c1" id="r_a19eaf80911f0791e0580745b98b0d9c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19eaf80911f0791e0580745b98b0d9c1">print_data_summary</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const nlohmann::json &amp;meta)</td></tr>
-<tr class="memdesc:a19eaf80911f0791e0580745b98b0d9c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a data summary table from a JSON meta object.  <br /></td></tr>
-<tr class="separator:a19eaf80911f0791e0580745b98b0d9c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87ca824e129347e3b2b308fbea618b0" id="r_ad87ca824e129347e3b2b308fbea618b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad87ca824e129347e3b2b308fbea618b0">print_results</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const <a class="el" href="structppforest2_1_1io_1_1ModelStats.html">ModelStats</a> &amp;stats)</td></tr>
-<tr class="memdesc:ad87ca824e129347e3b2b308fbea618b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print evaluation results (timing, errors, memory) to stdout.  <br /></td></tr>
-<tr class="separator:ad87ca824e129347e3b2b308fbea618b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa33ed0297f11b5cc3875f3efba7049bf" id="r_aa33ed0297f11b5cc3875f3efba7049bf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa33ed0297f11b5cc3875f3efba7049bf">print_summary</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const nlohmann::json &amp;model_data, const <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> &amp;hints={})</td></tr>
-<tr class="memdesc:aa33ed0297f11b5cc3875f3efba7049bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display a full model summary from its JSON representation.  <br /></td></tr>
-<tr class="separator:aa33ed0297f11b5cc3875f3efba7049bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e4f70debb2e10cbc628376c1382d84f" id="r_a7e4f70debb2e10cbc628376c1382d84f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e4f70debb2e10cbc628376c1382d84f">print_variable_importance</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, const <a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> &amp;vi, const std::vector&lt; std::string &gt; &amp;feature_names={}, int max_rows=20)</td></tr>
-<tr class="memdesc:a7e4f70debb2e10cbc628376c1382d84f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a ranked variable importance table to stdout.  <br /></td></tr>
-<tr class="separator:a7e4f70debb2e10cbc628376c1382d84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace2541d46356ac640131befe5577b099" id="r_ace2541d46356ac640131befe5577b099"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ace2541d46356ac640131befe5577b099">print_configuration</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, nlohmann::json const &amp;config, <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> const &amp;hints={})</td></tr>
+<tr class="memdesc:ace2541d46356ac640131befe5577b099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print model configuration table from a JSON config object.  <br /></td></tr>
+<tr class="separator:ace2541d46356ac640131befe5577b099"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad572239cbb43a83dfded8ee6c63813f3" id="r_ad572239cbb43a83dfded8ee6c63813f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad572239cbb43a83dfded8ee6c63813f3">print_confusion_matrix</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1ConfusionMatrix.html">stats::ConfusionMatrix</a> const &amp;cm, std::string const &amp;title=&quot;Confusion Matrix&quot;, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="memdesc:ad572239cbb43a83dfded8ee6c63813f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a formatted confusion matrix to stdout.  <br /></td></tr>
+<tr class="separator:ad572239cbb43a83dfded8ee6c63813f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabe7cdec75819ee6e14cd5ced8c221c1" id="r_aabe7cdec75819ee6e14cd5ced8c221c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabe7cdec75819ee6e14cd5ced8c221c1">print_data_summary</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, nlohmann::json const &amp;meta)</td></tr>
+<tr class="memdesc:aabe7cdec75819ee6e14cd5ced8c221c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a data summary table from a JSON meta object.  <br /></td></tr>
+<tr class="separator:aabe7cdec75819ee6e14cd5ced8c221c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab200ca9bdf8816985f17e93a746c8910" id="r_ab200ca9bdf8816985f17e93a746c8910"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab200ca9bdf8816985f17e93a746c8910">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">stats::ClassificationMetrics</a> const &amp;cm, std::string const &amp;label, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="memdesc:ab200ca9bdf8816985f17e93a746c8910"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a labeled metrics block — error rate + confusion matrix for classification, MSE + regression metrics for regression.  <br /></td></tr>
+<tr class="separator:ab200ca9bdf8816985f17e93a746c8910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2b6e98d44b1c00c9f5eb464995468b5" id="r_af2b6e98d44b1c00c9f5eb464995468b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2b6e98d44b1c00c9f5eb464995468b5">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">stats::ClassificationMetrics</a> const &amp;m, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="memdesc:af2b6e98d44b1c00c9f5eb464995468b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a labeled metrics block — error rate + confusion matrix for classification, MSE + regression metrics for regression.     <br /></td></tr>
+<tr class="separator:af2b6e98d44b1c00c9f5eb464995468b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7b1aa0a3b8285dca460334bd859cd86" id="r_ae7b1aa0a3b8285dca460334bd859cd86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b1aa0a3b8285dca460334bd859cd86">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">stats::Metrics</a> const &amp;m, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="separator:ae7b1aa0a3b8285dca460334bd859cd86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbb755638e0a8e590e597d3664be4e1e" id="r_abbb755638e0a8e590e597d3664be4e1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbb755638e0a8e590e597d3664be4e1e">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">stats::Metrics</a> const &amp;metrics, std::string const &amp;label, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="separator:abbb755638e0a8e590e597d3664be4e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2671654dc8e2aaf8226d4f423d56b13" id="r_ae2671654dc8e2aaf8226d4f423d56b13"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2671654dc8e2aaf8226d4f423d56b13">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;m, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="separator:ae2671654dc8e2aaf8226d4f423d56b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3b9219fab96fc895582a317e3d52636" id="r_ac3b9219fab96fc895582a317e3d52636"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3b9219fab96fc895582a317e3d52636">print_metrics_block</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;rm, std::string const &amp;label, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;group_names={})</td></tr>
+<tr class="separator:ac3b9219fab96fc895582a317e3d52636"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa93cb9fdd489fb9768a83d2a4ea1201b" id="r_aa93cb9fdd489fb9768a83d2a4ea1201b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa93cb9fdd489fb9768a83d2a4ea1201b">print_regression_metrics</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;rm, std::string const &amp;title=&quot;Regression Metrics&quot;)</td></tr>
+<tr class="memdesc:aa93cb9fdd489fb9768a83d2a4ea1201b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print regression metrics to stdout.  <br /></td></tr>
+<tr class="separator:aa93cb9fdd489fb9768a83d2a4ea1201b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ef07fc021d6717c2f93e0ed6e31acb0" id="r_a7ef07fc021d6717c2f93e0ed6e31acb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ef07fc021d6717c2f93e0ed6e31acb0">print_results</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1io_1_1ModelStats.html">ModelStats</a> const &amp;stats)</td></tr>
+<tr class="memdesc:a7ef07fc021d6717c2f93e0ed6e31acb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print evaluation results (timing, errors, memory) to stdout.  <br /></td></tr>
+<tr class="separator:a7ef07fc021d6717c2f93e0ed6e31acb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1329d0036854724666684a3a78b4c6f" id="r_ab1329d0036854724666684a3a78b4c6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1329d0036854724666684a3a78b4c6f">print_summary</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, nlohmann::json const &amp;model_data, <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> const &amp;hints={})</td></tr>
+<tr class="memdesc:ab1329d0036854724666684a3a78b4c6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display a full model summary from its JSON representation.  <br /></td></tr>
+<tr class="separator:ab1329d0036854724666684a3a78b4c6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d8d2f83fb3aac85a3842875e47faa4" id="r_a82d8d2f83fb3aac85a3842875e47faa4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82d8d2f83fb3aac85a3842875e47faa4">print_variable_importance</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;out, <a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> const &amp;vi, <a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;feature_names={}, int max_rows=20)</td></tr>
+<tr class="memdesc:a82d8d2f83fb3aac85a3842875e47faa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a ranked variable importance table to stdout.  <br /></td></tr>
+<tr class="separator:a82d8d2f83fb3aac85a3842875e47faa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a9a4ac285dd44986b600c95ad4a2f3c0e" name="a9a4ac285dd44986b600c95ad4a2f3c0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a4ac285dd44986b600c95ad4a2f3c0e">&#9670;&#160;</a></span>ErrorHandler</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a9a4ac285dd44986b600c95ad4a2f3c0e">ppforest2::io::ErrorHandler</a> = void (*)(bool, std::string const&amp;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ae8b077f59b53c46c1279dd269956ecf8" name="ae8b077f59b53c46c1279dd269956ecf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8b077f59b53c46c1279dd269956ecf8">&#9670;&#160;</a></span>check_dir_not_exists()</h2>
+<a id="a587b4620e094a4f498b3df6bfc835e52" name="a587b4620e094a4f498b3df6bfc835e52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a587b4620e094a4f498b3df6bfc835e52">&#9670;&#160;</a></span>check_dir_not_exists()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +228,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void ppforest2::io::check_dir_not_exists </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -198,8 +244,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab05c747dc852ed977dcdb58e81bc42f9" name="ab05c747dc852ed977dcdb58e81bc42f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab05c747dc852ed977dcdb58e81bc42f9">&#9670;&#160;</a></span>check_file_not_exists()</h2>
+<a id="a25b0db555a3583b12ecf5fcf25b91554" name="a25b0db555a3583b12ecf5fcf25b91554"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25b0db555a3583b12ecf5fcf25b91554">&#9670;&#160;</a></span>check_file_exists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::check_file_exists </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exit with an error if a file does not exist at the given path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>The file path to check. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af8c7ad637a7a6b11ff927795e2446952" name="af8c7ad637a7a6b11ff927795e2446952"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8c7ad637a7a6b11ff927795e2446952">&#9670;&#160;</a></span>check_file_not_exists()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,7 +278,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void ppforest2::io::check_file_not_exists </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -284,8 +355,8 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="a7dc8a781bbe1c7c8f4290543fc19d46c" name="a7dc8a781bbe1c7c8f4290543fc19d46c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dc8a781bbe1c7c8f4290543fc19d46c">&#9670;&#160;</a></span>print_configuration()</h2>
+<a id="ace2541d46356ac640131befe5577b099" name="ace2541d46356ac640131befe5577b099"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace2541d46356ac640131befe5577b099">&#9670;&#160;</a></span>print_configuration()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,12 +369,12 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>hints</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>hints</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -320,8 +391,8 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="aa58e461778488be973d454c41b704dd9" name="aa58e461778488be973d454c41b704dd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa58e461778488be973d454c41b704dd9">&#9670;&#160;</a></span>print_confusion_matrix()</h2>
+<a id="ad572239cbb43a83dfded8ee6c63813f3" name="ad572239cbb43a83dfded8ee6c63813f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad572239cbb43a83dfded8ee6c63813f3">&#9670;&#160;</a></span>print_confusion_matrix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,17 +405,17 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1stats_1_1ConfusionMatrix.html">stats::ConfusionMatrix</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cm</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1ConfusionMatrix.html">stats::ConfusionMatrix</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>cm</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>title</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Confusion&#160;Matrix&quot;</span>, </td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>title</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Confusion&#160;Matrix&quot;</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -361,8 +432,8 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="a19eaf80911f0791e0580745b98b0d9c1" name="a19eaf80911f0791e0580745b98b0d9c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19eaf80911f0791e0580745b98b0d9c1">&#9670;&#160;</a></span>print_data_summary()</h2>
+<a id="aabe7cdec75819ee6e14cd5ced8c221c1" name="aabe7cdec75819ee6e14cd5ced8c221c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabe7cdec75819ee6e14cd5ced8c221c1">&#9670;&#160;</a></span>print_data_summary()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -375,7 +446,7 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>meta</em></span>&#160;)</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>meta</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -392,8 +463,240 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="ad87ca824e129347e3b2b308fbea618b0" name="ad87ca824e129347e3b2b308fbea618b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad87ca824e129347e3b2b308fbea618b0">&#9670;&#160;</a></span>print_results()</h2>
+<a id="ab200ca9bdf8816985f17e93a746c8910" name="ab200ca9bdf8816985f17e93a746c8910"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab200ca9bdf8816985f17e93a746c8910">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[1/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">stats::ClassificationMetrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>cm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a labeled metrics block — error rate + confusion matrix for classification, MSE + regression metrics for regression. </p>
+<p>The variant overload dispatches on the alternative; callers that already carry a <code><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104" title="Mode-polymorphic metrics block.">stats::Metrics</a></code> (predict, summarize, OOB) can stay mode-agnostic. Label-less overloads emit unprefixed titles (e.g. "Error:" instead of "Training Error:") for callers that have no section context to add.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td><a class="el" href="structppforest2_1_1io_1_1Output.html" title="Quiet-aware, indentation-aware output context.">Output</a> context. </td></tr>
+    <tr><td class="paramname">metrics</td><td>Mode-specific or variant-typed metrics. </td></tr>
+    <tr><td class="paramname">label</td><td>Prefix used on row labels (e.g. "Training", "OOB"). </td></tr>
+    <tr><td class="paramname">group_names</td><td>Class labels — used only by the classification path. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af2b6e98d44b1c00c9f5eb464995468b5" name="af2b6e98d44b1c00c9f5eb464995468b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b6e98d44b1c00c9f5eb464995468b5">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[2/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">stats::ClassificationMetrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print a labeled metrics block — error rate + confusion matrix for classification, MSE + regression metrics for regression.    </p>
+<p>The variant overload dispatches on the alternative; callers that already carry a <code><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104" title="Mode-polymorphic metrics block.">stats::Metrics</a></code> (predict, summarize, OOB) can stay mode-agnostic. Label-less overloads emit unprefixed titles (e.g. "Error:" instead of "Training Error:") for callers that have no section context to add.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td><a class="el" href="structppforest2_1_1io_1_1Output.html" title="Quiet-aware, indentation-aware output context.">Output</a> context. </td></tr>
+    <tr><td class="paramname">metrics</td><td>Mode-specific or variant-typed metrics. </td></tr>
+    <tr><td class="paramname">label</td><td>Prefix used on row labels (e.g. "Training", "OOB"). </td></tr>
+    <tr><td class="paramname">group_names</td><td>Class labels — used only by the classification path.    </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae7b1aa0a3b8285dca460334bd859cd86" name="ae7b1aa0a3b8285dca460334bd859cd86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b1aa0a3b8285dca460334bd859cd86">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">stats::Metrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abbb755638e0a8e590e597d3664be4e1e" name="abbb755638e0a8e590e597d3664be4e1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbb755638e0a8e590e597d3664be4e1e">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[4/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1stats.html#a400001293548f4ee072898d84f869104">stats::Metrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>metrics</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2671654dc8e2aaf8226d4f423d56b13" name="ae2671654dc8e2aaf8226d4f423d56b13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2671654dc8e2aaf8226d4f423d56b13">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[5/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3b9219fab96fc895582a317e3d52636" name="ac3b9219fab96fc895582a317e3d52636"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3b9219fab96fc895582a317e3d52636">&#9670;&#160;</a></span>print_metrics_block() <span class="overload">[6/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_metrics_block </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>group_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa93cb9fdd489fb9768a83d2a4ea1201b" name="aa93cb9fdd489fb9768a83d2a4ea1201b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa93cb9fdd489fb9768a83d2a4ea1201b">&#9670;&#160;</a></span>print_regression_metrics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::io::print_regression_metrics </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">stats::RegressionMetrics</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>rm</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>title</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;Regression&#160;Metrics&quot;</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Print regression metrics to stdout. </p>
+<p>Displays MSE, MAE, and R-squared.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td><a class="el" href="structppforest2_1_1io_1_1Output.html" title="Quiet-aware, indentation-aware output context.">Output</a> context. </td></tr>
+    <tr><td class="paramname">rm</td><td>The regression metrics to print. </td></tr>
+    <tr><td class="paramname">title</td><td>Section title. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7ef07fc021d6717c2f93e0ed6e31acb0" name="a7ef07fc021d6717c2f93e0ed6e31acb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ef07fc021d6717c2f93e0ed6e31acb0">&#9670;&#160;</a></span>print_results()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,7 +709,7 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1io_1_1ModelStats.html">ModelStats</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>stats</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1ModelStats.html">ModelStats</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>stats</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -421,8 +724,8 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="aa33ed0297f11b5cc3875f3efba7049bf" name="aa33ed0297f11b5cc3875f3efba7049bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa33ed0297f11b5cc3875f3efba7049bf">&#9670;&#160;</a></span>print_summary()</h2>
+<a id="ab1329d0036854724666684a3a78b4c6f" name="ab1329d0036854724666684a3a78b4c6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1329d0036854724666684a3a78b4c6f">&#9670;&#160;</a></span>print_summary()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -435,12 +738,12 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>model_data</em></span>, </td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>model_data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>hints</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1ConfigDisplayHints.html">ConfigDisplayHints</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>hints</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -450,8 +753,8 @@ template&lt;typename F&gt; </div>
 
 </div>
 </div>
-<a id="a7e4f70debb2e10cbc628376c1382d84f" name="a7e4f70debb2e10cbc628376c1382d84f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e4f70debb2e10cbc628376c1382d84f">&#9670;&#160;</a></span>print_variable_importance()</h2>
+<a id="a82d8d2f83fb3aac85a3842875e47faa4" name="a82d8d2f83fb3aac85a3842875e47faa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d8d2f83fb3aac85a3842875e47faa4">&#9670;&#160;</a></span>print_variable_importance()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,12 +767,12 @@ template&lt;typename F&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>vi</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>vi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>feature_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a0425ce8ff933b864f7926126fb72a4da">types::Names</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>feature_names</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

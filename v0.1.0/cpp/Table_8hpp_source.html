@@ -113,133 +113,156 @@ $(function(){initNavTree('Table_8hpp_source.html',''); initResizable(true); });
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">   24</a></span>  <span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">Align</a> { <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a811882fecd5c7618d7099ebbd39ea254">left</a>, <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">right</a> };</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
 <div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a811afacc6fe606cd162c9e7ceba31d48">   31</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a811afacc6fe606cd162c9e7ceba31d48">visual_width</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a73cec06a79ca62d760c5128a6065d6a9">   31</a></span>  <span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a73cec06a79ca62d760c5128a6065d6a9">visual_width</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">int</span> width      = 0;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">bool</span> in_escape = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> c : s) {</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      <span class="keywordflow">if</span> (in_escape) {</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;m&#39;</span>) in_escape = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;\033&#39;</span>) {</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        in_escape = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>      } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        ++width;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>      }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> width;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;m&#39;</span>)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>          in_escape = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (c == <span class="charliteral">&#39;\033&#39;</span>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        in_escape = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        ++width;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">return</span> width;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  }</div>
 </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span></div>
-<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a1614d1ec81474da70d52bc182d94f356">   54</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a1614d1ec81474da70d52bc182d94f356">pad</a>(<span class="keyword">const</span> std::string&amp; s, <span class="keywordtype">int</span> width, <a class="code hl_enumeration" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">Align</a> align = <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>) {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">int</span> gap = width - <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a811afacc6fe606cd162c9e7ceba31d48">visual_width</a>(s);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">if</span> (gap &lt;= 0) <span class="keywordflow">return</span> s;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    std::string spaces(<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(gap), <span class="charliteral">&#39; &#39;</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span></div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a35d101f7c1f74e01050210d1be779bfb">   55</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a35d101f7c1f74e01050210d1be779bfb">pad</a>(std::string <span class="keyword">const</span>&amp; s, <span class="keywordtype">int</span> width, <a class="code hl_enumeration" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">Align</a> align = <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">int</span> gap = width - <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a73cec06a79ca62d760c5128a6065d6a9">visual_width</a>(s);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (gap &lt;= 0)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <span class="keywordflow">return</span> s;</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">return</span> align == <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a> ? spaces + s : s + spaces;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    std::string spaces(<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(gap), <span class="charliteral">&#39; &#39;</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">return</span> align == <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a> ? spaces + s : s + spaces;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  }</div>
 </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span></div>
-<div class="foldopen" id="foldopen00067" data-start="{" data-end="};">
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html">   67</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structppforest2_1_1io_1_1layout_1_1Column.html">Column</a> {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">   68</a></span>    std::string <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">label</a>;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">   69</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">width</a>;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">   70</a></span>    <a class="code hl_enumeration" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">Align</a> <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">align</a> = <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  };</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span></div>
+<div class="foldopen" id="foldopen00069" data-start="{" data-end="};">
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html">   69</a></span>  <span class="keyword">struct </span><a class="code hl_struct" href="structppforest2_1_1io_1_1layout_1_1Column.html">Column</a> {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">   70</a></span>    std::string <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">label</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">   71</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">width</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">   72</a></span>    <a class="code hl_enumeration" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">Align</a> <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">align</a>  = <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5040a01db95ed485d4473db645d9ef5e">   73</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structppforest2_1_1io_1_1layout_1_1Column.html#a5040a01db95ed485d4473db645d9ef5e">enabled</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  };</div>
 </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">   74</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> = std::vector&lt;std::string&gt;;</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span></div>
-<div class="foldopen" id="foldopen00081" data-start="{" data-end="}">
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#aea6c2636a757c887f397765d98a19171">   81</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#aea6c2636a757c887f397765d98a19171">format_row</a>(</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keyword">const</span> std::vector&lt;Column&gt;&amp; columns,</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keyword">const</span> <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a>&amp;                 cells,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keyword">const</span> std::string&amp;         sep = <span class="stringliteral">&quot;  &quot;</span>) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">   77</a></span>  <span class="keyword">using </span><a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> = std::vector&lt;std::string&gt;;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span></div>
+<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a78b548cefd6970b836b21462349c414a">   84</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a78b548cefd6970b836b21462349c414a">format_row</a>(std::vector&lt;Column&gt; <span class="keyword">const</span>&amp; columns, <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> <span class="keyword">const</span>&amp; cells, std::string <span class="keyword">const</span>&amp; sep = <span class="stringliteral">&quot;  &quot;</span>) {</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    std::string line;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; columns.size() &amp;&amp; i &lt; cells.size(); ++i) {</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      <span class="keywordflow">if</span> (i &gt; 0) line += sep;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      line += <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a1614d1ec81474da70d52bc182d94f356">pad</a>(cells[i], columns[i].width, columns[i].align);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; columns.size() &amp;&amp; i &lt; cells.size(); ++i) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      <span class="keywordflow">if</span> (!columns[i].enabled) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>      }</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">return</span> line;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      <span class="keywordflow">if</span> (!first) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        line += sep;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      first = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      line += <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a35d101f7c1f74e01050210d1be779bfb">pad</a>(cells[i], columns[i].width, columns[i].align);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">return</span> line;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  }</div>
 </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
-<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#af10f865878b7928c96bcc65d4c6f01a7">   99</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#af10f865878b7928c96bcc65d4c6f01a7">format_separator</a>(</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keyword">const</span> std::vector&lt;Column&gt;&amp; columns,</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">const</span> std::string&amp;         sep = <span class="stringliteral">&quot;  &quot;</span>) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">int</span> total = 0;</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; columns.size(); ++i) {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      <span class="keywordflow">if</span> (i &gt; 0) total += <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(sep.size());</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>      total += columns[i].width;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">return</span> std::string(<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(total), <span class="charliteral">&#39;-&#39;</span>);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  }</div>
-</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
-<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a4086f1cd89bed586722304d3b77a6c83">  116</a></span>  <span class="keyword">inline</span> <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a4086f1cd89bed586722304d3b77a6c83">header_labels</a>(<span class="keyword">const</span> std::vector&lt;Column&gt;&amp; columns) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> labels;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    labels.reserve(columns.size());</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a08ae34a0ce470c5169a9f4072b5354ef">  107</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a08ae34a0ce470c5169a9f4072b5354ef">format_separator</a>(std::vector&lt;Column&gt; <span class="keyword">const</span>&amp; columns, std::string <span class="keyword">const</span>&amp; sep = <span class="stringliteral">&quot;  &quot;</span>) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordtype">int</span> total  = 0;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordtype">bool</span> first = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; columns.size(); ++i) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      <span class="keywordflow">if</span> (!columns[i].enabled) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      <span class="keywordflow">if</span> (!first) {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        total += <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(sep.size());</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      }</div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; col : columns) {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      labels.push_back(col.label);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      first = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      total += columns[i].width;</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> labels;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> std::string(<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(total), <span class="charliteral">&#39;-&#39;</span>);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  }</div>
 </div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span></div>
 <div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a665671be7e16794fc46d803051dd3493">  130</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a665671be7e16794fc46d803051dd3493">format_md_row</a>(<span class="keyword">const</span> <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a>&amp; cells) {</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    std::string line = <span class="stringliteral">&quot;|&quot;</span>;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; cell : cells) {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      line += <span class="stringliteral">&quot; &quot;</span> + cell + <span class="stringliteral">&quot; |&quot;</span>;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    }</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordflow">return</span> line;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#ad5c891199635c8625f107f565d8d7f06">  130</a></span>  <span class="keyword">inline</span> <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#ad5c891199635c8625f107f565d8d7f06">header_labels</a>(std::vector&lt;Column&gt; <span class="keyword">const</span>&amp; columns) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> labels;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    labels.reserve(columns.size());</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; col : columns) {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>      labels.push_back(col.label);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">return</span> labels;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  }</div>
 </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span></div>
-<div class="foldopen" id="foldopen00143" data-start="{" data-end="}">
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a61070d5fb9ca7d772bc39584f769e4c0">  143</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a61070d5fb9ca7d772bc39584f769e4c0">format_md_separator</a>(<span class="keyword">const</span> std::vector&lt;Column&gt;&amp; columns) {</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    std::string line = <span class="stringliteral">&quot;|&quot;</span>;</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; col : columns) {</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>      line += (col.align == <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>) ? <span class="stringliteral">&quot;---:|&quot;</span> : <span class="stringliteral">&quot;:---|&quot;</span>;</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span></div>
+<div class="foldopen" id="foldopen00147" data-start="{" data-end="}">
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#a9499bff14d0b364dfabd58262fe3d05b">  147</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#a9499bff14d0b364dfabd58262fe3d05b">format_md_row</a>(<a class="code hl_typedef" href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">Row</a> <span class="keyword">const</span>&amp; cells, std::vector&lt;Column&gt; <span class="keyword">const</span>&amp; columns = {}) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    std::string line = <span class="stringliteral">&quot;|&quot;</span>;</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> line;</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; cells.size(); ++i) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>      <span class="keywordflow">if</span> (!columns.empty() &amp;&amp; i &lt; columns.size() &amp;&amp; !columns[i].enabled) {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      line += <span class="stringliteral">&quot; &quot;</span> + cells[i] + <span class="stringliteral">&quot; |&quot;</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">return</span> line;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  }</div>
 </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span></div>
+<div class="foldopen" id="foldopen00164" data-start="{" data-end="}">
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1layout.html#af4b80495fa29bf45b96dd80922ee0e4d">  164</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1layout.html#af4b80495fa29bf45b96dd80922ee0e4d">format_md_separator</a>(std::vector&lt;Column&gt; <span class="keyword">const</span>&amp; columns) {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    std::string line = <span class="stringliteral">&quot;|&quot;</span>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; col : columns) {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>      <span class="keywordflow">if</span> (!col.enabled) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>      }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      line += (col.align == <a class="code hl_enumvalue" href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">Align::right</a>) ? <span class="stringliteral">&quot;---:|&quot;</span> : <span class="stringliteral">&quot;:---|&quot;</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    }</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">return</span> line;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  }</div>
+</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
 </div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html">ppforest2::io::layout</a></div><div class="ttdoc">Column-driven table formatting with ANSI-safe alignment.</div><div class="ttdef"><b>Definition</b> Table.hpp:23</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a1614d1ec81474da70d52bc182d94f356"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a1614d1ec81474da70d52bc182d94f356">ppforest2::io::layout::pad</a></div><div class="ttdeci">std::string pad(const std::string &amp;s, int width, Align align=Align::right)</div><div class="ttdoc">Pad a string to a target visual width, handling ANSI codes.</div><div class="ttdef"><b>Definition</b> Table.hpp:54</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a08ae34a0ce470c5169a9f4072b5354ef"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a08ae34a0ce470c5169a9f4072b5354ef">ppforest2::io::layout::format_separator</a></div><div class="ttdeci">std::string format_separator(std::vector&lt; Column &gt; const &amp;columns, std::string const &amp;sep=&quot;  &quot;)</div><div class="ttdoc">Generate a separator line spanning the full table width.</div><div class="ttdef"><b>Definition</b> Table.hpp:107</div></div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a202373cd0e1895b30a78c5c5fbc48b06"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06">ppforest2::io::layout::Align</a></div><div class="ttdeci">Align</div><div class="ttdef"><b>Definition</b> Table.hpp:24</div></div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a7c4f29407893c334a6cb7a87bf045c0d">ppforest2::io::layout::Align::right</a></div><div class="ttdeci">@ right</div><div class="ttdef"><b>Definition</b> Table.hpp:24</div></div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a202373cd0e1895b30a78c5c5fbc48b06a811882fecd5c7618d7099ebbd39ea254"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a202373cd0e1895b30a78c5c5fbc48b06a811882fecd5c7618d7099ebbd39ea254">ppforest2::io::layout::Align::left</a></div><div class="ttdeci">@ left</div><div class="ttdef"><b>Definition</b> Table.hpp:24</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a4086f1cd89bed586722304d3b77a6c83"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a4086f1cd89bed586722304d3b77a6c83">ppforest2::io::layout::header_labels</a></div><div class="ttdeci">Row header_labels(const std::vector&lt; Column &gt; &amp;columns)</div><div class="ttdoc">Extract header labels from column definitions as a Row.</div><div class="ttdef"><b>Definition</b> Table.hpp:116</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a61070d5fb9ca7d772bc39584f769e4c0"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a61070d5fb9ca7d772bc39584f769e4c0">ppforest2::io::layout::format_md_separator</a></div><div class="ttdeci">std::string format_md_separator(const std::vector&lt; Column &gt; &amp;columns)</div><div class="ttdoc">Generate a markdown alignment row.</div><div class="ttdef"><b>Definition</b> Table.hpp:143</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a665671be7e16794fc46d803051dd3493"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a665671be7e16794fc46d803051dd3493">ppforest2::io::layout::format_md_row</a></div><div class="ttdeci">std::string format_md_row(const Row &amp;cells)</div><div class="ttdoc">Format a row as a markdown table row.</div><div class="ttdef"><b>Definition</b> Table.hpp:130</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a7a12050f5eefe100488550e3055135f0"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">ppforest2::io::layout::Row</a></div><div class="ttdeci">std::vector&lt; std::string &gt; Row</div><div class="ttdoc">A row of pre-formatted cell strings.</div><div class="ttdef"><b>Definition</b> Table.hpp:74</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a811afacc6fe606cd162c9e7ceba31d48"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a811afacc6fe606cd162c9e7ceba31d48">ppforest2::io::layout::visual_width</a></div><div class="ttdeci">int visual_width(const std::string &amp;s)</div><div class="ttdoc">Compute the visual width of a string, ignoring ANSI escape codes.</div><div class="ttdef"><b>Definition</b> Table.hpp:31</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_aea6c2636a757c887f397765d98a19171"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#aea6c2636a757c887f397765d98a19171">ppforest2::io::layout::format_row</a></div><div class="ttdeci">std::string format_row(const std::vector&lt; Column &gt; &amp;columns, const Row &amp;cells, const std::string &amp;sep=&quot;  &quot;)</div><div class="ttdoc">Format a row of cells according to column definitions.</div><div class="ttdef"><b>Definition</b> Table.hpp:81</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_af10f865878b7928c96bcc65d4c6f01a7"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#af10f865878b7928c96bcc65d4c6f01a7">ppforest2::io::layout::format_separator</a></div><div class="ttdeci">std::string format_separator(const std::vector&lt; Column &gt; &amp;columns, const std::string &amp;sep=&quot;  &quot;)</div><div class="ttdoc">Generate a separator line spanning the full table width.</div><div class="ttdef"><b>Definition</b> Table.hpp:99</div></div>
-<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html">ppforest2::io::layout::Column</a></div><div class="ttdoc">Column definition for table formatting.</div><div class="ttdef"><b>Definition</b> Table.hpp:67</div></div>
-<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a4a537dc929bbe47984bc3b63a196b70f"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">ppforest2::io::layout::Column::align</a></div><div class="ttdeci">Align align</div><div class="ttdef"><b>Definition</b> Table.hpp:70</div></div>
-<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a5f90a0255ec8fabf3a3af104c3113447"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">ppforest2::io::layout::Column::width</a></div><div class="ttdeci">int width</div><div class="ttdef"><b>Definition</b> Table.hpp:69</div></div>
-<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a6a7288cb6b0328d673eff4510f749d10"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">ppforest2::io::layout::Column::label</a></div><div class="ttdeci">std::string label</div><div class="ttdef"><b>Definition</b> Table.hpp:68</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a35d101f7c1f74e01050210d1be779bfb"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a35d101f7c1f74e01050210d1be779bfb">ppforest2::io::layout::pad</a></div><div class="ttdeci">std::string pad(std::string const &amp;s, int width, Align align=Align::right)</div><div class="ttdoc">Pad a string to a target visual width, handling ANSI codes.</div><div class="ttdef"><b>Definition</b> Table.hpp:55</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a73cec06a79ca62d760c5128a6065d6a9"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a73cec06a79ca62d760c5128a6065d6a9">ppforest2::io::layout::visual_width</a></div><div class="ttdeci">int visual_width(std::string const &amp;s)</div><div class="ttdoc">Compute the visual width of a string, ignoring ANSI escape codes.</div><div class="ttdef"><b>Definition</b> Table.hpp:31</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a78b548cefd6970b836b21462349c414a"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a78b548cefd6970b836b21462349c414a">ppforest2::io::layout::format_row</a></div><div class="ttdeci">std::string format_row(std::vector&lt; Column &gt; const &amp;columns, Row const &amp;cells, std::string const &amp;sep=&quot;  &quot;)</div><div class="ttdoc">Format a row of cells according to column definitions.</div><div class="ttdef"><b>Definition</b> Table.hpp:84</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a7a12050f5eefe100488550e3055135f0"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a7a12050f5eefe100488550e3055135f0">ppforest2::io::layout::Row</a></div><div class="ttdeci">std::vector&lt; std::string &gt; Row</div><div class="ttdoc">A row of pre-formatted cell strings.</div><div class="ttdef"><b>Definition</b> Table.hpp:77</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_a9499bff14d0b364dfabd58262fe3d05b"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#a9499bff14d0b364dfabd58262fe3d05b">ppforest2::io::layout::format_md_row</a></div><div class="ttdeci">std::string format_md_row(Row const &amp;cells, std::vector&lt; Column &gt; const &amp;columns={})</div><div class="ttdoc">Format a row as a markdown table row.</div><div class="ttdef"><b>Definition</b> Table.hpp:147</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_ad5c891199635c8625f107f565d8d7f06"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#ad5c891199635c8625f107f565d8d7f06">ppforest2::io::layout::header_labels</a></div><div class="ttdeci">Row header_labels(std::vector&lt; Column &gt; const &amp;columns)</div><div class="ttdoc">Extract header labels from column definitions as a Row.</div><div class="ttdef"><b>Definition</b> Table.hpp:130</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1layout_html_af4b80495fa29bf45b96dd80922ee0e4d"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1layout.html#af4b80495fa29bf45b96dd80922ee0e4d">ppforest2::io::layout::format_md_separator</a></div><div class="ttdeci">std::string format_md_separator(std::vector&lt; Column &gt; const &amp;columns)</div><div class="ttdoc">Generate a markdown alignment row.</div><div class="ttdef"><b>Definition</b> Table.hpp:164</div></div>
+<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html">ppforest2::io::layout::Column</a></div><div class="ttdoc">Column definition for table formatting.</div><div class="ttdef"><b>Definition</b> Table.hpp:69</div></div>
+<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a4a537dc929bbe47984bc3b63a196b70f"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a4a537dc929bbe47984bc3b63a196b70f">ppforest2::io::layout::Column::align</a></div><div class="ttdeci">Align align</div><div class="ttdef"><b>Definition</b> Table.hpp:72</div></div>
+<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a5040a01db95ed485d4473db645d9ef5e"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a5040a01db95ed485d4473db645d9ef5e">ppforest2::io::layout::Column::enabled</a></div><div class="ttdeci">bool enabled</div><div class="ttdef"><b>Definition</b> Table.hpp:73</div></div>
+<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a5f90a0255ec8fabf3a3af104c3113447"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a5f90a0255ec8fabf3a3af104c3113447">ppforest2::io::layout::Column::width</a></div><div class="ttdeci">int width</div><div class="ttdef"><b>Definition</b> Table.hpp:71</div></div>
+<div class="ttc" id="astructppforest2_1_1io_1_1layout_1_1Column_html_a6a7288cb6b0328d673eff4510f749d10"><div class="ttname"><a href="structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10">ppforest2::io::layout::Column::label</a></div><div class="ttdeci">std::string label</div><div class="ttdef"><b>Definition</b> Table.hpp:70</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

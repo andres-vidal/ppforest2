@@ -52,7 +52,7 @@ patchwork object that works with
 
 ``` r
 if (FALSE) { # \dontrun{
-model <- pptr(Type ~ ., data = iris)
+model <- pptr(Species ~ ., data = iris)
 plot(model)                         # mosaic overview
 plot(model, type = "structure")     # tree structure only
 plot(model, type = "importance")    # variable importance

@@ -108,11 +108,12 @@ $(function(){initNavTree('CLIOptions_8hpp.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="namespaceCLI.html">CLI</a> argument parsing, validation, and configuration for <a class="el" href="namespaceppforest2.html">ppforest2</a>.  
+<p><a class="el" href="namespaceCLI.html">CLI</a> argument parsing, validation, and configuration for <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="ModelParams_8hpp_source.html">cli/ModelParams.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EvaluateParams_8hpp_source.html">cli/EvaluateParams.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="BenchmarkParams_8hpp_source.html">cli/BenchmarkParams.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ServeParams_8hpp_source.html">cli/ServeParams.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Output_8hpp_source.html">io/Output.hpp</a>&quot;</code><br />
 <code>#include &lt;nlohmann/json.hpp&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -121,13 +122,14 @@ $(function(){initNavTree('CLIOptions_8hpp.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">ppforest2::cli::CLIOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All <a class="el" href="namespaceCLI.html">CLI</a> options and runtime parameters.  <a href="structppforest2_1_1cli_1_1CLIOptions.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1Params.html">ppforest2::cli::Params</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All <a class="el" href="namespaceCLI.html">CLI</a> options and runtime parameters.  <a href="structppforest2_1_1cli_1_1Params.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html">ppforest2::cli</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1cli"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. <br /></td></tr>
@@ -135,34 +137,32 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ac19eadb7b9d37e6b1fd42c6e52920e51" id="r_ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51">ppforest2::cli::Subcommand</a> { <br />
-&#160;&#160;<a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a334c4a4c42fdb79d7ebc3e73b517e6f8">ppforest2::cli::none</a>
-, <a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a61b3a8faa9c1091806675c230a9abe64">ppforest2::cli::train</a>
-, <a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a59a9f87755ec523b0db73207fc8362df">ppforest2::cli::predict</a>
-, <a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a94d2f2aabfda3169d54a9531cdb99890">ppforest2::cli::evaluate</a>
+<tr class="memitem:a2753bfa9baab7fc02affc77e3c364a29" id="r_a2753bfa9baab7fc02affc77e3c364a29"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29">ppforest2::cli::Subcommand</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a334c4a4c42fdb79d7ebc3e73b517e6f8">ppforest2::cli::none</a>
+, <a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a61b3a8faa9c1091806675c230a9abe64">ppforest2::cli::train</a>
+, <a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a59a9f87755ec523b0db73207fc8362df">ppforest2::cli::predict</a>
+, <a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890">ppforest2::cli::evaluate</a>
 , <br />
-&#160;&#160;<a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a07978586e47c8709a63e895fbf3c3c7d">ppforest2::cli::benchmark</a>
-, <a class="el" href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51a2d49c6f48afd8395a1a25c58e45acb65">ppforest2::cli::summarize</a>
+&#160;&#160;<a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d">ppforest2::cli::benchmark</a>
+, <a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65">ppforest2::cli::summarize</a>
+, <a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796">ppforest2::cli::serve</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands.  <a href="namespaceppforest2_1_1cli.html#ac19eadb7b9d37e6b1fd42c6e52920e51">More...</a><br /></td></tr>
-<tr class="separator:ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a2753bfa9baab7fc02affc77e3c364a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands.  <a href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29">More...</a><br /></td></tr>
+<tr class="separator:a2753bfa9baab7fc02affc77e3c364a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a9bd63acbab0aa4b7ce674bb37015de00" id="r_a9bd63acbab0aa4b7ce674bb37015de00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a9bd63acbab0aa4b7ce674bb37015de00">ppforest2::cli::init_params</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params, int total_vars=0)</td></tr>
-<tr class="memdesc:a9bd63acbab0aa4b7ce674bb37015de00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve sentinel values in <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> to concrete defaults.  <br /></td></tr>
-<tr class="separator:a9bd63acbab0aa4b7ce674bb37015de00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d8bb54163dfd42eab3e54447362d72" id="r_a21d8bb54163dfd42eab3e54447362d72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a21d8bb54163dfd42eab3e54447362d72">ppforest2::cli::parse_args</a> (int argc, char *argv[])</td></tr>
-<tr class="memdesc:a21d8bb54163dfd42eab3e54447362d72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> struct.  <br /></td></tr>
-<tr class="separator:a21d8bb54163dfd42eab3e54447362d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dc6f94738ccf8577ec0403d028c06d1" id="r_a9dc6f94738ccf8577ec0403d028c06d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a9dc6f94738ccf8577ec0403d028c06d1">ppforest2::cli::warn_unused_params</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9dc6f94738ccf8577ec0403d028c06d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn the user about parameters that are ignored for single-tree training.  <br /></td></tr>
-<tr class="separator:a9dc6f94738ccf8577ec0403d028c06d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d69e4b2a0b3aed5ad1ccd540176fca" id="r_ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#ae9d69e4b2a0b3aed5ad1ccd540176fca">ppforest2::cli::parse_args</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1Params.html" title="All CLI options and runtime parameters.">Params</a> struct.  <br /></td></tr>
+<tr class="separator:ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a8789e09c16fdf281d4231c662e8bbe" id="r_a7a8789e09c16fdf281d4231c662e8bbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a7a8789e09c16fdf281d4231c662e8bbe">ppforest2::cli::warn_unused_params</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:a7a8789e09c16fdf281d4231c662e8bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn the user about parameters that are ignored for single-tree training.  <br /></td></tr>
+<tr class="separator:a7a8789e09c16fdf281d4231c662e8bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="namespaceCLI.html">CLI</a> argument parsing, validation, and configuration for <a class="el" href="namespaceppforest2.html">ppforest2</a>. </p>
-<p>Defines the CLIOptions struct and declares functions to parse, validate, and initialize runtime parameters. </p>
+<div class="textblock"><p><a class="el" href="namespaceCLI.html">CLI</a> argument parsing, validation, and configuration for <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a>. </p>
+<p>Defines the Params struct and declares functions to parse, validate, and initialize runtime parameters. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

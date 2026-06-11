@@ -113,9 +113,9 @@ $(function(){initNavTree('structppforest2_1_1viz_1_1RegionPolygon.html',''); ini
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:afccee5e571135058b266e94b29920bd1" id="r_afccee5e571135058b266e94b29920bd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a421bc51b648a3f3a8e2d3d5c17293c7e">types::Response</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afccee5e571135058b266e94b29920bd1">predicted_group</a></td></tr>
-<tr class="memdesc:afccee5e571135058b266e94b29920bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">0-indexed group label from the leaf.  <br /></td></tr>
-<tr class="separator:afccee5e571135058b266e94b29920bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0c22ab7a2a0347c8ab5d9a75915f501" id="r_ab0c22ab7a2a0347c8ab5d9a75915f501"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0c22ab7a2a0347c8ab5d9a75915f501">predicted_group</a></td></tr>
+<tr class="memdesc:ab0c22ab7a2a0347c8ab5d9a75915f501"><td class="mdescLeft">&#160;</td><td class="mdescRight">0-indexed group label from the leaf.  <br /></td></tr>
+<tr class="separator:ab0c22ab7a2a0347c8ab5d9a75915f501"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf6d58a25de78ffb7f5b8d4913c2755a" id="r_aaf6d58a25de78ffb7f5b8d4913c2755a"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; <a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a>, <a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf6d58a25de78ffb7f5b8d4913c2755a">vertices</a></td></tr>
 <tr class="separator:aaf6d58a25de78ffb7f5b8d4913c2755a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -123,17 +123,17 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>A convex decision region polygon in 2D with its predicted group. </p>
 <p>Each leaf in the tree produces one region: the bounding box clipped by all ancestor half-space constraints (Sutherland–Hodgman algorithm). Vertices are ordered for polygon rendering (either CW or CCW, consistent with the initial bounding box winding).</p>
 <p>The union of all leaf regions tiles the entire bounding box — every point in the bbox belongs to exactly one leaf's region. This guarantees that region polygons fully cover the plot area when the bounding box matches the visible coordinate range.</p>
-<p>Produced by <a class="el" href="structppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>; consumed by the R layer via build_region_df() and rendered with ggplot2::geom_polygon().</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>, <a class="el" href="namespaceppforest2_1_1viz.html#a7a487b725a537226d2c5e981476be051" title="Clip a convex polygon against a single half-space.">clip_polygon_halfspace</a> </dd></dl>
+<p>Produced by <a class="el" href="classppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>; consumed by the R layer via build_region_df() and rendered with ggplot2::geom_polygon().</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>, <a class="el" href="namespaceppforest2_1_1viz.html#acdf2a58cc119f00a0fed0480e9469c7b" title="Clip a convex polygon against a single half-space.">clip_polygon_halfspace</a> </dd></dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="afccee5e571135058b266e94b29920bd1" name="afccee5e571135058b266e94b29920bd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afccee5e571135058b266e94b29920bd1">&#9670;&#160;</a></span>predicted_group</h2>
+<a id="ab0c22ab7a2a0347c8ab5d9a75915f501" name="ab0c22ab7a2a0347c8ab5d9a75915f501"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0c22ab7a2a0347c8ab5d9a75915f501">&#9670;&#160;</a></span>predicted_group</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a421bc51b648a3f3a8e2d3d5c17293c7e">types::Response</a> ppforest2::viz::RegionPolygon::predicted_group</td>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> ppforest2::viz::RegionPolygon::predicted_group</td>
         </tr>
       </table>
 </div><div class="memdoc">

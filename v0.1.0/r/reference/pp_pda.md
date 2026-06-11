@@ -28,9 +28,9 @@ A `pp_strategy` object.
 
 [`pptr`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/pptr.md),
 [`pprf`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/pprf.md),
-[`dr_uniform`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/dr_uniform.md),
-[`dr_noop`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/dr_noop.md),
-[`sr_mean_of_means`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/sr_mean_of_means.md)
+[`vars_uniform`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/vars_uniform.md),
+[`vars_all`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/vars_all.md),
+[`cutpoint_mean_of_means`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/cutpoint_mean_of_means.md)
 
 ## Examples
 
@@ -50,9 +50,11 @@ pp_pda(0.5)
 #> [1] "pp_strategy"
 
 # Use with pptr
-pptr(Type ~ ., data = iris, pp = pp_pda(0.5))
+pptr(Species ~ ., data = iris, pp = pp_pda(0.5))
 #> 
-#> Project-Pursuit Oblique Decision Tree:
+#> Call: pptr(formula = Species ~ ., data = iris, pp = pp_pda(0.5))
+#> 
+#> Projection-Pursuit Oblique Decision Tree:
 #> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
 #>   Predict: setosa 
 #> Else:
@@ -63,27 +65,13 @@ pptr(Type ~ ., data = iris, pp = pp_pda(0.5))
 #> 
 
 # Use with pprf
-pprf(Type ~ ., data = iris, pp = pp_pda(0.5), dr = dr_uniform(2))
+pprf(Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
 #> 
-#> Random Forest of Project-Pursuit Oblique Decision Tree
-#> -------------------------------------
-#> Tree 1:
-#> If ([ 0 0 0.05 0 ] * x) < 0.1617731:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0.01 0 0 0.24 ] * x) < 0.4458542:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> 
-#> Tree 2:
-#> If ([ 0.02 0 0 0.09 ] * x) < 0.2074318:
-#>   Predict: setosa 
-#> Else:
-#>  If ([ 0 0 0.06 0.15 ] * x) < 0.5487639:
-#>    Predict: versicolor 
-#>  Else:
-#>    Predict: virginica 
-#> 
+#> Random Forest of Projection-Pursuit Oblique Decision Trees
+#>   Call:        pprf(formula = Species ~ ., data = iris, pp = pp_pda(0.5), vars = vars_uniform(n_vars = 2))
+#>   Trees:       100
+#>   Mode:        classification
+#>   Group names: setosa, versicolor, virginica
+#>   Formula:     Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -     1
 #> 
 ```

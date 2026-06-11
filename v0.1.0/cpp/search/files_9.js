@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['normal_2ehpp_0',['Normal.hpp',['../Normal_8hpp.html',1,'']]]
+  ['largestgap_2ehpp_0',['LargestGap.hpp',['../LargestGap_8hpp.html',1,'']]],
+  ['leafstrategy_2ehpp_1',['LeafStrategy.hpp',['../LeafStrategy_8hpp.html',1,'']]]
 ];

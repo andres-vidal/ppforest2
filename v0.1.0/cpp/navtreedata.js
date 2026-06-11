@@ -28,19 +28,18 @@ var NAVTREE =
     [ "ppforest2 — C++ API Reference", "index.html", "index" ],
     [ "Extending: Custom Strategies", "extending_strategies.html", [
       [ "Architecture", "extending_strategies.html#strat_architecture", null ],
+      [ "NVI pattern (public entry + protected compute)", "extending_strategies.html#strat_nvi", null ],
       [ "Conventions", "extending_strategies.html#strat_conventions", null ],
       [ "Self-Registration", "extending_strategies.html#strat_registration", null ],
-      [ "Adding a new PPStrategy", "extending_strategies.html#strat_pp", [
+      [ "Adding a new pp::ProjectionPursuit", "extending_strategies.html#strat_pp", [
         [ "Interface to implement", "extending_strategies.html#strat_pp_interface", null ],
         [ "Example: a random projection strategy", "extending_strategies.html#strat_pp_example", null ]
       ] ],
-      [ "Adding a new DRStrategy", "extending_strategies.html#strat_dr", [
-        [ "Interface to implement", "extending_strategies.html#strat_dr_interface", null ],
-        [ "Example: top-variance variable selection", "extending_strategies.html#strat_dr_example", null ]
+      [ "Adding a new vars::VariableSelection", "extending_strategies.html#strat_vars", [
+        [ "Interface to implement", "extending_strategies.html#strat_vars_interface", null ]
       ] ],
-      [ "Adding a new SRStrategy", "extending_strategies.html#strat_sr", [
-        [ "Interface to implement", "extending_strategies.html#strat_sr_interface", null ],
-        [ "Example: median-based split", "extending_strategies.html#strat_sr_example", null ]
+      [ "Adding a new cutpoint::Cutpoint", "extending_strategies.html#strat_cutpoint", [
+        [ "Interface to implement", "extending_strategies.html#strat_cutpoint_interface", null ]
       ] ],
       [ "Composing strategies", "extending_strategies.html#strat_compose", null ],
       [ "Checklist for adding a new strategy", "extending_strategies.html#strat_checklist", null ]
@@ -63,8 +62,8 @@ var NAVTREE =
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ],
+        [ "All", "namespacemembers.html", "namespacemembers_dup" ],
+        [ "Functions", "namespacemembers_func.html", "namespacemembers_func" ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
@@ -77,7 +76,8 @@ var NAVTREE =
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", "functions_vars" ],
-        [ "Typedefs", "functions_type.html", null ]
+        [ "Typedefs", "functions_type.html", null ],
+        [ "Related Symbols", "functions_rela.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -95,12 +95,17 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"BenchmarkParams_8hpp.html",
-"extending_strategies.html#strat_checklist",
-"namespaceppforest2_1_1sr.html#a5984b53061082b99be1d9c764a4b7045",
-"structppforest2_1_1TreeNode.html#a494aabdfba0d9c497c051771b1fe5e9a",
-"structppforest2_1_1cli_1_1ScenarioResult.html#aa196c76adf908bb442964bbb1253e53b",
-"structppforest2_1_1sr_1_1SRStrategy.html#a5058ff4110674f43688cb9e7f9dcb3eb"
+"All_8hpp.html",
+"classppforest2_1_1ClassificationForest.html#a850a69da06a0f2e8a6661fe2a7593586",
+"classppforest2_1_1TrainingSpec.html#a6b13c28d4494a8eb8f29f79d4e60699a",
+"classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#ab58b14ef45918dcf5852bbb109cff757",
+"classppforest2_1_1stop_1_1CompositeStop.html#ae0d0f0ac79cac3d972c8eaacf0220bd1",
+"functions_func_w.html",
+"namespaceppforest2_1_1io_1_1style.html#a67980b6e1d9be22e995d884c69a19b38",
+"structppforest2_1_1NodeContext.html#a8f2bf241d5c61c9db87b627f70914c4a",
+"structppforest2_1_1cli_1_1Params.html#a30706d9a2bd7b65e4273f382b050d4e5",
+"structppforest2_1_1io_1_1csv_1_1FeatureSet.html#a38cc78782b50d1d3fa22a54db31ffd2c",
+"structppforest2_1_1viz_1_1RegionPolygon.html#aaf6d58a25de78ffb7f5b8d4913c2755a"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

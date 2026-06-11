@@ -106,15 +106,16 @@ $(function(){initNavTree('Math_8hpp.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Math.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cmath&gt;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &quot;<a class="el" href="Types_8hpp_source.html">utils/Types.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Macros_8hpp_source.html">utils/Macros.hpp</a>&quot;</code><br />
 </div>
 <p><a href="Math_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html">ppforest2::math</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1math"><td class="mdescLeft">&#160;</td><td class="mdescRight">Numeric comparison utilities. <br /></td></tr>
@@ -127,10 +128,10 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:adb2c5eb329ea583be675af520bfc4b4b" id="r_adb2c5eb329ea583be675af520bfc4b4b"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
-<tr class="memitem:adb2c5eb329ea583be675af520bfc4b4b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html#adb2c5eb329ea583be675af520bfc4b4b">ppforest2::math::collinear</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; T &gt; &amp;a, const <a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; T &gt; &amp;b)</td></tr>
-<tr class="memdesc:adb2c5eb329ea583be675af520bfc4b4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two vectors are collinear (parallel or anti-parallel).  <br /></td></tr>
-<tr class="separator:adb2c5eb329ea583be675af520bfc4b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75105aa89f414a6c4593318ef6b5541d" id="r_a75105aa89f414a6c4593318ef6b5541d"><td class="memTemplParams" colspan="2">template&lt;typename T&gt; </td></tr>
+<tr class="memitem:a75105aa89f414a6c4593318ef6b5541d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html#a75105aa89f414a6c4593318ef6b5541d">ppforest2::math::collinear</a> (<a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; T &gt; const &amp;a, <a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; T &gt; const &amp;b)</td></tr>
+<tr class="memdesc:a75105aa89f414a6c4593318ef6b5541d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether two vectors are collinear (parallel or anti-parallel).  <br /></td></tr>
+<tr class="separator:a75105aa89f414a6c4593318ef6b5541d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a486fc087538c291f21b8e796c04fa70c" id="r_a486fc087538c291f21b8e796c04fa70c"><td class="memTemplParams" colspan="2">template&lt;typename A, typename B&gt; </td></tr>
 <tr class="memitem:a486fc087538c291f21b8e796c04fa70c"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html#a486fc087538c291f21b8e796c04fa70c">ppforest2::math::is_approx</a> (A a, B b)</td></tr>
 <tr class="memdesc:a486fc087538c291f21b8e796c04fa70c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overload using the default APPROX_THRESHOLD.  <br /></td></tr>
@@ -143,6 +144,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ace8888ca553032158504ff15745c2fbf"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html#ace8888ca553032158504ff15745c2fbf">ppforest2::math::is_module_approx</a> (A a, B b)</td></tr>
 <tr class="memdesc:ace8888ca553032158504ff15745c2fbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the absolute values of two scalars are approximately equal.  <br /></td></tr>
 <tr class="separator:ace8888ca553032158504ff15745c2fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc3ba45cb34fc0f9f45661451df20666" id="r_adc3ba45cb34fc0f9f45661451df20666"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1math.html#adc3ba45cb34fc0f9f45661451df20666">ppforest2::math::proportion_to_count</a> (float p, unsigned int total)</td></tr>
+<tr class="memdesc:adc3ba45cb34fc0f9f45661451df20666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a proportion of a total into a count.  <br /></td></tr>
+<tr class="separator:adc3ba45cb34fc0f9f45661451df20666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="adc749a0041f86b9a04fa05a27d8de53b" name="adc749a0041f86b9a04fa05a27d8de53b"></a>

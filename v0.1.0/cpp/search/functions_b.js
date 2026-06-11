@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['newline_0',['newline',['../structppforest2_1_1io_1_1Output.html#aa1cb68f29776067a47c27aa219be818e',1,'ppforest2::io::Output']]],
-  ['node_5fgroups_1',['node_groups',['../structppforest2_1_1TreeCondition.html#a6a2b3cdfe05eaacee10019260bf1db55',1,'ppforest2::TreeCondition::node_groups()'],['../structppforest2_1_1TreeNode.html#a03d94afef8ffcb1cd00f264dbd6a5194',1,'ppforest2::TreeNode::node_groups()'],['../structppforest2_1_1TreeResponse.html#a3d73100e9764c2a9481c2e167f7eb5e7',1,'ppforest2::TreeResponse::node_groups()']]],
-  ['nodedatavisitor_2',['NodeDataVisitor',['../structppforest2_1_1viz_1_1NodeDataVisitor.html#a89edf55beacb824f09a6d9a983177fa8',1,'ppforest2::viz::NodeDataVisitor']]],
-  ['noop_3',['noop',['../namespaceppforest2_1_1dr.html#afb04463fe18947613b27e0b8a367923a',1,'ppforest2::dr']]],
-  ['normal_4',['Normal',['../classppforest2_1_1stats_1_1Normal.html#ac2a2f30409e9f241f6b345e022310647',1,'ppforest2::stats::Normal']]],
-  ['normalize_5',['normalize',['../namespaceppforest2_1_1pp.html#ae34b22f8acd82e65295ea70a730445d9',1,'ppforest2::pp']]],
-  ['now_5fiso8601_6',['now_iso8601',['../namespaceppforest2_1_1io.html#af3bea8d81a602627c7d483ac468c0870',1,'ppforest2::io']]]
+  ['largest_5fgap_0',['largest_gap',['../namespaceppforest2_1_1binarize.html#acf6d5a2ecad7f9e25f08d6570c321eb1',1,'ppforest2::binarize']]],
+  ['leaf_1',['leaf',['../classppforest2_1_1TrainingSpec_1_1Builder.html#a0d5b44777f9f3de6dc1aba34746302e1',1,'ppforest2::TrainingSpec::Builder']]],
+  ['link_2',['link',['../namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4',1,'ppforest2::io::style']]],
+  ['locate_3',['locate',['../classppforest2_1_1cutpoint_1_1Cutpoint.html#a287cd649d1f2a8d8b586b7f968a45117',1,'ppforest2::cutpoint::Cutpoint']]]
 ];

@@ -107,10 +107,10 @@ $(function(){initNavTree('structppforest2_1_1io_1_1ModelStats.html',''); initRes
 </div><!--header-->
 <div class="contents">
 
-<p>Aggregated statistics across multiple training iterations.  
+<p>Per-iteration training statistics.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Presentation_8hpp_source.html">Presentation.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="EvaluateResult_8hpp_source.html">EvaluateResult.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -126,24 +126,49 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5a36f1b04c8f0c2fd08902546cc1683f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a695041ef5064259f249b8bb4b86485e6" id="r_a695041ef5064259f249b8bb4b86485e6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a695041ef5064259f249b8bb4b86485e6">std_tr_error</a> () const</td></tr>
 <tr class="separator:a695041ef5064259f249b8bb4b86485e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817608b31635e22c201e33aacfd131f4" id="r_a817608b31635e22c201e33aacfd131f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html">EvaluateResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a817608b31635e22c201e33aacfd131f4">summarize</a> () const</td></tr>
+<tr class="memdesc:a817608b31635e22c201e33aacfd131f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produce an <a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html" title="Summary of an evaluation run.">EvaluateResult</a> summary from per-iteration data.  <br /></td></tr>
+<tr class="separator:a817608b31635e22c201e33aacfd131f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed2a4c89084b01ea4ea3ef43aeb678ce" id="r_aed2a4c89084b01ea4ea3ef43aeb678ce"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed2a4c89084b01ea4ea3ef43aeb678ce">to_json</a> () const</td></tr>
 <tr class="memdesc:aed2a4c89084b01ea4ea3ef43aeb678ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize to JSON including per-iteration breakdown.  <br /></td></tr>
 <tr class="separator:aed2a4c89084b01ea4ea3ef43aeb678ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a69bf8c73f8faedc42bb636440f9886e3" id="r_a69bf8c73f8faedc42bb636440f9886e3"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a69bf8c73f8faedc42bb636440f9886e3">data_path</a></td></tr>
+<tr class="separator:a69bf8c73f8faedc42bb636440f9886e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33317edf185490923fb94d8850441392" id="r_a33317edf185490923fb94d8850441392"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33317edf185490923fb94d8850441392">g</a> = 0</td></tr>
+<tr class="memdesc:a33317edf185490923fb94d8850441392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of groups (0 for regression).  <br /></td></tr>
+<tr class="separator:a33317edf185490923fb94d8850441392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c8558b600a51c1f8f5cc3a3e5ea9a72" id="r_a6c8558b600a51c1f8f5cc3a3e5ea9a72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75e">types::Mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c8558b600a51c1f8f5cc3a3e5ea9a72">mode</a> = <a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75ea5c9335b28e6277ddbe0137f04e5e58a7">types::Mode::Classification</a></td></tr>
+<tr class="memdesc:a6c8558b600a51c1f8f5cc3a3e5ea9a72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Training mode.  <br /></td></tr>
+<tr class="separator:a6c8558b600a51c1f8f5cc3a3e5ea9a72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c09e6ef7f7227839d18dfc2e4161140" id="r_a1c09e6ef7f7227839d18dfc2e4161140"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c09e6ef7f7227839d18dfc2e4161140">n</a> = 0</td></tr>
+<tr class="memdesc:a1c09e6ef7f7227839d18dfc2e4161140"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of observations.  <br /></td></tr>
+<tr class="separator:a1c09e6ef7f7227839d18dfc2e4161140"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9e3935637b5cd1bd7fd772ad05b408" id="r_acb9e3935637b5cd1bd7fd772ad05b408"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb9e3935637b5cd1bd7fd772ad05b408">n_vars</a></td></tr>
+<tr class="separator:acb9e3935637b5cd1bd7fd772ad05b408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2db767820cd0ce4088d0141a1dc31a0" id="r_ad2db767820cd0ce4088d0141a1dc31a0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2db767820cd0ce4088d0141a1dc31a0">p</a> = 0</td></tr>
+<tr class="memdesc:ad2db767820cd0ce4088d0141a1dc31a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of features.  <br /></td></tr>
+<tr class="separator:ad2db767820cd0ce4088d0141a1dc31a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a01e43d84944430b71861d91392d6c" id="r_ab8a01e43d84944430b71861d91392d6c"><td class="memItemLeft" align="right" valign="top">std::optional&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab8a01e43d84944430b71861d91392d6c">p_vars</a></td></tr>
+<tr class="separator:ab8a01e43d84944430b71861d91392d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15c61c5f80ed5d882213a4a7fe3c91e2" id="r_a15c61c5f80ed5d882213a4a7fe3c91e2"><td class="memItemLeft" align="right" valign="top">long&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a15c61c5f80ed5d882213a4a7fe3c91e2">peak_rss_bytes</a> = -1</td></tr>
 <tr class="separator:a15c61c5f80ed5d882213a4a7fe3c91e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3fae8093e11268a0cce735e920f7f7f" id="r_ae3fae8093e11268a0cce735e920f7f7f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3fae8093e11268a0cce735e920f7f7f">te_error</a></td></tr>
-<tr class="separator:ae3fae8093e11268a0cce735e920f7f7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55e72671235613c8322b774532c8ad6d" id="r_a55e72671235613c8322b774532c8ad6d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a55e72671235613c8322b774532c8ad6d">tr_error</a></td></tr>
-<tr class="separator:a55e72671235613c8322b774532c8ad6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2a7bcfb4ba470aba4e3e95ee0afd1e4" id="r_aa2a7bcfb4ba470aba4e3e95ee0afd1e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa2a7bcfb4ba470aba4e3e95ee0afd1e4">tr_times</a></td></tr>
-<tr class="separator:aa2a7bcfb4ba470aba4e3e95ee0afd1e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3019154feb8f6036e7a06dcaac72289c" id="r_a3019154feb8f6036e7a06dcaac72289c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3019154feb8f6036e7a06dcaac72289c">size</a> = 0</td></tr>
+<tr class="separator:a3019154feb8f6036e7a06dcaac72289c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad65b42d950f0d96678d8f6cafb1e39dc" id="r_ad65b42d950f0d96678d8f6cafb1e39dc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad65b42d950f0d96678d8f6cafb1e39dc">te_error</a></td></tr>
+<tr class="separator:ad65b42d950f0d96678d8f6cafb1e39dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35494f30cd376b9536dd7da50c09766d" id="r_a35494f30cd376b9536dd7da50c09766d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35494f30cd376b9536dd7da50c09766d">tr_error</a></td></tr>
+<tr class="separator:a35494f30cd376b9536dd7da50c09766d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788310871847c21847a23b310f31e8ac" id="r_a788310871847c21847a23b310f31e8ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt; long long &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a788310871847c21847a23b310f31e8ac">tr_times</a></td></tr>
+<tr class="separator:a788310871847c21847a23b310f31e8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe697ec3b27aaa211e733ea487d4c5b5" id="r_afe697ec3b27aaa211e733ea487d4c5b5"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe697ec3b27aaa211e733ea487d4c5b5">train_ratio</a> = 0.7F</td></tr>
+<tr class="separator:afe697ec3b27aaa211e733ea487d4c5b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Aggregated statistics across multiple training iterations. </p>
-<p>Stores per-iteration timing and error data, plus the process-wide peak RSS. Provides mean/std accessors and JSON serialization (including a per-iteration breakdown). </p>
+<div class="textblock"><p>Per-iteration training statistics. </p>
+<p>Stores per-iteration timing and error vectors, plus the process-wide peak RSS. Provides mean/std accessors, an <a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html" title="Summary of an evaluation run.">EvaluateResult</a> summary, and full JSON serialization (including a per-iteration breakdown). </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ae5dfe222a74aa08f9dac6276368cc39f" name="ae5dfe222a74aa08f9dac6276368cc39f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5dfe222a74aa08f9dac6276368cc39f">&#9670;&#160;</a></span>mean_te_error()</h2>
@@ -295,6 +320,25 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a817608b31635e22c201e33aacfd131f4" name="a817608b31635e22c201e33aacfd131f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a817608b31635e22c201e33aacfd131f4">&#9670;&#160;</a></span>summarize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html">EvaluateResult</a> ppforest2::io::ModelStats::summarize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Produce an <a class="el" href="structppforest2_1_1io_1_1EvaluateResult.html" title="Summary of an evaluation run.">EvaluateResult</a> summary from per-iteration data. </p>
+
+</div>
+</div>
 <a id="aed2a4c89084b01ea4ea3ef43aeb678ce" name="aed2a4c89084b01ea4ea3ef43aeb678ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aed2a4c89084b01ea4ea3ef43aeb678ce">&#9670;&#160;</a></span>to_json()</h2>
 
@@ -315,6 +359,112 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a69bf8c73f8faedc42bb636440f9886e3" name="a69bf8c73f8faedc42bb636440f9886e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69bf8c73f8faedc42bb636440f9886e3">&#9670;&#160;</a></span>data_path</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string ppforest2::io::ModelStats::data_path</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a33317edf185490923fb94d8850441392" name="a33317edf185490923fb94d8850441392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33317edf185490923fb94d8850441392">&#9670;&#160;</a></span>g</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::io::ModelStats::g = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of groups (0 for regression). </p>
+
+</div>
+</div>
+<a id="a6c8558b600a51c1f8f5cc3a3e5ea9a72" name="a6c8558b600a51c1f8f5cc3a3e5ea9a72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c8558b600a51c1f8f5cc3a3e5ea9a72">&#9670;&#160;</a></span>mode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75e">types::Mode</a> ppforest2::io::ModelStats::mode = <a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75ea5c9335b28e6277ddbe0137f04e5e58a7">types::Mode::Classification</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Training mode. </p>
+
+</div>
+</div>
+<a id="a1c09e6ef7f7227839d18dfc2e4161140" name="a1c09e6ef7f7227839d18dfc2e4161140"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c09e6ef7f7227839d18dfc2e4161140">&#9670;&#160;</a></span>n</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::io::ModelStats::n = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of observations. </p>
+
+</div>
+</div>
+<a id="acb9e3935637b5cd1bd7fd772ad05b408" name="acb9e3935637b5cd1bd7fd772ad05b408"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb9e3935637b5cd1bd7fd772ad05b408">&#9670;&#160;</a></span>n_vars</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;int&gt; ppforest2::io::ModelStats::n_vars</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad2db767820cd0ce4088d0141a1dc31a0" name="ad2db767820cd0ce4088d0141a1dc31a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2db767820cd0ce4088d0141a1dc31a0">&#9670;&#160;</a></span>p</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::io::ModelStats::p = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Number of features. </p>
+
+</div>
+</div>
+<a id="ab8a01e43d84944430b71861d91392d6c" name="ab8a01e43d84944430b71861d91392d6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8a01e43d84944430b71861d91392d6c">&#9670;&#160;</a></span>p_vars</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;float&gt; ppforest2::io::ModelStats::p_vars</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a15c61c5f80ed5d882213a4a7fe3c91e2" name="a15c61c5f80ed5d882213a4a7fe3c91e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a15c61c5f80ed5d882213a4a7fe3c91e2">&#9670;&#160;</a></span>peak_rss_bytes</h2>
 
@@ -329,42 +479,70 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae3fae8093e11268a0cce735e920f7f7f" name="ae3fae8093e11268a0cce735e920f7f7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3fae8093e11268a0cce735e920f7f7f">&#9670;&#160;</a></span>te_error</h2>
+<a id="a3019154feb8f6036e7a06dcaac72289c" name="a3019154feb8f6036e7a06dcaac72289c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3019154feb8f6036e7a06dcaac72289c">&#9670;&#160;</a></span>size</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;float&gt; ppforest2::io::ModelStats::te_error</td>
+          <td class="memname">int ppforest2::io::ModelStats::size = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a55e72671235613c8322b774532c8ad6d" name="a55e72671235613c8322b774532c8ad6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55e72671235613c8322b774532c8ad6d">&#9670;&#160;</a></span>tr_error</h2>
+<a id="ad65b42d950f0d96678d8f6cafb1e39dc" name="ad65b42d950f0d96678d8f6cafb1e39dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad65b42d950f0d96678d8f6cafb1e39dc">&#9670;&#160;</a></span>te_error</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;float&gt; ppforest2::io::ModelStats::tr_error</td>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;double&gt; ppforest2::io::ModelStats::te_error</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa2a7bcfb4ba470aba4e3e95ee0afd1e4" name="aa2a7bcfb4ba470aba4e3e95ee0afd1e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2a7bcfb4ba470aba4e3e95ee0afd1e4">&#9670;&#160;</a></span>tr_times</h2>
+<a id="a35494f30cd376b9536dd7da50c09766d" name="a35494f30cd376b9536dd7da50c09766d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35494f30cd376b9536dd7da50c09766d">&#9670;&#160;</a></span>tr_error</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;float&gt; ppforest2::io::ModelStats::tr_times</td>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;double&gt; ppforest2::io::ModelStats::tr_error</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a788310871847c21847a23b310f31e8ac" name="a788310871847c21847a23b310f31e8ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788310871847c21847a23b310f31e8ac">&#9670;&#160;</a></span>tr_times</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a6b0f2fc1c6c2d1f5fac68202619e33f8">types::Vector</a>&lt;long long&gt; ppforest2::io::ModelStats::tr_times</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe697ec3b27aaa211e733ea487d4c5b5" name="afe697ec3b27aaa211e733ea487d4c5b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe697ec3b27aaa211e733ea487d4c5b5">&#9670;&#160;</a></span>train_ratio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ppforest2::io::ModelStats::train_ratio = 0.7F</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -372,7 +550,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>core/src/io/<a class="el" href="Presentation_8hpp_source.html">Presentation.hpp</a></li>
+<li>core/src/io/<a class="el" href="EvaluateResult_8hpp_source.html">EvaluateResult.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

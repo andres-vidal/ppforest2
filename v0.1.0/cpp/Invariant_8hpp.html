@@ -105,22 +105,21 @@ $(function(){initNavTree('Invariant_8hpp.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
 </div>
 <p><a href="Invariant_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a124cb675ca310166eaa892310c9903de" id="r_a124cb675ca310166eaa892310c9903de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a124cb675ca310166eaa892310c9903de">invariant</a> (bool condition, const char *message)</td></tr>
-<tr class="memdesc:a124cb675ca310166eaa892310c9903de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runtime assertion that throws on failure.  <br /></td></tr>
-<tr class="separator:a124cb675ca310166eaa892310c9903de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285abbb502f4a466b24fcfbdb6125109" id="r_a285abbb502f4a466b24fcfbdb6125109"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a285abbb502f4a466b24fcfbdb6125109">invariant</a> (bool condition, const std::string &amp;message)</td></tr>
-<tr class="memdesc:a285abbb502f4a466b24fcfbdb6125109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runtime assertion that throws on failure.     <br /></td></tr>
-<tr class="separator:a285abbb502f4a466b24fcfbdb6125109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c99fa2f0f941c79208042fafab8cc95" id="r_a9c99fa2f0f941c79208042fafab8cc95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c99fa2f0f941c79208042fafab8cc95">invariant</a> (bool condition, char const *message)</td></tr>
+<tr class="memdesc:a9c99fa2f0f941c79208042fafab8cc95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runtime assertion that throws on failure.  <br /></td></tr>
+<tr class="separator:a9c99fa2f0f941c79208042fafab8cc95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af025c918fb01d57ed8c4a2e53eb3c061" id="r_af025c918fb01d57ed8c4a2e53eb3c061"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af025c918fb01d57ed8c4a2e53eb3c061">invariant</a> (bool condition, std::string const &amp;message)</td></tr>
+<tr class="memdesc:af025c918fb01d57ed8c4a2e53eb3c061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runtime assertion that throws on failure.     <br /></td></tr>
+<tr class="separator:af025c918fb01d57ed8c4a2e53eb3c061"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a124cb675ca310166eaa892310c9903de" name="a124cb675ca310166eaa892310c9903de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a124cb675ca310166eaa892310c9903de">&#9670;&#160;</a></span>invariant() <span class="overload">[1/2]</span></h2>
+<a id="a9c99fa2f0f941c79208042fafab8cc95" name="a9c99fa2f0f941c79208042fafab8cc95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c99fa2f0f941c79208042fafab8cc95">&#9670;&#160;</a></span>invariant() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -133,7 +132,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+          <td class="paramtype">char const *</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -150,8 +149,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a285abbb502f4a466b24fcfbdb6125109" name="a285abbb502f4a466b24fcfbdb6125109"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a285abbb502f4a466b24fcfbdb6125109">&#9670;&#160;</a></span>invariant() <span class="overload">[2/2]</span></h2>
+<a id="af025c918fb01d57ed8c4a2e53eb3c061" name="af025c918fb01d57ed8c4a2e53eb3c061"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af025c918fb01d57ed8c4a2e53eb3c061">&#9670;&#160;</a></span>invariant() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +163,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">

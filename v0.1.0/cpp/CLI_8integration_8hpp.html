@@ -114,10 +114,8 @@ $(function(){initNavTree('CLI_8integration_8hpp.html',''); initResizable(true); 
 <code>#include &quot;<a class="el" href="TempFile_8hpp_source.html">io/TempFile.hpp</a>&quot;</code><br />
 <code>#include &lt;cstdio&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;nlohmann/json.hpp&gt;</code><br />
 </div>
 <p><a href="CLI_8integration_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -144,30 +142,34 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad0f8c4f31bf00dcd35e83b2ca6ee5c29" id="r_ad0f8c4f31bf00dcd35e83b2ca6ee5c29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structProcessResult.html">ProcessResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0f8c4f31bf00dcd35e83b2ca6ee5c29">run_ppforest2</a> (const std::string &amp;args)</td></tr>
-<tr class="memdesc:ad0f8c4f31bf00dcd35e83b2ca6ee5c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spawn the <a class="el" href="namespaceppforest2.html">ppforest2</a> binary with the given argument string.  <br /></td></tr>
-<tr class="separator:ad0f8c4f31bf00dcd35e83b2ca6ee5c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b6ba34ca786285297fcc86d2b588411" id="r_a7b6ba34ca786285297fcc86d2b588411"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structProcessResult.html">ProcessResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b6ba34ca786285297fcc86d2b588411">run_ppforest2</a> (std::string const &amp;args)</td></tr>
+<tr class="memdesc:a7b6ba34ca786285297fcc86d2b588411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spawn the <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> binary with the given argument string.  <br /></td></tr>
+<tr class="separator:a7b6ba34ca786285297fcc86d2b588411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:aba7ad5baf60863ad89ebafe5ebca1da2" id="r_aba7ad5baf60863ad89ebafe5ebca1da2"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba7ad5baf60863ad89ebafe5ebca1da2">BINARY</a> = PPFOREST2_BINARY_PATH</td></tr>
 <tr class="separator:aba7ad5baf60863ad89ebafe5ebca1da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49b8fe88aa4de92de39359fdb265e913" id="r_a49b8fe88aa4de92de39359fdb265e913"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49b8fe88aa4de92de39359fdb265e913">CRAB_CSV</a> = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/crab.csv&quot;</td></tr>
-<tr class="separator:a49b8fe88aa4de92de39359fdb265e913"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3e4f7b1d3f1d9db5dadc686f1adf108" id="r_ae3e4f7b1d3f1d9db5dadc686f1adf108"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> = PPFOREST2_DATA_DIR</td></tr>
-<tr class="separator:ae3e4f7b1d3f1d9db5dadc686f1adf108"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98f1388b33a1477320d0d4de4cc08134" id="r_a98f1388b33a1477320d0d4de4cc08134"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98f1388b33a1477320d0d4de4cc08134">GLASS_CSV</a> = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/glass.csv&quot;</td></tr>
-<tr class="separator:a98f1388b33a1477320d0d4de4cc08134"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a0b843a97a16c56451d8ad76574e701" id="r_a8a0b843a97a16c56451d8ad76574e701"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a0b843a97a16c56451d8ad76574e701">GOLDEN_DIR</a> = PPFOREST2_GOLDEN_DIR</td></tr>
-<tr class="separator:a8a0b843a97a16c56451d8ad76574e701"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb59797c7bc9d2acb4486e70efc2023a" id="r_acb59797c7bc9d2acb4486e70efc2023a"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb59797c7bc9d2acb4486e70efc2023a">IRIS_CSV</a> = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/iris.csv&quot;</td></tr>
-<tr class="separator:acb59797c7bc9d2acb4486e70efc2023a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4108837350144d94ba0e28cf35c12f77" id="r_a4108837350144d94ba0e28cf35c12f77"><td class="memItemLeft" align="right" valign="top">const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4108837350144d94ba0e28cf35c12f77">WINE_CSV</a> = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/wine.csv&quot;</td></tr>
-<tr class="separator:a4108837350144d94ba0e28cf35c12f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ae8251987b1d7169bb2b83c9aaceaec" id="r_a3ae8251987b1d7169bb2b83c9aaceaec"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ae8251987b1d7169bb2b83c9aaceaec">CRAB_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/crab.csv&quot;</td></tr>
+<tr class="separator:a3ae8251987b1d7169bb2b83c9aaceaec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2778fb21a3754c7a16a8058f99f96540" id="r_a2778fb21a3754c7a16a8058f99f96540"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> = PPFOREST2_DATA_DIR</td></tr>
+<tr class="separator:a2778fb21a3754c7a16a8058f99f96540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cb15f8c444260bf041668ad8226225e" id="r_a9cb15f8c444260bf041668ad8226225e"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cb15f8c444260bf041668ad8226225e">GLASS_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/glass.csv&quot;</td></tr>
+<tr class="separator:a9cb15f8c444260bf041668ad8226225e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd7910cc84637348f9a3425ff8028d5" id="r_afcd7910cc84637348f9a3425ff8028d5"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcd7910cc84637348f9a3425ff8028d5">GOLDEN_DIR</a> = PPFOREST2_GOLDEN_DIR</td></tr>
+<tr class="separator:afcd7910cc84637348f9a3425ff8028d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a293b8f1b86b2327b3c4474fa37d89df6" id="r_a293b8f1b86b2327b3c4474fa37d89df6"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a293b8f1b86b2327b3c4474fa37d89df6">HOUSING_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/regression/california_housing.csv&quot;</td></tr>
+<tr class="separator:a293b8f1b86b2327b3c4474fa37d89df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f427fe4a018976551b7d887f0a847a7" id="r_a3f427fe4a018976551b7d887f0a847a7"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f427fe4a018976551b7d887f0a847a7">IRIS_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/iris.csv&quot;</td></tr>
+<tr class="separator:a3f427fe4a018976551b7d887f0a847a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2311e026080bb6de3c6c13d8a6f1259" id="r_ac2311e026080bb6de3c6c13d8a6f1259"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac2311e026080bb6de3c6c13d8a6f1259">MTCARS_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/regression/mtcars.csv&quot;</td></tr>
+<tr class="separator:ac2311e026080bb6de3c6c13d8a6f1259"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9f4659aaaa02ddc54c7bf68e5afc857" id="r_ad9f4659aaaa02ddc54c7bf68e5afc857"><td class="memItemLeft" align="right" valign="top">std::string const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9f4659aaaa02ddc54c7bf68e5afc857">WINE_CSV</a> = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/wine.csv&quot;</td></tr>
+<tr class="separator:ad9f4659aaaa02ddc54c7bf68e5afc857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Shared utilities for <a class="el" href="namespaceCLI.html">CLI</a> integration tests. </p>
-<p>Each test spawns the <a class="el" href="namespaceppforest2.html">ppforest2</a> binary as a child process and checks its exit code and stdout output. Temporary files (<a class="el" href="classTempFile.html" title="RAII temporary file with automatic cleanup.">TempFile</a>, <a class="el" href="classTempDir.html" title="RAII temporary directory with automatic cleanup.">TempDir</a>) are used for model and output artifacts; they are automatically cleaned up. </p>
+<p>Each test spawns the <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> binary as a child process and checks its exit code and stdout output. Temporary files (<a class="el" href="classTempFile.html" title="RAII temporary file with automatic cleanup.">TempFile</a>, <a class="el" href="classTempDir.html" title="RAII temporary directory with automatic cleanup.">TempDir</a>) are used for model and output artifacts; they are automatically cleaned up. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="ab701e3ac61a85b337ec5c1abaad6742d" name="ab701e3ac61a85b337ec5c1abaad6742d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab701e3ac61a85b337ec5c1abaad6742d">&#9670;&#160;</a></span>json</h2>
@@ -184,8 +186,8 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ad0f8c4f31bf00dcd35e83b2ca6ee5c29" name="ad0f8c4f31bf00dcd35e83b2ca6ee5c29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0f8c4f31bf00dcd35e83b2ca6ee5c29">&#9670;&#160;</a></span>run_ppforest2()</h2>
+<a id="a7b6ba34ca786285297fcc86d2b588411" name="a7b6ba34ca786285297fcc86d2b588411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b6ba34ca786285297fcc86d2b588411">&#9670;&#160;</a></span>run_ppforest2()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +198,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structProcessResult.html">ProcessResult</a> run_ppforest2 </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>args</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -207,7 +209,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Spawn the <a class="el" href="namespaceppforest2.html">ppforest2</a> binary with the given argument string. </p>
+<p>Spawn the <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> binary with the given argument string. </p>
 <p>Stderr is redirected to /dev/null (NUL on Windows) so only stdout is captured. The exit code is extracted via WEXITSTATUS on POSIX.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -242,8 +244,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a49b8fe88aa4de92de39359fdb265e913" name="a49b8fe88aa4de92de39359fdb265e913"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49b8fe88aa4de92de39359fdb265e913">&#9670;&#160;</a></span>CRAB_CSV</h2>
+<a id="a3ae8251987b1d7169bb2b83c9aaceaec" name="a3ae8251987b1d7169bb2b83c9aaceaec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ae8251987b1d7169bb2b83c9aaceaec">&#9670;&#160;</a></span>CRAB_CSV</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -252,7 +254,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string CRAB_CSV = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/crab.csv&quot;</td>
+          <td class="memname">std::string const CRAB_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/crab.csv&quot;</td>
         </tr>
       </table>
   </td>
@@ -264,8 +266,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ae3e4f7b1d3f1d9db5dadc686f1adf108" name="ae3e4f7b1d3f1d9db5dadc686f1adf108"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">&#9670;&#160;</a></span>DATA_DIR</h2>
+<a id="a2778fb21a3754c7a16a8058f99f96540" name="a2778fb21a3754c7a16a8058f99f96540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2778fb21a3754c7a16a8058f99f96540">&#9670;&#160;</a></span>DATA_DIR</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -274,7 +276,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string DATA_DIR = PPFOREST2_DATA_DIR</td>
+          <td class="memname">std::string const DATA_DIR = PPFOREST2_DATA_DIR</td>
         </tr>
       </table>
   </td>
@@ -286,8 +288,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a98f1388b33a1477320d0d4de4cc08134" name="a98f1388b33a1477320d0d4de4cc08134"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98f1388b33a1477320d0d4de4cc08134">&#9670;&#160;</a></span>GLASS_CSV</h2>
+<a id="a9cb15f8c444260bf041668ad8226225e" name="a9cb15f8c444260bf041668ad8226225e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cb15f8c444260bf041668ad8226225e">&#9670;&#160;</a></span>GLASS_CSV</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,7 +298,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string GLASS_CSV = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/glass.csv&quot;</td>
+          <td class="memname">std::string const GLASS_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/glass.csv&quot;</td>
         </tr>
       </table>
   </td>
@@ -308,8 +310,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a8a0b843a97a16c56451d8ad76574e701" name="a8a0b843a97a16c56451d8ad76574e701"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a0b843a97a16c56451d8ad76574e701">&#9670;&#160;</a></span>GOLDEN_DIR</h2>
+<a id="afcd7910cc84637348f9a3425ff8028d5" name="afcd7910cc84637348f9a3425ff8028d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd7910cc84637348f9a3425ff8028d5">&#9670;&#160;</a></span>GOLDEN_DIR</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,7 +320,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string GOLDEN_DIR = PPFOREST2_GOLDEN_DIR</td>
+          <td class="memname">std::string const GOLDEN_DIR = PPFOREST2_GOLDEN_DIR</td>
         </tr>
       </table>
   </td>
@@ -330,8 +332,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="acb59797c7bc9d2acb4486e70efc2023a" name="acb59797c7bc9d2acb4486e70efc2023a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb59797c7bc9d2acb4486e70efc2023a">&#9670;&#160;</a></span>IRIS_CSV</h2>
+<a id="a293b8f1b86b2327b3c4474fa37d89df6" name="a293b8f1b86b2327b3c4474fa37d89df6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a293b8f1b86b2327b3c4474fa37d89df6">&#9670;&#160;</a></span>HOUSING_CSV</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +342,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string IRIS_CSV = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/iris.csv&quot;</td>
+          <td class="memname">std::string const HOUSING_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/regression/california_housing.csv&quot;</td>
         </tr>
       </table>
   </td>
@@ -352,8 +354,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a4108837350144d94ba0e28cf35c12f77" name="a4108837350144d94ba0e28cf35c12f77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4108837350144d94ba0e28cf35c12f77">&#9670;&#160;</a></span>WINE_CSV</h2>
+<a id="a3f427fe4a018976551b7d887f0a847a7" name="a3f427fe4a018976551b7d887f0a847a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f427fe4a018976551b7d887f0a847a7">&#9670;&#160;</a></span>IRIS_CSV</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -362,7 +364,51 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::string WINE_CSV = <a class="el" href="#ae3e4f7b1d3f1d9db5dadc686f1adf108">DATA_DIR</a> + &quot;/wine.csv&quot;</td>
+          <td class="memname">std::string const IRIS_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/iris.csv&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac2311e026080bb6de3c6c13d8a6f1259" name="ac2311e026080bb6de3c6c13d8a6f1259"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2311e026080bb6de3c6c13d8a6f1259">&#9670;&#160;</a></span>MTCARS_CSV</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string const MTCARS_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/regression/mtcars.csv&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad9f4659aaaa02ddc54c7bf68e5afc857" name="ad9f4659aaaa02ddc54c7bf68e5afc857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9f4659aaaa02ddc54c7bf68e5afc857">&#9670;&#160;</a></span>WINE_CSV</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string const WINE_CSV = <a class="el" href="#a2778fb21a3754c7a16a8058f99f96540">DATA_DIR</a> + &quot;/classification/wine.csv&quot;</td>
         </tr>
       </table>
   </td>

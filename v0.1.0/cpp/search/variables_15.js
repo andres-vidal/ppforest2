@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['y_0',['y',['../structppforest2_1_1viz_1_1NodeDataVisitor.html#aca517c73329f368bf2eef635ff480305',1,'ppforest2::viz::NodeDataVisitor::y'],['../structppforest2_1_1viz_1_1LayoutNode.html#a3e37371446b4631bf5e8aa7e90d67e16',1,'ppforest2::viz::LayoutNode::y'],['../structppforest2_1_1stats_1_1DataPacket.html#a675c02c247842caf67265c8243432638',1,'ppforest2::stats::DataPacket::y']]],
-  ['y_5fend_1',['y_end',['../structppforest2_1_1viz_1_1BoundarySegment.html#a05dff1b0d28292f3832c0adde79389bd',1,'ppforest2::viz::BoundarySegment']]],
-  ['y_5fmax_2',['y_max',['../structppforest2_1_1viz_1_1BoundaryVisitor.html#a8706d26fa08ffa531a74951d66d674c0',1,'ppforest2::viz::BoundaryVisitor::y_max'],['../structppforest2_1_1viz_1_1RegionVisitor.html#a75e5477e7103c45e585ef34db08282aa',1,'ppforest2::viz::RegionVisitor::y_max']]],
-  ['y_5fmin_3',['y_min',['../structppforest2_1_1viz_1_1BoundaryVisitor.html#a3ab995ff6b9ff8a67e1066f14ba56d58',1,'ppforest2::viz::BoundaryVisitor::y_min'],['../structppforest2_1_1viz_1_1RegionVisitor.html#aa2a3ccb6642f1fe7ae186be52906a00d',1,'ppforest2::viz::RegionVisitor::y_min']]],
-  ['y_5fspacing_4',['y_spacing',['../structppforest2_1_1viz_1_1LayoutParams.html#add3c41e263e8ec2a790ad1aa94d6f323',1,'ppforest2::viz::LayoutParams']]],
-  ['y_5fstart_5',['y_start',['../structppforest2_1_1viz_1_1BoundarySegment.html#a5bb9c22fcee34178e5929ef323af32aa',1,'ppforest2::viz::BoundarySegment']]]
+  ['x_0',['x',['../structppforest2_1_1io_1_1csv_1_1FeatureSet.html#a4126ddf68e0354f6c663b033c91ebd6e',1,'ppforest2::io::csv::FeatureSet::x'],['../structppforest2_1_1NodeContext.html#a372ea1902f6025f451a433523a6d3ac2',1,'ppforest2::NodeContext::x'],['../classppforest2_1_1viz_1_1NodeDataVisitor.html#a31702e09e70a9acb6d2d5af2f8afc0f3',1,'ppforest2::viz::NodeDataVisitor::x'],['../structppforest2_1_1viz_1_1LayoutNode.html#a418e37ccde76bd70d65b5d2fefd6cab4',1,'ppforest2::viz::LayoutNode::x'],['../structppforest2_1_1stats_1_1DataPacket.html#a0607ff21e5b94e9827476cc53d3092c7',1,'ppforest2::stats::DataPacket::x'],['../structppforest2_1_1test_1_1NodeContextFixture.html#a545d33cb796b16a875f9c3e00c24a764',1,'ppforest2::test::NodeContextFixture::x']]],
+  ['x_5fend_1',['x_end',['../structppforest2_1_1viz_1_1BoundarySegment.html#aee1e9bdeb800ce3a562c17d4cc3a0acc',1,'ppforest2::viz::BoundarySegment']]],
+  ['x_5fmax_2',['x_max',['../classppforest2_1_1viz_1_1SpatialVisitor.html#a17eda4eeb21b85a9af94738613701371',1,'ppforest2::viz::SpatialVisitor']]],
+  ['x_5fmin_3',['x_min',['../classppforest2_1_1viz_1_1SpatialVisitor.html#a5e43fcc9e036c830300fffaa5d1a0128',1,'ppforest2::viz::SpatialVisitor']]],
+  ['x_5fstart_4',['x_start',['../structppforest2_1_1viz_1_1BoundarySegment.html#a805777bb19f16db3d7e3b647cccb1b57',1,'ppforest2::viz::BoundarySegment']]]
 ];

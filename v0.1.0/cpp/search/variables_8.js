@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['label_0',['label',['../structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10',1,'ppforest2::io::layout::Column::label'],['../structppforest2_1_1viz_1_1LayoutEdge.html#a87e7fe587ba56ff0f25e83df862c626b',1,'ppforest2::viz::LayoutEdge::label']]],
-  ['label_5findex_1',['label_index',['../structppforest2_1_1stats_1_1ConfusionMatrix.html#a7fa8e58051c2bdcff35bbf61d5f0aefe',1,'ppforest2::stats::ConfusionMatrix']]],
-  ['lambda_2',['lambda',['../structppforest2_1_1cli_1_1Scenario.html#a1084c890c022161f019b894a33a96169',1,'ppforest2::cli::Scenario::lambda'],['../structppforest2_1_1cli_1_1ModelParams.html#a10629e456e9af2b64b4f7de4c6139028',1,'ppforest2::cli::ModelParams::lambda']]],
-  ['leaf_5fh_3',['leaf_h',['../structppforest2_1_1viz_1_1LayoutParams.html#ab04156f86a61dbbae22fed969f3cd315',1,'ppforest2::viz::LayoutParams']]],
-  ['leaf_5fw_4',['leaf_w',['../structppforest2_1_1viz_1_1LayoutParams.html#a6122739d54a94df7cb22b71a066229b9',1,'ppforest2::viz::LayoutParams']]],
-  ['lower_5',['lower',['../structppforest2_1_1TreeCondition.html#a966a4b8bd456ebc3f93aeb2c215fa92d',1,'ppforest2::TreeCondition']]]
+  ['indent_5flevel_0',['indent_level',['../structppforest2_1_1io_1_1Output.html#a7a57a8d780a4a020d6b40e804bbb835b',1,'ppforest2::io::Output']]],
+  ['index_5fvalue_1',['index_value',['../structppforest2_1_1pp_1_1ProjectionPursuit_1_1Result.html#aa0c64a37d1558f1c129ba57635a5cbe2',1,'ppforest2::pp::ProjectionPursuit::Result']]],
+  ['indices_2',['indices',['../classppforest2_1_1viz_1_1NodeDataVisitor.html#a376164a51ae340d0ab6cbb408f8cd084',1,'ppforest2::viz::NodeDataVisitor']]],
+  ['iris_5fcsv_3',['IRIS_CSV',['../CLI_8integration_8hpp.html#a3f427fe4a018976551b7d887f0a847a7',1,'CLI.integration.hpp']]],
+  ['is_5fleaf_4',['is_leaf',['../structppforest2_1_1viz_1_1NodeData.html#aab1f8921c5f52c1db30860b7f14acfab',1,'ppforest2::viz::NodeData::is_leaf'],['../structppforest2_1_1viz_1_1LayoutNode.html#a2006ee57027de4fb735994c5ef9eec28',1,'ppforest2::viz::LayoutNode::is_leaf']]],
+  ['is_5flower_5',['is_lower',['../structppforest2_1_1viz_1_1HalfSpace.html#ab41bf9e8bb43b1c175a15cf732591aa6',1,'ppforest2::viz::HalfSpace']]],
+  ['iterations_6',['iterations',['../structppforest2_1_1cli_1_1EvaluateParams.html#a68c5e0949a3be151e4fea8ac79edf30a',1,'ppforest2::cli::EvaluateParams']]]
 ];

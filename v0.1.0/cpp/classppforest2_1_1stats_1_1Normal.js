@@ -1,6 +1,6 @@
 var classppforest2_1_1stats_1_1Normal =
 [
-    [ "Normal", "classppforest2_1_1stats_1_1Normal.html#ac2a2f30409e9f241f6b345e022310647", null ],
-    [ "operator()", "classppforest2_1_1stats_1_1Normal.html#abd0d0034cf3c3d5fa237423cabd71e08", null ],
-    [ "operator()", "classppforest2_1_1stats_1_1Normal.html#acc2b13a75c9a2c7850977753102f5375", null ]
+    [ "Normal", "classppforest2_1_1stats_1_1Normal.html#a5bb770fb90679995d31e7104a945cdfb", null ],
+    [ "operator()", "classppforest2_1_1stats_1_1Normal.html#ad0b7f0a8684bef8cdec990f20ce460bc", null ],
+    [ "operator()", "classppforest2_1_1stats_1_1Normal.html#a3d2b17c0123f09f9c4201df396753345", null ]
 ];

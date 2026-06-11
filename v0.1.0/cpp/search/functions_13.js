@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['warn_5funused_5fparams_0',['warn_unused_params',['../namespaceppforest2_1_1cli.html#a9dc6f94738ccf8577ec0403d028c06d1',1,'ppforest2::cli']]],
-  ['warning_1',['warning',['../namespaceppforest2_1_1io_1_1style.html#a88c2187936a74e14b832f2a6d1cced36',1,'ppforest2::io::style']]],
-  ['wgss_2',['wgss',['../classppforest2_1_1stats_1_1GroupPartition.html#a2d8e397f93d0b64b2cb5a6eeee05b6c7',1,'ppforest2::stats::GroupPartition']]],
-  ['write_3',['write',['../namespaceppforest2_1_1io_1_1csv.html#a72a239ef7b5aca7225fb5304c32c1218',1,'ppforest2::io::csv']]],
-  ['write_5ffile_4',['write_file',['../namespaceppforest2_1_1io_1_1json.html#a44bb543f8cffdb55c94bbcced935199e',1,'ppforest2::io::json']]],
-  ['write_5fresults_5fcsv_5',['write_results_csv',['../namespaceppforest2_1_1cli.html#ae5031dccab08991d75217c44fa7845df',1,'ppforest2::cli']]],
-  ['write_5fresults_5fjson_6',['write_results_json',['../namespaceppforest2_1_1cli.html#a0ddb2651ba282f5cfd05ae25a6ce73ac',1,'ppforest2::cli']]]
+  ['uniform_0',['Uniform',['../classppforest2_1_1vars_1_1Uniform.html#a2fc1c33ae95a0877769fc0f98b741b63',1,'ppforest2::vars::Uniform::Uniform()'],['../classppforest2_1_1stats_1_1Uniform.html#a724bb7c030c3d9d4b49261cc04208d2e',1,'ppforest2::stats::Uniform::Uniform()']]],
+  ['uniform_1',['uniform',['../namespaceppforest2_1_1vars.html#a48f01a668ad17d1842b23d1dfe140429',1,'ppforest2::vars']]],
+  ['unique_2',['unique',['../namespaceppforest2_1_1stats.html#a68ea03f1f289c2237e6fe1cd4da5e6d6',1,'ppforest2::stats']]],
+  ['user_5ferror_3',['user_error',['../namespaceppforest2.html#a10b764ed7ff55617e5db1c2624f90c9d',1,'ppforest2::user_error(bool condition, std::string const &amp;message)'],['../namespaceppforest2.html#aab81ede42a0111bc4742e1700128b349',1,'ppforest2::user_error(bool condition, char const *message)']]]
 ];

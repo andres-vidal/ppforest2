@@ -100,6 +100,7 @@ $(function(){initNavTree('structppforest2_1_1cli_1_1BenchmarkSuite.html',''); in
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structppforest2_1_1cli_1_1BenchmarkSuite-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::cli::BenchmarkSuite Struct Reference</div></div>
@@ -111,16 +112,48 @@ $(function(){initNavTree('structppforest2_1_1cli_1_1BenchmarkSuite.html',''); in
 
 <p><code>#include &lt;<a class="el" href="Benchmark_8hpp_source.html">Benchmark.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ac7d7cf95e41bf2c04e059d4c52d27cc8" id="r_ac7d7cf95e41bf2c04e059d4c52d27cc8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7d7cf95e41bf2c04e059d4c52d27cc8">BenchmarkSuite</a> (std::string <a class="el" href="#aa367a2eb64ea37b3eb23ec313c3bd19c">name</a>=&quot;ppforest2 benchmark&quot;)</td></tr>
+<tr class="separator:ac7d7cf95e41bf2c04e059d4c52d27cc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa367a2eb64ea37b3eb23ec313c3bd19c" id="r_aa367a2eb64ea37b3eb23ec313c3bd19c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa367a2eb64ea37b3eb23ec313c3bd19c">name</a> = &quot;ppforest2 benchmark&quot;</td></tr>
+<tr class="memitem:aa367a2eb64ea37b3eb23ec313c3bd19c" id="r_aa367a2eb64ea37b3eb23ec313c3bd19c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa367a2eb64ea37b3eb23ec313c3bd19c">name</a></td></tr>
 <tr class="separator:aa367a2eb64ea37b3eb23ec313c3bd19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eec139a60f4005f7eb9fa6e3d7a3080" id="r_a5eec139a60f4005f7eb9fa6e3d7a3080"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structppforest2_1_1cli_1_1Scenario.html">Scenario</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5eec139a60f4005f7eb9fa6e3d7a3080">scenarios</a></td></tr>
-<tr class="separator:a5eec139a60f4005f7eb9fa6e3d7a3080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10f476a4d1faab7e1b967f59eb833b6d" id="r_a10f476a4d1faab7e1b967f59eb833b6d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; nlohmann::json &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10f476a4d1faab7e1b967f59eb833b6d">scenarios</a></td></tr>
+<tr class="separator:a10f476a4d1faab7e1b967f59eb833b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A suite of scenarios with shared defaults. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p>Each scenario is a plain JSON object containing all fields (after default merging). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ac7d7cf95e41bf2c04e059d4c52d27cc8" name="ac7d7cf95e41bf2c04e059d4c52d27cc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d7cf95e41bf2c04e059d4c52d27cc8">&#9670;&#160;</a></span>BenchmarkSuite()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ppforest2::cli::BenchmarkSuite::BenchmarkSuite </td>
+          <td>(</td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">&quot;ppforest2&#160;benchmark&quot;</span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
 <a id="aa367a2eb64ea37b3eb23ec313c3bd19c" name="aa367a2eb64ea37b3eb23ec313c3bd19c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa367a2eb64ea37b3eb23ec313c3bd19c">&#9670;&#160;</a></span>name</h2>
 
@@ -128,21 +161,21 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string ppforest2::cli::BenchmarkSuite::name = &quot;ppforest2 benchmark&quot;</td>
+          <td class="memname">std::string ppforest2::cli::BenchmarkSuite::name</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5eec139a60f4005f7eb9fa6e3d7a3080" name="a5eec139a60f4005f7eb9fa6e3d7a3080"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5eec139a60f4005f7eb9fa6e3d7a3080">&#9670;&#160;</a></span>scenarios</h2>
+<a id="a10f476a4d1faab7e1b967f59eb833b6d" name="a10f476a4d1faab7e1b967f59eb833b6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10f476a4d1faab7e1b967f59eb833b6d">&#9670;&#160;</a></span>scenarios</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="structppforest2_1_1cli_1_1Scenario.html">Scenario</a>&gt; ppforest2::cli::BenchmarkSuite::scenarios</td>
+          <td class="memname">std::vector&lt;nlohmann::json&gt; ppforest2::cli::BenchmarkSuite::scenarios</td>
         </tr>
       </table>
 </div><div class="memdoc">

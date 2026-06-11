@@ -100,29 +100,256 @@ $(function(){initNavTree('structppforest2_1_1cli_1_1EvaluateParams.html',''); in
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structppforest2_1_1cli_1_1EvaluateParams-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::cli::EvaluateParams Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Evaluate-specific options.  
+<p>Evaluate and convergence options (shared by evaluate + benchmark).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EvaluateParams_8hpp_source.html">EvaluateParams.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html">Convergence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html" title="Convergence control.">Convergence</a> control.  <a href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a46433865e4da0a28b53c795fae378c48" id="r_a46433865e4da0a28b53c795fae378c48"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46433865e4da0a28b53c795fae378c48">EvaluateParams</a> ()=default</td></tr>
+<tr class="separator:a46433865e4da0a28b53c795fae378c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2617e0a7add6be9ad6f4160504510e68" id="r_a2617e0a7add6be9ad6f4160504510e68"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2617e0a7add6be9ad6f4160504510e68">EvaluateParams</a> (nlohmann::json const &amp;config)</td></tr>
+<tr class="memdesc:a2617e0a7add6be9ad6f4160504510e68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a JSON config object.  <br /></td></tr>
+<tr class="separator:a2617e0a7add6be9ad6f4160504510e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bf5295f4ee0f68fd7f3833b0ea75898" id="r_a6bf5295f4ee0f68fd7f3833b0ea75898"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6bf5295f4ee0f68fd7f3833b0ea75898">convergence_enabled</a> () const</td></tr>
+<tr class="memdesc:a6bf5295f4ee0f68fd7f3833b0ea75898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether adaptive convergence stopping is active (disabled when iterations is set).  <br /></td></tr>
+<tr class="separator:a6bf5295f4ee0f68fd7f3833b0ea75898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf5301a95b90e5e121606ce69b79d773" id="r_adf5301a95b90e5e121606ce69b79d773"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf5301a95b90e5e121606ce69b79d773">overrides</a> () const</td></tr>
+<tr class="memdesc:adf5301a95b90e5e121606ce69b79d773"><td class="mdescLeft">&#160;</td><td class="mdescRight">JSON with only the fields explicitly set (for scenario overrides).  <br /></td></tr>
+<tr class="separator:adf5301a95b90e5e121606ce69b79d773"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23e9ac55f0f2560f11ca516e69b206a0" id="r_a23e9ac55f0f2560f11ca516e69b206a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23e9ac55f0f2560f11ca516e69b206a0">resolve_defaults</a> ()</td></tr>
+<tr class="memdesc:a23e9ac55f0f2560f11ca516e69b206a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill unset optional fields with their default values.  <br /></td></tr>
+<tr class="separator:a23e9ac55f0f2560f11ca516e69b206a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b15888cb6731bd2143dbfc21285f78e" id="r_a7b15888cb6731bd2143dbfc21285f78e"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b15888cb6731bd2143dbfc21285f78e">to_json</a> () const</td></tr>
+<tr class="memdesc:a7b15888cb6731bd2143dbfc21285f78e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize to JSON config.  <br /></td></tr>
+<tr class="separator:a7b15888cb6731bd2143dbfc21285f78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a8e633f916adaff3ed5b8d3fdff0c8b6f" id="r_a8e633f916adaff3ed5b8d3fdff0c8b6f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e633f916adaff3ed5b8d3fdff0c8b6f">validate</a> (nlohmann::json const &amp;config, std::vector&lt; std::string &gt; &amp;errors)</td></tr>
+<tr class="memdesc:a8e633f916adaff3ed5b8d3fdff0c8b6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate evaluate-related fields in a JSON config.  <br /></td></tr>
+<tr class="separator:a8e633f916adaff3ed5b8d3fdff0c8b6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a9371b051b409b767f056085fab4d4da8" id="r_a9371b051b409b767f056085fab4d4da8"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html">ppforest2::cli::EvaluateParams::Convergence</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9371b051b409b767f056085fab4d4da8">convergence</a></td></tr>
+<tr class="separator:a9371b051b409b767f056085fab4d4da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a661eccd34b18a474550737dd3cd23ac7" id="r_a661eccd34b18a474550737dd3cd23ac7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a661eccd34b18a474550737dd3cd23ac7">export_path</a></td></tr>
 <tr class="separator:a661eccd34b18a474550737dd3cd23ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e475165f009abd336b8eb9541a488d0" id="r_a8e475165f009abd336b8eb9541a488d0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e475165f009abd336b8eb9541a488d0">iterations</a> = 1</td></tr>
-<tr class="separator:a8e475165f009abd336b8eb9541a488d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1300ee8133a800a03250c5397c13e94b" id="r_a1300ee8133a800a03250c5397c13e94b"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1300ee8133a800a03250c5397c13e94b">train_ratio</a> = 0.7</td></tr>
-<tr class="separator:a1300ee8133a800a03250c5397c13e94b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e72746922a96e7f9e082cdd668a36c2" id="r_a0e72746922a96e7f9e082cdd668a36c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0e72746922a96e7f9e082cdd668a36c2">fixed_seed</a> = false</td></tr>
+<tr class="memdesc:a0e72746922a96e7f9e082cdd668a36c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the user-provided seed unchanged for every iteration.  <br /></td></tr>
+<tr class="separator:a0e72746922a96e7f9e082cdd668a36c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c5e0949a3be151e4fea8ac79edf30a" id="r_a68c5e0949a3be151e4fea8ac79edf30a"><td class="memItemLeft" align="right" valign="top">std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68c5e0949a3be151e4fea8ac79edf30a">iterations</a></td></tr>
+<tr class="memdesc:a68c5e0949a3be151e4fea8ac79edf30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixed count (disables convergence when set &gt; 0).  <br /></td></tr>
+<tr class="separator:a68c5e0949a3be151e4fea8ac79edf30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66e3848b9b5e3499600e003ccfb8e057" id="r_a66e3848b9b5e3499600e003ccfb8e057"><td class="memItemLeft" align="right" valign="top">std::optional&lt; float &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66e3848b9b5e3499600e003ccfb8e057">train_ratio</a></td></tr>
+<tr class="separator:a66e3848b9b5e3499600e003ccfb8e057"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad309f13550d0bef0afdf54ab34b8d8a1" id="r_ad309f13550d0bef0afdf54ab34b8d8a1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad309f13550d0bef0afdf54ab34b8d8a1">warmup</a> = 0</td></tr>
+<tr class="memdesc:ad309f13550d0bef0afdf54ab34b8d8a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warmup iterations discarded before measuring.  <br /></td></tr>
+<tr class="separator:ad309f13550d0bef0afdf54ab34b8d8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Evaluate-specific options. </p>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<div class="textblock"><p>Evaluate and convergence options (shared by evaluate + benchmark). </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a46433865e4da0a28b53c795fae378c48" name="a46433865e4da0a28b53c795fae378c48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46433865e4da0a28b53c795fae378c48">&#9670;&#160;</a></span>EvaluateParams() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ppforest2::cli::EvaluateParams::EvaluateParams </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2617e0a7add6be9ad6f4160504510e68" name="a2617e0a7add6be9ad6f4160504510e68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2617e0a7add6be9ad6f4160504510e68">&#9670;&#160;</a></span>EvaluateParams() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ppforest2::cli::EvaluateParams::EvaluateParams </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construct from a JSON config object. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a6bf5295f4ee0f68fd7f3833b0ea75898" name="a6bf5295f4ee0f68fd7f3833b0ea75898"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bf5295f4ee0f68fd7f3833b0ea75898">&#9670;&#160;</a></span>convergence_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ppforest2::cli::EvaluateParams::convergence_enabled </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Whether adaptive convergence stopping is active (disabled when iterations is set). </p>
+
+</div>
+</div>
+<a id="adf5301a95b90e5e121606ce69b79d773" name="adf5301a95b90e5e121606ce69b79d773"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf5301a95b90e5e121606ce69b79d773">&#9670;&#160;</a></span>overrides()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nlohmann::json ppforest2::cli::EvaluateParams::overrides </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>JSON with only the fields explicitly set (for scenario overrides). </p>
+
+</div>
+</div>
+<a id="a23e9ac55f0f2560f11ca516e69b206a0" name="a23e9ac55f0f2560f11ca516e69b206a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23e9ac55f0f2560f11ca516e69b206a0">&#9670;&#160;</a></span>resolve_defaults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::EvaluateParams::resolve_defaults </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fill unset optional fields with their default values. </p>
+
+</div>
+</div>
+<a id="a7b15888cb6731bd2143dbfc21285f78e" name="a7b15888cb6731bd2143dbfc21285f78e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b15888cb6731bd2143dbfc21285f78e">&#9670;&#160;</a></span>to_json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nlohmann::json ppforest2::cli::EvaluateParams::to_json </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Serialize to JSON config. </p>
+
+</div>
+</div>
+<a id="a8e633f916adaff3ed5b8d3fdff0c8b6f" name="a8e633f916adaff3ed5b8d3fdff0c8b6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e633f916adaff3ed5b8d3fdff0c8b6f">&#9670;&#160;</a></span>validate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void ppforest2::cli::EvaluateParams::validate </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>errors</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate evaluate-related fields in a JSON config. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9371b051b409b767f056085fab4d4da8" name="a9371b051b409b767f056085fab4d4da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9371b051b409b767f056085fab4d4da8">&#9670;&#160;</a></span>convergence</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html">ppforest2::cli::EvaluateParams::Convergence</a> ppforest2::cli::EvaluateParams::convergence</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a661eccd34b18a474550737dd3cd23ac7" name="a661eccd34b18a474550737dd3cd23ac7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a661eccd34b18a474550737dd3cd23ac7">&#9670;&#160;</a></span>export_path</h2>
 
@@ -137,31 +364,67 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8e475165f009abd336b8eb9541a488d0" name="a8e475165f009abd336b8eb9541a488d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e475165f009abd336b8eb9541a488d0">&#9670;&#160;</a></span>iterations</h2>
+<a id="a0e72746922a96e7f9e082cdd668a36c2" name="a0e72746922a96e7f9e082cdd668a36c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e72746922a96e7f9e082cdd668a36c2">&#9670;&#160;</a></span>fixed_seed</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int ppforest2::cli::EvaluateParams::iterations = 1</td>
+          <td class="memname">bool ppforest2::cli::EvaluateParams::fixed_seed = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use the user-provided seed unchanged for every iteration. </p>
+<p>Default (<code>false</code>): each iteration draws a fresh seed from <code>rng</code> so models genuinely differ across iterations. <code>std_*_error</code> reflects real algorithmic variance; <code>std_time_ms</code> mixes system noise with model-shape variance.</p>
+<p><code>true</code>: every iteration trains the <em>same</em> model. <code>std_*_error</code> is tautologically zero; <code>std_time_ms</code> reflects pure timing noise (cache, scheduling, allocator jitter). Useful when benchmarking the timing stability of a single configuration. </p>
+
+</div>
+</div>
+<a id="a68c5e0949a3be151e4fea8ac79edf30a" name="a68c5e0949a3be151e4fea8ac79edf30a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68c5e0949a3be151e4fea8ac79edf30a">&#9670;&#160;</a></span>iterations</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;int&gt; ppforest2::cli::EvaluateParams::iterations</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fixed count (disables convergence when set &gt; 0). </p>
+
+</div>
+</div>
+<a id="a66e3848b9b5e3499600e003ccfb8e057" name="a66e3848b9b5e3499600e003ccfb8e057"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66e3848b9b5e3499600e003ccfb8e057">&#9670;&#160;</a></span>train_ratio</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;float&gt; ppforest2::cli::EvaluateParams::train_ratio</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a1300ee8133a800a03250c5397c13e94b" name="a1300ee8133a800a03250c5397c13e94b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1300ee8133a800a03250c5397c13e94b">&#9670;&#160;</a></span>train_ratio</h2>
+<a id="ad309f13550d0bef0afdf54ab34b8d8a1" name="ad309f13550d0bef0afdf54ab34b8d8a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad309f13550d0bef0afdf54ab34b8d8a1">&#9670;&#160;</a></span>warmup</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float ppforest2::cli::EvaluateParams::train_ratio = 0.7</td>
+          <td class="memname">int ppforest2::cli::EvaluateParams::warmup = 0</td>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Warmup iterations discarded before measuring. </p>
 
 </div>
 </div>

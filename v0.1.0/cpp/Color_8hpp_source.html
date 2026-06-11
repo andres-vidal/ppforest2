@@ -131,81 +131,100 @@ $(function(){initNavTree('Color_8hpp_source.html',''); initResizable(true); });
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// clang-format off</span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">    #ifdef _WIN32</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    HANDLE hOut  = GetStdHandle(STD_OUTPUT_HANDLE);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    DWORD dwMode = 0;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">if</span> (hOut != INVALID_HANDLE_VALUE &amp;&amp; GetConsoleMode(hOut, &amp;dwMode)) {</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>      <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">    #else</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = isatty(fileno(stdout));</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    HANDLE hOut  = GetStdHandle(STD_OUTPUT_HANDLE);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    DWORD dwMode = 0;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (hOut != INVALID_HANDLE_VALUE &amp;&amp; GetConsoleMode(hOut, &amp;dwMode)) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      SetConsoleMode(hOut, dwMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// clang-format off</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">    #else</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>() = <span class="keyword">static_cast&lt;</span><span class="keywordtype">bool</span><span class="keyword">&gt;</span>(isatty(fileno(stdout)));</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// clang-format on</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  }</div>
 </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">   76</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(<span class="keyword">const</span> std::string&amp; s, fmt::terminal_color c) {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>()) <span class="keywordflow">return</span> s;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;\033[{}m{}\033[39m&quot;</span>, <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(c), s);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">   78</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(std::string <span class="keyword">const</span>&amp; s, fmt::terminal_color c) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>()) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      <span class="keywordflow">return</span> s;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;\033[{}m{}\033[39m&quot;</span>, <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(c), s);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  }</div>
 </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span></div>
-<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#ae34e06e16709ede6c42dc6070081f1f6">   85</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ae34e06e16709ede6c42dc6070081f1f6">error</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(s, fmt::terminal_color::red);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span></div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a3b062ad534d3ae6794a2d8b3e81a063e">   89</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a3b062ad534d3ae6794a2d8b3e81a063e">error</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(s, fmt::terminal_color::red);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  }</div>
 </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span></div>
-<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a54edc627ad5d004ce526c46686cd68bb">   92</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a54edc627ad5d004ce526c46686cd68bb">success</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(s, fmt::terminal_color::green);</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>  }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span></div>
+<div class="foldopen" id="foldopen00096" data-start="{" data-end="}">
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#ae131d36c9e5b7148b15b9bb16c27290f">   96</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ae131d36c9e5b7148b15b9bb16c27290f">success</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(s, fmt::terminal_color::green);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  }</div>
 </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span></div>
-<div class="foldopen" id="foldopen00102" data-start="{" data-end="}">
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#ae3bd1294579e96533c59c763ce183764">  102</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ae3bd1294579e96533c59c763ce183764">emphasis</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>()) <span class="keywordflow">return</span> s;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;\033[1m{}\033[22m&quot;</span>, s);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span></div>
+<div class="foldopen" id="foldopen00106" data-start="{" data-end="}">
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a9c7d38620ef66d71f59d03c0293739a6">  106</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a9c7d38620ef66d71f59d03c0293739a6">emphasis</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>()) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      <span class="keywordflow">return</span> s;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;\033[1m{}\033[22m&quot;</span>, s);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  }</div>
 </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span></div>
-<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a7a5f32471a0274221ad7a7747a10c852">  111</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a7a5f32471a0274221ad7a7747a10c852">muted</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(s, fmt::terminal_color::bright_black);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span></div>
+<div class="foldopen" id="foldopen00117" data-start="{" data-end="}">
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#af974477fd0c25a5780c0e68e4ceef431">  117</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#af974477fd0c25a5780c0e68e4ceef431">muted</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(s, fmt::terminal_color::bright_black);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  }</div>
 </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span></div>
-<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#ad3acbe1ee7247de86a2850fba97dc304">  118</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad3acbe1ee7247de86a2850fba97dc304">info</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(s, fmt::terminal_color::cyan);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span></div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="}">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a825ae1b67524fe3c892964a4c2a54b79">  124</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a825ae1b67524fe3c892964a4c2a54b79">info</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(s, fmt::terminal_color::cyan);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  }</div>
 </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span></div>
-<div class="foldopen" id="foldopen00125" data-start="{" data-end="}">
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a88c2187936a74e14b832f2a6d1cced36">  125</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a88c2187936a74e14b832f2a6d1cced36">warning</a>(<span class="keyword">const</span> std::string&amp; s) {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">styled</a>(s, fmt::terminal_color::yellow);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span></div>
+<div class="foldopen" id="foldopen00131" data-start="{" data-end="}">
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#aca30a95edc3caf674e86f35bcc0fdd42">  131</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#aca30a95edc3caf674e86f35bcc0fdd42">warning</a>(std::string <span class="keyword">const</span>&amp; s) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">styled</a>(s, fmt::terminal_color::yellow);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  }</div>
 </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span></div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4">  144</a></span>  <span class="keyword">inline</span> std::string <a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4">link</a>(std::string <span class="keyword">const</span>&amp; url, std::string <span class="keyword">const</span>&amp; <a class="code hl_namespace" href="namespaceppforest2_1_1io_1_1text.html">text</a>) {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">color_enabled</a>()) {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      <span class="keywordflow">return</span> <a class="code hl_namespace" href="namespaceppforest2_1_1io_1_1text.html">text</a>;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    }</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="comment">// BEL terminator (rather than ST `ESC \`) — more widely accepted by</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="comment">// terminals that implement only a subset of the OSC 8 spec.</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> fmt::format(<span class="stringliteral">&quot;\x1b]8;;{}\x07{}\x1b]8;;\x07&quot;</span>, url, <a class="code hl_namespace" href="namespaceppforest2_1_1io_1_1text.html">text</a>);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>  }</div>
+</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
 </div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html">ppforest2::io::style</a></div><div class="ttdoc">TTY-aware ANSI colored output utilities.</div><div class="ttdef"><b>Definition</b> Color.hpp:31</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a43ef20ac4bf95914ac676d9766d880ac"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a43ef20ac4bf95914ac676d9766d880ac">ppforest2::io::style::styled</a></div><div class="ttdeci">std::string styled(const std::string &amp;s, fmt::terminal_color c)</div><div class="ttdoc">Apply a foreground color with a specific reset (\033[39m) instead of fmt&#39;s full reset,...</div><div class="ttdef"><b>Definition</b> Color.hpp:76</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a54edc627ad5d004ce526c46686cd68bb"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a54edc627ad5d004ce526c46686cd68bb">ppforest2::io::style::success</a></div><div class="ttdeci">std::string success(const std::string &amp;s)</div><div class="ttdoc">Format text in green (for success messages).</div><div class="ttdef"><b>Definition</b> Color.hpp:92</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a3b062ad534d3ae6794a2d8b3e81a063e"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a3b062ad534d3ae6794a2d8b3e81a063e">ppforest2::io::style::error</a></div><div class="ttdeci">std::string error(std::string const &amp;s)</div><div class="ttdoc">Format text in red (for error messages).</div><div class="ttdef"><b>Definition</b> Color.hpp:89</div></div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a67980b6e1d9be22e995d884c69a19b38"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a67980b6e1d9be22e995d884c69a19b38">ppforest2::io::style::init_color</a></div><div class="ttdeci">void init_color(bool no_color)</div><div class="ttdoc">Initialize color support based on TTY detection and user preference.</div><div class="ttdef"><b>Definition</b> Color.hpp:49</div></div>
 <div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a77fedfff454143019e06de61803bb893"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a77fedfff454143019e06de61803bb893">ppforest2::io::style::color_enabled</a></div><div class="ttdeci">bool &amp; color_enabled()</div><div class="ttdoc">Global toggle for colored output.</div><div class="ttdef"><b>Definition</b> Color.hpp:36</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a7a5f32471a0274221ad7a7747a10c852"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a7a5f32471a0274221ad7a7747a10c852">ppforest2::io::style::muted</a></div><div class="ttdeci">std::string muted(const std::string &amp;s)</div><div class="ttdoc">Format text in dim gray (for hints and secondary info).</div><div class="ttdef"><b>Definition</b> Color.hpp:111</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a88c2187936a74e14b832f2a6d1cced36"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a88c2187936a74e14b832f2a6d1cced36">ppforest2::io::style::warning</a></div><div class="ttdeci">std::string warning(const std::string &amp;s)</div><div class="ttdoc">Format text in yellow (for warnings).</div><div class="ttdef"><b>Definition</b> Color.hpp:125</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_ad3acbe1ee7247de86a2850fba97dc304"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#ad3acbe1ee7247de86a2850fba97dc304">ppforest2::io::style::info</a></div><div class="ttdeci">std::string info(const std::string &amp;s)</div><div class="ttdoc">Format text in cyan (for informational highlights like progress bars).</div><div class="ttdef"><b>Definition</b> Color.hpp:118</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_ae34e06e16709ede6c42dc6070081f1f6"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#ae34e06e16709ede6c42dc6070081f1f6">ppforest2::io::style::error</a></div><div class="ttdeci">std::string error(const std::string &amp;s)</div><div class="ttdoc">Format text in red (for error messages).</div><div class="ttdef"><b>Definition</b> Color.hpp:85</div></div>
-<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_ae3bd1294579e96533c59c763ce183764"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#ae3bd1294579e96533c59c763ce183764">ppforest2::io::style::emphasis</a></div><div class="ttdeci">std::string emphasis(const std::string &amp;s)</div><div class="ttdoc">Format text in bold (for emphasis / labels).</div><div class="ttdef"><b>Definition</b> Color.hpp:102</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a825ae1b67524fe3c892964a4c2a54b79"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a825ae1b67524fe3c892964a4c2a54b79">ppforest2::io::style::info</a></div><div class="ttdeci">std::string info(std::string const &amp;s)</div><div class="ttdoc">Format text in cyan (for informational highlights like progress bars).</div><div class="ttdef"><b>Definition</b> Color.hpp:124</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a9673facd34b1b84e339d526a3e9438e4"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a9673facd34b1b84e339d526a3e9438e4">ppforest2::io::style::link</a></div><div class="ttdeci">std::string link(std::string const &amp;url, std::string const &amp;text)</div><div class="ttdoc">Wrap text in an OSC 8 hyperlink targeting url.</div><div class="ttdef"><b>Definition</b> Color.hpp:144</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_a9c7d38620ef66d71f59d03c0293739a6"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#a9c7d38620ef66d71f59d03c0293739a6">ppforest2::io::style::emphasis</a></div><div class="ttdeci">std::string emphasis(std::string const &amp;s)</div><div class="ttdoc">Format text in bold (for emphasis / labels).</div><div class="ttdef"><b>Definition</b> Color.hpp:106</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_aca30a95edc3caf674e86f35bcc0fdd42"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#aca30a95edc3caf674e86f35bcc0fdd42">ppforest2::io::style::warning</a></div><div class="ttdeci">std::string warning(std::string const &amp;s)</div><div class="ttdoc">Format text in yellow (for warnings).</div><div class="ttdef"><b>Definition</b> Color.hpp:131</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_ad6f97b00a3f86bc113808ead72a1fc75"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#ad6f97b00a3f86bc113808ead72a1fc75">ppforest2::io::style::styled</a></div><div class="ttdeci">std::string styled(std::string const &amp;s, fmt::terminal_color c)</div><div class="ttdoc">Apply a foreground color with a specific reset (\033[39m) instead of fmt&#39;s full reset,...</div><div class="ttdef"><b>Definition</b> Color.hpp:78</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_ae131d36c9e5b7148b15b9bb16c27290f"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#ae131d36c9e5b7148b15b9bb16c27290f">ppforest2::io::style::success</a></div><div class="ttdeci">std::string success(std::string const &amp;s)</div><div class="ttdoc">Format text in green (for success messages).</div><div class="ttdef"><b>Definition</b> Color.hpp:96</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1style_html_af974477fd0c25a5780c0e68e4ceef431"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1style.html#af974477fd0c25a5780c0e68e4ceef431">ppforest2::io::style::muted</a></div><div class="ttdeci">std::string muted(std::string const &amp;s)</div><div class="ttdoc">Format text in dim gray (for hints and secondary info).</div><div class="ttdef"><b>Definition</b> Color.hpp:117</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1io_1_1text_html"><div class="ttname"><a href="namespaceppforest2_1_1io_1_1text.html">ppforest2::io::text</a></div><div class="ttdef"><b>Definition</b> IO.hpp:65</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

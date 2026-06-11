@@ -100,6 +100,7 @@ $(function(){initNavTree('namespaceppforest2_1_1stats.html',''); initResizable(t
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -110,13 +111,21 @@ $(function(){initNavTree('namespaceppforest2_1_1stats.html',''); initResizable(t
 <p>Statistical infrastructure for training and evaluation.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1stats_1_1simulation.html">simulation</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">ClassificationMetrics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classification evaluation metrics.  <a href="structppforest2_1_1stats_1_1ClassificationMetrics.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1ConfusionMatrix.html">ConfusionMatrix</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A confusion matrix comparing predicted vs actual group labels.  <a href="structppforest2_1_1stats_1_1ConfusionMatrix.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bundled dataset: features, responses, and group labels.  <a href="structppforest2_1_1stats_1_1DataPacket.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bundled dataset: features, response, and group labels.  <a href="structppforest2_1_1stats_1_1DataPacket.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1stats_1_1GroupPartition.html">GroupPartition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contiguous-block representation of grouped observations.  <a href="classppforest2_1_1stats_1_1GroupPartition.html#details">More...</a><br /></td></tr>
@@ -124,8 +133,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classppforest2_1_1stats_1_1Normal.html">Normal</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classppforest2_1_1stats_1_1Normal.html" title="Normal (Gaussian) random number generator.">Normal</a> (Gaussian) random number generator.  <a href="classppforest2_1_1stats_1_1Normal.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1SimulationParams.html">SimulationParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for generating simulated classification data.  <a href="structppforest2_1_1stats_1_1SimulationParams.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">RegressionMetrics</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regression evaluation metrics.  <a href="structppforest2_1_1stats_1_1RegressionMetrics.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1stats_1_1Split.html">Split</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indices for a train/test split.  <a href="structppforest2_1_1stats_1_1Split.html#details">More...</a><br /></td></tr>
@@ -136,43 +145,99 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:a400001293548f4ee072898d84f869104" id="r_a400001293548f4ee072898d84f869104"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a400001293548f4ee072898d84f869104">Metrics</a> = std::variant&lt;<a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">ClassificationMetrics</a>, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">RegressionMetrics</a>&gt;</td></tr>
+<tr class="memdesc:a400001293548f4ee072898d84f869104"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode-polymorphic metrics block.  <br /></td></tr>
+<tr class="separator:a400001293548f4ee072898d84f869104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e3a1f81a376373936a72c8ba6061567" id="r_a8e3a1f81a376373936a72c8ba6061567"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> = pcg32</td></tr>
 <tr class="separator:a8e3a1f81a376373936a72c8ba6061567"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab1be109eb5773e260bc48e272d1599d4" id="r_ab1be109eb5773e260bc48e272d1599d4"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab1be109eb5773e260bc48e272d1599d4">accuracy</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;predictions, const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;actual)</td></tr>
-<tr class="memdesc:ab1be109eb5773e260bc48e272d1599d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accuracy of a prediction.  <br /></td></tr>
-<tr class="separator:ab1be109eb5773e260bc48e272d1599d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a9ab29c5165bf5acb78e69f78458c52" id="r_a7a9ab29c5165bf5acb78e69f78458c52"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a9ab29c5165bf5acb78e69f78458c52">error_rate</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;predictions, const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;actual)</td></tr>
-<tr class="memdesc:a7a9ab29c5165bf5acb78e69f78458c52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error rate of a prediction.  <br /></td></tr>
-<tr class="separator:a7a9ab29c5165bf5acb78e69f78458c52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ef348216200ff629b08c457e5ebccd8" id="r_a0ef348216200ff629b08c457e5ebccd8"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ef348216200ff629b08c457e5ebccd8">get_labels_map</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;groups)</td></tr>
-<tr class="memdesc:a0ef348216200ff629b08c457e5ebccd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a sorted mapping from unique group labels to contiguous indices.  <br /></td></tr>
-<tr class="separator:a0ef348216200ff629b08c457e5ebccd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a847826ab1262d5fe5c802ecafaf332b6" id="r_a847826ab1262d5fe5c802ecafaf332b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a847826ab1262d5fe5c802ecafaf332b6">sd</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;data)</td></tr>
-<tr class="memdesc:a847826ab1262d5fe5c802ecafaf332b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample standard deviation of a matrix.  <br /></td></tr>
-<tr class="separator:a847826ab1262d5fe5c802ecafaf332b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80225d623d30b503146bc9a03e8b1327" id="r_a80225d623d30b503146bc9a03e8b1327"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80225d623d30b503146bc9a03e8b1327">sd</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> &amp;data)</td></tr>
-<tr class="memdesc:a80225d623d30b503146bc9a03e8b1327"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample standard deviation of a vector.  <br /></td></tr>
-<tr class="separator:a80225d623d30b503146bc9a03e8b1327"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a917d81236d7b2dc7432e1d34c0c2bab1" id="r_a917d81236d7b2dc7432e1d34c0c2bab1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a917d81236d7b2dc7432e1d34c0c2bab1">simulate</a> (int n, int p, int G, <a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;rng, const <a class="el" href="structppforest2_1_1stats_1_1SimulationParams.html">SimulationParams</a> &amp;params=<a class="el" href="structppforest2_1_1stats_1_1SimulationParams.html">SimulationParams</a>{})</td></tr>
-<tr class="memdesc:a917d81236d7b2dc7432e1d34c0c2bab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a simulated dataset with G groups, n rows, and p features.  <br /></td></tr>
-<tr class="separator:a917d81236d7b2dc7432e1d34c0c2bab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5fea02c8d682b90a47fd016d536b820" id="r_ab5fea02c8d682b90a47fd016d536b820"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab5fea02c8d682b90a47fd016d536b820">sort</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;x, <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;y)</td></tr>
-<tr class="memdesc:ab5fea02c8d682b90a47fd016d536b820"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a feature matrix and a response vector by the response values.  <br /></td></tr>
-<tr class="separator:ab5fea02c8d682b90a47fd016d536b820"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7544bfd87b8aeb5d134d987a6a2aa8e9" id="r_a7544bfd87b8aeb5d134d987a6a2aa8e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1Split.html">Split</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7544bfd87b8aeb5d134d987a6a2aa8e9">split</a> (const <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a> &amp;data, float train_ratio, <a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;rng)</td></tr>
-<tr class="memdesc:a7544bfd87b8aeb5d134d987a6a2aa8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a stratified random train/test split on a <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html" title="Bundled dataset: features, responses, and group labels.">DataPacket</a>.  <br /></td></tr>
-<tr class="separator:a7544bfd87b8aeb5d134d987a6a2aa8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a116d95f97b06a0c8b60db844c607ce25" id="r_a116d95f97b06a0c8b60db844c607ce25"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a421bc51b648a3f3a8e2d3d5c17293c7e">types::Response</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a116d95f97b06a0c8b60db844c607ce25">unique</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;column)</td></tr>
-<tr class="memdesc:a116d95f97b06a0c8b60db844c607ce25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique values of a response vector.  <br /></td></tr>
-<tr class="separator:a116d95f97b06a0c8b60db844c607ce25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c00a51160bb78d3a9750e076bf16923" id="r_a5c00a51160bb78d3a9750e076bf16923"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c00a51160bb78d3a9750e076bf16923">accuracy</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a5c00a51160bb78d3a9750e076bf16923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fraction of predictions matching the ground-truth class label.  <br /></td></tr>
+<tr class="separator:a5c00a51160bb78d3a9750e076bf16923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a65f2b6ddf141a1888923cc3b5e52c0" id="r_a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a65f2b6ddf141a1888923cc3b5e52c0">error_rate</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Misclassification rate — <code>1 - accuracy</code>.  <br /></td></tr>
+<tr class="separator:a7a65f2b6ddf141a1888923cc3b5e52c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a595e644d7dee128f05fd09b07ed874d9" id="r_a595e644d7dee128f05fd09b07ed874d9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a595e644d7dee128f05fd09b07ed874d9">error_rate</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a595e644d7dee128f05fd09b07ed874d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload: float-typed labels (cast to <code>GroupId</code> locally).  <br /></td></tr>
+<tr class="separator:a595e644d7dee128f05fd09b07ed874d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f2af8acac2a655edbe58905c022290" id="r_a78f2af8acac2a655edbe58905c022290"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78f2af8acac2a655edbe58905c022290">get_labels_map</a> (<a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;y_pred, <a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;y)</td></tr>
+<tr class="memdesc:a78f2af8acac2a655edbe58905c022290"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a sorted mapping from unique group labels to contiguous indices.  <br /></td></tr>
+<tr class="separator:a78f2af8acac2a655edbe58905c022290"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcf38be8ed069d3e434e1ada7c688950" id="r_adcf38be8ed069d3e434e1ada7c688950"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adcf38be8ed069d3e434e1ada7c688950">group_indices</a> (std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt; const &amp;groups)</td></tr>
+<tr class="memdesc:adcf38be8ed069d3e434e1ada7c688950"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map each label in <code class="param">groups</code> to its index in iteration order.  <br /></td></tr>
+<tr class="separator:adcf38be8ed069d3e434e1ada7c688950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd" id="r_a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10b22e3a2ddd4fdc357bc8cb6ee7cbfd">mae</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mean absolute error.  <br /></td></tr>
+<tr class="separator:a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab72eec479a60be5955b6589600bfa0f3" id="r_ab72eec479a60be5955b6589600bfa0f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab72eec479a60be5955b6589600bfa0f3">majority_vote</a> (std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;preds)</td></tr>
+<tr class="memdesc:ab72eec479a60be5955b6589600bfa0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Majority vote over a sequence of integer-coded class labels.  <br /></td></tr>
+<tr class="separator:ab72eec479a60be5955b6589600bfa0f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5bbbe27d52190328fcdb5a88c1e16a7" id="r_ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5bbbe27d52190328fcdb5a88c1e16a7">mean</a> (std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;preds)</td></tr>
+<tr class="memdesc:ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arithmetic mean of a sequence of outcome values.  <br /></td></tr>
+<tr class="separator:ae5bbbe27d52190328fcdb5a88c1e16a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72afa434969c699638a805f4c43f25ab" id="r_a72afa434969c699638a805f4c43f25ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a400001293548f4ee072898d84f869104">Metrics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72afa434969c699638a805f4c43f25ab">metrics_from_outcomes</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;y_pred, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;y, <a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75e">types::Mode</a> mode)</td></tr>
+<tr class="memdesc:a72afa434969c699638a805f4c43f25ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a mode-appropriate <code><a class="el" href="#a400001293548f4ee072898d84f869104" title="Mode-polymorphic metrics block.">Metrics</a></code> variant from in-memory tensors.  <br /></td></tr>
+<tr class="separator:a72afa434969c699638a805f4c43f25ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ac18ab77f113b03bab9d3dadbfe341" id="r_ae1ac18ab77f113b03bab9d3dadbfe341"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae1ac18ab77f113b03bab9d3dadbfe341">mse</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:ae1ac18ab77f113b03bab9d3dadbfe341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mean squared error.  <br /></td></tr>
+<tr class="separator:ae1ac18ab77f113b03bab9d3dadbfe341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cd86cc9ed1f4542f5039024f1fd27cf" id="r_a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0cd86cc9ed1f4542f5039024f1fd27cf">r_squared</a> (<a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;predictions, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;actual)</td></tr>
+<tr class="memdesc:a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coefficient of determination (R²). Returns 0 when total variance is 0.  <br /></td></tr>
+<tr class="separator:a0cd86cc9ed1f4542f5039024f1fd27cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a1e816c8f6bb4dbba44d12a20199ad2" id="r_a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memTemplParams" colspan="2">template&lt;typename Derived&gt; </td></tr>
+<tr class="memitem:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a5a1e816c8f6bb4dbba44d12a20199ad2">sd</a> (Eigen::MatrixBase&lt; Derived &gt; const &amp;data)</td></tr>
+<tr class="memdesc:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample standard deviation of a vector — <code>sqrt(var(data))</code>.  <br /></td></tr>
+<tr class="separator:a5a1e816c8f6bb4dbba44d12a20199ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae7cd1b6168c96ba1c850b1c27a70fc" id="r_acae7cd1b6168c96ba1c850b1c27a70fc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acae7cd1b6168c96ba1c850b1c27a70fc">sd</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;data)</td></tr>
+<tr class="memdesc:acae7cd1b6168c96ba1c850b1c27a70fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample standard deviation — element-wise <code>sqrt</code> of <code>var</code>.  <br /></td></tr>
+<tr class="separator:acae7cd1b6168c96ba1c850b1c27a70fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b2cfe03806c19e952b03860304fc750" id="r_a7b2cfe03806c19e952b03860304fc750"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b2cfe03806c19e952b03860304fc750">simulate</a> (int n, int p, int G, <a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;rng, <a class="el" href="structppforest2_1_1stats_1_1simulation_1_1params_1_1Classification.html">simulation::params::Classification</a> const &amp;params={})</td></tr>
+<tr class="memdesc:a7b2cfe03806c19e952b03860304fc750"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a simulated classification dataset.  <br /></td></tr>
+<tr class="separator:a7b2cfe03806c19e952b03860304fc750"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e1f9048593c8d9ae254237b600f31b0" id="r_a5e1f9048593c8d9ae254237b600f31b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5e1f9048593c8d9ae254237b600f31b0">simulate</a> (int n, int p, <a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;rng, <a class="el" href="structppforest2_1_1stats_1_1simulation_1_1params_1_1Regression.html">simulation::params::Regression</a> const &amp;params={})</td></tr>
+<tr class="memdesc:a5e1f9048593c8d9ae254237b600f31b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a simulated regression dataset.  <br /></td></tr>
+<tr class="separator:a5e1f9048593c8d9ae254237b600f31b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eb44ede118ca7c7a40ebc84e90d841f" id="r_a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memTemplParams" colspan="2">template&lt;typename Y&gt; </td></tr>
+<tr class="memitem:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a3eb44ede118ca7c7a40ebc84e90d841f">sort</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;x, Y &amp;y)</td></tr>
+<tr class="memdesc:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort a feature matrix and a response vector by the response values.  <br /></td></tr>
+<tr class="separator:a3eb44ede118ca7c7a40ebc84e90d841f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12ac1a24ba766a67b4e401b368f90bc7" id="r_a12ac1a24ba766a67b4e401b368f90bc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1Split.html">Split</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12ac1a24ba766a67b4e401b368f90bc7">split</a> (<a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a> const &amp;data, float train_ratio, <a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;rng)</td></tr>
+<tr class="memdesc:a12ac1a24ba766a67b4e401b368f90bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a stratified random train/test split on a <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html" title="Bundled dataset: features, response, and group labels.">DataPacket</a>.  <br /></td></tr>
+<tr class="separator:a12ac1a24ba766a67b4e401b368f90bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ea03f1f289c2237e6fe1cd4da5e6d6" id="r_a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="memItemLeft" align="right" valign="top">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a68ea03f1f289c2237e6fe1cd4da5e6d6">unique</a> (<a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;column)</td></tr>
+<tr class="memdesc:a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique group labels in a response vector.  <br /></td></tr>
+<tr class="separator:a68ea03f1f289c2237e6fe1cd4da5e6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42939f5d76943c055d0a06dfaa4d2788" id="r_a42939f5d76943c055d0a06dfaa4d2788"><td class="memTemplParams" colspan="2">template&lt;typename Derived&gt; </td></tr>
+<tr class="memitem:a42939f5d76943c055d0a06dfaa4d2788"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a42939f5d76943c055d0a06dfaa4d2788">var</a> (Eigen::MatrixBase&lt; Derived &gt; const &amp;data)</td></tr>
+<tr class="memdesc:a42939f5d76943c055d0a06dfaa4d2788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample variance of a vector (unbiased, <code>n-1</code> denominator).  <br /></td></tr>
+<tr class="separator:a42939f5d76943c055d0a06dfaa4d2788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081702fbab6c2d8b2fe775949c144776" id="r_a081702fbab6c2d8b2fe775949c144776"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a081702fbab6c2d8b2fe775949c144776">var</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;data)</td></tr>
+<tr class="memdesc:a081702fbab6c2d8b2fe775949c144776"><td class="mdescLeft">&#160;</td><td class="mdescRight">Column-wise sample variance of a matrix.  <br /></td></tr>
+<tr class="separator:a081702fbab6c2d8b2fe775949c144776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Statistical infrastructure for training and evaluation. </p>
 <p>Provides the random number generator (pcg32), discrete uniform sampling (Lemire's method), grouped-observation bookkeeping (<a class="el" href="classppforest2_1_1stats_1_1GroupPartition.html" title="Contiguous-block representation of grouped observations.">GroupPartition</a>), confusion matrices, data simulation, and basic descriptive statistics used throughout the training pipeline. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="a400001293548f4ee072898d84f869104" name="a400001293548f4ee072898d84f869104"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a400001293548f4ee072898d84f869104">&#9670;&#160;</a></span>Metrics</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a400001293548f4ee072898d84f869104">ppforest2::stats::Metrics</a> = std::variant&lt;<a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html">ClassificationMetrics</a>, <a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html">RegressionMetrics</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mode-polymorphic metrics block. </p>
+<p>Carries <code><a class="el" href="structppforest2_1_1stats_1_1ClassificationMetrics.html" title="Classification evaluation metrics.">ClassificationMetrics</a></code> for classification models and <code><a class="el" href="structppforest2_1_1stats_1_1RegressionMetrics.html" title="Regression evaluation metrics.">RegressionMetrics</a></code> for regression models. Consumers that want the scalar / matrix can <code>std::visit</code> the variant instead of branching on which JSON key (or strategy mode) happens to be present. </p>
+
+</div>
+</div>
 <a id="a8e3a1f81a376373936a72c8ba6061567" name="a8e3a1f81a376373936a72c8ba6061567"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e3a1f81a376373936a72c8ba6061567">&#9670;&#160;</a></span>RNG</h2>
 
@@ -188,8 +253,8 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ab1be109eb5773e260bc48e272d1599d4" name="ab1be109eb5773e260bc48e272d1599d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab1be109eb5773e260bc48e272d1599d4">&#9670;&#160;</a></span>accuracy()</h2>
+<a id="a5c00a51160bb78d3a9750e076bf16923" name="a5c00a51160bb78d3a9750e076bf16923"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c00a51160bb78d3a9750e076bf16923">&#9670;&#160;</a></span>accuracy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -197,30 +262,23 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">float ppforest2::stats::accuracy </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Accuracy of a prediction. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">predictions</td><td>Predicted response vector. </td></tr>
-    <tr><td class="paramname">actual</td><td>Actual response vector. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Accuracy (0 to 1). </dd></dl>
+<p>Fraction of predictions matching the ground-truth class label. </p>
+<dl class="section return"><dt>Returns</dt><dd>Accuracy in [0, 1]. </dd></dl>
 
 </div>
 </div>
-<a id="a7a9ab29c5165bf5acb78e69f78458c52" name="a7a9ab29c5165bf5acb78e69f78458c52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a9ab29c5165bf5acb78e69f78458c52">&#9670;&#160;</a></span>error_rate()</h2>
+<a id="a7a65f2b6ddf141a1888923cc3b5e52c0" name="a7a65f2b6ddf141a1888923cc3b5e52c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a65f2b6ddf141a1888923cc3b5e52c0">&#9670;&#160;</a></span>error_rate() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,30 +286,55 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">double ppforest2::stats::error_rate </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Error rate of a prediction. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">predictions</td><td>Predicted response vector. </td></tr>
-    <tr><td class="paramname">actual</td><td>Actual response vector. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Error rate (0 to 1). </dd></dl>
+<p>Misclassification rate — <code>1 - accuracy</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd>Error rate in [0, 1]. </dd></dl>
 
 </div>
 </div>
-<a id="a0ef348216200ff629b08c457e5ebccd8" name="a0ef348216200ff629b08c457e5ebccd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ef348216200ff629b08c457e5ebccd8">&#9670;&#160;</a></span>get_labels_map()</h2>
+<a id="a595e644d7dee128f05fd09b07ed874d9" name="a595e644d7dee128f05fd09b07ed874d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a595e644d7dee128f05fd09b07ed874d9">&#9670;&#160;</a></span>error_rate() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::error_rate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience overload: float-typed labels (cast to <code>GroupId</code> locally). </p>
+<p>Used by the unified training pipeline where <code>y</code> is carried as <code>OutcomeVector</code> for both classification and regression. </p>
+
+</div>
+</div>
+<a id="a78f2af8acac2a655edbe58905c022290" name="a78f2af8acac2a655edbe58905c022290"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f2af8acac2a655edbe58905c022290">&#9670;&#160;</a></span>get_labels_map()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,25 +342,204 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">std::map&lt; int, int &gt; ppforest2::stats::get_labels_map </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>groups</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>y_pred</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Build a sorted mapping from unique group labels to contiguous indices. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">groups</td><td>A response vector containing group labels. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Includes labels from both <code>predictions</code> and <code>actual</code> so the confusion matrix can hold cells for any predicted class — even classes the model confused into that didn't appear in the ground truth (and vice versa).</p>
 <dl class="section return"><dt>Returns</dt><dd>A map from label value to its 0-based index. </dd></dl>
 
 </div>
 </div>
-<a id="a847826ab1262d5fe5c802ecafaf332b6" name="a847826ab1262d5fe5c802ecafaf332b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a847826ab1262d5fe5c802ecafaf332b6">&#9670;&#160;</a></span>sd() <span class="overload">[1/2]</span></h2>
+<a id="adcf38be8ed069d3e434e1ada7c688950" name="adcf38be8ed069d3e434e1ada7c688950"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcf38be8ed069d3e434e1ada7c688950">&#9670;&#160;</a></span>group_indices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a>, int &gt; ppforest2::stats::group_indices </td>
+          <td>(</td>
+          <td class="paramtype">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>groups</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Map each label in <code class="param">groups</code> to its index in iteration order. </p>
+<p>Used by <code>predict(FeatureMatrix, Proportions)</code> on <code><a class="el" href="classppforest2_1_1ClassificationTree.html" title="A projection pursuit decision tree for classification.">ClassificationTree</a></code> and <code><a class="el" href="classppforest2_1_1ClassificationForest.html" title="Random forest of classification trees.">ClassificationForest</a></code> to assign each group a column in the proportions matrix. <code>std::set</code> iterates in ascending key order, so the resulting indices are sorted by group label. </p>
+
+</div>
+</div>
+<a id="a10b22e3a2ddd4fdc357bc8cb6ee7cbfd" name="a10b22e3a2ddd4fdc357bc8cb6ee7cbfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10b22e3a2ddd4fdc357bc8cb6ee7cbfd">&#9670;&#160;</a></span>mae()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::mae </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mean absolute error. </p>
+
+</div>
+</div>
+<a id="ab72eec479a60be5955b6589600bfa0f3" name="ab72eec479a60be5955b6589600bfa0f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab72eec479a60be5955b6589600bfa0f3">&#9670;&#160;</a></span>majority_vote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> ppforest2::stats::majority_vote </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>preds</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Majority vote over a sequence of integer-coded class labels. </p>
+<p>Returns the label with the largest count. Ties are broken by the smallest <code>GroupId</code> — <code>std::map</code> iterates in ascending key order and the strict <code>&gt;</code> comparison keeps the earliest winner.</p>
+<p>Used for classification ensemble aggregation: per-row OOB voting (<code>models/Evaluation.cpp</code>) and per-row in-bag voting (<code><a class="el" href="classppforest2_1_1ClassificationForest.html#a049083a1f4f33af9c34306c02692423f" title="Per-row prediction (mode-specific: majority vote or mean).">ClassificationForest::predict</a></code>). Throws on empty input. </p>
+
+</div>
+</div>
+<a id="ae5bbbe27d52190328fcdb5a88c1e16a7" name="ae5bbbe27d52190328fcdb5a88c1e16a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5bbbe27d52190328fcdb5a88c1e16a7">&#9670;&#160;</a></span>mean()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> ppforest2::stats::mean </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>preds</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Arithmetic mean of a sequence of outcome values. </p>
+<p>Used for regression ensemble aggregation: per-row OOB averaging (<code>models/Evaluation.cpp</code>) and per-row in-bag averaging (<code><a class="el" href="classppforest2_1_1RegressionForest.html#a9d284c81676781a694f9183366d08440" title="Per-row prediction (mode-specific: majority vote or mean).">RegressionForest::predict</a></code>). Sum is computed in <code>double</code> to avoid loss-of-precision when many <code>float</code> outcomes are added. Throws on empty input. </p>
+
+</div>
+</div>
+<a id="a72afa434969c699638a805f4c43f25ab" name="a72afa434969c699638a805f4c43f25ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72afa434969c699638a805f4c43f25ab">&#9670;&#160;</a></span>metrics_from_outcomes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a400001293548f4ee072898d84f869104">Metrics</a> ppforest2::stats::metrics_from_outcomes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>y_pred</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#ada497c7353deefa1ab7774522a39e75e">types::Mode</a></td>          <td class="paramname"><span class="paramname"><em>mode</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build a mode-appropriate <code><a class="el" href="#a400001293548f4ee072898d84f869104" title="Mode-polymorphic metrics block.">Metrics</a></code> variant from in-memory tensors. </p>
+<p>Sibling to <code><a class="el" href="namespaceppforest2_1_1serialization.html#a052bad7805eab558173c7ea9aca52354" title="Deserialize a Metrics block; mode picks the variant alternative.">serialization::metrics_from_json</a></code> — same variant, different source. Lets callers compute metrics once and pass the variant to polymorphic consumers (e.g. <code>print_metrics_block</code>). </p>
+
+</div>
+</div>
+<a id="ae1ac18ab77f113b03bab9d3dadbfe341" name="ae1ac18ab77f113b03bab9d3dadbfe341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1ac18ab77f113b03bab9d3dadbfe341">&#9670;&#160;</a></span>mse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::mse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mean squared error. </p>
+
+</div>
+</div>
+<a id="a0cd86cc9ed1f4542f5039024f1fd27cf" name="a0cd86cc9ed1f4542f5039024f1fd27cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd86cc9ed1f4542f5039024f1fd27cf">&#9670;&#160;</a></span>r_squared()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::r_squared </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>predictions</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>actual</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Coefficient of determination (R²). Returns 0 when total variance is 0. </p>
+
+</div>
+</div>
+<a id="a5a1e816c8f6bb4dbba44d12a20199ad2" name="a5a1e816c8f6bb4dbba44d12a20199ad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a1e816c8f6bb4dbba44d12a20199ad2">&#9670;&#160;</a></span>sd() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Derived&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::sd </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::MatrixBase&lt; Derived &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sample standard deviation of a vector — <code>sqrt(var(data))</code>. </p>
+
+</div>
+</div>
+<a id="acae7cd1b6168c96ba1c850b1c27a70fc" name="acae7cd1b6168c96ba1c850b1c27a70fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acae7cd1b6168c96ba1c850b1c27a70fc">&#9670;&#160;</a></span>sd() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,51 +547,18 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> ppforest2::stats::sd </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Column-wise sample standard deviation of a matrix. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>Feature matrix with at least 2 rows. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>FeatureVector of size p (one σ per column). </dd></dl>
+<p>Column-wise sample standard deviation — element-wise <code>sqrt</code> of <code>var</code>. </p>
 
 </div>
 </div>
-<a id="a80225d623d30b503146bc9a03e8b1327" name="a80225d623d30b503146bc9a03e8b1327"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80225d623d30b503146bc9a03e8b1327">&#9670;&#160;</a></span>sd() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double ppforest2::stats::sd </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sample standard deviation of a vector. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">data</td><td>Feature vector with at least one row. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Sample standard deviation. </dd></dl>
-
-</div>
-</div>
-<a id="a917d81236d7b2dc7432e1d34c0c2bab1" name="a917d81236d7b2dc7432e1d34c0c2bab1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a917d81236d7b2dc7432e1d34c0c2bab1">&#9670;&#160;</a></span>simulate()</h2>
+<a id="a7b2cfe03806c19e952b03860304fc750" name="a7b2cfe03806c19e952b03860304fc750"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b2cfe03806c19e952b03860304fc750">&#9670;&#160;</a></span>simulate() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -357,32 +586,57 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1stats_1_1SimulationParams.html">SimulationParams</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="structppforest2_1_1stats_1_1SimulationParams.html">SimulationParams</a>{}</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1simulation_1_1params_1_1Classification.html">simulation::params::Classification</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generate a simulated dataset with G groups, n rows, and p features. </p>
-<p>Each group is drawn from a normal distribution with a shifted mean. The resulting data is sorted by group label.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">n</td><td>Number of rows (observations). </td></tr>
-    <tr><td class="paramname">p</td><td>Number of feature columns. </td></tr>
-    <tr><td class="paramname">G</td><td>Number of groups (must be &gt; 1). </td></tr>
-    <tr><td class="paramname">rng</td><td>Random number generator. </td></tr>
-    <tr><td class="paramname">params</td><td>Simulation parameters (mean, separation, sd). </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html" title="Bundled dataset: features, responses, and group labels.">DataPacket</a> with the simulated feature matrix and response vector. </dd></dl>
+<p>Generate a simulated classification dataset. </p>
+<p>Rows are sorted by group label. </p>
 
 </div>
 </div>
-<a id="ab5fea02c8d682b90a47fd016d536b820" name="ab5fea02c8d682b90a47fd016d536b820"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5fea02c8d682b90a47fd016d536b820">&#9670;&#160;</a></span>sort()</h2>
+<a id="a5e1f9048593c8d9ae254237b600f31b0" name="a5e1f9048593c8d9ae254237b600f31b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e1f9048593c8d9ae254237b600f31b0">&#9670;&#160;</a></span>simulate() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a> ppforest2::stats::simulate </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a8e3a1f81a376373936a72c8ba6061567">RNG</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rng</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1simulation_1_1params_1_1Regression.html">simulation::params::Regression</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Generate a simulated regression dataset. </p>
+<p>Rows are sorted by the continuous response. Distinguished from the classification overload by the absence of a group-count parameter. </p>
+
+</div>
+</div>
+<a id="a3eb44ede118ca7c7a40ebc84e90d841f" name="a3eb44ede118ca7c7a40ebc84e90d841f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3eb44ede118ca7c7a40ebc84e90d841f">&#9670;&#160;</a></span>sort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Y&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void ppforest2::stats::sort </td>
@@ -392,24 +646,18 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+          <td class="paramtype">Y &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Sort a feature matrix and a response vector by the response values. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">x</td><td>Feature matrix. </td></tr>
-    <tr><td class="paramname">y</td><td>Response vector. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Templated on the response vector type so callers can sort by integer group labels (<code>GroupIdVector</code>) or continuous responses (<code>OutcomeVector</code>). </p>
 
 </div>
 </div>
-<a id="a7544bfd87b8aeb5d134d987a6a2aa8e9" name="a7544bfd87b8aeb5d134d987a6a2aa8e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7544bfd87b8aeb5d134d987a6a2aa8e9">&#9670;&#160;</a></span>split()</h2>
+<a id="a12ac1a24ba766a67b4e401b368f90bc7" name="a12ac1a24ba766a67b4e401b368f90bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12ac1a24ba766a67b4e401b368f90bc7">&#9670;&#160;</a></span>split()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -417,7 +665,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1stats_1_1Split.html">Split</a> ppforest2::stats::split </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">DataPacket</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -432,7 +680,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Perform a stratified random train/test split on a <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html" title="Bundled dataset: features, responses, and group labels.">DataPacket</a>. </p>
+<p>Perform a stratified random train/test split on a <a class="el" href="structppforest2_1_1stats_1_1DataPacket.html" title="Bundled dataset: features, response, and group labels.">DataPacket</a>. </p>
 <p>Samples indices within each group proportional to train_ratio so that group balance is preserved in both train and test sets.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -446,29 +694,77 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a116d95f97b06a0c8b60db844c607ce25" name="a116d95f97b06a0c8b60db844c607ce25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a116d95f97b06a0c8b60db844c607ce25">&#9670;&#160;</a></span>unique()</h2>
+<a id="a68ea03f1f289c2237e6fe1cd4da5e6d6" name="a68ea03f1f289c2237e6fe1cd4da5e6d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68ea03f1f289c2237e6fe1cd4da5e6d6">&#9670;&#160;</a></span>unique()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a421bc51b648a3f3a8e2d3d5c17293c7e">types::Response</a> &gt; ppforest2::stats::unique </td>
+          <td class="memname">std::set&lt; <a class="el" href="namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31">types::GroupId</a> &gt; ppforest2::stats::unique </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>column</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09">types::GroupIdVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>column</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Unique values of a response vector. </p>
+<p>Unique group labels in a response vector. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">column</td><td>Response vector. </td></tr>
+    <tr><td class="paramname">column</td><td>Group ID vector. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Set of unique response values. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Set of unique group labels. </dd></dl>
+
+</div>
+</div>
+<a id="a42939f5d76943c055d0a06dfaa4d2788" name="a42939f5d76943c055d0a06dfaa4d2788"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42939f5d76943c055d0a06dfaa4d2788">&#9670;&#160;</a></span>var() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Derived&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">double ppforest2::stats::var </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::MatrixBase&lt; Derived &gt; const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sample variance of a vector (unbiased, <code>n-1</code> denominator). </p>
+<p>Returns 0 for single-element inputs (variance undefined; 0 is the natural degenerate value for "no spread"). Throws on empty input. </p>
+
+</div>
+</div>
+<a id="a081702fbab6c2d8b2fe775949c144776" name="a081702fbab6c2d8b2fe775949c144776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a081702fbab6c2d8b2fe775949c144776">&#9670;&#160;</a></span>var() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> ppforest2::stats::var </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>data</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Column-wise sample variance of a matrix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Feature matrix with at least 2 rows. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>FeatureVector of size p (one σ² per column). </dd></dl>
 
 </div>
 </div>

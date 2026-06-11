@@ -108,17 +108,21 @@ $(function(){initNavTree('EvaluateParams_8hpp.html',''); initResizable(true); })
 
 <p>Evaluate-specific <a class="el" href="namespaceCLI.html">CLI</a> parameters: simulation, convergence, and evaluation options.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="Simulation_8hpp_source.html">stats/Simulation.hpp</a>&quot;</code><br />
+<code>#include &lt;nlohmann/json.hpp&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div>
 <p><a href="EvaluateParams_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ConvergenceParams.html">ppforest2::cli::ConvergenceParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convergence and iteration control (evaluate + benchmark).  <a href="structppforest2_1_1cli_1_1ConvergenceParams.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html">ppforest2::cli::EvaluateParams::Convergence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html" title="Convergence control.">Convergence</a> control.  <a href="structppforest2_1_1cli_1_1EvaluateParams_1_1Convergence.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams.html">ppforest2::cli::EvaluateParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate-specific options.  <a href="structppforest2_1_1cli_1_1EvaluateParams.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate and convergence options (shared by evaluate + benchmark).  <a href="structppforest2_1_1cli_1_1EvaluateParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1SimulateParams.html">ppforest2::cli::SimulateParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation data source options.  <a href="structppforest2_1_1cli_1_1SimulateParams.html#details">More...</a><br /></td></tr>
@@ -127,6 +131,7 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html">ppforest2::cli</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1cli"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. <br /></td></tr>

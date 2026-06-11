@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['pppdastrategy_2ehpp_0',['PPPDAStrategy.hpp',['../PPPDAStrategy_8hpp.html',1,'']]],
-  ['ppstrategy_2ehpp_1',['PPStrategy.hpp',['../PPStrategy_8hpp.html',1,'']]],
-  ['predict_2ehpp_2',['Predict.hpp',['../Predict_8hpp.html',1,'']]],
-  ['presentation_2ehpp_3',['Presentation.hpp',['../Presentation_8hpp.html',1,'']]],
-  ['projector_2ehpp_4',['Projector.hpp',['../Projector_8hpp.html',1,'']]]
+  ['nodecontext_2ehpp_0',['NodeContext.hpp',['../NodeContext_8hpp.html',1,'']]],
+  ['nodecontextfixture_2ehpp_1',['NodeContextFixture.hpp',['../NodeContextFixture_8hpp.html',1,'']]],
+  ['normal_2ehpp_2',['Normal.hpp',['../Normal_8hpp.html',1,'']]]
 ];

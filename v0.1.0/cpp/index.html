@@ -99,10 +99,10 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title"><a class="el" href="namespaceppforest2.html">ppforest2</a> — C++ API Reference </div></div>
+  <div class="headertitle"><div class="title"><a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> — C++ API Reference </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceppforest2.html">ppforest2</a> is a fast, memory-efficient implementation of <a href="https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1870480">Projection Pursuit Random Forests</a>, built on <a href="https://projecteuclid.org/journals/electronic-journal-of-statistics/volume-7/issue-none/PPtree-Projection-pursuit-classification-tree/10.1214/13-EJS810.full">Projection Pursuit (oblique) Decision Trees</a>. By learning linear projections at each split, the model captures complex structure that axis-aligned trees often miss, without sacrificing interpretability or scalability.</p>
+<div class="textblock"><p><a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> is a fast, memory-efficient implementation of <a href="https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1870480">Projection Pursuit Random Forests</a>, built on <a href="https://projecteuclid.org/journals/electronic-journal-of-statistics/volume-7/issue-none/PPtree-Projection-pursuit-classification-tree/10.1214/13-EJS810.full">Projection Pursuit (oblique) Decision Trees</a>. By learning linear projections at each split, the model captures complex structure that axis-aligned trees often miss, without sacrificing interpretability or scalability.</p>
 <p>The C++ core is the single source of truth for the implementation. Language bindings (R, Python planned) wrap the core via thin interface layers.</p>
 <h1><a class="anchor" id="overview"></a>
 Overview</h1>
@@ -115,17 +115,25 @@ Overview</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Forest   </td><td class="markdownTableBodyNone"><a class="el" href="Forest_8hpp.html">models/Forest.hpp</a>   </td><td class="markdownTableBodyNone">An ensemble of bootstrap trees with OOB estimation    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">TrainingSpec   </td><td class="markdownTableBodyNone"><a class="el" href="TrainingSpec_8hpp.html">models/TrainingSpec.hpp</a>   </td><td class="markdownTableBodyNone">Composes a PP, DR, and SR strategy into a training configuration    </td></tr>
+<td class="markdownTableBodyNone">TrainingSpec   </td><td class="markdownTableBodyNone"><a class="el" href="TrainingSpec_8hpp.html">models/TrainingSpec.hpp</a>   </td><td class="markdownTableBodyNone">Composes seven strategies into a training configuration    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">PPStrategy   </td><td class="markdownTableBodyNone"><a class="el" href="PPStrategy_8hpp.html">models/PPStrategy.hpp</a>   </td><td class="markdownTableBodyNone">Projection pursuit index optimisation (e.g. PDA)    </td></tr>
+<td class="markdownTableBodyNone">ProjectionPursuit   </td><td class="markdownTableBodyNone"><a class="el" href="ProjectionPursuit_8hpp.html">strategies/pp/ProjectionPursuit.hpp</a>   </td><td class="markdownTableBodyNone">Projection pursuit index optimisation (e.g. PDA)    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">DRStrategy   </td><td class="markdownTableBodyNone"><a class="el" href="DRStrategy_8hpp.html">models/DRStrategy.hpp</a>   </td><td class="markdownTableBodyNone">Dimensionality reduction / variable selection    </td></tr>
+<td class="markdownTableBodyNone">VariableSelection   </td><td class="markdownTableBodyNone"><a class="el" href="VariableSelection_8hpp.html">strategies/vars/VariableSelection.hpp</a>   </td><td class="markdownTableBodyNone">Variable subset selection    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">SRStrategy   </td><td class="markdownTableBodyNone"><a class="el" href="SRStrategy_8hpp.html">models/SRStrategy.hpp</a>   </td><td class="markdownTableBodyNone">Split threshold rule    </td></tr>
+<td class="markdownTableBodyNone">Cutpoint   </td><td class="markdownTableBodyNone"><a class="el" href="Cutpoint_8hpp.html">strategies/cutpoint/Cutpoint.hpp</a>   </td><td class="markdownTableBodyNone">Split cutpoint computation    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">GroupPartition   </td><td class="markdownTableBodyNone"><a class="el" href="GroupPartition_8hpp.html">stats/GroupPartition.hpp</a>   </td><td class="markdownTableBodyNone">Contiguous-block representation of grouped observations    </td></tr>
+<td class="markdownTableBodyNone">StopRule   </td><td class="markdownTableBodyNone"><a class="el" href="StopRule_8hpp.html">strategies/stop/StopRule.hpp</a>   </td><td class="markdownTableBodyNone">Node stopping condition    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">VariableImportance   </td><td class="markdownTableBodyNone"><a class="el" href="VariableImportance_8hpp.html">models/VariableImportance.hpp</a>   </td><td class="markdownTableBodyNone">Three variable importance measures (permuted, projections, weighted)   </td></tr>
+<td class="markdownTableBodyNone">Binarization   </td><td class="markdownTableBodyNone"><a class="el" href="Binarization_8hpp.html">strategies/binarize/Binarization.hpp</a>   </td><td class="markdownTableBodyNone">Multiclass → binary regrouping    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Grouping   </td><td class="markdownTableBodyNone"><a class="el" href="Grouping_8hpp.html">strategies/grouping/Grouping.hpp</a>   </td><td class="markdownTableBodyNone">Group partition management    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LeafStrategy   </td><td class="markdownTableBodyNone"><a class="el" href="LeafStrategy_8hpp.html">strategies/leaf/LeafStrategy.hpp</a>   </td><td class="markdownTableBodyNone">Leaf node creation    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">GroupPartition   </td><td class="markdownTableBodyNone"><a class="el" href="GroupPartition_8hpp.html">stats/GroupPartition.hpp</a>   </td><td class="markdownTableBodyNone">Grouped observations with arbitrary row indices    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">VariableImportance   </td><td class="markdownTableBodyNone"><a class="el" href="Evaluation_8hpp.html" title="Free-function API for evaluating trained models — variable importance, out-of-bag diagnostics,...">models/Evaluation.hpp</a>   </td><td class="markdownTableBodyNone">Three variable importance measures (permuted, projections, weighted)   </td></tr>
 </table>
 <h1><a class="anchor" id="quick_start"></a>
 Quick start</h1>
@@ -136,88 +144,135 @@ Training a single tree</h2>
 <div class="line"><span class="comment">// Load data — CSV last column is the response, labels encoded as integers.</span></div>
 <div class="line"><span class="keyword">auto</span> data = io::csv::read_sorted(<span class="stringliteral">&quot;iris.csv&quot;</span>);</div>
 <div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceppforest2.html">ppforest2</a>;</div>
+<div class="line"> </div>
 <div class="line"><span class="comment">// Compose strategies into a training spec:</span></div>
-<div class="line">TrainingSpec spec(</div>
-<div class="line">  pp::pda(0.0),           <span class="comment">// LDA (no penalty)</span></div>
-<div class="line">  dr::noop(),              <span class="comment">// use all variables</span></div>
-<div class="line">  sr::mean_of_means());   <span class="comment">// midpoint split rule</span></div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1TrainingSpec.html">TrainingSpec</a> spec(</div>
+<div class="line">  0, 0, 0, 3,                   <span class="comment">// size (0 = single tree), seed, threads, max_retries</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1pp.html#ad889f49649e03dcd6388514a675eebb7">pp::pda</a>(0.0),                 <span class="comment">// LDA (no penalty)</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1vars.html#a614863a07b853f618cc2da854f98f28b">vars::all</a>(),                  <span class="comment">// use all variables</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1cutpoint.html#a87c2b7c4af0ba296ee6ad99c0fb20b6e">cutpoint::mean_of_means</a>());   <span class="comment">// midpoint split rule</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Train via the unified entry point:</span></div>
-<div class="line"><span class="keyword">auto</span> model = Model::train(spec, data.x, data.y);</div>
+<div class="line"><span class="keyword">auto</span> model = <a class="code hl_function" href="classppforest2_1_1Model.html#a6b68cfc7993c6624cc821466c8e62143">Model::train</a>(spec, data.x, data.y);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Or train directly:</span></div>
-<div class="line">stats::RNG rng(0);</div>
-<div class="line">Tree tree = Tree::train(spec, data.x, data.y, rng);</div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1Tree.html">Tree</a> tree = <a class="code hl_function" href="classppforest2_1_1Tree.html#a44314480444b29c2bc560d6517c8c81e">Tree::train</a>(spec, data.x, data.y);</div>
 <div class="line"> </div>
-<div class="line">types::Response label = tree.predict(data.x.row(0));</div>
-<div class="line">types::ResponseVector preds = tree.predict(data.x);</div>
+<div class="line"><a class="code hl_typedef" href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">types::Outcome</a> label = tree.<a class="code hl_function" href="classppforest2_1_1Tree.html#ae2c79921980a45c8bddbcb5dcb8d15eb">predict</a>(data.x.row(0));</div>
+<div class="line"><a class="code hl_typedef" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> preds = tree.<a class="code hl_function" href="classppforest2_1_1Tree.html#ae2c79921980a45c8bddbcb5dcb8d15eb">predict</a>(data.x);</div>
+<div class="ttc" id="aclassppforest2_1_1Model_html_a6b68cfc7993c6624cc821466c8e62143"><div class="ttname"><a href="classppforest2_1_1Model.html#a6b68cfc7993c6624cc821466c8e62143">ppforest2::Model::train</a></div><div class="ttdeci">static Ptr train(TrainingSpec const &amp;spec, types::FeatureMatrix &amp;x, types::OutcomeVector &amp;y)</div><div class="ttdoc">Train a model from a training specification.</div></div>
+<div class="ttc" id="aclassppforest2_1_1TrainingSpec_html"><div class="ttname"><a href="classppforest2_1_1TrainingSpec.html">ppforest2::TrainingSpec</a></div><div class="ttdoc">Training configuration for projection pursuit trees and forests.</div><div class="ttdef"><b>Definition</b> TrainingSpec.hpp:43</div></div>
+<div class="ttc" id="aclassppforest2_1_1Tree_html"><div class="ttname"><a href="classppforest2_1_1Tree.html">ppforest2::Tree</a></div><div class="ttdoc">Abstract base class for projection pursuit decision trees.</div><div class="ttdef"><b>Definition</b> Tree.hpp:29</div></div>
+<div class="ttc" id="aclassppforest2_1_1Tree_html_a44314480444b29c2bc560d6517c8c81e"><div class="ttname"><a href="classppforest2_1_1Tree.html#a44314480444b29c2bc560d6517c8c81e">ppforest2::Tree::train</a></div><div class="ttdeci">static Ptr train(TrainingSpec const &amp;spec, types::FeatureMatrix &amp;x, types::OutcomeVector &amp;y)</div><div class="ttdoc">Train a tree from a response vector.</div></div>
+<div class="ttc" id="aclassppforest2_1_1Tree_html_ae2c79921980a45c8bddbcb5dcb8d15eb"><div class="ttname"><a href="classppforest2_1_1Tree.html#ae2c79921980a45c8bddbcb5dcb8d15eb">ppforest2::Tree::predict</a></div><div class="ttdeci">types::Outcome predict(types::FeatureVector const &amp;x) const override</div><div class="ttdoc">Predict a single observation.</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1cutpoint_html_a87c2b7c4af0ba296ee6ad99c0fb20b6e"><div class="ttname"><a href="namespaceppforest2_1_1cutpoint.html#a87c2b7c4af0ba296ee6ad99c0fb20b6e">ppforest2::cutpoint::mean_of_means</a></div><div class="ttdeci">Cutpoint::Ptr mean_of_means()</div><div class="ttdoc">Factory function for mean-of-means split cutpoint.</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1pp_html_ad889f49649e03dcd6388514a675eebb7"><div class="ttname"><a href="namespaceppforest2_1_1pp.html#ad889f49649e03dcd6388514a675eebb7">ppforest2::pp::pda</a></div><div class="ttdeci">ProjectionPursuit::Ptr pda(float lambda)</div><div class="ttdoc">Factory function for a PDA projection pursuit strategy.</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1types_html_a2432f13302eed47b33e7b5a73e57b020"><div class="ttname"><a href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">ppforest2::types::OutcomeVector</a></div><div class="ttdeci">Eigen::Matrix&lt; Outcome, Eigen::Dynamic, 1 &gt; OutcomeVector</div><div class="ttdoc">Dynamic-size column vector of predictions.</div><div class="ttdef"><b>Definition</b> Types.hpp:42</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1types_html_a65b9b5ffdb51754c6f84a62904d1bd7b"><div class="ttname"><a href="namespaceppforest2_1_1types.html#a65b9b5ffdb51754c6f84a62904d1bd7b">ppforest2::types::Outcome</a></div><div class="ttdeci">Feature Outcome</div><div class="ttdoc">Scalar type for predictions (float for both classification and regression).</div><div class="ttdef"><b>Definition</b> Types.hpp:30</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1vars_html_a614863a07b853f618cc2da854f98f28b"><div class="ttname"><a href="namespaceppforest2_1_1vars.html#a614863a07b853f618cc2da854f98f28b">ppforest2::vars::all</a></div><div class="ttdeci">VariableSelection::Ptr all()</div><div class="ttdoc">Factory function: select all variables (no selection).</div></div>
+<div class="ttc" id="anamespaceppforest2_html"><div class="ttname"><a href="namespaceppforest2.html">ppforest2</a></div><div class="ttdoc">Binarization strategies for multiclass-to-binary reduction.</div><div class="ttdef"><b>Definition</b> Benchmark.hpp:25</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="train_forest"></a>
 Training a random forest</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;ppforest2.hpp&quot;</span></div>
 <div class="line"> </div>
+<div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceppforest2.html">ppforest2</a>;</div>
+<div class="line"> </div>
 <div class="line"><span class="comment">// PDA with uniform random variable selection:</span></div>
-<div class="line">TrainingSpec spec(</div>
-<div class="line">  pp::pda(0.0),           <span class="comment">// LDA</span></div>
-<div class="line">  dr::uniform(3),          <span class="comment">// sample 3 variables per split</span></div>
-<div class="line">  sr::mean_of_means(),    <span class="comment">// midpoint split rule</span></div>
-<div class="line">  500, 0);                <span class="comment">// size, seed</span></div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1TrainingSpec.html">TrainingSpec</a> spec(</div>
+<div class="line">  500, 0, 0, 3,                 <span class="comment">// size, seed, threads, max_retries</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1pp.html#ad889f49649e03dcd6388514a675eebb7">pp::pda</a>(0.0),                 <span class="comment">// LDA</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1vars.html#a48f01a668ad17d1842b23d1dfe140429">vars::uniform</a>(3),             <span class="comment">// sample 3 variables per split</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1cutpoint.html#a87c2b7c4af0ba296ee6ad99c0fb20b6e">cutpoint::mean_of_means</a>());   <span class="comment">// midpoint split rule</span></div>
 <div class="line"> </div>
-<div class="line">Forest forest = Forest::train(spec, x, y);</div>
+<div class="line"><span class="comment">// Use the typed factory when you want classification-specific API</span></div>
+<div class="line"><span class="comment">// (proportions, oob_error) without downcasting from the bimodal base.</span></div>
+<div class="line"><span class="keyword">auto</span> forest = <a class="code hl_function" href="classppforest2_1_1ClassificationForest.html#a9d3a6bf671921982bc9eb76439cd4ec4">ClassificationForest::train</a>(spec, x, y);</div>
 <div class="line"> </div>
-<div class="line">types::ResponseVector preds = forest.predict(x_test);</div>
+<div class="line"><a class="code hl_typedef" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">types::OutcomeVector</a> preds = forest-&gt;predict(x_test);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Out-of-bag error — uses only trees where each obs was not in the bootstrap sample.</span></div>
-<div class="line"><span class="keywordtype">double</span> oob = forest.oob_error(x, y);</div>
+<div class="line"><span class="comment">// Out-of-bag error — uses only trees where each obs was not in the</span></div>
+<div class="line"><span class="comment">// bootstrap sample. Returns std::optional&lt;double&gt;: std::nullopt when</span></div>
+<div class="line"><span class="comment">// no observation has any OOB tree (e.g. all-in-bag degenerate forest).</span></div>
+<div class="line">std::optional&lt;double&gt; oob = <a class="code hl_function" href="namespaceppforest2.html#a6594cb204bd0b5ced885e287bc575ceb">oob_error</a>(*forest, x, y);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Vote proportions — (n x G) matrix, rows sum to 1.</span></div>
-<div class="line">types::FeatureMatrix probs = forest.predict(x_test, Proportions{});</div>
+<div class="line"><span class="comment">// Vote proportions — (n x G) matrix, rows sum to 1. Classification only.</span></div>
+<div class="line"><a class="code hl_typedef" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">types::FeatureMatrix</a> probs = <a class="code hl_function" href="namespaceppforest2.html#a47e43a9b2a6435e903551ad2f3da5ca4">predict_proportions</a>(*forest, x_test);</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Variable importance (three measures).</span></div>
-<div class="line"><span class="keyword">auto</span> vi_perm = variable_importance_permuted(forest, x, y, 0);  <span class="comment">// seed</span></div>
-<div class="line"><span class="keyword">auto</span> vi_proj = variable_importance_projections(forest, x.cols());</div>
-<div class="line"><span class="keyword">auto</span> vi_wt   = variable_importance_weighted_projections(forest, x, y);</div>
+<div class="line"><span class="comment">// Variable importance — free functions (see models/Evaluation.hpp).</span></div>
+<div class="line"><span class="keyword">auto</span> vi_perm = <a class="code hl_function" href="namespaceppforest2.html#a7b22ccbda74e9c7628e70e454a58077b">vi_permuted</a>(*forest, x, y, 0);</div>
+<div class="line"><span class="keyword">auto</span> vi_proj = <a class="code hl_function" href="namespaceppforest2.html#aede8c22e65deb01bb0508a4a197387ac">vi_projections</a>(*forest, x.cols());</div>
+<div class="line"><span class="keyword">auto</span> vi_wt   = <a class="code hl_function" href="namespaceppforest2.html#a1a050e25a68e5083a0dd3c3149e16a71">vi_weighted_projections</a>(*forest, x, y);</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Convenience: compute all three in one call.</span></div>
+<div class="line"><span class="keyword">auto</span> vi      = <a class="code hl_function" href="namespaceppforest2.html#a4c70d0eaf76fd5bef33f87afeafefe37">variable_importance</a>(*forest, x, y, 0);</div>
+<div class="ttc" id="aclassppforest2_1_1ClassificationForest_html_a9d3a6bf671921982bc9eb76439cd4ec4"><div class="ttname"><a href="classppforest2_1_1ClassificationForest.html#a9d3a6bf671921982bc9eb76439cd4ec4">ppforest2::ClassificationForest::train</a></div><div class="ttdeci">static Ptr train(TrainingSpec const &amp;spec, FeatureMatrix const &amp;x, OutcomeVector const &amp;y)</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1types_html_a20733a55a09432e8f9f924eb11fb5b0d"><div class="ttname"><a href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">ppforest2::types::FeatureMatrix</a></div><div class="ttdeci">Eigen::Matrix&lt; Feature, Eigen::Dynamic, Eigen::Dynamic &gt; FeatureMatrix</div><div class="ttdoc">Dynamic-size matrix of feature values.</div><div class="ttdef"><b>Definition</b> Types.hpp:33</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1vars_html_a48f01a668ad17d1842b23d1dfe140429"><div class="ttname"><a href="namespaceppforest2_1_1vars.html#a48f01a668ad17d1842b23d1dfe140429">ppforest2::vars::uniform</a></div><div class="ttdeci">VariableSelection::Ptr uniform(int n_vars)</div><div class="ttdoc">Factory function: uniform random variable selection.</div></div>
+<div class="ttc" id="anamespaceppforest2_html_a1a050e25a68e5083a0dd3c3149e16a71"><div class="ttname"><a href="namespaceppforest2.html#a1a050e25a68e5083a0dd3c3149e16a71">ppforest2::vi_weighted_projections</a></div><div class="ttdeci">types::FeatureVector vi_weighted_projections(Forest const &amp;forest, types::FeatureMatrix const &amp;x, types::OutcomeVector const &amp;y, types::FeatureVector const *scale=nullptr)</div><div class="ttdoc">VI3 — weighted projection-coefficient importance.</div></div>
+<div class="ttc" id="anamespaceppforest2_html_a47e43a9b2a6435e903551ad2f3da5ca4"><div class="ttname"><a href="namespaceppforest2.html#a47e43a9b2a6435e903551ad2f3da5ca4">ppforest2::predict_proportions</a></div><div class="ttdeci">types::FeatureMatrix predict_proportions(Model const &amp;model, types::FeatureMatrix const &amp;x)</div><div class="ttdoc">Compute vote proportions for a classification model.</div></div>
+<div class="ttc" id="anamespaceppforest2_html_a4c70d0eaf76fd5bef33f87afeafefe37"><div class="ttname"><a href="namespaceppforest2.html#a4c70d0eaf76fd5bef33f87afeafefe37">ppforest2::variable_importance</a></div><div class="ttdeci">VariableImportance variable_importance(Tree const &amp;tree, types::FeatureMatrix const &amp;x)</div><div class="ttdoc">Bundle the available VI measures for a single tree (VI2 only).</div></div>
+<div class="ttc" id="anamespaceppforest2_html_a6594cb204bd0b5ced885e287bc575ceb"><div class="ttname"><a href="namespaceppforest2.html#a6594cb204bd0b5ced885e287bc575ceb">ppforest2::oob_error</a></div><div class="ttdeci">std::optional&lt; double &gt; oob_error(Forest const &amp;forest, types::FeatureMatrix const &amp;x, types::OutcomeVector const &amp;y)</div><div class="ttdoc">Out-of-bag error.</div></div>
+<div class="ttc" id="anamespaceppforest2_html_a7b22ccbda74e9c7628e70e454a58077b"><div class="ttname"><a href="namespaceppforest2.html#a7b22ccbda74e9c7628e70e454a58077b">ppforest2::vi_permuted</a></div><div class="ttdeci">types::FeatureVector vi_permuted(Forest const &amp;forest, types::FeatureMatrix const &amp;x, types::OutcomeVector const &amp;y, int seed)</div><div class="ttdoc">VI1 — per-variable permuted importance.</div></div>
+<div class="ttc" id="anamespaceppforest2_html_aede8c22e65deb01bb0508a4a197387ac"><div class="ttname"><a href="namespaceppforest2.html#aede8c22e65deb01bb0508a4a197387ac">ppforest2::vi_projections</a></div><div class="ttdeci">types::FeatureVector vi_projections(Tree const &amp;tree, int n_vars, types::FeatureVector const *scale=nullptr)</div><div class="ttdoc">VI2 for a single tree — projection-coefficient importance.</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="ser"></a>
 Serialisation</h2>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="Json_8hpp.html">serialization/Json.hpp</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="IO_8hpp.html">io/IO.hpp</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Save</span></div>
-<div class="line"><span class="keyword">auto</span> j = serialization::to_json(forest);</div>
+<div class="line"><span class="keyword">auto</span> j = <a class="code hl_function" href="namespaceppforest2_1_1serialization.html#ab027fe7ed8f34af449430fa660c0f191">serialization::to_json</a>(forest);</div>
 <div class="line">io::json::write_file(j, <span class="stringliteral">&quot;model.json&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Load</span></div>
 <div class="line"><span class="keyword">auto</span> j2 = io::json::read_file(<span class="stringliteral">&quot;model.json&quot;</span>);</div>
-<div class="line">Forest restored = serialization::forest_from_json(j2);</div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1Forest.html">Forest</a> restored = serialization::forest_from_json(j2);</div>
 <div class="ttc" id="aIO_8hpp_html"><div class="ttname"><a href="IO_8hpp.html">IO.hpp</a></div><div class="ttdoc">File I/O utilities, JSON and CSV reading/writing.</div></div>
 <div class="ttc" id="aJson_8hpp_html"><div class="ttname"><a href="Json_8hpp.html">Json.hpp</a></div></div>
+<div class="ttc" id="aclassppforest2_1_1Forest_html"><div class="ttname"><a href="classppforest2_1_1Forest.html">ppforest2::Forest</a></div><div class="ttdoc">Abstract base class for projection pursuit random forests.</div><div class="ttdef"><b>Definition</b> Forest.hpp:31</div></div>
+<div class="ttc" id="anamespaceppforest2_1_1serialization_html_ab027fe7ed8f34af449430fa660c0f191"><div class="ttname"><a href="namespaceppforest2_1_1serialization.html#ab027fe7ed8f34af449430fa660c0f191">ppforest2::serialization::to_json</a></div><div class="ttdeci">json to_json(types::OutcomeVector const &amp;y, types::Names const &amp;names)</div><div class="ttdoc">Serialize a prediction vector as JSON.</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="strategy_pattern"></a>
 Strategy pattern</h1>
-<p>Tree training is parameterised by three pluggable strategies. Concrete implementations are composed at runtime via TrainingSpec, so new optimisation criteria or variable selection methods can be added without changing the tree-building logic.</p>
+<p>Tree training is parameterised by seven pluggable strategies. Concrete implementations are composed at runtime via TrainingSpec, so new optimisation criteria, variable selection methods, or splitting rules can be added without changing the tree-building logic.</p>
 <ul>
-<li><b>PPStrategy</b> — projection pursuit index optimisation. <br  />
- Built-in: PPPDAStrategy (Generalised LDA, with optional PDA penalty via <code>lambda</code>). <code>lambda</code> = 0 gives standard LDA; <code>lambda</code> in (0, 1] penalises the within-group covariance matrix.</li>
-<li><b>DRStrategy</b> — dimensionality reduction (variable subset selection). <br  />
- Built-in: DRNoopStrategy (use all variables, for single trees), DRUniformStrategy (sample <code>n_vars</code> uniformly at random, for forests).</li>
-<li><b>SRStrategy</b> — split threshold computation. <br  />
- Built-in: SRMeanOfMeansStrategy (midpoint of projected group means).</li>
+<li><b>pp::ProjectionPursuit</b> — projection pursuit index optimisation. <br  />
+ Built-in: pp::PDA (Generalised LDA, with optional PDA penalty via <code>lambda</code>). <code>lambda</code> = 0 gives standard LDA; <code>lambda</code> in (0, 1] penalises the within-group covariance matrix.</li>
+<li><b>vars::VariableSelection</b> — variable subset selection. <br  />
+ Built-in: vars::All (use all variables, for single trees), vars::Uniform (sample <code>count</code> variables uniformly at random, for forests).</li>
+<li><b>cutpoint::Cutpoint</b> — split cutpoint computation. <br  />
+ Built-in: cutpoint::MeanOfMeans (midpoint of projected group means).</li>
+<li><b>stop::StopRule</b> — node stopping condition. <br  />
+ Built-in: stop::PureNode (stop when the node contains a single group).</li>
+<li><b>binarize::Binarization</b> — multiclass → binary regrouping. <br  />
+ Built-in: binarize::LargestGap (largest gap between projected group means).</li>
+<li><b>grouping::Grouping</b> — group partition management. <br  />
+ Built-in: grouping::ByLabel (route all observations of a group to the same child).</li>
+<li><b>leaf::LeafStrategy</b> — leaf node creation. <br  />
+ Built-in: leaf::MajorityVote (assign the majority class).</li>
 </ul>
 <p>TrainingSpec is a single concrete class that composes these strategies together with forest-level parameters (size, seed, threads, max retries):</p>
-<div class="fragment"><div class="line"><span class="comment">// Single tree with PDA:</span></div>
-<div class="line">TrainingSpec spec(pp::pda(0.5), dr::noop(), sr::mean_of_means());</div>
+<div class="fragment"><div class="line"><span class="keyword">using namespace </span><a class="code hl_namespace" href="namespaceppforest2.html">ppforest2</a>;</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// Single tree with PDA:</span></div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1TrainingSpec.html">TrainingSpec</a> spec(</div>
+<div class="line">  0, 0, 0, 3,                   <span class="comment">// size, seed, threads, max_retries</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1pp.html#ad889f49649e03dcd6388514a675eebb7">pp::pda</a>(0.5),                 <span class="comment">// PDA with lambda = 0.5</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1vars.html#a614863a07b853f618cc2da854f98f28b">vars::all</a>(),                  <span class="comment">// use all variables</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1cutpoint.html#a87c2b7c4af0ba296ee6ad99c0fb20b6e">cutpoint::mean_of_means</a>());   <span class="comment">// midpoint of group means</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Random forest:</span></div>
-<div class="line">TrainingSpec spec(</div>
-<div class="line">  pp::pda(0.5),          <span class="comment">// PDA with lambda = 0.5</span></div>
-<div class="line">  dr::uniform(4),         <span class="comment">// sample 4 variables per split</span></div>
-<div class="line">  sr::mean_of_means(),   <span class="comment">// midpoint of group means</span></div>
-<div class="line">  100, 0);               <span class="comment">// size, seed</span></div>
+<div class="line"><a class="code hl_class" href="classppforest2_1_1TrainingSpec.html">TrainingSpec</a> spec(</div>
+<div class="line">  100, 0, 0, 3,                 <span class="comment">// size, seed, threads, max_retries</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1pp.html#ad889f49649e03dcd6388514a675eebb7">pp::pda</a>(0.5),                 <span class="comment">// PDA with lambda = 0.5</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1vars.html#a48f01a668ad17d1842b23d1dfe140429">vars::uniform</a>(4),             <span class="comment">// sample 4 variables per split</span></div>
+<div class="line">  <a class="code hl_function" href="namespaceppforest2_1_1cutpoint.html#a87c2b7c4af0ba296ee6ad99c0fb20b6e">cutpoint::mean_of_means</a>());   <span class="comment">// midpoint of group means</span></div>
 </div><!-- fragment --><p>Strategies are held via <code>shared_ptr</code> and are immutable after construction, so TrainingSpec can be freely copied and shared across trees without deep cloning. Each strategy implements <code>to_json()</code> for serialisation.</p>
 <p>For a step-by-step guide to implementing new strategies, see <a class="el" href="extending_strategies.html">Extending: Custom Strategies</a>.</p>
 <h1><a class="anchor" id="visitor_pattern"></a>
 Visitor pattern</h1>
 <p>Two visitor interfaces avoid <code>dynamic_cast</code> and keep traversal logic decoupled from the model types:</p>
 <ul>
-<li><b>TreeNode::Visitor</b> — dispatches over internal nodes (TreeCondition) and leaf nodes (TreeResponse). Used by serialisation, visualisation, and variable importance.</li>
+<li><b>TreeNode::Visitor</b> — dispatches over internal nodes (TreeBranch) and leaf nodes (TreeLeaf). Used by serialisation, visualisation, and variable importance.</li>
 <li><b>Model::Visitor</b> — dispatches over Tree and Forest. Used by the serialisation layer.</li>
 </ul>
 <p>For a step-by-step guide to implementing new visitors, see <a class="el" href="extending_visitors.html">Extending: Custom Visitors</a>.</p>
@@ -225,30 +280,38 @@ Visitor pattern</h1>
 Variable importance</h1>
 <p>Three measures quantify each variable's contribution to predictions:</p>
 <ul>
-<li><b>VI1 (permuted)</b> — For each tree, measures the drop in OOB accuracy when each variable is randomly permuted among the OOB observations. Averaged over all trees. See variable_importance_permuted().</li>
-<li><b>VI2 (projections)</b> — Accumulates |a_j| / G_s at every split node, where a_j is the projection coefficient and G_s is the number of groups. Optionally scaled by per-variable standard deviations. See variable_importance_projections().</li>
-<li><b>VI3 (weighted projections)</b> — Each tree's contribution is weighted by (1 - OOB error), and each split contributes I_s x |a_j|. See variable_importance_weighted_projections().</li>
+<li><b>VI1 (permuted)</b> — For each tree, measures the degradation in OOB fit when each variable is randomly permuted among the OOB observations. Classification uses accuracy drop; regression uses NMSE increase (MSE increase normalised by <code>Var(y_oob)</code>). Averaged over all trees. See Forest::vi_permuted().</li>
+<li><b>VI2 (projections)</b> — Accumulates |a_j| / G_s at every split node, where a_j is the projection coefficient and G_s is the number of groups. Optionally scaled by per-variable standard deviations. Mode-agnostic. See Forest::vi_projections() and Tree::vi_projections().</li>
+<li><b>VI3 (weighted projections)</b> — Each tree's contribution is weighted by a per-tree OOB quality score (classification: <code>1 - error_rate</code>; regression: <code>max(0, 1 - NMSE)</code>), and each split contributes I_s x |a_j|. See Forest::vi_weighted_projections().</li>
 </ul>
 <h1><a class="anchor" id="precision"></a>
 Numeric precision</h1>
-<p>The core uses single-precision (<code>float</code>) arithmetic by default. Compile with <code>-DPPFOREST2_DOUBLE_PRECISION=ON</code> to switch to <code>double</code> throughout. See types::Feature.</p>
+<p>The core uses single-precision (<code>float</code>) arithmetic for all feature data. This is sufficient for classification and reduces memory usage. If a strategy needs higher precision internally (e.g. for regression loss computation), it can cast to <code>double</code> within its own scope. See types::Feature.</p>
 <h1><a class="anchor" id="namespaces"></a>
 Namespace guide</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Namespace   </th><th class="markdownTableHeadNone">Purpose    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2.html">ppforest2</a>   </td><td class="markdownTableBodyNone">Core model types: Tree, Forest, TrainingSpec, VariableImportance    </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a>   </td><td class="markdownTableBodyNone">Core model types: Tree, Forest, TrainingSpec, VariableImportance    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1types.html" title="Core numeric type aliases for the ppforest2 library.">ppforest2::types</a>   </td><td class="markdownTableBodyNone">Numeric type aliases (Feature, Response, FeatureMatrix, ...)    </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1types.html" title="Core numeric type aliases for the ppforest2 library.">ppforest2::types</a>   </td><td class="markdownTableBodyNone">Numeric type aliases (Feature, Outcome, FeatureMatrix, ...)    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1stats.html" title="Statistical infrastructure for training and evaluation.">ppforest2::stats</a>   </td><td class="markdownTableBodyNone">Statistical infrastructure: RNG, GroupPartition, Uniform, ConfusionMatrix    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1pp.html" title="Projection pursuit strategies.">ppforest2::pp</a>   </td><td class="markdownTableBodyNone">Projection pursuit strategies    </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1pp.html">ppforest2::pp</a>   </td><td class="markdownTableBodyNone">Projection pursuit strategies    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1dr.html" title="Dimensionality reduction strategies for variable selection.">ppforest2::dr</a>   </td><td class="markdownTableBodyNone">Dimensionality reduction strategies    </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1vars.html">ppforest2::vars</a>   </td><td class="markdownTableBodyNone">Variable selection strategies    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1sr.html" title="Split rule strategies for computing decision thresholds.">ppforest2::sr</a>   </td><td class="markdownTableBodyNone">Split rule strategies    </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1cutpoint.html">ppforest2::cutpoint</a>   </td><td class="markdownTableBodyNone">Split cutpoint strategies    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1stop.html">ppforest2::stop</a>   </td><td class="markdownTableBodyNone">Stopping rule strategies    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1binarize.html">ppforest2::binarize</a>   </td><td class="markdownTableBodyNone">Multiclass binarization strategies    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1grouping.html">ppforest2::grouping</a>   </td><td class="markdownTableBodyNone">Group partition strategies    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1leaf.html" title="Leaf creation strategies.">ppforest2::leaf</a>   </td><td class="markdownTableBodyNone">Leaf node creation strategies    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><a class="el" href="namespaceppforest2_1_1serialization.html" title="JSON serialization and deserialization for ppforest2 models.">ppforest2::serialization</a>   </td><td class="markdownTableBodyNone">JSON serialization and deserialization    </td></tr>
 <tr class="markdownTableRowEven">

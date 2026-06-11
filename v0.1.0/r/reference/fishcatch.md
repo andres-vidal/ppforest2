@@ -46,4 +46,4 @@ A data frame with 159 rows and 7 variables
 
 ## Source
 
-<http://www.amstat.org/publications/jse/jse_data_archive.htm>
+<https://jse.amstat.org/jse_data_archive.htm>

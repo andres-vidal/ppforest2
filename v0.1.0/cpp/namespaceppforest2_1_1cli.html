@@ -100,8 +100,8 @@ $(function(){initNavTree('namespaceppforest2_1_1cli.html',''); initResizable(tru
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::cli Namespace Reference</div></div>
@@ -111,34 +111,39 @@ $(function(){initNavTree('namespaceppforest2_1_1cli.html',''); initResizable(tru
 <p>Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli_1_1serve.html">serve</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1Baseline.html">Baseline</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A baseline suite with a pre-built name → result index.  <a href="structppforest2_1_1cli_1_1Baseline.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkParams.html">BenchmarkParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Benchmark-specific options.  <a href="structppforest2_1_1cli_1_1BenchmarkParams.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkReport.html">BenchmarkReport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Benchmark report with comparison, display, and export.  <a href="structppforest2_1_1cli_1_1BenchmarkReport.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A suite of scenarios with shared defaults.  <a href="structppforest2_1_1cli_1_1BenchmarkSuite.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All <a class="el" href="namespaceCLI.html">CLI</a> options and runtime parameters.  <a href="structppforest2_1_1cli_1_1CLIOptions.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ConvergenceCriteria.html">ConvergenceCriteria</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convergence criteria for adaptive stopping in benchmarks.  <a href="structppforest2_1_1cli_1_1ConvergenceCriteria.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ConvergenceParams.html">ConvergenceParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convergence and iteration control (evaluate + benchmark).  <a href="structppforest2_1_1cli_1_1ConvergenceParams.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams.html">EvaluateParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate-specific options.  <a href="structppforest2_1_1cli_1_1EvaluateParams.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate and convergence options (shared by evaluate + benchmark).  <a href="structppforest2_1_1cli_1_1EvaluateParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ModelParams.html">ModelParams</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  <a href="structppforest2_1_1cli_1_1ModelParams.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classppforest2_1_1Model.html" title="Abstract base class for predictive models (trees and forests).">Model</a> training parameters shared by train and evaluate.  <a href="structppforest2_1_1cli_1_1ModelParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1Scenario.html">Scenario</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single benchmark scenario: data shape + model config.  <a href="structppforest2_1_1cli_1_1Scenario.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">All <a class="el" href="namespaceCLI.html">CLI</a> options and runtime parameters.  <a href="structppforest2_1_1cli_1_1Params.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of running a single benchmark scenario.  <a href="structppforest2_1_1cli_1_1ScenarioResult.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1ServeParams.html">ServeParams</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>serve</code> subcommand options. CLI-exclusive; no config file roundtrip.  <a href="structppforest2_1_1cli_1_1ServeParams.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1SimulateParams.html">SimulateParams</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simulation data source options.  <a href="structppforest2_1_1cli_1_1SimulateParams.html#details">More...</a><br /></td></tr>
@@ -149,145 +154,114 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1TrainResult.html">TrainResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of a train operation containing the model and training duration.  <a href="structppforest2_1_1cli_1_1TrainResult.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppforest2_1_1cli_1_1VarsSpec.html">VarsSpec</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Result of parsing a vars specification.  <a href="structppforest2_1_1cli_1_1VarsSpec.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:ab60fae501eccee5220fb3c5a3033c130" id="r_ab60fae501eccee5220fb3c5a3033c130"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab60fae501eccee5220fb3c5a3033c130">ProgressCallback</a> = std::function&lt;void (int scenario_index, int total, const std::string&amp; name)&gt;</td></tr>
-<tr class="memdesc:ab60fae501eccee5220fb3c5a3033c130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for progress reporting during benchmark execution.  <br /></td></tr>
-<tr class="separator:ab60fae501eccee5220fb3c5a3033c130"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ac19eadb7b9d37e6b1fd42c6e52920e51" id="r_ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51">Subcommand</a> { <br />
-&#160;&#160;<a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
-, <a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a61b3a8faa9c1091806675c230a9abe64">train</a>
-, <a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a59a9f87755ec523b0db73207fc8362df">predict</a>
-, <a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a94d2f2aabfda3169d54a9531cdb99890">evaluate</a>
+<tr class="memitem:a2753bfa9baab7fc02affc77e3c364a29" id="r_a2753bfa9baab7fc02affc77e3c364a29"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29">Subcommand</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a334c4a4c42fdb79d7ebc3e73b517e6f8">none</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a61b3a8faa9c1091806675c230a9abe64">train</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a59a9f87755ec523b0db73207fc8362df">predict</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890">evaluate</a>
 , <br />
-&#160;&#160;<a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a07978586e47c8709a63e895fbf3c3c7d">benchmark</a>
-, <a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51a2d49c6f48afd8395a1a25c58e45acb65">summarize</a>
+&#160;&#160;<a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d">benchmark</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65">summarize</a>
+, <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796">serve</a>
 <br />
  }</td></tr>
-<tr class="memdesc:ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands.  <a href="#ac19eadb7b9d37e6b1fd42c6e52920e51">More...</a><br /></td></tr>
-<tr class="separator:ac19eadb7b9d37e6b1fd42c6e52920e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a2753bfa9baab7fc02affc77e3c364a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands.  <a href="#a2753bfa9baab7fc02affc77e3c364a29">More...</a><br /></td></tr>
+<tr class="separator:a2753bfa9baab7fc02affc77e3c364a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a40b7633c711ff9ac0081408fda3513f0" id="r_a40b7633c711ff9ac0081408fda3513f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40b7633c711ff9ac0081408fda3513f0">add_evaluate_options</a> (CLI::App *sub, <a class="el" href="structppforest2_1_1cli_1_1EvaluateParams.html">EvaluateParams</a> &amp;<a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890">evaluate</a>)</td></tr>
+<tr class="memdesc:a40b7633c711ff9ac0081408fda3513f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add evaluate/convergence options shared by evaluate and benchmark.  <br /></td></tr>
+<tr class="separator:a40b7633c711ff9ac0081408fda3513f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4233edc87e69b2325c6cfcbdf5138afd" id="r_a4233edc87e69b2325c6cfcbdf5138afd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4233edc87e69b2325c6cfcbdf5138afd">add_model_options</a> (CLI::App *sub, <a class="el" href="structppforest2_1_1cli_1_1ModelParams.html">ModelParams</a> &amp;model)</td></tr>
 <tr class="memdesc:a4233edc87e69b2325c6cfcbdf5138afd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add shared model options (size, lambda, threads, seed, vars) to <code class="param">sub</code>.  <br /></td></tr>
 <tr class="separator:a4233edc87e69b2325c6cfcbdf5138afd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9bd63acbab0aa4b7ce674bb37015de00" id="r_a9bd63acbab0aa4b7ce674bb37015de00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9bd63acbab0aa4b7ce674bb37015de00">init_params</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params, int total_vars=0)</td></tr>
-<tr class="memdesc:a9bd63acbab0aa4b7ce674bb37015de00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resolve sentinel values in <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> to concrete defaults.  <br /></td></tr>
-<tr class="separator:a9bd63acbab0aa4b7ce674bb37015de00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d8bb54163dfd42eab3e54447362d72" id="r_a21d8bb54163dfd42eab3e54447362d72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21d8bb54163dfd42eab3e54447362d72">parse_args</a> (int argc, char *argv[])</td></tr>
-<tr class="memdesc:a21d8bb54163dfd42eab3e54447362d72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> struct.  <br /></td></tr>
-<tr class="separator:a21d8bb54163dfd42eab3e54447362d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4028b2a5fb09e7b529169ce37ce9e390" id="r_a4028b2a5fb09e7b529169ce37ce9e390"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4028b2a5fb09e7b529169ce37ce9e390">parse_results</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:a4028b2a5fb09e7b529169ce37ce9e390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html" title="Aggregated results for an entire suite run.">SuiteResult</a> from a JSON file (for baseline comparison).  <br /></td></tr>
-<tr class="separator:a4028b2a5fb09e7b529169ce37ce9e390"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9cf171fa7eb33e83613e50ea84c6389a" id="r_a9cf171fa7eb33e83613e50ea84c6389a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9cf171fa7eb33e83613e50ea84c6389a">parse_suite</a> (const nlohmann::json &amp;j)</td></tr>
-<tr class="memdesc:a9cf171fa7eb33e83613e50ea84c6389a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON object.  <br /></td></tr>
-<tr class="separator:a9cf171fa7eb33e83613e50ea84c6389a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab87c050791813ad79fe241d3a51e28a3" id="r_ab87c050791813ad79fe241d3a51e28a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab87c050791813ad79fe241d3a51e28a3">parse_suite</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:ab87c050791813ad79fe241d3a51e28a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON file path.  <br /></td></tr>
-<tr class="separator:ab87c050791813ad79fe241d3a51e28a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6aea99e72f3fed4564684ef4362d9c39" id="r_a6aea99e72f3fed4564684ef4362d9c39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1VarsSpec.html">VarsSpec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6aea99e72f3fed4564684ef4362d9c39">parse_vars</a> (const nlohmann::json &amp;j)</td></tr>
-<tr class="memdesc:a6aea99e72f3fed4564684ef4362d9c39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse vars from a JSON value (benchmark scenarios).  <br /></td></tr>
-<tr class="separator:a6aea99e72f3fed4564684ef4362d9c39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af431290776838c0a65e480b0e89731cf" id="r_af431290776838c0a65e480b0e89731cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1VarsSpec.html">VarsSpec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af431290776838c0a65e480b0e89731cf">parse_vars</a> (const std::string &amp;input)</td></tr>
-<tr class="memdesc:af431290776838c0a65e480b0e89731cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse vars from a string (<a class="el" href="namespaceCLI.html">CLI</a> input).  <br /></td></tr>
-<tr class="separator:af431290776838c0a65e480b0e89731cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c6ca026e9e9840a3111d537a9f3d0ff" id="r_a8c6ca026e9e9840a3111d537a9f3d0ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c6ca026e9e9840a3111d537a9f3d0ff">print_benchmark_markdown</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;current, const std::optional&lt; <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &gt; &amp;baseline=std::nullopt)</td></tr>
-<tr class="memdesc:a8c6ca026e9e9840a3111d537a9f3d0ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print results as a GitHub-flavored markdown table.  <br /></td></tr>
-<tr class="separator:a8c6ca026e9e9840a3111d537a9f3d0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ea0d7abc2027072d9fba8d2f5a01401" id="r_a2ea0d7abc2027072d9fba8d2f5a01401"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ea0d7abc2027072d9fba8d2f5a01401">print_benchmark_table</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;current, const std::optional&lt; <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &gt; &amp;baseline=std::nullopt)</td></tr>
-<tr class="memdesc:a2ea0d7abc2027072d9fba8d2f5a01401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a formatted results table to stdout.  <br /></td></tr>
-<tr class="separator:a2ea0d7abc2027072d9fba8d2f5a01401"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9712ade1bf2b2a5e27442e64e33bc56" id="r_ac9712ade1bf2b2a5e27442e64e33bc56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">ppforest2::stats::DataPacket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9712ade1bf2b2a5e27442e64e33bc56">read_data</a> (const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params, <a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">ppforest2::stats::RNG</a> &amp;rng)</td></tr>
-<tr class="memdesc:ac9712ade1bf2b2a5e27442e64e33bc56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load or simulate data based on <a class="el" href="namespaceCLI.html">CLI</a> options.  <br /></td></tr>
-<tr class="separator:ac9712ade1bf2b2a5e27442e64e33bc56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebbb070a90b0d0994feb45deb58d5e1" id="r_a2ebbb070a90b0d0994feb45deb58d5e1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ebbb070a90b0d0994feb45deb58d5e1">run_benchmark</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params, const std::string &amp;binary_path)</td></tr>
-<tr class="memdesc:a2ebbb070a90b0d0994feb45deb58d5e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the benchmark subcommand.  <br /></td></tr>
-<tr class="separator:a2ebbb070a90b0d0994feb45deb58d5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bc7e021884390ba232de5c2a3f5b696" id="r_a5bc7e021884390ba232de5c2a3f5b696"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bc7e021884390ba232de5c2a3f5b696">run_evaluate</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a5bc7e021884390ba232de5c2a3f5b696"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the evaluate subcommand.  <br /></td></tr>
-<tr class="separator:a5bc7e021884390ba232de5c2a3f5b696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada7599b95483cd00ec94f3c4fa50a452" id="r_ada7599b95483cd00ec94f3c4fa50a452"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ada7599b95483cd00ec94f3c4fa50a452">run_predict</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:ada7599b95483cd00ec94f3c4fa50a452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the predict subcommand.  <br /></td></tr>
-<tr class="separator:ada7599b95483cd00ec94f3c4fa50a452"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91124ec5682f6ee3e52c71731e8717ca" id="r_a91124ec5682f6ee3e52c71731e8717ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91124ec5682f6ee3e52c71731e8717ca">run_scenario</a> (const <a class="el" href="structppforest2_1_1cli_1_1Scenario.html">Scenario</a> &amp;scenario, const std::string &amp;binary_path, bool quiet=false)</td></tr>
-<tr class="memdesc:a91124ec5682f6ee3e52c71731e8717ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a single scenario as a subprocess.  <br /></td></tr>
-<tr class="separator:a91124ec5682f6ee3e52c71731e8717ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a927afd38346bebbf3da4900795381846" id="r_a927afd38346bebbf3da4900795381846"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a927afd38346bebbf3da4900795381846">run_suite</a> (const <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> &amp;suite, const std::string &amp;binary_path, bool quiet=false, <a class="el" href="#ab60fae501eccee5220fb3c5a3033c130">ProgressCallback</a> progress=nullptr)</td></tr>
-<tr class="memdesc:a927afd38346bebbf3da4900795381846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all scenarios in a suite via subprocess invocations.  <br /></td></tr>
-<tr class="separator:a927afd38346bebbf3da4900795381846"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f6eae81f9abe8d62d6cc5a47e5eff41" id="r_a9f6eae81f9abe8d62d6cc5a47e5eff41"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f6eae81f9abe8d62d6cc5a47e5eff41">run_summarize</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9f6eae81f9abe8d62d6cc5a47e5eff41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the summarize subcommand.  <br /></td></tr>
-<tr class="separator:a9f6eae81f9abe8d62d6cc5a47e5eff41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b20329dca2d5eeac9cd7a46f42408c3" id="r_a3b20329dca2d5eeac9cd7a46f42408c3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b20329dca2d5eeac9cd7a46f42408c3">run_train</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a3b20329dca2d5eeac9cd7a46f42408c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the train subcommand.  <br /></td></tr>
-<tr class="separator:a3b20329dca2d5eeac9cd7a46f42408c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22dffebbed0dbfea3b8bbce9b92f2274" id="r_a22dffebbed0dbfea3b8bbce9b92f2274"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22dffebbed0dbfea3b8bbce9b92f2274">setup_benchmark</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a22dffebbed0dbfea3b8bbce9b92f2274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register benchmark subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a22dffebbed0dbfea3b8bbce9b92f2274"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d765854db4737451346f203a90d7a0f" id="r_a9d765854db4737451346f203a90d7a0f"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d765854db4737451346f203a90d7a0f">setup_evaluate</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9d765854db4737451346f203a90d7a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register evaluate subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a9d765854db4737451346f203a90d7a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90895cea001e3e824db0fce454d670bb" id="r_a90895cea001e3e824db0fce454d670bb"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a90895cea001e3e824db0fce454d670bb">setup_predict</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a90895cea001e3e824db0fce454d670bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register predict subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a90895cea001e3e824db0fce454d670bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a526d51d651e04e501e6c11e93da4fc13" id="r_a526d51d651e04e501e6c11e93da4fc13"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a526d51d651e04e501e6c11e93da4fc13">setup_summarize</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a526d51d651e04e501e6c11e93da4fc13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register summarize subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a526d51d651e04e501e6c11e93da4fc13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9df89c1893aacdec4b5c3c7553a178b9" id="r_a9df89c1893aacdec4b5c3c7553a178b9"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9df89c1893aacdec4b5c3c7553a178b9">setup_train</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9df89c1893aacdec4b5c3c7553a178b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register train subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a9df89c1893aacdec4b5c3c7553a178b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0de5c1789fc0c87087abc8623084510f" id="r_a0de5c1789fc0c87087abc8623084510f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1TrainResult.html">TrainResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0de5c1789fc0c87087abc8623084510f">train_model</a> (const <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">ppforest2::types::FeatureMatrix</a> &amp;x, const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">ppforest2::types::ResponseVector</a> &amp;y, const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params, <a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">ppforest2::stats::RNG</a> &amp;rng)</td></tr>
-<tr class="memdesc:a0de5c1789fc0c87087abc8623084510f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Train a single model (<a class="el" href="structppforest2_1_1Forest.html" title="A projection pursuit random forest.">Forest</a> or <a class="el" href="structppforest2_1_1Tree.html" title="A single projection pursuit decision tree.">Tree</a>) on the given dataset.  <br /></td></tr>
-<tr class="separator:a0de5c1789fc0c87087abc8623084510f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dc6f94738ccf8577ec0403d028c06d1" id="r_a9dc6f94738ccf8577ec0403d028c06d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dc6f94738ccf8577ec0403d028c06d1">warn_unused_params</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9dc6f94738ccf8577ec0403d028c06d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn the user about parameters that are ignored for single-tree training.  <br /></td></tr>
-<tr class="separator:a9dc6f94738ccf8577ec0403d028c06d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5031dccab08991d75217c44fa7845df" id="r_ae5031dccab08991d75217c44fa7845df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5031dccab08991d75217c44fa7845df">write_results_csv</a> (const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;result, const std::string &amp;path)</td></tr>
-<tr class="memdesc:ae5031dccab08991d75217c44fa7845df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write suite results to a CSV file.  <br /></td></tr>
-<tr class="separator:ae5031dccab08991d75217c44fa7845df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ddb2651ba282f5cfd05ae25a6ce73ac" id="r_a0ddb2651ba282f5cfd05ae25a6ce73ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ddb2651ba282f5cfd05ae25a6ce73ac">write_results_json</a> (const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;result, const std::string &amp;path)</td></tr>
-<tr class="memdesc:a0ddb2651ba282f5cfd05ae25a6ce73ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write suite results to a JSON file.  <br /></td></tr>
-<tr class="separator:a0ddb2651ba282f5cfd05ae25a6ce73ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbed99fd3b23058bf923b41371b5b239" id="r_adbed99fd3b23058bf923b41371b5b239"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adbed99fd3b23058bf923b41371b5b239">check</a> (bool condition, std::string const &amp;message, std::vector&lt; std::string &gt; &amp;errors)</td></tr>
+<tr class="memdesc:adbed99fd3b23058bf923b41371b5b239"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collects validation errors grouped by label.  <br /></td></tr>
+<tr class="separator:adbed99fd3b23058bf923b41371b5b239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9d69e4b2a0b3aed5ad1ccd540176fca" id="r_ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9d69e4b2a0b3aed5ad1ccd540176fca">parse_args</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1Params.html" title="All CLI options and runtime parameters.">Params</a> struct.  <br /></td></tr>
+<tr class="separator:ae9d69e4b2a0b3aed5ad1ccd540176fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43f3a487718ed69e0b146cf380a812ad" id="r_a43f3a487718ed69e0b146cf380a812ad"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43f3a487718ed69e0b146cf380a812ad">parse_proportion</a> (nlohmann::json const &amp;j)</td></tr>
+<tr class="separator:a43f3a487718ed69e0b146cf380a812ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9263c712642ffd4e5227dbb815facd3d" id="r_a9263c712642ffd4e5227dbb815facd3d"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9263c712642ffd4e5227dbb815facd3d">parse_proportion</a> (std::string const &amp;input)</td></tr>
+<tr class="memdesc:a9263c712642ffd4e5227dbb815facd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a proportion from a string or JSON value.  <br /></td></tr>
+<tr class="separator:a9263c712642ffd4e5227dbb815facd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac31a76d56df07fc69b8e4c2ce26e73a6" id="r_ac31a76d56df07fc69b8e4c2ce26e73a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac31a76d56df07fc69b8e4c2ce26e73a6">parse_suite</a> (nlohmann::json const &amp;j)</td></tr>
+<tr class="memdesc:ac31a76d56df07fc69b8e4c2ce26e73a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON object.  <br /></td></tr>
+<tr class="separator:ac31a76d56df07fc69b8e4c2ce26e73a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5828d971dc0e7234fa576a5dd39efdee" id="r_a5828d971dc0e7234fa576a5dd39efdee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5828d971dc0e7234fa576a5dd39efdee">parse_suite</a> (std::string const &amp;path)</td></tr>
+<tr class="memdesc:a5828d971dc0e7234fa576a5dd39efdee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON file path.  <br /></td></tr>
+<tr class="separator:a5828d971dc0e7234fa576a5dd39efdee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad48c53156da5cb11a6447c6262838785" id="r_ad48c53156da5cb11a6447c6262838785"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad48c53156da5cb11a6447c6262838785">run_benchmark</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params, std::string const &amp;binary_path)</td></tr>
+<tr class="memdesc:ad48c53156da5cb11a6447c6262838785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the benchmark subcommand.  <br /></td></tr>
+<tr class="separator:ad48c53156da5cb11a6447c6262838785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36156ab1e35e55bea08264a7c189e3fc" id="r_a36156ab1e35e55bea08264a7c189e3fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36156ab1e35e55bea08264a7c189e3fc">run_evaluate</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a36156ab1e35e55bea08264a7c189e3fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the evaluate subcommand.  <br /></td></tr>
+<tr class="separator:a36156ab1e35e55bea08264a7c189e3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3971cc20987e1cbbae2b76397582893" id="r_ac3971cc20987e1cbbae2b76397582893"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3971cc20987e1cbbae2b76397582893">run_predict</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:ac3971cc20987e1cbbae2b76397582893"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the predict subcommand.  <br /></td></tr>
+<tr class="separator:ac3971cc20987e1cbbae2b76397582893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad22b99ef105e60c4b7844045776885c1" id="r_ad22b99ef105e60c4b7844045776885c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad22b99ef105e60c4b7844045776885c1">run_scenario</a> (nlohmann::json const &amp;scenario, std::string const &amp;binary_path)</td></tr>
+<tr class="memdesc:ad22b99ef105e60c4b7844045776885c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a single scenario as a subprocess.  <br /></td></tr>
+<tr class="separator:ad22b99ef105e60c4b7844045776885c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58a5de6d81f3a0fa415a3360eb443b68" id="r_a58a5de6d81f3a0fa415a3360eb443b68"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a58a5de6d81f3a0fa415a3360eb443b68">run_serve</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:a58a5de6d81f3a0fa415a3360eb443b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the serve subcommand.  <br /></td></tr>
+<tr class="separator:a58a5de6d81f3a0fa415a3360eb443b68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec41d4b49e63a3d0e9527264b1699eb9" id="r_aec41d4b49e63a3d0e9527264b1699eb9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec41d4b49e63a3d0e9527264b1699eb9">run_suite</a> (<a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> const &amp;suite, std::string const &amp;binary_path, <a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out)</td></tr>
+<tr class="memdesc:aec41d4b49e63a3d0e9527264b1699eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all scenarios in a suite via subprocess invocations.  <br /></td></tr>
+<tr class="separator:aec41d4b49e63a3d0e9527264b1699eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c860d39c0427fcd385620375354dc10" id="r_a1c860d39c0427fcd385620375354dc10"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c860d39c0427fcd385620375354dc10">run_summarize</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a1c860d39c0427fcd385620375354dc10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the summarize subcommand.  <br /></td></tr>
+<tr class="separator:a1c860d39c0427fcd385620375354dc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20b3d54613f6367525db962b9f3cdffa" id="r_a20b3d54613f6367525db962b9f3cdffa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20b3d54613f6367525db962b9f3cdffa">run_train</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a20b3d54613f6367525db962b9f3cdffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the train subcommand.  <br /></td></tr>
+<tr class="separator:a20b3d54613f6367525db962b9f3cdffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd6111d25df8501b1760306547c3aa7a" id="r_abd6111d25df8501b1760306547c3aa7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd6111d25df8501b1760306547c3aa7a">setup_benchmark</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:abd6111d25df8501b1760306547c3aa7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register benchmark subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:abd6111d25df8501b1760306547c3aa7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad00b27897102a0ec30c61186a67f6222" id="r_ad00b27897102a0ec30c61186a67f6222"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad00b27897102a0ec30c61186a67f6222">setup_evaluate</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:ad00b27897102a0ec30c61186a67f6222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register evaluate subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:ad00b27897102a0ec30c61186a67f6222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ffbdb393825bf84b0e9c7d2765e9fe0" id="r_a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ffbdb393825bf84b0e9c7d2765e9fe0">setup_predict</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register predict subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:a8ffbdb393825bf84b0e9c7d2765e9fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa70eb2f3645d88ebb8009d5cdd8b7a30" id="r_aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa70eb2f3645d88ebb8009d5cdd8b7a30">setup_serve</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register serve subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:aa70eb2f3645d88ebb8009d5cdd8b7a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8b7abe042b3c4ac2fa5d8f95598287c" id="r_ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8b7abe042b3c4ac2fa5d8f95598287c">setup_summarize</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register summarize subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:ae8b7abe042b3c4ac2fa5d8f95598287c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ff3cd9a8daa0a7a7f97a18ce0cb112" id="r_a05ff3cd9a8daa0a7a7f97a18ce0cb112"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05ff3cd9a8daa0a7a7f97a18ce0cb112">setup_train</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a05ff3cd9a8daa0a7a7f97a18ce0cb112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register train subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:a05ff3cd9a8daa0a7a7f97a18ce0cb112"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a001cc13f5a27308f3150a7dc012ffb78" id="r_a001cc13f5a27308f3150a7dc012ffb78"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a001cc13f5a27308f3150a7dc012ffb78">strategy_string_to_json</a> (std::string const &amp;input)</td></tr>
+<tr class="memdesc:a001cc13f5a27308f3150a7dc012ffb78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse a <a class="el" href="namespaceCLI.html">CLI</a> strategy string into a JSON object.  <br /></td></tr>
+<tr class="separator:a001cc13f5a27308f3150a7dc012ffb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeabf0f69f6f096b3c35247eeeba84bf" id="r_abeabf0f69f6f096b3c35247eeeba84bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structppforest2_1_1cli_1_1TrainResult.html">TrainResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeabf0f69f6f096b3c35247eeeba84bf">train_model</a> (<a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">ppforest2::types::FeatureMatrix</a> const &amp;x, <a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">ppforest2::types::OutcomeVector</a> const &amp;y, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:abeabf0f69f6f096b3c35247eeeba84bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Train a single model (<a class="el" href="classppforest2_1_1Forest.html" title="Abstract base class for projection pursuit random forests.">Forest</a> or <a class="el" href="classppforest2_1_1Tree.html" title="Abstract base class for projection pursuit decision trees.">Tree</a>) on the given dataset.  <br /></td></tr>
+<tr class="separator:abeabf0f69f6f096b3c35247eeeba84bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92b79ba1b3f29d3bf8d3b13a6fd8183c" id="r_a92b79ba1b3f29d3bf8d3b13a6fd8183c"><td class="memItemLeft" align="right" valign="top">nlohmann::json&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92b79ba1b3f29d3bf8d3b13a6fd8183c">training_defaults</a> ()</td></tr>
+<tr class="memdesc:a92b79ba1b3f29d3bf8d3b13a6fd8183c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default values for shared training parameters.  <br /></td></tr>
+<tr class="separator:a92b79ba1b3f29d3bf8d3b13a6fd8183c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae59c503624eb19d5a21dccc3286f7b8b" id="r_ae59c503624eb19d5a21dccc3286f7b8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae59c503624eb19d5a21dccc3286f7b8b">validate_params</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:ae59c503624eb19d5a21dccc3286f7b8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate training-related params and throw on errors.  <br /></td></tr>
+<tr class="separator:ae59c503624eb19d5a21dccc3286f7b8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29aee7d829fb648565e169bd67e35bcc" id="r_a29aee7d829fb648565e169bd67e35bcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a29aee7d829fb648565e169bd67e35bcc">validate_training_config</a> (nlohmann::json const &amp;config, std::vector&lt; std::string &gt; &amp;errors)</td></tr>
+<tr class="memdesc:a29aee7d829fb648565e169bd67e35bcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate a training config JSON.  <br /></td></tr>
+<tr class="separator:a29aee7d829fb648565e169bd67e35bcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a8789e09c16fdf281d4231c662e8bbe" id="r_a7a8789e09c16fdf281d4231c662e8bbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a8789e09c16fdf281d4231c662e8bbe">warn_unused_params</a> (<a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;out, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;params)</td></tr>
+<tr class="memdesc:a7a8789e09c16fdf281d4231c662e8bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn the user about parameters that are ignored for single-tree training.  <br /></td></tr>
+<tr class="separator:a7a8789e09c16fdf281d4231c662e8bbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="ab60fae501eccee5220fb3c5a3033c130" name="ab60fae501eccee5220fb3c5a3033c130"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab60fae501eccee5220fb3c5a3033c130">&#9670;&#160;</a></span>ProgressCallback</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="#ab60fae501eccee5220fb3c5a3033c130">ppforest2::cli::ProgressCallback</a> = std::function&lt;void (int scenario_index, int total, const std::string&amp; name)&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Callback for progress reporting during benchmark execution. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">scenario_index</td><td>Current scenario index (0-based). </td></tr>
-    <tr><td class="paramname">total</td><td>Total number of scenarios. </td></tr>
-    <tr><td class="paramname">name</td><td>Name of the current scenario. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ac19eadb7b9d37e6b1fd42c6e52920e51" name="ac19eadb7b9d37e6b1fd42c6e52920e51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac19eadb7b9d37e6b1fd42c6e52920e51">&#9670;&#160;</a></span>Subcommand</h2>
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a2753bfa9baab7fc02affc77e3c364a29" name="a2753bfa9baab7fc02affc77e3c364a29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2753bfa9baab7fc02affc77e3c364a29">&#9670;&#160;</a></span>Subcommand</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,7 +270,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum class <a class="el" href="#ac19eadb7b9d37e6b1fd42c6e52920e51">ppforest2::cli::Subcommand</a></td>
+          <td class="memname">enum class <a class="el" href="#a2753bfa9baab7fc02affc77e3c364a29">ppforest2::cli::Subcommand</a> : uint8_t</td>
         </tr>
       </table>
   </td>
@@ -308,17 +282,41 @@ Functions</h2></td></tr>
 
 <p>Available <a class="el" href="namespaceCLI.html">CLI</a> subcommands. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a334c4a4c42fdb79d7ebc3e73b517e6f8" name="ac19eadb7b9d37e6b1fd42c6e52920e51a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a61b3a8faa9c1091806675c230a9abe64" name="ac19eadb7b9d37e6b1fd42c6e52920e51a61b3a8faa9c1091806675c230a9abe64"></a>train&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a59a9f87755ec523b0db73207fc8362df" name="ac19eadb7b9d37e6b1fd42c6e52920e51a59a9f87755ec523b0db73207fc8362df"></a>predict&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a94d2f2aabfda3169d54a9531cdb99890" name="ac19eadb7b9d37e6b1fd42c6e52920e51a94d2f2aabfda3169d54a9531cdb99890"></a>evaluate&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a07978586e47c8709a63e895fbf3c3c7d" name="ac19eadb7b9d37e6b1fd42c6e52920e51a07978586e47c8709a63e895fbf3c3c7d"></a>benchmark&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac19eadb7b9d37e6b1fd42c6e52920e51a2d49c6f48afd8395a1a25c58e45acb65" name="ac19eadb7b9d37e6b1fd42c6e52920e51a2d49c6f48afd8395a1a25c58e45acb65"></a>summarize&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a334c4a4c42fdb79d7ebc3e73b517e6f8" name="a2753bfa9baab7fc02affc77e3c364a29a334c4a4c42fdb79d7ebc3e73b517e6f8"></a>none&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a61b3a8faa9c1091806675c230a9abe64" name="a2753bfa9baab7fc02affc77e3c364a29a61b3a8faa9c1091806675c230a9abe64"></a>train&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a59a9f87755ec523b0db73207fc8362df" name="a2753bfa9baab7fc02affc77e3c364a29a59a9f87755ec523b0db73207fc8362df"></a>predict&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890" name="a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890"></a>evaluate&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d" name="a2753bfa9baab7fc02affc77e3c364a29a07978586e47c8709a63e895fbf3c3c7d"></a>benchmark&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65" name="a2753bfa9baab7fc02affc77e3c364a29a2d49c6f48afd8395a1a25c58e45acb65"></a>summarize&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796" name="a2753bfa9baab7fc02affc77e3c364a29a20cc39187933346eee8108ec76a2f796"></a>serve&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a40b7633c711ff9ac0081408fda3513f0" name="a40b7633c711ff9ac0081408fda3513f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40b7633c711ff9ac0081408fda3513f0">&#9670;&#160;</a></span>add_evaluate_options()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::add_evaluate_options </td>
+          <td>(</td>
+          <td class="paramtype">CLI::App *</td>          <td class="paramname"><span class="paramname"><em>sub</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1EvaluateParams.html">EvaluateParams</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>evaluate</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add evaluate/convergence options shared by evaluate and benchmark. </p>
+
+</div>
+</div>
 <a id="a4233edc87e69b2325c6cfcbdf5138afd" name="a4233edc87e69b2325c6cfcbdf5138afd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4233edc87e69b2325c6cfcbdf5138afd">&#9670;&#160;</a></span>add_model_options()</h2>
 
@@ -342,44 +340,52 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9bd63acbab0aa4b7ce674bb37015de00" name="a9bd63acbab0aa4b7ce674bb37015de00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bd63acbab0aa4b7ce674bb37015de00">&#9670;&#160;</a></span>init_params()</h2>
+<a id="adbed99fd3b23058bf923b41371b5b239" name="adbed99fd3b23058bf923b41371b5b239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbed99fd3b23058bf923b41371b5b239">&#9670;&#160;</a></span>check()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ppforest2::cli::init_params </td>
+          <td class="memname">void ppforest2::cli::check </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>condition</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>total_vars</em></span><span class="paramdefsep"> = </span><span class="paramdefval">0</span>&#160;)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>message</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>errors</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Resolve sentinel values in <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> to concrete defaults. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">params</td><td>The <a class="el" href="namespaceCLI.html">CLI</a> options to initialize (modified in place). </td></tr>
-    <tr><td class="paramname">total_vars</td><td>Total number of feature columns (0 to skip vars resolution). </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Collects validation errors grouped by label. </p>
+<p>Use begin() to start a new group (e.g., a scenario name), then pass errors() to validation functions that append to a std::vector&lt;std::string&gt;&amp;.</p>
+<p>Append an error message if condition is false. </p>
 
 </div>
 </div>
-<a id="a21d8bb54163dfd42eab3e54447362d72" name="a21d8bb54163dfd42eab3e54447362d72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21d8bb54163dfd42eab3e54447362d72">&#9670;&#160;</a></span>parse_args()</h2>
+<a id="ae9d69e4b2a0b3aed5ad1ccd540176fca" name="ae9d69e4b2a0b3aed5ad1ccd540176fca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9d69e4b2a0b3aed5ad1ccd540176fca">&#9670;&#160;</a></span>parse_args()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> ppforest2::cli::parse_args </td>
+          <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> ppforest2::cli::parse_args </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
         </tr>
@@ -391,7 +397,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> struct. </p>
+<p>Parse command-line arguments into a <a class="el" href="structppforest2_1_1cli_1_1Params.html" title="All CLI options and runtime parameters.">Params</a> struct. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argc</td><td>Argument count from main(). </td></tr>
@@ -399,31 +405,60 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A populated <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html" title="All CLI options and runtime parameters.">CLIOptions</a> struct. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A populated <a class="el" href="structppforest2_1_1cli_1_1Params.html" title="All CLI options and runtime parameters.">Params</a> struct. </dd></dl>
 
 </div>
 </div>
-<a id="a4028b2a5fb09e7b529169ce37ce9e390" name="a4028b2a5fb09e7b529169ce37ce9e390"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4028b2a5fb09e7b529169ce37ce9e390">&#9670;&#160;</a></span>parse_results()</h2>
+<a id="a43f3a487718ed69e0b146cf380a812ad" name="a43f3a487718ed69e0b146cf380a812ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43f3a487718ed69e0b146cf380a812ad">&#9670;&#160;</a></span>parse_proportion() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> ppforest2::cli::parse_results </td>
+          <td class="memname">float ppforest2::cli::parse_proportion </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>j</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Parse a <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html" title="Aggregated results for an entire suite run.">SuiteResult</a> from a JSON file (for baseline comparison). </p>
+</div>
+</div>
+<a id="a9263c712642ffd4e5227dbb815facd3d" name="a9263c712642ffd4e5227dbb815facd3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9263c712642ffd4e5227dbb815facd3d">&#9670;&#160;</a></span>parse_proportion() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float ppforest2::cli::parse_proportion </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse a proportion from a string or JSON value. </p>
+<p>Formats:</p><ul>
+<li>String: "1/3", "0.5"</li>
+<li>JSON string: "1/3", "0.5"</li>
+<li>JSON number: 0.5, 1.0</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>A value in (0, 1]. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a></td><td>on invalid input. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
-<a id="a9cf171fa7eb33e83613e50ea84c6389a" name="a9cf171fa7eb33e83613e50ea84c6389a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9cf171fa7eb33e83613e50ea84c6389a">&#9670;&#160;</a></span>parse_suite() <span class="overload">[1/2]</span></h2>
+<a id="ac31a76d56df07fc69b8e4c2ce26e73a6" name="ac31a76d56df07fc69b8e4c2ce26e73a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac31a76d56df07fc69b8e4c2ce26e73a6">&#9670;&#160;</a></span>parse_suite() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -431,7 +466,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> ppforest2::cli::parse_suite </td>
           <td>(</td>
-          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>j</em></span></td><td>)</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>j</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -440,15 +475,15 @@ Functions</h2></td></tr>
 <p>Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON object. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>on validation errors. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a></td><td>on validation errors. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ab87c050791813ad79fe241d3a51e28a3" name="ab87c050791813ad79fe241d3a51e28a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab87c050791813ad79fe241d3a51e28a3">&#9670;&#160;</a></span>parse_suite() <span class="overload">[2/2]</span></h2>
+<a id="a5828d971dc0e7234fa576a5dd39efdee" name="a5828d971dc0e7234fa576a5dd39efdee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5828d971dc0e7234fa576a5dd39efdee">&#9670;&#160;</a></span>parse_suite() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -456,7 +491,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> ppforest2::cli::parse_suite </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -465,173 +500,15 @@ Functions</h2></td></tr>
 <p>Parse a <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html" title="A suite of scenarios with shared defaults.">BenchmarkSuite</a> from a JSON file path. </p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>on parse or validation errors. </td></tr>
+    <tr><td class="paramname"><a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a></td><td>on parse or validation errors. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a6aea99e72f3fed4564684ef4362d9c39" name="a6aea99e72f3fed4564684ef4362d9c39"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6aea99e72f3fed4564684ef4362d9c39">&#9670;&#160;</a></span>parse_vars() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1VarsSpec.html">VarsSpec</a> ppforest2::cli::parse_vars </td>
-          <td>(</td>
-          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>j</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse vars from a JSON value (benchmark scenarios). </p>
-<p>Formats:</p><ul>
-<li>JSON string: delegates to parse_vars(string)</li>
-<li>JSON integer: count, is_proportion = false</li>
-<li>JSON float: proportion, is_proportion = true</li>
-</ul>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>on invalid input. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af431290776838c0a65e480b0e89731cf" name="af431290776838c0a65e480b0e89731cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af431290776838c0a65e480b0e89731cf">&#9670;&#160;</a></span>parse_vars() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1VarsSpec.html">VarsSpec</a> ppforest2::cli::parse_vars </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Parse vars from a string (<a class="el" href="namespaceCLI.html">CLI</a> input). </p>
-<p>Formats:</p><ul>
-<li>"1/3" → fraction, is_proportion = true, value = 0.333...</li>
-<li>"0.5" → decimal, is_proportion = true, value = 0.5</li>
-<li>"5" → count, is_proportion = false, value = 5</li>
-</ul>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">std::runtime_error</td><td>on invalid input. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a8c6ca026e9e9840a3111d537a9f3d0ff" name="a8c6ca026e9e9840a3111d537a9f3d0ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c6ca026e9e9840a3111d537a9f3d0ff">&#9670;&#160;</a></span>print_benchmark_markdown()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ppforest2::cli::print_benchmark_markdown </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::optional&lt; <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>baseline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Print results as a GitHub-flavored markdown table. </p>
-<p>Prints directly via Output (no indentation). Suitable for piping to a file or posting as a PR comment. With a baseline, includes delta columns with emoji indicators.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">out</td><td>Output context. </td></tr>
-    <tr><td class="paramname">current</td><td>Results from the current run. </td></tr>
-    <tr><td class="paramname">baseline</td><td>Optional baseline results for comparison. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a2ea0d7abc2027072d9fba8d2f5a01401" name="a2ea0d7abc2027072d9fba8d2f5a01401"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ea0d7abc2027072d9fba8d2f5a01401">&#9670;&#160;</a></span>print_benchmark_table()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ppforest2::cli::print_benchmark_table </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>current</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::optional&lt; <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>baseline</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Print a formatted results table to stdout. </p>
-<p>Without a baseline, prints absolute numbers. With a baseline, adds delta columns (green = faster/less memory, red = slower/more memory).</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">out</td><td>Output context. </td></tr>
-    <tr><td class="paramname">current</td><td>Results from the current run. </td></tr>
-    <tr><td class="paramname">baseline</td><td>Optional baseline results for comparison. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ac9712ade1bf2b2a5e27442e64e33bc56" name="ac9712ade1bf2b2a5e27442e64e33bc56"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9712ade1bf2b2a5e27442e64e33bc56">&#9670;&#160;</a></span>read_data()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structppforest2_1_1stats_1_1DataPacket.html">ppforest2::stats::DataPacket</a> ppforest2::cli::read_data </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">ppforest2::stats::RNG</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rng</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Load or simulate data based on <a class="el" href="namespaceCLI.html">CLI</a> options. </p>
-<p>If data_path is set, reads a CSV file; otherwise generates simulated data. Ensures the response vector is contiguous (sorted by group). </p>
-
-</div>
-</div>
-<a id="a2ebbb070a90b0d0994feb45deb58d5e1" name="a2ebbb070a90b0d0994feb45deb58d5e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ebbb070a90b0d0994feb45deb58d5e1">&#9670;&#160;</a></span>run_benchmark()</h2>
+<a id="ad48c53156da5cb11a6447c6262838785" name="ad48c53156da5cb11a6447c6262838785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad48c53156da5cb11a6447c6262838785">&#9670;&#160;</a></span>run_benchmark()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -639,12 +516,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int ppforest2::cli::run_benchmark </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>&#160;)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -653,7 +530,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">params</td><td><a class="el" href="namespaceCLI.html">CLI</a> options. </td></tr>
-    <tr><td class="paramname">binary_path</td><td>Path to the <a class="el" href="namespaceppforest2.html">ppforest2</a> binary (typically argv[0]). </td></tr>
+    <tr><td class="paramname">binary_path</td><td>Path to the <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> binary (typically argv[0]). </td></tr>
   </table>
   </dd>
 </dl>
@@ -661,8 +538,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5bc7e021884390ba232de5c2a3f5b696" name="a5bc7e021884390ba232de5c2a3f5b696"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bc7e021884390ba232de5c2a3f5b696">&#9670;&#160;</a></span>run_evaluate()</h2>
+<a id="a36156ab1e35e55bea08264a7c189e3fc" name="a36156ab1e35e55bea08264a7c189e3fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36156ab1e35e55bea08264a7c189e3fc">&#9670;&#160;</a></span>run_evaluate()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -670,7 +547,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int ppforest2::cli::run_evaluate </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -681,8 +558,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ada7599b95483cd00ec94f3c4fa50a452" name="ada7599b95483cd00ec94f3c4fa50a452"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada7599b95483cd00ec94f3c4fa50a452">&#9670;&#160;</a></span>run_predict()</h2>
+<a id="ac3971cc20987e1cbbae2b76397582893" name="ac3971cc20987e1cbbae2b76397582893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3971cc20987e1cbbae2b76397582893">&#9670;&#160;</a></span>run_predict()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -690,7 +567,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int ppforest2::cli::run_predict </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -701,8 +578,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a91124ec5682f6ee3e52c71731e8717ca" name="a91124ec5682f6ee3e52c71731e8717ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a91124ec5682f6ee3e52c71731e8717ca">&#9670;&#160;</a></span>run_scenario()</h2>
+<a id="ad22b99ef105e60c4b7844045776885c1" name="ad22b99ef105e60c4b7844045776885c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad22b99ef105e60c4b7844045776885c1">&#9670;&#160;</a></span>run_scenario()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -710,17 +587,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1ScenarioResult.html">ScenarioResult</a> ppforest2::cli::run_scenario </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1Scenario.html">Scenario</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>scenario</em></span>, </td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>scenario</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>quiet</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>&#160;)</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -729,8 +601,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a927afd38346bebbf3da4900795381846" name="a927afd38346bebbf3da4900795381846"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a927afd38346bebbf3da4900795381846">&#9670;&#160;</a></span>run_suite()</h2>
+<a id="a58a5de6d81f3a0fa415a3360eb443b68" name="a58a5de6d81f3a0fa415a3360eb443b68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58a5de6d81f3a0fa415a3360eb443b68">&#9670;&#160;</a></span>run_serve()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ppforest2::cli::run_serve </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run the serve subcommand. </p>
+<dl class="section return"><dt>Returns</dt><dd>Exit code (0 on graceful shutdown, non-zero on bind failure). </dd></dl>
+
+</div>
+</div>
+<a id="aec41d4b49e63a3d0e9527264b1699eb9" name="aec41d4b49e63a3d0e9527264b1699eb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec41d4b49e63a3d0e9527264b1699eb9">&#9670;&#160;</a></span>run_suite()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -738,34 +630,28 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> ppforest2::cli::run_suite </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>suite</em></span>, </td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1BenchmarkSuite.html">BenchmarkSuite</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>suite</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>, </td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>binary_path</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>quiet</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#ab60fae501eccee5220fb3c5a3033c130">ProgressCallback</a></td>          <td class="paramname"><span class="paramname"><em>progress</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1io_1_1Output.html">io::Output</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Run all scenarios in a suite via subprocess invocations. </p>
-<p>For each scenario, spawns <code><a class="el" href="namespaceppforest2.html">ppforest2</a> evaluate</code> as a child process with the appropriate flags, reads its JSON output, and collects results.</p>
+<p>For each scenario, spawns <code><a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> evaluate</code> as a child process with the appropriate flags, reads its JSON output, and collects results. Progress is printed to <code class="param">out</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">suite</td><td>The benchmark suite to run. </td></tr>
-    <tr><td class="paramname">binary_path</td><td>Path to the <a class="el" href="namespaceppforest2.html">ppforest2</a> binary (typically argv[0]). </td></tr>
-    <tr><td class="paramname">quiet</td><td>Suppress progress output. </td></tr>
-    <tr><td class="paramname">progress</td><td>Optional progress callback. </td></tr>
+    <tr><td class="paramname">binary_path</td><td>Path to the <a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> binary (typically argv[0]). </td></tr>
+    <tr><td class="paramname">out</td><td>Output context for progress reporting. </td></tr>
   </table>
   </dd>
 </dl>
@@ -773,8 +659,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9f6eae81f9abe8d62d6cc5a47e5eff41" name="a9f6eae81f9abe8d62d6cc5a47e5eff41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f6eae81f9abe8d62d6cc5a47e5eff41">&#9670;&#160;</a></span>run_summarize()</h2>
+<a id="a1c860d39c0427fcd385620375354dc10" name="a1c860d39c0427fcd385620375354dc10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c860d39c0427fcd385620375354dc10">&#9670;&#160;</a></span>run_summarize()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -782,7 +668,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int ppforest2::cli::run_summarize </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -793,8 +679,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3b20329dca2d5eeac9cd7a46f42408c3" name="a3b20329dca2d5eeac9cd7a46f42408c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b20329dca2d5eeac9cd7a46f42408c3">&#9670;&#160;</a></span>run_train()</h2>
+<a id="a20b3d54613f6367525db962b9f3cdffa" name="a20b3d54613f6367525db962b9f3cdffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20b3d54613f6367525db962b9f3cdffa">&#9670;&#160;</a></span>run_train()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -802,7 +688,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int ppforest2::cli::run_train </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -813,21 +699,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a22dffebbed0dbfea3b8bbce9b92f2274" name="a22dffebbed0dbfea3b8bbce9b92f2274"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22dffebbed0dbfea3b8bbce9b92f2274">&#9670;&#160;</a></span>setup_benchmark()</h2>
+<a id="abd6111d25df8501b1760306547c3aa7a" name="abd6111d25df8501b1760306547c3aa7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd6111d25df8501b1760306547c3aa7a">&#9670;&#160;</a></span>setup_benchmark()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CLI::App * ppforest2::cli::setup_benchmark </td>
+          <td class="memname">void ppforest2::cli::setup_benchmark </td>
           <td>(</td>
           <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -836,21 +722,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d765854db4737451346f203a90d7a0f" name="a9d765854db4737451346f203a90d7a0f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d765854db4737451346f203a90d7a0f">&#9670;&#160;</a></span>setup_evaluate()</h2>
+<a id="ad00b27897102a0ec30c61186a67f6222" name="ad00b27897102a0ec30c61186a67f6222"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad00b27897102a0ec30c61186a67f6222">&#9670;&#160;</a></span>setup_evaluate()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CLI::App * ppforest2::cli::setup_evaluate </td>
+          <td class="memname">void ppforest2::cli::setup_evaluate </td>
           <td>(</td>
           <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -859,21 +745,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a90895cea001e3e824db0fce454d670bb" name="a90895cea001e3e824db0fce454d670bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90895cea001e3e824db0fce454d670bb">&#9670;&#160;</a></span>setup_predict()</h2>
+<a id="a8ffbdb393825bf84b0e9c7d2765e9fe0" name="a8ffbdb393825bf84b0e9c7d2765e9fe0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ffbdb393825bf84b0e9c7d2765e9fe0">&#9670;&#160;</a></span>setup_predict()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CLI::App * ppforest2::cli::setup_predict </td>
+          <td class="memname">void ppforest2::cli::setup_predict </td>
           <td>(</td>
           <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -882,21 +768,44 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a526d51d651e04e501e6c11e93da4fc13" name="a526d51d651e04e501e6c11e93da4fc13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a526d51d651e04e501e6c11e93da4fc13">&#9670;&#160;</a></span>setup_summarize()</h2>
+<a id="aa70eb2f3645d88ebb8009d5cdd8b7a30" name="aa70eb2f3645d88ebb8009d5cdd8b7a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa70eb2f3645d88ebb8009d5cdd8b7a30">&#9670;&#160;</a></span>setup_serve()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CLI::App * ppforest2::cli::setup_summarize </td>
+          <td class="memname">void ppforest2::cli::setup_serve </td>
           <td>(</td>
           <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Register serve subcommand options on <code class="param">app</code>. </p>
+
+</div>
+</div>
+<a id="ae8b7abe042b3c4ac2fa5d8f95598287c" name="ae8b7abe042b3c4ac2fa5d8f95598287c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8b7abe042b3c4ac2fa5d8f95598287c">&#9670;&#160;</a></span>setup_summarize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::setup_summarize </td>
+          <td>(</td>
+          <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -905,21 +814,21 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9df89c1893aacdec4b5c3c7553a178b9" name="a9df89c1893aacdec4b5c3c7553a178b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9df89c1893aacdec4b5c3c7553a178b9">&#9670;&#160;</a></span>setup_train()</h2>
+<a id="a05ff3cd9a8daa0a7a7f97a18ce0cb112" name="a05ff3cd9a8daa0a7a7f97a18ce0cb112"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05ff3cd9a8daa0a7a7f97a18ce0cb112">&#9670;&#160;</a></span>setup_train()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CLI::App * ppforest2::cli::setup_train </td>
+          <td class="memname">void ppforest2::cli::setup_train </td>
           <td>(</td>
           <td class="paramtype">CLI::App &amp;</td>          <td class="paramname"><span class="paramname"><em>app</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -928,8 +837,28 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a0de5c1789fc0c87087abc8623084510f" name="a0de5c1789fc0c87087abc8623084510f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0de5c1789fc0c87087abc8623084510f">&#9670;&#160;</a></span>train_model()</h2>
+<a id="a001cc13f5a27308f3150a7dc012ffb78" name="a001cc13f5a27308f3150a7dc012ffb78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a001cc13f5a27308f3150a7dc012ffb78">&#9670;&#160;</a></span>strategy_string_to_json()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nlohmann::json ppforest2::cli::strategy_string_to_json </td>
+          <td>(</td>
+          <td class="paramtype">std::string const &amp;</td>          <td class="paramname"><span class="paramname"><em>input</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse a <a class="el" href="namespaceCLI.html">CLI</a> strategy string into a JSON object. </p>
+<p>Converts e.g. <code>"pda:lambda=0.3"</code> to <code>{"name": "pda", "lambda": 0.3}</code>. </p>
+
+</div>
+</div>
+<a id="abeabf0f69f6f096b3c35247eeeba84bf" name="abeabf0f69f6f096b3c35247eeeba84bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeabf0f69f6f096b3c35247eeeba84bf">&#9670;&#160;</a></span>train_model()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -937,32 +866,99 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structppforest2_1_1cli_1_1TrainResult.html">TrainResult</a> ppforest2::cli::train_model </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">ppforest2::types::FeatureMatrix</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a20733a55a09432e8f9f924eb11fb5b0d">ppforest2::types::FeatureMatrix</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="namespaceppforest2_1_1types.html#a4cc32c7bf71b27689fd027a8814821da">ppforest2::types::ResponseVector</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a2432f13302eed47b33e7b5a73e57b020">ppforest2::types::OutcomeVector</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1stats.html#a8e3a1f81a376373936a72c8ba6061567">ppforest2::stats::RNG</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>rng</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Train a single model (<a class="el" href="structppforest2_1_1Forest.html" title="A projection pursuit random forest.">Forest</a> or <a class="el" href="structppforest2_1_1Tree.html" title="A single projection pursuit decision tree.">Tree</a>) on the given dataset. </p>
+<p>Train a single model (<a class="el" href="classppforest2_1_1Forest.html" title="Abstract base class for projection pursuit random forests.">Forest</a> or <a class="el" href="classppforest2_1_1Tree.html" title="Abstract base class for projection pursuit decision trees.">Tree</a>) on the given dataset. </p>
+<p>Takes <code>x</code> / <code>y</code> by const ref and copies internally — regression training (ByCutpoint) permutes rows in place via <code>std::stable_sort</code>, which would leak across calls if we passed the caller's matrix straight through. Centralising the copy here keeps the mutation contract internal and lets callers (warmup loops, multi-iteration evaluate, etc.) reuse the same input across calls without per-call boilerplate. </p>
 
 </div>
 </div>
-<a id="a9dc6f94738ccf8577ec0403d028c06d1" name="a9dc6f94738ccf8577ec0403d028c06d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dc6f94738ccf8577ec0403d028c06d1">&#9670;&#160;</a></span>warn_unused_params()</h2>
+<a id="a92b79ba1b3f29d3bf8d3b13a6fd8183c" name="a92b79ba1b3f29d3bf8d3b13a6fd8183c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92b79ba1b3f29d3bf8d3b13a6fd8183c">&#9670;&#160;</a></span>training_defaults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">nlohmann::json ppforest2::cli::training_defaults </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default values for shared training parameters. </p>
+<p>Used by train and evaluate to fill in unset fields before validation. Benchmark does not apply these — its scenarios must be explicit. </p>
+
+</div>
+</div>
+<a id="ae59c503624eb19d5a21dccc3286f7b8b" name="ae59c503624eb19d5a21dccc3286f7b8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae59c503624eb19d5a21dccc3286f7b8b">&#9670;&#160;</a></span>validate_params()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::validate_params </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Validate training-related params and throw on errors. </p>
+<p>Builds a config from params, validates it, and throws <a class="el" href="classppforest2_1_1UserError.html" title="Exception for user-facing input validation errors.">UserError</a> with all collected messages if any checks fail. </p>
+
+</div>
+</div>
+<a id="a29aee7d829fb648565e169bd67e35bcc" name="a29aee7d829fb648565e169bd67e35bcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29aee7d829fb648565e169bd67e35bcc">&#9670;&#160;</a></span>validate_training_config()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ppforest2::cli::validate_training_config </td>
+          <td>(</td>
+          <td class="paramtype">nlohmann::json const &amp;</td>          <td class="paramname"><span class="paramname"><em>config</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>errors</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Validate a training config JSON. </p>
+<p>Checks all required fields, ranges, and mutual exclusions. Appends error messages to <code class="param">errors</code> (empty if valid).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">config</td><td>The config to validate. </td></tr>
+    <tr><td class="paramname">errors</td><td>Output vector to accumulate error messages. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7a8789e09c16fdf281d4231c662e8bbe" name="a7a8789e09c16fdf281d4231c662e8bbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a8789e09c16fdf281d4231c662e8bbe">&#9670;&#160;</a></span>warn_unused_params()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -975,58 +971,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> const &amp;</td>          <td class="paramname"><span class="paramname"><em>params</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Warn the user about parameters that are ignored for single-tree training. </p>
-
-</div>
-</div>
-<a id="ae5031dccab08991d75217c44fa7845df" name="ae5031dccab08991d75217c44fa7845df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5031dccab08991d75217c44fa7845df">&#9670;&#160;</a></span>write_results_csv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ppforest2::cli::write_results_csv </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Write suite results to a CSV file. </p>
-
-</div>
-</div>
-<a id="a0ddb2651ba282f5cfd05ae25a6ce73ac" name="a0ddb2651ba282f5cfd05ae25a6ce73ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ddb2651ba282f5cfd05ae25a6ce73ac">&#9670;&#160;</a></span>write_results_json()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ppforest2::cli::write_results_json </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structppforest2_1_1cli_1_1SuiteResult.html">SuiteResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Write suite results to a JSON file. </p>
 
 </div>
 </div>

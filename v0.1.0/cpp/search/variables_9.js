@@ -1,15 +1,14 @@
 var searchData=
 [
-  ['max_0',['max',['../structppforest2_1_1cli_1_1ConvergenceCriteria.html#a4c3166b2e7713604fa42ab36e6cfae55',1,'ppforest2::cli::ConvergenceCriteria::max'],['../structppforest2_1_1cli_1_1ConvergenceParams.html#adf13c110fe9b4f9d0418eadefd45eddd',1,'ppforest2::cli::ConvergenceParams::max']]],
-  ['max_5fretries_1',['max_retries',['../structppforest2_1_1cli_1_1ModelParams.html#a8de1b7d764b9c1be2028c68980bd398e',1,'ppforest2::cli::ModelParams::max_retries'],['../structppforest2_1_1TrainingSpec.html#a5985052d3272d436fac765aaf0709a82',1,'ppforest2::TrainingSpec::max_retries']]],
-  ['mean_2',['mean',['../structppforest2_1_1cli_1_1SimulateParams.html#a9454fca9aec87a57eb1dd530b5d5520c',1,'ppforest2::cli::SimulateParams::mean'],['../structppforest2_1_1stats_1_1SimulationParams.html#a69694a803715d64e63683b780476ff5b',1,'ppforest2::stats::SimulationParams::mean']]],
-  ['mean_5fseparation_3',['mean_separation',['../structppforest2_1_1cli_1_1SimulateParams.html#ac75c78a938a3f6f887f843da646f8a0b',1,'ppforest2::cli::SimulateParams::mean_separation'],['../structppforest2_1_1stats_1_1SimulationParams.html#a27279b3a38409e61edd7ccf522a5cabd',1,'ppforest2::stats::SimulationParams::mean_separation']]],
-  ['mean_5fte_5ferror_4',['mean_te_error',['../structppforest2_1_1cli_1_1ScenarioResult.html#a52c0b0a65b0ade361819a442e225a925',1,'ppforest2::cli::ScenarioResult']]],
-  ['mean_5ftime_5fms_5',['mean_time_ms',['../structppforest2_1_1cli_1_1ScenarioResult.html#a8063517b3e791bce0d6a416b54ecaea2',1,'ppforest2::cli::ScenarioResult']]],
-  ['mean_5ftr_5ferror_6',['mean_tr_error',['../structppforest2_1_1cli_1_1ScenarioResult.html#aa94a7fa50631b86fcefb39f3a32542b8',1,'ppforest2::cli::ScenarioResult']]],
-  ['min_7',['min',['../structppforest2_1_1cli_1_1ConvergenceCriteria.html#a7965f5105cc03e16265354c8b5c046a1',1,'ppforest2::cli::ConvergenceCriteria::min'],['../structppforest2_1_1cli_1_1ConvergenceParams.html#a689625574b8ec2385c0ee01eef555dcc',1,'ppforest2::cli::ConvergenceParams::min']]],
-  ['model_8',['model',['../structppforest2_1_1cli_1_1CLIOptions.html#ac7a69feadc50fe215476c53634b6c17f',1,'ppforest2::cli::CLIOptions::model'],['../structppforest2_1_1cli_1_1TrainResult.html#acc3f1d0ac6c37a831b7f74c5c55c792c',1,'ppforest2::cli::TrainResult::model'],['../structppforest2_1_1serialization_1_1Export.html#aad453f3bd716ad6ec79ed0b06808b1e8',1,'ppforest2::serialization::Export::model']]],
-  ['model_5f_9',['model_',['../classSavedModelTest.html#a9bbffaa324e3084834d978e0a3a7c672',1,'SavedModelTest']]],
-  ['model_5fjson_5f_10',['model_json_',['../classSavedModelTest.html#af49866b86e00de7e7f1cad4676daec7a',1,'SavedModelTest']]],
-  ['model_5fpath_11',['model_path',['../structppforest2_1_1cli_1_1CLIOptions.html#ab1edf18b4f200cfbf2980ec460f47e32',1,'ppforest2::cli::CLIOptions']]]
+  ['label_0',['label',['../structppforest2_1_1io_1_1layout_1_1Column.html#a6a7288cb6b0328d673eff4510f749d10',1,'ppforest2::io::layout::Column::label'],['../structppforest2_1_1viz_1_1LayoutEdge.html#a87e7fe587ba56ff0f25e83df862c626b',1,'ppforest2::viz::LayoutEdge::label']]],
+  ['label_5findex_1',['label_index',['../structppforest2_1_1stats_1_1ConfusionMatrix.html#a7fa8e58051c2bdcff35bbf61d5f0aefe',1,'ppforest2::stats::ConfusionMatrix']]],
+  ['lambda_2',['lambda',['../structppforest2_1_1cli_1_1ModelParams.html#a10629e456e9af2b64b4f7de4c6139028',1,'ppforest2::cli::ModelParams']]],
+  ['leaf_3',['leaf',['../classppforest2_1_1TrainingSpec.html#a29cc30ff030d50ad111d03704927551b',1,'ppforest2::TrainingSpec::leaf'],['../structppforest2_1_1TrainingSpec_1_1Builder_1_1Config.html#a3de95a80bcdc30fcb8e91ccf44c69290',1,'ppforest2::TrainingSpec::Builder::Config::leaf']]],
+  ['leaf_5fconfig_4',['leaf_config',['../structppforest2_1_1cli_1_1ModelParams.html#a44abbe2a11d5ab621b5122910130947e',1,'ppforest2::cli::ModelParams']]],
+  ['leaf_5fh_5',['leaf_h',['../structppforest2_1_1viz_1_1LayoutParams.html#ab04156f86a61dbbae22fed969f3cd315',1,'ppforest2::viz::LayoutParams']]],
+  ['leaf_5finput_6',['leaf_input',['../structppforest2_1_1cli_1_1ModelParams.html#a933a7000536657a1171de26cf913ad10',1,'ppforest2::cli::ModelParams']]],
+  ['leaf_5fw_7',['leaf_w',['../structppforest2_1_1viz_1_1LayoutParams.html#a6122739d54a94df7cb22b71a066229b9',1,'ppforest2::viz::LayoutParams']]],
+  ['lower_8',['lower',['../classppforest2_1_1TreeBranch.html#af6abd793f1d4da4f5ffe1c69a7cbc682',1,'ppforest2::TreeBranch']]],
+  ['lower_5fgroup_9',['lower_group',['../structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251',1,'ppforest2::NodeContext']]],
+  ['lower_5fy_5fpart_10',['lower_y_part',['../structppforest2_1_1NodeContext.html#ab3792ab9aee84ea9520f68cc73ab7ce8',1,'ppforest2::NodeContext']]]
 ];

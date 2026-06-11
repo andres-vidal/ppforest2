@@ -5,5 +5,5 @@ var structppforest2_1_1io_1_1ConfigDisplayHints =
     [ "default_vars", "structppforest2_1_1io_1_1ConfigDisplayHints.html#abb73f903c804554ec525344db7830d68", null ],
     [ "test_samples", "structppforest2_1_1io_1_1ConfigDisplayHints.html#a4439577cd9086d1a07ddae4489afc102", null ],
     [ "training_samples", "structppforest2_1_1io_1_1ConfigDisplayHints.html#af4da5e82520ea588a2c11f2e36583a08", null ],
-    [ "vars_percent", "structppforest2_1_1io_1_1ConfigDisplayHints.html#a23885deb5e356f5fdef397a11453bd60", null ]
+    [ "vars_percent", "structppforest2_1_1io_1_1ConfigDisplayHints.html#a74ea5e3d32959e8d04a9aff0cad57209", null ]
 ];

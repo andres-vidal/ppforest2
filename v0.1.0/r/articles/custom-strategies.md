@@ -1,12 +1,15 @@
 # Custom strategies
 
-ppforest2 trains trees by composing three pluggable strategies:
+ppforest2 trains trees by composing six pluggable strategies:
 
-| Strategy                          | Purpose                                            | Built-in                                                                                                                                                                           |
-|-----------------------------------|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **PP** (projection pursuit)       | Find the projection that best separates groups     | [`pp_pda()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/pp_pda.md) — Penalized Discriminant Analysis                                                              |
-| **DR** (dimensionality reduction) | Select which variables are available at each split | [`dr_uniform()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/dr_uniform.md), [`dr_noop()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/dr_noop.md) |
-| **SR** (split rule)               | Compute the split threshold in projected space     | [`sr_mean_of_means()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/sr_mean_of_means.md)                                                                            |
+| Strategy                       | Purpose                                            | Built-in                                                                                                                                                                                 |
+|--------------------------------|----------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **PP** (projection pursuit)    | Find the projection that best separates groups     | [`pp_pda()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/pp_pda.md) — Penalized Discriminant Analysis                                                                    |
+| **Vars** (variable selection)  | Select which variables are available at each split | [`vars_uniform()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/vars_uniform.md), [`vars_all()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/vars_all.md) |
+| **Threshold** (split cutpoint) | Compute the split cutpoint in projected space      | [`cutpoint_mean_of_means()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/cutpoint_mean_of_means.md)                                                                      |
+| **Stop** (stopping rule)       | Decide when to stop growing                        | [`stop_pure_node()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/stop_pure_node.md)                                                                                      |
+| **Binarize** (binarization)    | Reduce multiclass to binary at each node           | [`binarize_largest_gap()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/binarize_largest_gap.md)                                                                          |
+| **Grouping** (group partition) | Route observations to children                     | [`grouping_by_label()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/grouping_by_label.md)                                                                                |
 
 You can add new strategies without modifying the core tree-building
 logic. This vignette walks through the process.
@@ -19,11 +22,6 @@ Each strategy is an R list with a `name` field that identifies it, a
 
 ``` r
 library(ppforest2)
-#> 
-#> Attaching package: 'ppforest2'
-#> The following object is masked from 'package:datasets':
-#> 
-#>     iris
 
 pp_pda(0.5)
 #> $name
@@ -37,22 +35,22 @@ pp_pda(0.5)
 #> 
 #> attr(,"class")
 #> [1] "pp_strategy"
-dr_uniform(n_vars = 2)
+vars_uniform(n_vars = 2)
 #> $name
 #> [1] "uniform"
 #> 
 #> $display_name
 #> [1] "Uniform random"
 #> 
-#> $n_vars
+#> $count
 #> [1] 2
 #> 
 #> $p_vars
 #> NULL
 #> 
 #> attr(,"class")
-#> [1] "dr_strategy"
-sr_mean_of_means()
+#> [1] "vars_strategy"
+cutpoint_mean_of_means()
 #> $name
 #> [1] "mean_of_means"
 #> 
@@ -60,7 +58,7 @@ sr_mean_of_means()
 #> [1] "Mean of means"
 #> 
 #> attr(,"class")
-#> [1] "sr_strategy"
+#> [1] "cutpoint_strategy"
 ```
 
 When you call
@@ -69,7 +67,7 @@ or
 [`pprf()`](https://andres-vidal.github.io/ppforest2/v0.1.0/r/reference/pprf.md),
 the strategy lists are passed to C++, where the `name` field dispatches
 to the corresponding C++ implementation. The actual computation
-(optimization, variable selection, threshold) happens entirely in C++.
+(optimization, variable selection, cutpoint) happens entirely in C++.
 
 ## Adding a new strategy
 
@@ -84,58 +82,48 @@ Each strategy family has a base class with pure virtual methods. Your
 new strategy inherits from the appropriate base and implements them.
 
 For example, a new projection pursuit strategy needs to implement
-`index()` (evaluate a projection) and
 [`optimize()`](https://rdrr.io/r/stats/optimize.html) (find the best
 projection):
 
 ``` cpp
-// File: core/src/models/PPMyStrategy.hpp
+// File: core/src/models/strategies/pp/MyMethod.hpp
 #pragma once
-#include "models/PPStrategy.hpp"
-#include "models/Strategy.hpp"
+#include "models/strategies/pp/ProjectionPursuit.hpp"
+#include "models/strategies/Strategy.hpp"
 #include "utils/JsonValidation.hpp"
 
 namespace ppforest2::pp {
 
-struct PPMyStrategy : public PPStrategy {
-  explicit PPMyStrategy(float alpha) : alpha_(alpha) {}
+struct MyMethod : public ProjectionPursuit {
+  explicit MyMethod(float alpha) : alpha_(alpha) {}
 
   std::string display_name() const override { return "My method"; }
 
-  types::Feature index(
-    const types::FeatureMatrix&  x,
-    const stats::GroupPartition& group_spec,
-    const Projector&             projector) const override {
-    // Evaluate how good this projection is.
-    // Return a scalar index (higher = better separation).
-    ...
-  }
-
-  PPResult optimize(
+  Result optimize(
     const types::FeatureMatrix&  x,
     const stats::GroupPartition& group_spec) const override {
     // Find the optimal projector for the data.
-    // Return PPResult{ projector_vector, index_value }.
+    // Return Result{ projector_vector, index_value }.
     ...
   }
 
-  void to_json(nlohmann::json& j) const override {
-    j = {{"name", "my_method"}, {"alpha", alpha_}};
+  nlohmann::json to_json() const override {
+    return {{"name", "my_method"}, {"alpha", alpha_}};
   }
 
-  static PPStrategy::Ptr from_json(const nlohmann::json& j) {
-    validate_json_keys(j, "my_method PP", {"name", "alpha"});
+  static ProjectionPursuit::Ptr from_json(const nlohmann::json& j) {
+    JsonReader{j, "my_method"}.only_keys({"name", "alpha"});
     return my_method(j.at("alpha").get<float>());
   }
 
-  PPFOREST2_REGISTER_STRATEGY(PPStrategy, "my_method")
+  PPFOREST2_REGISTER_STRATEGY(ProjectionPursuit, "my_method")
 
 private:
   const float alpha_;
 };
 
-inline PPStrategy::Ptr my_method(float alpha) {
-  return std::make_shared<PPMyStrategy>(alpha);
+inline ProjectionPursuit::Ptr my_method(float alpha) {
+  return std::make_shared<MyMethod>(alpha);
 }
 
 }  // namespace ppforest2::pp
@@ -152,9 +140,9 @@ The key pieces:
 - **`display_name()`** returns a human-readable label for summaries.
 - **Factory function** (`my_method()`) is a convenience wrapper.
 
-The same pattern applies to DR strategies (`select()`) and SR strategies
-(`threshold()`). See the C++ documentation (`extending-strategies.dox`)
-for complete interface definitions and examples for all three families.
+The same pattern applies to variable selection strategies (`select()`),
+cutpoint strategies (`cutpoint()`), and the other strategy families. See
+the C++ documentation for complete interface definitions and examples.
 
 After writing the `.cpp` file, add it to
 `core/src/models/CMakeLists.txt`.
@@ -185,8 +173,9 @@ The constructor should:
 
 - **Validate parameters** before they reach C++. Catching errors early
   with clear messages is better than a C++ exception.
-- **Set the S3 class** to `pp_strategy`, `dr_strategy`, or
-  `sr_strategy`. This is checked by `resolve_strategies()`.
+- **Set the S3 class** to `pp_strategy`, `vars_strategy`,
+  `cutpoint_strategy`, `stop_strategy`, `binarize_strategy`, or
+  `grouping_strategy`. This is checked by `resolve_strategies()`.
 - **Include `display_name`** for readable output in
   [`summary()`](https://rdrr.io/r/base/summary.html).
 - **Use the same parameter names** as `to_json()` in C++. The R list is
@@ -198,10 +187,10 @@ Once both sides are in place, the new strategy works like any built-in:
 
 ``` r
 # Single tree
-tree <- pptr(Type ~ ., data = iris, pp = pp_my_method(alpha = 0.5))
+tree <- pptr(Species ~ ., data = iris, pp = pp_my_method(alpha = 0.5))
 
 # Forest
-forest <- pprf(Type ~ ., data = iris, pp = pp_my_method(alpha = 0.5), dr = dr_uniform(2))
+forest <- pprf(Species ~ ., data = iris, pp = pp_my_method(alpha = 0.5), vars = vars_uniform(n_vars = 2))
 
 # Summary shows the strategy
 summary(tree)
@@ -224,36 +213,59 @@ Controls how the tree finds the best linear combination of variables at
 each node.
 
     index(x, group_spec, projector) -> scalar
-    optimize(x, group_spec) -> PPResult{projector, index}
+    optimize(x, group_spec) -> Result{projector, index}
 
 [`optimize()`](https://rdrr.io/r/stats/optimize.html) is the main
 method. It receives the data matrix and group partition and returns the
 best projection vector. `index()` evaluates a given projection (used for
 variable importance calculations).
 
-### DR: Dimensionality reduction
+### Vars: Variable selection
 
 Controls which variables are available to projection pursuit at each
 split. This is what makes random forests “random”.
 
-    select(x, group_spec, rng) -> DRResult{selected_indices, original_cols}
+    select(x, group_spec, rng) -> Result{selected_indices, original_cols}
 
-The returned `DRResult` tracks which columns were selected so the
-reduced-space projector can be expanded back to the full feature space.
+The returned `VariableSelection::Result` tracks which columns were
+selected so the reduced-space projector can be expanded back to the full
+feature space.
 
-### SR: Split rule
+### Threshold: Split cutpoint
 
-Controls where the split threshold is placed in the projected space.
+Controls where the split cutpoint is placed in the projected space.
 
-    threshold(group_1, group_2, projector) -> scalar
+    cutpoint(group_1, group_2, projector) -> scalar
 
 Receives the two groups (already partitioned by projection pursuit) and
-the projection vector. Returns the threshold value.
+the projection vector. Returns the cutpoint value.
+
+### Stop: Stopping rule
+
+Controls when to stop growing the tree.
+
+    should_stop(group_partition, depth) -> bool
+
+### Binarize: Binarization
+
+Controls how multiclass nodes (\>2 groups) are reduced to a binary
+problem.
+
+    regroup(projected_x, group_partition) -> Result
+
+### Grouping: Group partition
+
+Controls how observations are routed to children after a split.
+
+    split(partition, lower_group, upper_group) -> Result
 
 ## Checklist
 
-1.  Create `core/src/models/MyStrategy.hpp` (and `.cpp` if needed).
-2.  Inherit from `PPStrategy`, `DRStrategy`, or `SRStrategy`.
+1.  Create `core/src/models/strategies/<family>/MyStrategy.hpp` (and
+    `.cpp` if needed).
+2.  Inherit from the appropriate base class (`ProjectionPursuit`,
+    `VariableSelection`, `Cutpoint`, `StopRule`, `Binarization`, or
+    `Grouping`).
 3.  Implement the pure virtual methods.
 4.  Implement `to_json()` with a `"name"` field.
 5.  Implement `display_name()` for human-readable summaries.

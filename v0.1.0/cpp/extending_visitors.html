@@ -102,13 +102,13 @@ $(function(){initNavTree('extending_visitors.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Extending: Custom Visitors</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="el" href="namespaceppforest2.html">ppforest2</a> uses the Visitor pattern (double dispatch) to traverse trees and models without <code>dynamic_cast</code>. You can add new traversal logic — statistics, export formats, analysis — by implementing a visitor, without modifying the model types.</p>
+<div class="textblock"><p><a class="el" href="namespaceppforest2.html" title="Binarization strategies for multiclass-to-binary reduction.">ppforest2</a> uses the Visitor pattern (double dispatch) to traverse trees and models without <code>dynamic_cast</code>. You can add new traversal logic — statistics, export formats, analysis — by implementing a visitor, without modifying the model types.</p>
 <p>Two visitor interfaces are available:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Interface   </th><th class="markdownTableHeadNone">Dispatches over   </th><th class="markdownTableHeadNone">Use when    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">TreeNode::Visitor   </td><td class="markdownTableBodyNone">TreeCondition (split), TreeResponse (leaf)   </td><td class="markdownTableBodyNone">You need to walk the tree structure    </td></tr>
+<td class="markdownTableBodyNone">TreeNode::Visitor   </td><td class="markdownTableBodyNone">TreeBranch (split), TreeLeaf (leaf)   </td><td class="markdownTableBodyNone">You need to walk the tree structure    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Model::Visitor   </td><td class="markdownTableBodyNone">Tree, Forest   </td><td class="markdownTableBodyNone">You need to handle trees and forests differently   </td></tr>
 </table>
@@ -119,56 +119,59 @@ How double dispatch works</h1>
 <div class="line">node-&gt;accept(visitor);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// 2. The concrete node type calls visit(*this):</span></div>
-<div class="line"><span class="keywordtype">void</span> TreeCondition::accept(TreeNode::Visitor&amp; v)<span class="keyword"> const </span>{ v.visit(*<span class="keyword">this</span>); }</div>
-<div class="line"><span class="keywordtype">void</span> TreeResponse::accept(TreeNode::Visitor&amp; v)<span class="keyword"> const  </span>{ v.visit(*<span class="keyword">this</span>); }</div>
+<div class="line"><span class="keywordtype">void</span> TreeBranch::accept(TreeNode::Visitor&amp; v)<span class="keyword"> const </span>{ v.visit(*<span class="keyword">this</span>); }</div>
+<div class="line"><span class="keywordtype">void</span> TreeLeaf::accept(TreeNode::Visitor&amp; v)<span class="keyword"> const  </span>{ v.visit(*<span class="keyword">this</span>); }</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// 3. The visitor&#39;s concrete visit() method runs:</span></div>
-<div class="line"><span class="keywordtype">void</span> MyVisitor::visit(<span class="keyword">const</span> TreeCondition&amp; cond) { ... }</div>
-<div class="line"><span class="keywordtype">void</span> MyVisitor::visit(<span class="keyword">const</span> TreeResponse&amp; resp)  { ... }</div>
+<div class="line"><span class="keywordtype">void</span> MyVisitor::visit(<span class="keyword">const</span> TreeBranch&amp; cond) { ... }</div>
+<div class="line"><span class="keywordtype">void</span> MyVisitor::visit(<span class="keyword">const</span> TreeLeaf&amp; resp)  { ... }</div>
 </div><!-- fragment --><p>This resolves both the node type and the visitor type at runtime without any casts.</p>
 <h1><a class="anchor" id="vis_treenode"></a>
 Implementing a TreeNode::Visitor</h1>
 <h2><a class="anchor" id="vis_treenode_interface"></a>
 Interface to implement</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>TreeNode::Visitor {</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeCondition&amp; condition) = 0;</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeResponse&amp; response) = 0;</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  <span class="keyword">virtual</span> ~Visitor()                                = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; condition)   = 0;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp; response)      = 0;</div>
 <div class="line">};</div>
-</div><!-- fragment --><p><b>TreeCondition</b> (internal split node) provides:</p><ul>
+</div><!-- fragment --><p><b>TreeBranch</b> (internal split node) provides:</p><ul>
 <li><code>projector</code> — the projection vector (p) used at this split</li>
-<li><code>threshold</code> — the split threshold in projected space</li>
+<li><code>cutpoint</code> — the split cutpoint in projected space</li>
 <li><code>lower</code> / <code>upper</code> — child nodes (TreeNode::Ptr)</li>
 <li><code>groups</code> — set of group labels reachable from this node</li>
 <li><code>pp_index_value</code> — the PP index value achieved at this split</li>
 <li><code>training_spec</code> — the TrainingSpec used to build this subtree</li>
 </ul>
-<p><b>TreeResponse</b> (leaf node) provides:</p><ul>
+<p><b>TreeLeaf</b> (leaf node) provides:</p><ul>
 <li><code>value</code> — the predicted group label</li>
 </ul>
 <h2><a class="anchor" id="vis_treenode_traversal"></a>
 Traversal pattern</h2>
-<p>To walk the full tree, recursively call <code>accept()</code> on child nodes inside your <code>visit(TreeCondition&amp;)</code> method:</p>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeCondition&amp; cond)<span class="keyword"> override </span>{</div>
+<p>To walk the full tree, recursively call <code>accept()</code> on child nodes inside your <code>visit(TreeBranch&amp;)</code> method:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; cond)<span class="keyword"> override </span>{</div>
 <div class="line">  <span class="comment">// ... process this split node ...</span></div>
 <div class="line">  cond.lower-&gt;accept(*<span class="keyword">this</span>);   <span class="comment">// recurse left</span></div>
 <div class="line">  cond.upper-&gt;accept(*<span class="keyword">this</span>);   <span class="comment">// recurse right</span></div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeResponse&amp; resp)<span class="keyword"> override </span>{</div>
+<div class="line"><span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp; resp)<span class="keyword"> override </span>{</div>
 <div class="line">  <span class="comment">// ... process this leaf node (base case) ...</span></div>
 <div class="line">}</div>
 </div><!-- fragment --><h2><a class="anchor" id="vis_treenode_example"></a>
 Example: computing tree depth</h2>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="TreeCondition_8hpp.html">models/TreeCondition.hpp</a>&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="TreeResponse_8hpp.html">models/TreeResponse.hpp</a>&quot;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="TreeBranch_8hpp.html">models/TreeBranch.hpp</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="TreeLeaf_8hpp.html">models/TreeLeaf.hpp</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceppforest2.html">ppforest2</a> {</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">struct </span>DepthVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"><span class="keyword">class </span>DepthVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
 <div class="line">  <span class="keywordtype">int</span> max_depth = 0;</div>
 <div class="line">  <span class="keywordtype">int</span> current_depth = 0;</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeCondition&amp; cond)<span class="keyword"> override </span>{</div>
+<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; cond)<span class="keyword"> override </span>{</div>
 <div class="line">    ++current_depth;</div>
 <div class="line">    <span class="keywordflow">if</span> (current_depth &gt; max_depth)</div>
 <div class="line">      max_depth = current_depth;</div>
@@ -179,7 +182,7 @@ Example: computing tree depth</h2>
 <div class="line">    --current_depth;   <span class="comment">// backtrack</span></div>
 <div class="line">  }</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeResponse&amp;)<span class="keyword"> override </span>{</div>
+<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp;)<span class="keyword"> override </span>{</div>
 <div class="line">    ++current_depth;</div>
 <div class="line">    <span class="keywordflow">if</span> (current_depth &gt; max_depth)</div>
 <div class="line">      max_depth = current_depth;</div>
@@ -188,23 +191,24 @@ Example: computing tree depth</h2>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line">}  <span class="comment">// namespace ppforest2</span></div>
-<div class="ttc" id="aTreeCondition_8hpp_html"><div class="ttname"><a href="TreeCondition_8hpp.html">TreeCondition.hpp</a></div></div>
-<div class="ttc" id="aTreeResponse_8hpp_html"><div class="ttname"><a href="TreeResponse_8hpp.html">TreeResponse.hpp</a></div></div>
-<div class="ttc" id="anamespaceppforest2_html"><div class="ttname"><a href="namespaceppforest2.html">ppforest2</a></div><div class="ttdef"><b>Definition</b> Benchmark.hpp:20</div></div>
+<div class="ttc" id="aTreeBranch_8hpp_html"><div class="ttname"><a href="TreeBranch_8hpp.html">TreeBranch.hpp</a></div></div>
+<div class="ttc" id="aTreeLeaf_8hpp_html"><div class="ttname"><a href="TreeLeaf_8hpp.html">TreeLeaf.hpp</a></div></div>
+<div class="ttc" id="anamespaceppforest2_html"><div class="ttname"><a href="namespaceppforest2.html">ppforest2</a></div><div class="ttdoc">Binarization strategies for multiclass-to-binary reduction.</div><div class="ttdef"><b>Definition</b> Benchmark.hpp:25</div></div>
 </div><!-- fragment --><p>Usage: </p><div class="fragment"><div class="line">DepthVisitor visitor;</div>
 <div class="line">tree.root-&gt;accept(visitor);</div>
 <div class="line"><span class="keywordtype">int</span> depth = visitor.max_depth;</div>
 </div><!-- fragment --><h2><a class="anchor" id="vis_treenode_example2"></a>
 Example: counting leaves</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>LeafCountVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>LeafCountVisitor : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
 <div class="line">  <span class="keywordtype">int</span> count = 0;</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeCondition&amp; cond)<span class="keyword"> override </span>{</div>
+<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; cond)<span class="keyword"> override </span>{</div>
 <div class="line">    cond.lower-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line">    cond.upper-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line">  }</div>
 <div class="line"> </div>
-<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeResponse&amp;)<span class="keyword"> override </span>{</div>
+<div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp;)<span class="keyword"> override </span>{</div>
 <div class="line">    ++count;</div>
 <div class="line">  }</div>
 <div class="line">};</div>
@@ -216,26 +220,30 @@ Implementing a Model::Visitor</h1>
 <p>Model::Visitor dispatches over Tree and Forest, useful when you need to handle them differently (e.g. serialisation, summary statistics).</p>
 <h2><a class="anchor" id="vis_model_interface"></a>
 Interface to implement</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>Model::Visitor {</div>
-<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree) = 0;</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>Model::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  <span class="keyword">virtual</span> ~Visitor()                       = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree)     = 0;</div>
 <div class="line">  <span class="keyword">virtual</span> <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Forest&amp; forest) = 0;</div>
 <div class="line">};</div>
 </div><!-- fragment --><h2><a class="anchor" id="vis_model_example"></a>
 Example: collecting all leaf labels</h2>
-<div class="fragment"><div class="line"><span class="keyword">struct </span>AllLabelsVisitor : <span class="keyword">public</span> Model::Visitor {</div>
-<div class="line">  std::set&lt;types::Response&gt; labels;</div>
+<div class="fragment"><div class="line"><span class="keyword">class </span>AllLabelsVisitor : <span class="keyword">public</span> Model::Visitor {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  std::set&lt;types::Outcome&gt; labels;</div>
 <div class="line"> </div>
 <div class="line">  <span class="keywordtype">void</span> visit(<span class="keyword">const</span> Tree&amp; tree)<span class="keyword"> override </span>{</div>
 <div class="line">    <span class="comment">// Use a TreeNode::Visitor to walk the tree:</span></div>
-<div class="line">    <span class="keyword">struct </span>LabelCollector : <span class="keyword">public</span> TreeNode::Visitor {</div>
-<div class="line">      std::set&lt;types::Response&gt;&amp; labels;</div>
-<div class="line">      LabelCollector(std::set&lt;types::Response&gt;&amp; l) : labels(l) {}</div>
+<div class="line">    <span class="keyword">class </span>LabelCollector : <span class="keyword">public</span> TreeNode::Visitor {</div>
+<div class="line">     <span class="keyword">public</span>:</div>
+<div class="line">      std::set&lt;types::Outcome&gt;&amp; labels;</div>
+<div class="line">      LabelCollector(std::set&lt;types::Outcome&gt;&amp; l) : labels(l) {}</div>
 <div class="line"> </div>
-<div class="line">      <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeCondition&amp; c)<span class="keyword"> override </span>{</div>
+<div class="line">      <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeBranch&amp; c)<span class="keyword"> override </span>{</div>
 <div class="line">        c.lower-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line">        c.upper-&gt;accept(*<span class="keyword">this</span>);</div>
 <div class="line">      }</div>
-<div class="line">      <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeResponse&amp; r)<span class="keyword"> override </span>{</div>
+<div class="line">      <span class="keywordtype">void</span> visit(<span class="keyword">const</span> TreeLeaf&amp; r)<span class="keyword"> override </span>{</div>
 <div class="line">        labels.insert(r.value);</div>
 <div class="line">      }</div>
 <div class="line">    };</div>
@@ -276,9 +284,9 @@ Conventions</h1>
 <li><b>Single-use</b> — instantiate a fresh visitor for each traversal. Do not reuse a visitor across multiple trees without resetting its state.</li>
 <li><b>Mutable accumulators</b> — store results in public mutable members (e.g. <code>int count</code>, <code>json result</code>, <code>std::vector&lt;NodeData&gt; nodes</code>). Read them after <code>accept()</code> returns.</li>
 <li><b>Not thread-safe</b> — visitors carry mutable state and should not be shared across threads. Use one visitor per thread if needed.</li>
-<li><b>Recursive traversal</b> — call <code>cond.lower-&gt;accept(*this)</code> and <code>cond.upper-&gt;accept(*this)</code> inside <code>visit(TreeCondition&amp;)</code> to walk the full tree. Omit these calls if you only need to inspect the root.</li>
+<li><b>Recursive traversal</b> — call <code>cond.lower-&gt;accept(*this)</code> and <code>cond.upper-&gt;accept(*this)</code> inside <code>visit(TreeBranch&amp;)</code> to walk the full tree. Omit these calls if you only need to inspect the root.</li>
 </ul>
-<dl class="section see"><dt>See also</dt><dd>TreeNode::Visitor, Model::Visitor, VIVisitor, TreeCondition, TreeResponse </dd></dl>
+<dl class="section see"><dt>See also</dt><dd>TreeNode::Visitor, Model::Visitor, VIVisitor, TreeBranch, TreeLeaf </dd></dl>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

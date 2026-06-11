@@ -106,36 +106,29 @@ $(function(){initNavTree('structppforest2_1_1VariableImportance.html',''); initR
 </div><!--header-->
 <div class="contents">
 
-<p>Grouped result of the three variable importance measures.  
+<p>Grouped result of the variable importance measures.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="VariableImportance_8hpp_source.html">VariableImportance.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Evaluation_8hpp_source.html">Evaluation.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a56fdf2538c7867b8c5d7183a7268a4d3" id="r_a56fdf2538c7867b8c5d7183a7268a4d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a56fdf2538c7867b8c5d7183a7268a4d3">permuted</a></td></tr>
+<tr class="memdesc:a56fdf2538c7867b8c5d7183a7268a4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">VI1 — per-variable permuted importance (forest only).  <br /></td></tr>
 <tr class="separator:a56fdf2538c7867b8c5d7183a7268a4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d993434c9ada143fd61ad34d87eadc7" id="r_a9d993434c9ada143fd61ad34d87eadc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d993434c9ada143fd61ad34d87eadc7">projections</a></td></tr>
+<tr class="memdesc:a9d993434c9ada143fd61ad34d87eadc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">VI2 — per-variable projection-coefficient importance.  <br /></td></tr>
 <tr class="separator:a9d993434c9ada143fd61ad34d87eadc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee7a414e7a9141727fb1eecc715bd65c" id="r_aee7a414e7a9141727fb1eecc715bd65c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee7a414e7a9141727fb1eecc715bd65c">scale</a></td></tr>
+<tr class="memdesc:aee7a414e7a9141727fb1eecc715bd65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Per-variable σ used to rescale coefficients (columnwise sd).  <br /></td></tr>
 <tr class="separator:aee7a414e7a9141727fb1eecc715bd65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedc45885ac99406da00595eba4fc5a44" id="r_aedc45885ac99406da00595eba4fc5a44"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedc45885ac99406da00595eba4fc5a44">weighted_projections</a></td></tr>
+<tr class="memdesc:aedc45885ac99406da00595eba4fc5a44"><td class="mdescLeft">&#160;</td><td class="mdescRight">VI3 — per-variable weighted-projection importance (forest only).  <br /></td></tr>
 <tr class="separator:aedc45885ac99406da00595eba4fc5a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Grouped result of the three variable importance measures. </p>
-<p>For single trees only <code>projections</code> and <code>scale</code> are populated; <code>permuted</code> and <code>weighted_projections</code> remain empty (size 0).</p>
-<div class="fragment"><div class="line"><span class="comment">// Forest — all three measures:</span></div>
-<div class="line"><span class="keyword">auto</span> vi1 = <a class="code hl_function" href="namespaceppforest2.html#ae0a515d25db5e1b1f0b171426f5e7ef4">variable_importance_permuted</a>(forest, x, y, seed: 0);</div>
-<div class="line"><span class="keyword">auto</span> vi2 = <a class="code hl_function" href="namespaceppforest2.html#aa294cff97b443565ec4e005fba2829c6">variable_importance_projections</a>(forest, x.cols());</div>
-<div class="line"><span class="keyword">auto</span> vi3 = <a class="code hl_function" href="namespaceppforest2.html#a3fc51558fbdb031113953cb666fc4028">variable_importance_weighted_projections</a>(forest, x, y);</div>
-<div class="line"> </div>
-<div class="line"><span class="comment">// Single tree — projection-based only:</span></div>
-<div class="line"><span class="keyword">auto</span> vi = <a class="code hl_function" href="namespaceppforest2.html#aa294cff97b443565ec4e005fba2829c6">variable_importance_projections</a>(tree, x.cols());</div>
-<div class="ttc" id="anamespaceppforest2_html_a3fc51558fbdb031113953cb666fc4028"><div class="ttname"><a href="namespaceppforest2.html#a3fc51558fbdb031113953cb666fc4028">ppforest2::variable_importance_weighted_projections</a></div><div class="ttdeci">types::FeatureVector variable_importance_weighted_projections(const Forest &amp;forest, const types::FeatureMatrix &amp;x, const types::ResponseVector &amp;y, const types::FeatureVector *scale=nullptr)</div><div class="ttdoc">VI3 — Weighted projections importance.</div></div>
-<div class="ttc" id="anamespaceppforest2_html_aa294cff97b443565ec4e005fba2829c6"><div class="ttname"><a href="namespaceppforest2.html#aa294cff97b443565ec4e005fba2829c6">ppforest2::variable_importance_projections</a></div><div class="ttdeci">types::FeatureVector variable_importance_projections(const Forest &amp;forest, int n_vars, const types::FeatureVector *scale=nullptr)</div><div class="ttdoc">VI2 — Projections importance (forest).</div></div>
-<div class="ttc" id="anamespaceppforest2_html_ae0a515d25db5e1b1f0b171426f5e7ef4"><div class="ttname"><a href="namespaceppforest2.html#ae0a515d25db5e1b1f0b171426f5e7ef4">ppforest2::variable_importance_permuted</a></div><div class="ttdeci">types::FeatureVector variable_importance_permuted(const Forest &amp;forest, const types::FeatureMatrix &amp;x, const types::ResponseVector &amp;y, int seed=0)</div><div class="ttdoc">VI1 — Permuted importance.</div></div>
-</div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceppforest2.html#ae0a515d25db5e1b1f0b171426f5e7ef4" title="VI1 — Permuted importance.">variable_importance_permuted</a>, <a class="el" href="namespaceppforest2.html#aa294cff97b443565ec4e005fba2829c6" title="VI2 — Projections importance (forest).">variable_importance_projections</a>, <a class="el" href="namespaceppforest2.html#a3fc51558fbdb031113953cb666fc4028" title="VI3 — Weighted projections importance.">variable_importance_weighted_projections</a> </dd></dl>
+<div class="textblock"><p>Grouped result of the variable importance measures. </p>
+<p>Produced by the <code>variable_importance(...)</code> overloads below. <code>variable_importance(Tree)</code> fills <code>projections</code> and <code>scale</code>; <code>variable_importance(Forest)</code> fills all four fields. Individual measures can be computed via <code>vi_projections</code>, <code>vi_permuted</code>, and <code>vi_weighted_projections</code> directly. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a56fdf2538c7867b8c5d7183a7268a4d3" name="a56fdf2538c7867b8c5d7183a7268a4d3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a56fdf2538c7867b8c5d7183a7268a4d3">&#9670;&#160;</a></span>permuted</h2>
@@ -148,6 +141,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>VI1 — per-variable permuted importance (forest only). </p>
 
 </div>
 </div>
@@ -163,6 +158,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>VI2 — per-variable projection-coefficient importance. </p>
+
 </div>
 </div>
 <a id="aee7a414e7a9141727fb1eecc715bd65c" name="aee7a414e7a9141727fb1eecc715bd65c"></a>
@@ -176,6 +173,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Per-variable σ used to rescale coefficients (columnwise sd). </p>
 
 </div>
 </div>
@@ -191,10 +190,12 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>VI3 — per-variable weighted-projection importance (forest only). </p>
+
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>core/src/models/<a class="el" href="VariableImportance_8hpp_source.html">VariableImportance.hpp</a></li>
+<li>core/src/models/<a class="el" href="Evaluation_8hpp_source.html">Evaluation.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -105,8 +105,7 @@ $(function(){initNavTree('Map_8hpp.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">Map.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;map&gt;</code><br />
+<div class="textblock"><code>#include &lt;map&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
 </div>
 <p><a href="Map_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -114,6 +113,7 @@ $(function(){initNavTree('Map_8hpp.html',''); initResizable(true); });
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html">ppforest2::utils</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility functions for std::map manipulation. <br /></td></tr>
@@ -121,18 +121,18 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ada415ecaf9b653fec6a3236256e52f21" id="r_ada415ecaf9b653fec6a3236256e52f21"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
-<tr class="memitem:ada415ecaf9b653fec6a3236256e52f21"><td class="memTemplItemLeft" align="right" valign="top">std::map&lt; V, std::set&lt; K &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#ada415ecaf9b653fec6a3236256e52f21">ppforest2::utils::invert</a> (const std::map&lt; K, V &gt; &amp;map)</td></tr>
-<tr class="memdesc:ada415ecaf9b653fec6a3236256e52f21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert a map: values become keys, original keys are grouped into sets.  <br /></td></tr>
-<tr class="separator:ada415ecaf9b653fec6a3236256e52f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb655a3f13d114f54bc1d97cba1d8abe" id="r_aeb655a3f13d114f54bc1d97cba1d8abe"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
-<tr class="memitem:aeb655a3f13d114f54bc1d97cba1d8abe"><td class="memTemplItemLeft" align="right" valign="top">std::set&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#aeb655a3f13d114f54bc1d97cba1d8abe">ppforest2::utils::keys</a> (const std::map&lt; K, V &gt; &amp;map)</td></tr>
-<tr class="memdesc:aeb655a3f13d114f54bc1d97cba1d8abe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract all keys from a map as a set.  <br /></td></tr>
-<tr class="separator:aeb655a3f13d114f54bc1d97cba1d8abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ed3e5ccf285997edb19045d4cf62b16" id="r_a9ed3e5ccf285997edb19045d4cf62b16"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
-<tr class="memitem:a9ed3e5ccf285997edb19045d4cf62b16"><td class="memTemplItemLeft" align="right" valign="top">std::set&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#a9ed3e5ccf285997edb19045d4cf62b16">ppforest2::utils::values</a> (const std::map&lt; K, V &gt; &amp;map)</td></tr>
-<tr class="memdesc:a9ed3e5ccf285997edb19045d4cf62b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract all values from a map as a set.  <br /></td></tr>
-<tr class="separator:a9ed3e5ccf285997edb19045d4cf62b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c439470b504a25c3367fc4f635c2032" id="r_a3c439470b504a25c3367fc4f635c2032"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
+<tr class="memitem:a3c439470b504a25c3367fc4f635c2032"><td class="memTemplItemLeft" align="right" valign="top">std::map&lt; V, std::set&lt; K &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#a3c439470b504a25c3367fc4f635c2032">ppforest2::utils::invert</a> (std::map&lt; K, V &gt; const &amp;map)</td></tr>
+<tr class="memdesc:a3c439470b504a25c3367fc4f635c2032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert a map: values become keys, original keys are grouped into sets.  <br /></td></tr>
+<tr class="separator:a3c439470b504a25c3367fc4f635c2032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b1e8343a3ad21aa3afe10c7f5705fe1" id="r_a7b1e8343a3ad21aa3afe10c7f5705fe1"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
+<tr class="memitem:a7b1e8343a3ad21aa3afe10c7f5705fe1"><td class="memTemplItemLeft" align="right" valign="top">std::set&lt; K &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#a7b1e8343a3ad21aa3afe10c7f5705fe1">ppforest2::utils::keys</a> (std::map&lt; K, V &gt; const &amp;map)</td></tr>
+<tr class="memdesc:a7b1e8343a3ad21aa3afe10c7f5705fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract all keys from a map as a set.  <br /></td></tr>
+<tr class="separator:a7b1e8343a3ad21aa3afe10c7f5705fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80f6e2d651187dda1b6565ebb75c8158" id="r_a80f6e2d651187dda1b6565ebb75c8158"><td class="memTemplParams" colspan="2">template&lt;typename K, typename V&gt; </td></tr>
+<tr class="memitem:a80f6e2d651187dda1b6565ebb75c8158"><td class="memTemplItemLeft" align="right" valign="top">std::set&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1utils.html#a80f6e2d651187dda1b6565ebb75c8158">ppforest2::utils::values</a> (std::map&lt; K, V &gt; const &amp;map)</td></tr>
+<tr class="memdesc:a80f6e2d651187dda1b6565ebb75c8158"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract all values from a map as a set.  <br /></td></tr>
+<tr class="separator:a80f6e2d651187dda1b6565ebb75c8158"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

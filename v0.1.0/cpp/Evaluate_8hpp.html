@@ -117,6 +117,7 @@ Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceCLI.html">CLI</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2.html">ppforest2</a></td></tr>
+<tr class="memdesc:namespaceppforest2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binarization strategies for multiclass-to-binary reduction. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html">ppforest2::cli</a></td></tr>
 <tr class="memdesc:namespaceppforest2_1_1cli"><td class="mdescLeft">&#160;</td><td class="mdescRight">Command-line interface: argument parsing, subcommands, and benchmark/evaluation orchestration. <br /></td></tr>
@@ -124,12 +125,15 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5bc7e021884390ba232de5c2a3f5b696" id="r_a5bc7e021884390ba232de5c2a3f5b696"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a5bc7e021884390ba232de5c2a3f5b696">ppforest2::cli::run_evaluate</a> (<a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a5bc7e021884390ba232de5c2a3f5b696"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the evaluate subcommand.  <br /></td></tr>
-<tr class="separator:a5bc7e021884390ba232de5c2a3f5b696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d765854db4737451346f203a90d7a0f" id="r_a9d765854db4737451346f203a90d7a0f"><td class="memItemLeft" align="right" valign="top">CLI::App *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a9d765854db4737451346f203a90d7a0f">ppforest2::cli::setup_evaluate</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1CLIOptions.html">CLIOptions</a> &amp;params)</td></tr>
-<tr class="memdesc:a9d765854db4737451346f203a90d7a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register evaluate subcommand options on <code class="param">app</code>.  <br /></td></tr>
-<tr class="separator:a9d765854db4737451346f203a90d7a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40b7633c711ff9ac0081408fda3513f0" id="r_a40b7633c711ff9ac0081408fda3513f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a40b7633c711ff9ac0081408fda3513f0">ppforest2::cli::add_evaluate_options</a> (CLI::App *sub, <a class="el" href="structppforest2_1_1cli_1_1EvaluateParams.html">EvaluateParams</a> &amp;<a class="el" href="namespaceppforest2_1_1cli.html#a2753bfa9baab7fc02affc77e3c364a29a94d2f2aabfda3169d54a9531cdb99890">evaluate</a>)</td></tr>
+<tr class="memdesc:a40b7633c711ff9ac0081408fda3513f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add evaluate/convergence options shared by evaluate and benchmark.  <br /></td></tr>
+<tr class="separator:a40b7633c711ff9ac0081408fda3513f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36156ab1e35e55bea08264a7c189e3fc" id="r_a36156ab1e35e55bea08264a7c189e3fc"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#a36156ab1e35e55bea08264a7c189e3fc">ppforest2::cli::run_evaluate</a> (<a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:a36156ab1e35e55bea08264a7c189e3fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the evaluate subcommand.  <br /></td></tr>
+<tr class="separator:a36156ab1e35e55bea08264a7c189e3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad00b27897102a0ec30c61186a67f6222" id="r_ad00b27897102a0ec30c61186a67f6222"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceppforest2_1_1cli.html#ad00b27897102a0ec30c61186a67f6222">ppforest2::cli::setup_evaluate</a> (CLI::App &amp;app, <a class="el" href="structppforest2_1_1cli_1_1Params.html">Params</a> &amp;params)</td></tr>
+<tr class="memdesc:ad00b27897102a0ec30c61186a67f6222"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register evaluate subcommand options on <code class="param">app</code>.  <br /></td></tr>
+<tr class="separator:ad00b27897102a0ec30c61186a67f6222"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Multi-iteration model evaluation with convergence and the evaluate subcommand handler. </p>

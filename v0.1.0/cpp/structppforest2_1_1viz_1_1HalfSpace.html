@@ -100,6 +100,7 @@ $(function(){initNavTree('structppforest2_1_1viz_1_1HalfSpace.html',''); initRes
 
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structppforest2_1_1viz_1_1HalfSpace-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ppforest2::viz::HalfSpace Struct Reference</div></div>
@@ -111,22 +112,76 @@ $(function(){initNavTree('structppforest2_1_1viz_1_1HalfSpace.html',''); initRes
 
 <p><code>#include &lt;<a class="el" href="Visualization_8hpp_source.html">Visualization.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a1a6ef23b3eacb75fa4dd2f048921add9" id="r_a1a6ef23b3eacb75fa4dd2f048921add9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a6ef23b3eacb75fa4dd2f048921add9">HalfSpace</a> (<a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> <a class="el" href="#a1bb7b742a6cf3ad0867ae59361ca7934">projector</a>, <a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a> <a class="el" href="#ab92f0e62a18fed5dcc92224f4c8de57b">cutpoint</a>, bool <a class="el" href="#ab41bf9e8bb43b1c175a15cf732591aa6">is_lower</a>)</td></tr>
+<tr class="separator:a1a6ef23b3eacb75fa4dd2f048921add9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab41bf9e8bb43b1c175a15cf732591aa6" id="r_ab41bf9e8bb43b1c175a15cf732591aa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab41bf9e8bb43b1c175a15cf732591aa6">is_lower</a></td></tr>
-<tr class="memdesc:ab41bf9e8bb43b1c175a15cf732591aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">true = lower child side (projected value &lt; threshold).  <br /></td></tr>
+<tr class="memitem:ab92f0e62a18fed5dcc92224f4c8de57b" id="r_ab92f0e62a18fed5dcc92224f4c8de57b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab92f0e62a18fed5dcc92224f4c8de57b">cutpoint</a></td></tr>
+<tr class="separator:ab92f0e62a18fed5dcc92224f4c8de57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab41bf9e8bb43b1c175a15cf732591aa6" id="r_ab41bf9e8bb43b1c175a15cf732591aa6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab41bf9e8bb43b1c175a15cf732591aa6">is_lower</a> = false</td></tr>
+<tr class="memdesc:ab41bf9e8bb43b1c175a15cf732591aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">true = lower child side (projected value &lt; cutpoint).  <br /></td></tr>
 <tr class="separator:ab41bf9e8bb43b1c175a15cf732591aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bb7b742a6cf3ad0867ae59361ca7934" id="r_a1bb7b742a6cf3ad0867ae59361ca7934"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bb7b742a6cf3ad0867ae59361ca7934">projector</a></td></tr>
 <tr class="separator:a1bb7b742a6cf3ad0867ae59361ca7934"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c9a624d8e44a474d0ec520162a64f7b" id="r_a6c9a624d8e44a474d0ec520162a64f7b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c9a624d8e44a474d0ec520162a64f7b">threshold</a></td></tr>
-<tr class="separator:a6c9a624d8e44a474d0ec520162a64f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A half-space constraint derived from an ancestor split. </p>
-<p>Represents the constraint projector^T x &lt; threshold (if <code>is_lower</code>) or projector^T x &gt;= threshold (if !is_lower). Stored in the full p-dimensional space; projected to 2D when needed by the visitors.</p>
-<p>As <a class="el" href="structppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a> and <a class="el" href="structppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a> traverse the tree, they accumulate a stack of <a class="el" href="structppforest2_1_1viz_1_1HalfSpace.html" title="A half-space constraint derived from an ancestor split.">HalfSpace</a> constraints — one per ancestor split on the path from root to the current node. These constraints define the convex region in which the current node's boundary is active (<a class="el" href="structppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a>) or the leaf's decision region (<a class="el" href="structppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>).</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a>, <a class="el" href="structppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a> </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
+<p>Represents the constraint projector^T x &lt; cutpoint (if <code>is_lower</code>) or projector^T x &gt;= cutpoint (if !is_lower). Stored in the full p-dimensional space; projected to 2D when needed by the visitors.</p>
+<p>As <a class="el" href="classppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a> and <a class="el" href="classppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a> traverse the tree, they accumulate a stack of <a class="el" href="structppforest2_1_1viz_1_1HalfSpace.html" title="A half-space constraint derived from an ancestor split.">HalfSpace</a> constraints — one per ancestor split on the path from root to the current node. These constraints define the convex region in which the current node's boundary is active (<a class="el" href="classppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a>) or the leaf's decision region (<a class="el" href="classppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a>).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classppforest2_1_1viz_1_1BoundaryVisitor.html" title="Visitor that collects and clips decision boundary line segments.">BoundaryVisitor</a>, <a class="el" href="classppforest2_1_1viz_1_1RegionVisitor.html" title="Visitor that collects convex decision region polygons.">RegionVisitor</a> </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a1a6ef23b3eacb75fa4dd2f048921add9" name="a1a6ef23b3eacb75fa4dd2f048921add9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a6ef23b3eacb75fa4dd2f048921add9">&#9670;&#160;</a></span>HalfSpace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ppforest2::viz::HalfSpace::HalfSpace </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a></td>          <td class="paramname"><span class="paramname"><em>projector</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a></td>          <td class="paramname"><span class="paramname"><em>cutpoint</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>is_lower</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab92f0e62a18fed5dcc92224f4c8de57b" name="ab92f0e62a18fed5dcc92224f4c8de57b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab92f0e62a18fed5dcc92224f4c8de57b">&#9670;&#160;</a></span>cutpoint</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a> ppforest2::viz::HalfSpace::cutpoint</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ab41bf9e8bb43b1c175a15cf732591aa6" name="ab41bf9e8bb43b1c175a15cf732591aa6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab41bf9e8bb43b1c175a15cf732591aa6">&#9670;&#160;</a></span>is_lower</h2>
 
@@ -134,12 +189,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">bool ppforest2::viz::HalfSpace::is_lower</td>
+          <td class="memname">bool ppforest2::viz::HalfSpace::is_lower = false</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>true = lower child side (projected value &lt; threshold). </p>
+<p>true = lower child side (projected value &lt; cutpoint). </p>
 
 </div>
 </div>
@@ -151,20 +206,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#a409985f07e7a60fd352934db8849d25c">types::FeatureVector</a> ppforest2::viz::HalfSpace::projector</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6c9a624d8e44a474d0ec520162a64f7b" name="a6c9a624d8e44a474d0ec520162a64f7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c9a624d8e44a474d0ec520162a64f7b">&#9670;&#160;</a></span>threshold</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceppforest2_1_1types.html#adeb8ffeb8e3c9fe860715ace6693b04c">types::Feature</a> ppforest2::viz::HalfSpace::threshold</td>
         </tr>
       </table>
 </div><div class="memdoc">

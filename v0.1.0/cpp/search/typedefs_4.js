@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['polygon_0',['Polygon',['../namespaceppforest2_1_1viz.html#aa490550458907d5beeea4c5a2f126d5e',1,'ppforest2::viz']]],
-  ['progresscallback_1',['ProgressCallback',['../namespaceppforest2_1_1cli.html#ab60fae501eccee5220fb3c5a3033c130',1,'ppforest2::cli']]],
-  ['projector_2',['Projector',['../namespaceppforest2_1_1pp.html#a686ed3b4f49bb2ed6b7e842f5557539f',1,'ppforest2::pp']]],
-  ['ptr_3',['Ptr',['../structppforest2_1_1BootstrapTree.html#a7c7a2d6e9b72c8cc4bc5737d90f868bd',1,'ppforest2::BootstrapTree::Ptr'],['../structppforest2_1_1Model.html#a3ffbdce63220339317c38d465b7d4ca9',1,'ppforest2::Model::Ptr'],['../structStrategy.html#a30c651b4431c97d3504039607df398c9',1,'Strategy::Ptr'],['../structppforest2_1_1TrainingSpec.html#afb6d052890681eadac675d251a342d27',1,'ppforest2::TrainingSpec::Ptr'],['../structppforest2_1_1TreeCondition.html#a2429c5f0b337049d24e6f1289525bb0b',1,'ppforest2::TreeCondition::Ptr'],['../structppforest2_1_1TreeNode.html#aa03af85bbfe1c0f8d8ce50f18c96623c',1,'ppforest2::TreeNode::Ptr'],['../structppforest2_1_1TreeResponse.html#ac1740def74a3ef7a77d300cca524fa6a',1,'ppforest2::TreeResponse::Ptr']]]
+  ['groupid_0',['GroupId',['../namespaceppforest2_1_1types.html#a6d253918badca20f9bc5fcc7bb081c31',1,'ppforest2::types']]],
+  ['groupidvector_1',['GroupIdVector',['../namespaceppforest2_1_1types.html#a33c49b62255a5648be912ccb40306a09',1,'ppforest2::types']]],
+  ['groupindices_2',['GroupIndices',['../classppforest2_1_1ClassificationForest.html#a483bbd63650110183cb51c39f6465993',1,'ppforest2::ClassificationForest::GroupIndices'],['../classppforest2_1_1ClassificationTree.html#a91b87f679f94f38c394c90693b257f9e',1,'ppforest2::ClassificationTree::GroupIndices']]],
+  ['grouppartition_3',['GroupPartition',['../classppforest2_1_1ClassificationForest.html#afd13b90924d357a3b270857a620da96b',1,'ppforest2::ClassificationForest::GroupPartition'],['../classppforest2_1_1ClassificationTree.html#a215aafacefffec3d7c8587537f17eef1',1,'ppforest2::ClassificationTree::GroupPartition'],['../classppforest2_1_1RegressionTree.html#ae238dbe0e1296867b1b22a1c3da200dd',1,'ppforest2::RegressionTree::GroupPartition'],['../classppforest2_1_1Tree.html#ad54015c99c7311f06a443a10efecd6e9',1,'ppforest2::Tree::GroupPartition']]],
+  ['groups_4',['Groups',['../classppforest2_1_1ClassificationForest.html#a850a69da06a0f2e8a6661fe2a7593586',1,'ppforest2::ClassificationForest::Groups'],['../classppforest2_1_1ClassificationTree.html#a292af449c52fa72095d6b64ee5eed34c',1,'ppforest2::ClassificationTree::Groups']]]
 ];
