@@ -10,6 +10,7 @@ pp_rand_forest(
   mode = "classification",
   trees = NULL,
   mtry = NULL,
+  mtry_prop = NULL,
   penalty = NULL
 )
 ```
@@ -28,6 +29,13 @@ pp_rand_forest(
 - mtry:
 
   The number of variables to consider at each split (maps to `n_vars`).
+
+- mtry_prop:
+
+  The proportion of variables to consider at each split (maps to
+  `p_vars`). An alternative to `mtry` that expresses the feature
+  subsample as a fraction in (0, 1\], tunable via the `dials`
+  `mtry_prop()` parameter. Supply `mtry` or `mtry_prop`, not both.
 
 - penalty:
 

@@ -18,6 +18,7 @@ update(
   parameters = NULL,
   trees = NULL,
   mtry = NULL,
+  mtry_prop = NULL,
   penalty = NULL,
   fresh = FALSE,
   ...
@@ -35,7 +36,7 @@ update(
   A named list of parameters to update (alternative to passing them as
   args).
 
-- trees, mtry, penalty:
+- trees, mtry, mtry_prop, penalty:
 
   New values for the corresponding parameters.
 
