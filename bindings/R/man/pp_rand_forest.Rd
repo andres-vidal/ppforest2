@@ -8,6 +8,7 @@ pp_rand_forest(
   mode = "classification",
   trees = NULL,
   mtry = NULL,
+  mtry_prop = NULL,
   penalty = NULL
 )
 }
@@ -17,6 +18,8 @@ pp_rand_forest(
 \item{trees}{The number of trees in the forest (maps to \code{size}).}
 
 \item{mtry}{The number of variables to consider at each split (maps to \code{n_vars}).}
+
+\item{mtry_prop}{The proportion of variables to consider at each split (maps to \code{p_vars}). An alternative to \code{mtry} that expresses the feature subsample as a fraction in (0, 1], tunable via the \code{dials} \code{mtry_prop()} parameter. Supply \code{mtry} or \code{mtry_prop}, not both.}
 
 \item{penalty}{The regularization parameter (maps to \code{lambda}).}
 }

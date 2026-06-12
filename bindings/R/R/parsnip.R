@@ -19,6 +19,7 @@ utils::globalVariables(c("object", "new_data", "x", "y"))
 #' @param mode A character string for the model type. Either \code{"classification"} or \code{"regression"}.
 #' @param trees The number of trees in the forest (maps to \code{size}).
 #' @param mtry The number of variables to consider at each split (maps to \code{n_vars}).
+#' @param mtry_prop The proportion of variables to consider at each split (maps to \code{p_vars}). An alternative to \code{mtry} that expresses the feature subsample as a fraction in (0, 1], tunable via the \code{dials} \code{mtry_prop()} parameter. Supply \code{mtry} or \code{mtry_prop}, not both.
 #' @param penalty The regularization parameter (maps to \code{lambda}).
 #' @return A parsnip model specification.
 #' @seealso \code{\link{pprf}} for the underlying training function, \code{\link{pp_tree}} for single trees
@@ -31,7 +32,7 @@ utils::globalVariables(c("object", "new_data", "x", "y"))
 #' predict(fit, iris, type = "prob")
 #' }
 #' @export
-pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, penalty = NULL) {
+pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, mtry_prop = NULL, penalty = NULL) {
   if (!requireNamespace("parsnip", quietly = TRUE)) {
     stop("Package 'parsnip' is required for pp_rand_forest().", call. = FALSE)
   }
@@ -39,6 +40,7 @@ pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, p
   args <- list(
     trees = rlang::enquo(trees),
     mtry = rlang::enquo(mtry),
+    mtry_prop = rlang::enquo(mtry_prop),
     penalty = rlang::enquo(penalty)
   )
 
@@ -62,15 +64,16 @@ pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, p
 #'
 #' @param object A \code{pp_rand_forest} model specification.
 #' @param parameters A named list of parameters to update (alternative to passing them as args).
-#' @param trees,mtry,penalty New values for the corresponding parameters.
+#' @param trees,mtry,mtry_prop,penalty New values for the corresponding parameters.
 #' @param fresh If \code{TRUE}, drop any previously-set arg whose new value is not provided.
 #' @param ... Engine-specific arguments to update.
 #' @return An updated \code{pp_rand_forest} model specification.
 #' @export
-update.pp_rand_forest <- function(object, parameters = NULL, trees = NULL, mtry = NULL, penalty = NULL, fresh = FALSE, ...) {
+update.pp_rand_forest <- function(object, parameters = NULL, trees = NULL, mtry = NULL, mtry_prop = NULL, penalty = NULL, fresh = FALSE, ...) {
   args <- list(
     trees = rlang::enquo(trees),
     mtry = rlang::enquo(mtry),
+    mtry_prop = rlang::enquo(mtry_prop),
     penalty = rlang::enquo(penalty)
   )
   update_pp_spec(object, parameters = parameters, args_enquo_list = args, fresh = fresh, cls = "pp_rand_forest", ...)
@@ -238,6 +241,13 @@ register_pp_rand_forest <- function() {
     "pp_rand_forest", eng = "ppforest2",
     parsnip = "mtry", original = "n_vars",
     func = list(pkg = "dials", fun = "mtry"),
+    has_submodel = FALSE
+  )
+
+  parsnip::set_model_arg(
+    "pp_rand_forest", eng = "ppforest2",
+    parsnip = "mtry_prop", original = "p_vars",
+    func = list(pkg = "dials", fun = "mtry_prop"),
     has_submodel = FALSE
   )
 

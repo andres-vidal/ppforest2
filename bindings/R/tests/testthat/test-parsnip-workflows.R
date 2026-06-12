@@ -104,6 +104,21 @@ describe("parsnip + workflows integration (..y bug regression)", {
       metrics <- collect_metrics(rs)
       expect_equal(length(unique(metrics$.config)), nrow(grid))
     })
+
+    it("runs end-to-end through tune_grid() over mtry_prop", {
+      split <- make_classification_split()
+      train <- training(split)
+      spec <- pp_rand_forest(trees = 5, mtry_prop = tune(), penalty = 0) |>
+        set_engine("ppforest2") |> set_mode("classification")
+      wf <- workflow() |> add_model(spec) |> add_formula(Type ~ .)
+      folds <- vfold_cv(train, v = 3, strata = Type)
+      grid <- tibble::tibble(mtry_prop = c(0.4, 0.8))
+
+      rs <- tune_grid(wf, resamples = folds, grid = grid)
+      expect_no_fit_errors(rs, "tune_grid over mtry_prop produced fit-error notes")
+      metrics <- collect_metrics(rs)
+      expect_equal(length(unique(metrics$.config)), nrow(grid))
+    })
   })
 
   describe("pp_tree", {

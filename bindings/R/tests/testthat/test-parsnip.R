@@ -49,6 +49,23 @@ describe("parsnip integration", {
       prob_cols <- grep("^\\.pred_", colnames(preds), value = TRUE)
       expect_equal(length(prob_cols), length(levels(iris$Species)))
     })
+
+    it("can fit with mtry_prop (the p_vars proportion)", {
+      spec <- pp_rand_forest(trees = 5, mtry_prop = 0.5) |>
+        set_engine("ppforest2") |>
+        set_mode("classification")
+      fit <- spec |> fit(Species ~ ., data = iris)
+      expect_s3_class(fit$fit, "pprf")
+      # iris has 4 predictors; 0.5 * 4 = 2.
+      expect_equal(fit$fit$training_spec$vars$count, 2)
+    })
+
+    it("exposes mtry_prop as a tunable parameter", {
+      spec <- pp_rand_forest() |>
+        set_engine("ppforest2") |>
+        set_mode("classification")
+      expect_true("mtry_prop" %in% tunable(spec)$name)
+    })
   })
 
   describe("pp_tree", {

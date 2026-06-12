@@ -9,6 +9,7 @@
   parameters = NULL,
   trees = NULL,
   mtry = NULL,
+  mtry_prop = NULL,
   penalty = NULL,
   fresh = FALSE,
   ...
@@ -19,7 +20,7 @@
 
 \item{parameters}{A named list of parameters to update (alternative to passing them as args).}
 
-\item{trees, mtry, penalty}{New values for the corresponding parameters.}
+\item{trees, mtry, mtry_prop, penalty}{New values for the corresponding parameters.}
 
 \item{fresh}{If \code{TRUE}, drop any previously-set arg whose new value is not provided.}
 

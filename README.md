@@ -140,6 +140,8 @@ fit <- spec %>% fit(Species ~ ., data = iris)
 predict(fit, iris, type = "prob")
 ```
 
+Tunable with `tune()`: `trees`, `mtry` (or `mtry_prop` to subsample features by proportion), and `penalty`.
+
 ## CLI Reference
 
 The `ppforest2` command-line tool provides four subcommands for training, prediction, evaluation, and benchmarking. After `make build`, the binary is available at `.build/ppforest2`.
