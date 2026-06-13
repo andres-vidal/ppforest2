@@ -176,12 +176,12 @@ ppforest2 train -d data.csv --no-metrics         # skip variable importance
 |--------------------------|---------------|--------------------------------------------------------------------|
 | `-d, --data <file>`      | *(required)*  | CSV training data                                                  |
 | `-t, --trees <N>`        | `100`         | Number of trees (`0` for a single tree)                            |
-| `-l, --lambda <X>`       | `0`           | PDA penalty; `0` = LDA, `(0,1]` = PDA                              |
+| `-l, --lambda <X>`       | `0.5`         | PDA penalty; `0` = LDA, `(0,1]` = PDA                              |
 | `-r, --seed <N>`         | *(random)*    | Random seed for reproducibility                                    |
 | `-v, --vars <spec>`      | `0.5`         | Features per split (see [Variable selection](#variable-selection)) |
 | `--threads <N>`          | *(all cores)* | Number of OpenMP threads                                           |
 | `--max-retries <N>`      | `3`           | Max retries for degenerate trees                                   |
-| `--pp-strategy <spec>`        | `pda:lambda=0`   | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`       |
+| `--pp-strategy <spec>`        | `pda:lambda=0.5` | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`       |
 | `--vars-strategy <spec>`      | `uniform`     | Variable selection strategy (e.g. `all`, `uniform:count=3`); excludes `--vars` |
 | `--cutpoint-strategy <spec>`  | `mean_of_means` | Cutpoint strategy (e.g. `mean_of_means`)                       |
 | `--stop-strategy <spec>`      | `pure_node`   | Stop rule (e.g. `pure_node`)                                      |
@@ -615,6 +615,34 @@ Implementation constraints that preserve reproducibility:
 - **Shuffling**: `stats::Uniform::distinct()` only. Never `std::shuffle`.
 - **Sorting**: use `std::stable_sort` where element order affects downstream results. `std::sort` is not guaranteed to be stable and can produce different orderings of equal elements across platforms.
 - **R seeds**: generated in R, passed as integers to C++.
+
+## Known limitations
+
+### LDA fidelity at `lambda = 0` with more variables than observations
+
+ppforest2 targets fidelity to `PPforest`, but diverges in one corner: pure LDA
+(`lambda = 0`) with more variables than effective observations — high-dimensional
+data with all variables active (`p_vars = 1`), or a duplicate-heavy bootstrap
+sample whose unique-row count falls below the feature count. There the
+within-group scatter `W` is rank-deficient, so the metric matrix `W + B` of the
+LDA generalized eigenproblem is singular or near-singular.
+
+ppforest2 solves that eigenproblem with a symmetric-definite eigensolver
+(`Eigen::GeneralizedSelfAdjointEigenSolver`), which requires `W + B` positive
+definite. In this corner it either degenerates to a majority-class leaf (with a
+warning) or, when `W + B` is only near-singular, returns an unstable direction
+that overfits — whereas `PPforest` recovers a usable direction via an explicit
+(pseudo-)inverse (`arma::inv`; `PPtreeViz` uses `MASS::ginv`) plus a general
+eigensolver. On the high-dimensional gene-expression datasets (`leukemia`,
+`lymphoma`, `NCI60`) this surfaces as markedly higher error for ppforest2 at
+`lambda = 0, p_vars = 1` only.
+
+This is a fidelity gap, not a correctness bug: LDA is genuinely ill-posed when
+`W` is singular. Any regularization — `lambda > 0` (PDA) or `p_vars < 1` —
+restores a well-conditioned problem and closes the gap. ppforest2 therefore
+defaults to `lambda = 0.5` (PDA), so this corner is only reached by explicitly
+requesting pure LDA (`lambda = 0`). Root cause is documented at the eigensolver in
+`core/src/models/strategies/pp/PDA.cpp`.
 
 ## Versioning
 

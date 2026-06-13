@@ -15,7 +15,7 @@ namespace ppforest2::cli {
     ModelParams() = default;
 
     int size     = 100;
-    float lambda = 0.0;
+    float lambda = 0.5;
     std::optional<int> threads;
     std::optional<int> seed;
     std::optional<float> p_vars;

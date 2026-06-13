@@ -156,9 +156,9 @@ describe("pprf training spec", {
     expect_equal(model$training_spec$pp$lambda, 0.5)
   })
 
-  it("the lambda parameter is 0 by default", {
+  it("the lambda parameter is 0.5 by default", {
     model <- pprf(Species ~ ., data = iris, threads = 1)
-    expect_equal(model$training_spec$pp$lambda, 0)
+    expect_equal(model$training_spec$pp$lambda, 0.5)
   })
 
   it("preserves the n_vars parameter in the returned model", {

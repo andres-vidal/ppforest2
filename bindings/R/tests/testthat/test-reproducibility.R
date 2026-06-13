@@ -194,7 +194,7 @@ compare_vi <- function(model, golden, key, r_field) {
 describe("Reproducibility: iris tree-pda-s0", {
   golden <- load_golden("iris", "tree-pda-s0.json")
   d <- prepare_data(iris, golden, response = "Species")
-  model <- pptr(Species ~ ., data = d, seed = 0)
+  model <- pptr(Species ~ ., data = d, lambda = 0, seed = 0)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -228,7 +228,7 @@ describe("Reproducibility: iris tree-pda-s0", {
 describe("Reproducibility: crab tree-pda-s0", {
   golden <- load_golden("crab", "tree-pda-s0.json")
   d <- prepare_data(crab, golden)
-  model <- pptr(Type ~ ., data = d, seed = 0)
+  model <- pptr(Type ~ ., data = d, lambda = 0, seed = 0)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -262,7 +262,7 @@ describe("Reproducibility: crab tree-pda-s0", {
 describe("Reproducibility: iris forest-pda-n5-s0", {
   golden <- load_golden("iris", "forest-pda-n5-s0.json")
   d <- prepare_data(iris, golden, response = "Species")
-  model <- pprf(Species ~ ., data = d, size = 5, n_vars = 2, seed = 0, threads = 1)
+  model <- pprf(Species ~ ., data = d, size = 5, n_vars = 2, lambda = 0, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -368,7 +368,7 @@ describe("Reproducibility: iris forest-pda-l05-n5-s0", {
 describe("Reproducibility: crab forest-pda-n10-s0", {
   golden <- load_golden("crab", "forest-pda-n10-s0.json")
   d <- prepare_data(crab, golden)
-  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 3, seed = 0, threads = 1)
+  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 3, lambda = 0, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -421,7 +421,7 @@ describe("Reproducibility: crab forest-pda-n10-s0", {
 describe("Reproducibility: wine forest-pda-n10-s0", {
   golden <- load_golden("wine", "forest-pda-n10-s0.json")
   d <- prepare_data(wine, golden)
-  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 4, seed = 0, threads = 1)
+  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 4, lambda = 0, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)
@@ -474,7 +474,7 @@ describe("Reproducibility: wine forest-pda-n10-s0", {
 describe("Reproducibility: glass forest-pda-n10-s0", {
   golden <- load_golden("glass", "forest-pda-n10-s0.json")
   d <- prepare_data(glass, golden)
-  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 3, seed = 0, threads = 1)
+  model <- pprf(Type ~ ., data = d, size = 10, n_vars = 3, lambda = 0, seed = 0, threads = 1)
 
   it("training config matches golden file", {
     compare_config(model, golden)

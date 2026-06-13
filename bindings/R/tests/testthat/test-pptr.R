@@ -135,9 +135,9 @@ describe("pptr training spec", {
     expect_equal(model$training_spec$pp$lambda, 0.5)
   })
 
-  it("the lambda parameter is 0 by default", {
+  it("the lambda parameter is 0.5 by default", {
     model <- pptr(Species ~ ., data = iris)
-    expect_equal(model$training_spec$pp$lambda, 0)
+    expect_equal(model$training_spec$pp$lambda, 0.5)
   })
 
   it("the pp strategy is pda", {
@@ -293,7 +293,7 @@ describe("pptr with strategy objects", {
 
   it("default tree and fully explicit defaults produce identical export", {
     model_default  <- pptr(Species ~ ., data = iris, seed = 0)
-    model_explicit <- pptr(Species ~ ., data = iris, pp = pp_pda(0), cutpoint = cutpoint_mean_of_means(), stop = stop_pure_node(), binarize = binarize_largest_gap(), grouping = grouping_by_label(), leaf = leaf_majority_vote(), seed = 0)
+    model_explicit <- pptr(Species ~ ., data = iris, pp = pp_pda(0.5), cutpoint = cutpoint_mean_of_means(), stop = stop_pure_node(), binarize = binarize_largest_gap(), grouping = grouping_by_label(), leaf = leaf_majority_vote(), seed = 0)
 
     path_default  <- tempfile(fileext = ".json")
     path_explicit <- tempfile(fileext = ".json")

@@ -11,7 +11,7 @@ pprf(
   y = NULL,
   mode = NULL,
   size = 100,
-  lambda = 0,
+  lambda = 0.5,
   n_vars = NULL,
   p_vars = NULL,
   seed = NULL,
@@ -39,7 +39,7 @@ pprf(
 
 \item{size}{The number of trees in the forest (default: 100).}
 
-\item{lambda}{A regularization parameter. If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with \code{pp}.}
+\item{lambda}{A regularization parameter (default: 0.5). If \code{lambda = 0}, the model is trained using Linear Discriminant Analysis (LDA). If \code{lambda > 0}, the model is trained using Penalized Discriminant Analysis (PDA). The default uses PDA because pure LDA (\code{lambda = 0}) is ill-conditioned when there are more variables than effective observations (see the "Known limitations" section of the README). Cannot be used together with \code{pp}.}
 
 \item{n_vars}{The number of variables to consider at each split (integer). These are chosen uniformly in each split. By default, half of the variables are used (\code{p_vars = 0.5}). Cannot be used together with \code{p_vars} or \code{dr}.}
 
