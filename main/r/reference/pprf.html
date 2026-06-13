@@ -57,7 +57,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  size <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>  lambda <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  n_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  p_vars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -102,7 +102,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
-<dd><p>A regularization parameter. If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analysis (LDA). If <code>lambda &gt; 0</code>, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with <code>pp</code>.</p></dd>
+<dd><p>A regularization parameter (default: 0.5). If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analysis (LDA). If <code>lambda &gt; 0</code>, the model is trained using Penalized Discriminant Analysis (PDA). The default uses PDA because pure LDA (<code>lambda = 0</code>) is ill-conditioned when there are more variables than effective observations (see the "Known limitations" section of the README). Cannot be used together with <code>pp</code>.</p></dd>
 
 
 <dt id="arg-n-vars">n_vars<a class="anchor" aria-label="anchor" href="#arg-n-vars"></a></dt>

@@ -18,7 +18,7 @@ pptr(
   x = NULL,
   y = NULL,
   mode = NULL,
-  lambda = 0,
+  lambda = 0.5,
   seed = NULL,
   pp = NULL,
   cutpoint = NULL,
@@ -60,10 +60,13 @@ pptr(
 
 - lambda:
 
-  A regularization parameter. If `lambda = 0`, the model is trained
-  using Linear Discriminant Analysis (LDA). If `lambda > 0`, the model
-  is trained using Penalized Discriminant Analysis (PDA). Cannot be used
-  together with `pp`.
+  A regularization parameter (default: 0.5). If `lambda = 0`, the model
+  is trained using Linear Discriminant Analysis (LDA). If `lambda > 0`,
+  the model is trained using Penalized Discriminant Analysis (PDA). The
+  default uses PDA because pure LDA (`lambda = 0`) is ill-conditioned
+  when there are more variables than effective observations (see the
+  "Known limitations" section of the README). Cannot be used together
+  with `pp`.
 
 - seed:
 
@@ -151,13 +154,13 @@ pptr(Species ~ ., data = iris)
 #> Call: pptr(formula = Species ~ ., data = iris)
 #> 
 #> Projection-Pursuit Oblique Decision Tree:
-#> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
-#>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
+#> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
+#>   Predict: setosa 
+#> Else:
+#>  If ([ 0 0.03 -0.06 -0.15 ] * x) < -0.4503323:
 #>    Predict: virginica 
 #>  Else:
 #>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa 
 #> 
 
 # Example 2: formula interface with the `iris` dataset with regularization
@@ -181,12 +184,12 @@ pptr(x = iris[, 1:4], y = iris[, 5])
 #> Call: pptr(x = iris[, 1:4], y = iris[, 5])
 #> 
 #> Projection-Pursuit Oblique Decision Tree:
-#> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
-#>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
+#> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
+#>   Predict: setosa 
+#> Else:
+#>  If ([ 0 0.03 -0.06 -0.15 ] * x) < -0.4503323:
 #>    Predict: virginica 
 #>  Else:
 #>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa 
 #> 
 ```

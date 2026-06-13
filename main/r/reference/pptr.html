@@ -50,7 +50,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 <span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  y <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  lambda <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  seed <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  cutpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -86,7 +86,7 @@ If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analy
 
 
 <dt id="arg-lambda">lambda<a class="anchor" aria-label="anchor" href="#arg-lambda"></a></dt>
-<dd><p>A regularization parameter. If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analysis (LDA). If <code>lambda &gt; 0</code>, the model is trained using Penalized Discriminant Analysis (PDA). Cannot be used together with <code>pp</code>.</p></dd>
+<dd><p>A regularization parameter (default: 0.5). If <code>lambda = 0</code>, the model is trained using Linear Discriminant Analysis (LDA). If <code>lambda &gt; 0</code>, the model is trained using Penalized Discriminant Analysis (PDA). The default uses PDA because pure LDA (<code>lambda = 0</code>) is ill-conditioned when there are more variables than effective observations (see the "Known limitations" section of the README). Cannot be used together with <code>pp</code>.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
@@ -150,13 +150,13 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(formula = Species ~ ., data = iris)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projection-Pursuit Oblique Decision Tree:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) &lt; -0.2075133:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0.03 -0.06 -0.15 ] * x) &lt; -0.4503323:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2: formula interface with the `iris` dataset with regularization</span></span></span>
@@ -180,13 +180,13 @@ grouping always yields a 2-group partition, so no binarization is needed).</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call: pptr(x = iris[, 1:4], y = iris[, 5])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projection-Pursuit Oblique Decision Tree:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) &lt; -0.2075133:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  If ([ 0 0.03 -0.06 -0.15 ] * x) &lt; -0.4503323:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: virginica </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Else:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Predict: versicolor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Else:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Predict: setosa </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

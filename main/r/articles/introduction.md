@@ -18,13 +18,13 @@ tree
 #> Call: pptr(formula = Species ~ ., data = iris, seed = 0)
 #> 
 #> Projection-Pursuit Oblique Decision Tree:
-#> If ([ 0.01 0.04 -0.04 -0.01 ] * x) < 0.06660754:
-#>  If ([ 0.04 0.07 -0.09 -0.15 ] * x) < -0.2075133:
+#> If ([ 0 -0.04 0.03 0.03 ] * x) < 0.01580044:
+#>   Predict: setosa 
+#> Else:
+#>  If ([ 0 0.03 -0.06 -0.15 ] * x) < -0.4503323:
 #>    Predict: virginica 
 #>  Else:
-#>    Predict: versicolor 
-#> Else:
-#>   Predict: setosa
+#>    Predict: versicolor
 ```
 
 The tree splits on linear projections of the features. Use
@@ -36,7 +36,7 @@ summary(tree)
 #> 
 #> Projection-Pursuit Oblique Decision Tree
 #> 
-#> pp method: LDA (lambda=0)
+#> pp method: PDA (lambda=0.5)
 #> vars method: All variables
 #> cutpoint method: Mean of means
 #> stop rule: Pure node
@@ -57,18 +57,18 @@ summary(tree)
 #>             Predicted
 #> Actual       setosa versicolor virginica
 #>   setosa         50          0         0
-#>   versicolor      0         48         2
-#>   virginica       0          1        49
+#>   versicolor      0         47         3
+#>   virginica       0          3        47
 #> 
-#> Training error: 2%
+#> Training error: 4%
 #> 
 #> Variable Importance:
 #> 
-#>       Variable         σ Projection
-#> 1 Petal.Length 1.7652982 0.10064526
-#> 2  Petal.Width 0.7622377 0.06144172
-#> 3 Sepal.Length 0.8280661 0.02164980
-#> 4  Sepal.Width 0.4358663 0.02155388
+#>       Variable         σ  Projection
+#> 1  Petal.Width 0.7622377 0.067165621
+#> 2 Petal.Length 1.7652982 0.064908713
+#> 3  Sepal.Width 0.4358663 0.011343628
+#> 4 Sepal.Length 0.8280661 0.001772132
 #> 
 #> Note: Variable importance was calculated using scaled coefficients (|a_j| * σ_j).
 #> Variable contributions can only be theoretically interpreted as such
@@ -84,8 +84,8 @@ table(predicted = preds, actual = iris$Species)
 #>             actual
 #> predicted    setosa versicolor virginica
 #>   setosa         50          0         0
-#>   versicolor      0         48         1
-#>   virginica       0          2        49
+#>   versicolor      0         47         3
+#>   virginica       0          3        47
 ```
 
 ## Random forest
@@ -100,7 +100,7 @@ summary(forest)
 #> Random Forest of Projection-Pursuit Oblique Decision Trees
 #> 
 #> Size: 100 trees
-#> pp method: LDA (lambda=0)
+#> pp method: PDA (lambda=0.5)
 #> vars method: Uniform random (count=2)
 #> cutpoint method: Mean of means
 #> stop rule: Pure node
@@ -138,11 +138,11 @@ summary(forest)
 #> 
 #> Variable Importance:
 #> 
-#>       Variable         σ Projection    Weighted   Permuted
-#> 1 Petal.Length 1.7652982 0.07463032 0.057584818 0.33644474
-#> 2  Petal.Width 0.7622377 0.04751209 0.036748469 0.24734434
-#> 3 Sepal.Length 0.8280661 0.02340555 0.013667455 0.08662503
-#> 4  Sepal.Width 0.4358663 0.01040520 0.008798525 0.04265482
+#>       Variable         σ  Projection    Weighted   Permuted
+#> 1 Petal.Length 1.7652982 0.060925536 0.044617556 0.31747234
+#> 2  Petal.Width 0.7622377 0.045294985 0.035571091 0.24510610
+#> 3 Sepal.Length 0.8280661 0.013997004 0.006649137 0.06048262
+#> 4  Sepal.Width 0.4358663 0.007664503 0.005792385 0.03662244
 #> 
 #> Note: Variable importance was calculated using scaled coefficients (|a_j| * σ_j).
 #> Variable contributions can only be theoretically interpreted as such
