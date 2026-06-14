@@ -22,7 +22,7 @@ pprf(
   y = NULL,
   mode = NULL,
   size = 100,
-  lambda = 0,
+  lambda = 0.5,
   n_vars = NULL,
   p_vars = NULL,
   seed = NULL,
@@ -73,10 +73,13 @@ pprf(
 
 - lambda:
 
-  A regularization parameter. If `lambda = 0`, the model is trained
-  using Linear Discriminant Analysis (LDA). If `lambda > 0`, the model
-  is trained using Penalized Discriminant Analysis (PDA). Cannot be used
-  together with `pp`.
+  A regularization parameter (default: 0.5). If `lambda = 0`, the model
+  is trained using Linear Discriminant Analysis (LDA). If `lambda > 0`,
+  the model is trained using Penalized Discriminant Analysis (PDA). The
+  default uses PDA because pure LDA (`lambda = 0`) is ill-conditioned
+  when there are more variables than effective observations (see the
+  "Known limitations" section of the README). Cannot be used together
+  with `pp`.
 
 - n_vars:
 

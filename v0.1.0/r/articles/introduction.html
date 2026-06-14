@@ -79,13 +79,13 @@ groups.</p>
 <span><span class="co">#&gt; Call: pptr(formula = Species ~ ., data = iris, seed = 0)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Projection-Pursuit Oblique Decision Tree:</span></span>
-<span><span class="co">#&gt; If ([ 0.01 0.04 -0.04 -0.01 ] * x) &lt; 0.06660754:</span></span>
-<span><span class="co">#&gt;  If ([ 0.04 0.07 -0.09 -0.15 ] * x) &lt; -0.2075133:</span></span>
+<span><span class="co">#&gt; If ([ 0 -0.04 0.03 0.03 ] * x) &lt; 0.01580044:</span></span>
+<span><span class="co">#&gt;   Predict: setosa </span></span>
+<span><span class="co">#&gt; Else:</span></span>
+<span><span class="co">#&gt;  If ([ 0 0.03 -0.06 -0.15 ] * x) &lt; -0.4503323:</span></span>
 <span><span class="co">#&gt;    Predict: virginica </span></span>
 <span><span class="co">#&gt;  Else:</span></span>
-<span><span class="co">#&gt;    Predict: versicolor </span></span>
-<span><span class="co">#&gt; Else:</span></span>
-<span><span class="co">#&gt;   Predict: setosa</span></span></code></pre></div>
+<span><span class="co">#&gt;    Predict: versicolor</span></span></code></pre></div>
 <p>The tree splits on linear projections of the features. Use
 <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> to see variable importance:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -93,7 +93,7 @@ groups.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Projection-Pursuit Oblique Decision Tree</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; pp method: LDA (lambda=0)</span></span>
+<span><span class="co">#&gt; pp method: PDA (lambda=0.5)</span></span>
 <span><span class="co">#&gt; vars method: All variables</span></span>
 <span><span class="co">#&gt; cutpoint method: Mean of means</span></span>
 <span><span class="co">#&gt; stop rule: Pure node</span></span>
@@ -114,18 +114,18 @@ groups.</p>
 <span><span class="co">#&gt;             Predicted</span></span>
 <span><span class="co">#&gt; Actual       setosa versicolor virginica</span></span>
 <span><span class="co">#&gt;   setosa         50          0         0</span></span>
-<span><span class="co">#&gt;   versicolor      0         48         2</span></span>
-<span><span class="co">#&gt;   virginica       0          1        49</span></span>
+<span><span class="co">#&gt;   versicolor      0         47         3</span></span>
+<span><span class="co">#&gt;   virginica       0          3        47</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Training error: 2%</span></span>
+<span><span class="co">#&gt; Training error: 4%</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variable Importance:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       Variable         σ Projection</span></span>
-<span><span class="co">#&gt; 1 Petal.Length 1.7652982 0.10064526</span></span>
-<span><span class="co">#&gt; 2  Petal.Width 0.7622377 0.06144172</span></span>
-<span><span class="co">#&gt; 3 Sepal.Length 0.8280661 0.02164980</span></span>
-<span><span class="co">#&gt; 4  Sepal.Width 0.4358663 0.02155388</span></span>
+<span><span class="co">#&gt;       Variable         σ  Projection</span></span>
+<span><span class="co">#&gt; 1  Petal.Width 0.7622377 0.067165621</span></span>
+<span><span class="co">#&gt; 2 Petal.Length 1.7652982 0.064908713</span></span>
+<span><span class="co">#&gt; 3  Sepal.Width 0.4358663 0.011343628</span></span>
+<span><span class="co">#&gt; 4 Sepal.Length 0.8280661 0.001772132</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Note: Variable importance was calculated using scaled coefficients (|a_j| * σ_j).</span></span>
 <span><span class="co">#&gt; Variable contributions can only be theoretically interpreted as such</span></span>
@@ -138,8 +138,8 @@ groups.</p>
 <span><span class="co">#&gt;             actual</span></span>
 <span><span class="co">#&gt; predicted    setosa versicolor virginica</span></span>
 <span><span class="co">#&gt;   setosa         50          0         0</span></span>
-<span><span class="co">#&gt;   versicolor      0         48         1</span></span>
-<span><span class="co">#&gt;   virginica       0          2        49</span></span></code></pre></div>
+<span><span class="co">#&gt;   versicolor      0         47         3</span></span>
+<span><span class="co">#&gt;   virginica       0          3        47</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="random-forest">Random forest<a class="anchor" aria-label="anchor" href="#random-forest"></a>
@@ -153,7 +153,7 @@ variables at each split:</p>
 <span><span class="co">#&gt; Random Forest of Projection-Pursuit Oblique Decision Trees</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Size: 100 trees</span></span>
-<span><span class="co">#&gt; pp method: LDA (lambda=0)</span></span>
+<span><span class="co">#&gt; pp method: PDA (lambda=0.5)</span></span>
 <span><span class="co">#&gt; vars method: Uniform random (count=2)</span></span>
 <span><span class="co">#&gt; cutpoint method: Mean of means</span></span>
 <span><span class="co">#&gt; stop rule: Pure node</span></span>
@@ -191,11 +191,11 @@ variables at each split:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Variable Importance:</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;       Variable         σ Projection    Weighted   Permuted</span></span>
-<span><span class="co">#&gt; 1 Petal.Length 1.7652982 0.07463032 0.057584818 0.33644474</span></span>
-<span><span class="co">#&gt; 2  Petal.Width 0.7622377 0.04751209 0.036748469 0.24734434</span></span>
-<span><span class="co">#&gt; 3 Sepal.Length 0.8280661 0.02340555 0.013667455 0.08662503</span></span>
-<span><span class="co">#&gt; 4  Sepal.Width 0.4358663 0.01040520 0.008798525 0.04265482</span></span>
+<span><span class="co">#&gt;       Variable         σ  Projection    Weighted   Permuted</span></span>
+<span><span class="co">#&gt; 1 Petal.Length 1.7652982 0.060925536 0.044617556 0.31747234</span></span>
+<span><span class="co">#&gt; 2  Petal.Width 0.7622377 0.045294985 0.035571091 0.24510610</span></span>
+<span><span class="co">#&gt; 3 Sepal.Length 0.8280661 0.013997004 0.006649137 0.06048262</span></span>
+<span><span class="co">#&gt; 4  Sepal.Width 0.4358663 0.007664503 0.005792385 0.03662244</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Note: Variable importance was calculated using scaled coefficients (|a_j| * σ_j).</span></span>
 <span><span class="co">#&gt; Variable contributions can only be theoretically interpreted as such</span></span>

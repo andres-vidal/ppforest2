@@ -58,14 +58,14 @@ predict(loaded, as.matrix(iris[, 1:4]))
 #>  [55] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [61] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [67] versicolor versicolor versicolor versicolor virginica  versicolor
-#>  [73] versicolor versicolor versicolor versicolor versicolor versicolor
+#>  [73] versicolor versicolor versicolor versicolor versicolor virginica 
 #>  [79] versicolor versicolor versicolor versicolor versicolor virginica 
 #>  [85] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [91] versicolor versicolor versicolor versicolor versicolor versicolor
 #>  [97] versicolor versicolor versicolor versicolor virginica  virginica 
-#> [103] virginica  virginica  virginica  virginica  virginica  virginica 
+#> [103] virginica  virginica  virginica  virginica  versicolor virginica 
 #> [109] virginica  virginica  virginica  virginica  virginica  virginica 
-#> [115] virginica  virginica  virginica  virginica  virginica  virginica 
+#> [115] virginica  virginica  virginica  virginica  virginica  versicolor
 #> [121] virginica  virginica  virginica  virginica  virginica  virginica 
 #> [127] virginica  virginica  virginica  virginica  virginica  virginica 
 #> [133] virginica  versicolor virginica  virginica  virginica  virginica 
