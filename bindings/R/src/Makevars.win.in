@@ -1,0 +1,13 @@
+CXX_STD = CXX17
+
+# See Makevars.in for the rationale. On Windows the core sources are compiled
+# directly into the shared object; Rtools provides OpenMP via
+# $(SHLIB_OPENMP_CXXFLAGS). `configure.win` generates the OBJECTS list.
+
+# EIGEN_DONT_VECTORIZE mirrors the CMake WIN32 build — it avoids Eigen SIMD
+# alignment issues on Windows.
+PKG_CPPFLAGS = -I../inst/include -Icore/include -Icore/src -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_NO_AUTOMATIC_RESIZING -DEIGEN_DONT_VECTORIZE -DEIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS)
+
+OBJECTS = @OBJECTS@

@@ -124,8 +124,20 @@ pprf <- function(
     seed <- sample.int(.Machine$integer.max, 1L)
   }
 
-  effective_threads <- if (is.null(threads)) parallel::detectCores() else threads
-  if (effective_threads > 1 && !ppforest2_has_openmp()) {
+  # Resolve the thread count. `threads = NULL` means "auto": use all available
+  # cores for normal use, but cap at 2 when running under R CMD check (CRAN sets
+  # `_R_CHECK_LIMIT_CORES_`) so examples and vignettes never use more than two
+  # cores simultaneously, as required by CRAN policy. 0L = auto in the C++ core.
+  under_check <- nzchar(chk <- Sys.getenv("_R_CHECK_LIMIT_CORES_")) && tolower(chk) != "false"
+  resolved_threads <- if (!is.null(threads)) {
+    as.integer(threads)
+  } else if (under_check) {
+    2L
+  } else {
+    0L
+  }
+
+  if (resolved_threads != 1L && !ppforest2_has_openmp()) {
     warning("OpenMP is not available. The forest will be trained using a single thread.\n",
             "On macOS, install libomp: brew install libomp", call. = FALSE)
   }
@@ -141,7 +153,7 @@ pprf <- function(
     mode = mode,
     size = as.integer(size),
     seed = as.integer(seed),
-    threads = if (is.null(threads)) 0L else as.integer(threads),
+    threads = resolved_threads,
     max_retries = as.integer(max_retries))
 
   # `ppforest2_train` is mode-aware on the C++ side: it dispatches on

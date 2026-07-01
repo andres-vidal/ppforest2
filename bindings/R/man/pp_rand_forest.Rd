@@ -31,12 +31,14 @@ Creates a model specification for a Projection Pursuit random forest.
 Use \code{set_engine("ppforest2")} to select the ppforest2 engine.
 }
 \examples{
-\dontrun{
-library(parsnip)
-spec <- pp_rand_forest(trees = 50, mtry = 2) \%>\% set_engine("ppforest2")
-fit <- spec \%>\% fit(Species ~ ., data = iris)
-predict(fit, iris)
-predict(fit, iris, type = "prob")
+\donttest{
+if (requireNamespace("parsnip", quietly = TRUE)) {
+  library(parsnip)
+  spec <- pp_rand_forest(trees = 50, mtry = 2) \%>\% set_engine("ppforest2")
+  fit <- spec \%>\% fit(Species ~ ., data = iris)
+  predict(fit, iris)
+  predict(fit, iris, type = "prob")
+}
 }
 }
 \seealso{

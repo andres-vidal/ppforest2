@@ -65,9 +65,9 @@ namespace ppforest2::serialization {
 
     /** @name Optional metrics — serialized by to_json() when present. */
     ///@{
-    std::optional<VariableImportance> variable_importance;
-    std::optional<Metrics> training_metrics;
-    std::optional<Metrics> oob_metrics;
+    std::optional<VariableImportance> variable_importance = std::nullopt;
+    std::optional<Metrics> training_metrics               = std::nullopt;
+    std::optional<Metrics> oob_metrics                    = std::nullopt;
     ///@}
 
     /** @brief Serialize to JSON. Only defined for Export<Model::Ptr>. */

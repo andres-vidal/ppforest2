@@ -7,6 +7,16 @@
 #include <string_view>
 #include <vector>
 
+// ppforest2 targets Eigen 3.4.x — the version pinned for the standalone C++
+// build (see core/Dependencies.cmake) and the range RcppEigen ships for the R
+// package. This is a *floor* guard: newer Eigen is allowed, but if an
+// incompatible version ever appears (e.g. via an RcppEigen bump), the build
+// fails here with a clear message instead of a deep template error. If a
+// future Eigen release breaks the API, adjust this after validating.
+#if defined(EIGEN_VERSION_AT_LEAST) && !EIGEN_VERSION_AT_LEAST(3, 4, 0)
+#error "ppforest2 requires Eigen >= 3.4.0. Update Eigen (or RcppEigen for the R package)."
+#endif
+
 /**
  * @brief Core numeric type aliases for the ppforest2 library.
  *

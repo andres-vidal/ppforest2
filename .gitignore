@@ -17,8 +17,7 @@ ppforest2_*.tar.gz
 
 bindings/R/src/core
 bindings/R/src/Makevars
-bindings/R/inst/include/nlohmann
-bindings/R/inst/include/pcg_*
+bindings/R/src/Makevars.win
 bindings/R/inst/golden
 bindings/R/NEWS.md
 
@@ -28,3 +27,5 @@ log
 .claude
 CLAUDE.md
 bindings/R/src/VERSION
+
+bindings/R/tests/testthat/Rplots.pdf

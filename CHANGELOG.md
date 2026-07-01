@@ -1,3 +1,23 @@
+# ppforest2 0.1.1
+
+## Packaging and build
+
+- R: The R package now compiles the C++ core directly through `Makevars` instead of CMake, with no network access or downloaded dependencies at install time. Eigen is provided by RcppEigen; nlohmann/json and pcg headers are vendored under `inst/include`. This makes the package installable on CRAN's offline build machines. (`fmt` and `csv-parser`, used only by the CLI, are no longer part of the R build.)
+- R: Self-registering strategies are compiled directly into the shared object, removing the previous whole-archive linking workaround.
+- R: Compiler flags for the direct build mirror the standalone C++ build — `EIGEN_NO_AUTOMATIC_RESIZING` on all platforms and `EIGEN_DONT_VECTORIZE` on Windows.
+- Core: Replaced C++20 designated initializers and fixed member-initialization order in `stats/GroupPartition` and `stats/Simulation` so the code compiles warning-free under a strict C++17 GCC (`-Wall -Wextra -pedantic`).
+- Core: A compile-time `EIGEN_VERSION_AT_LEAST(3, 4, 0)` guard fails the build with a clear message if an incompatible Eigen is supplied (e.g. via RcppEigen).
+- `make r-vendor-deps` re-vendors the committed json/pcg headers after a version bump in `core/Dependencies.cmake`.
+
+## Documentation
+
+- R: `DESCRIPTION` uses `Authors@R` and cites the projection-pursuit tree and forest references with DOIs.
+- R: Examples for the parsnip and plot methods use `\donttest` with `requireNamespace()` guards instead of `\dontrun`, so they run under `--run-donttest` when the suggested packages are available.
+
+## CRAN
+
+- Added `cran-comments.md`. The package passes `R CMD check --as-cran` with no errors or warnings; remaining notes (new submission, cosmetic pragmas in the vendored nlohmann/json headers) are documented for the reviewer.
+
 # ppforest2 0.1.0
 
 ## New features

@@ -24,12 +24,14 @@ utils::globalVariables(c("object", "new_data", "x", "y"))
 #' @return A parsnip model specification.
 #' @seealso \code{\link{pprf}} for the underlying training function, \code{\link{pp_tree}} for single trees
 #' @examples
-#' \dontrun{
-#' library(parsnip)
-#' spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
-#' fit <- spec %>% fit(Species ~ ., data = iris)
-#' predict(fit, iris)
-#' predict(fit, iris, type = "prob")
+#' \donttest{
+#' if (requireNamespace("parsnip", quietly = TRUE)) {
+#'   library(parsnip)
+#'   spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
+#'   fit <- spec %>% fit(Species ~ ., data = iris)
+#'   predict(fit, iris)
+#'   predict(fit, iris, type = "prob")
+#' }
 #' }
 #' @export
 pp_rand_forest <- function(mode = "classification", trees = NULL, mtry = NULL, mtry_prop = NULL, penalty = NULL) {
@@ -89,11 +91,13 @@ update.pp_rand_forest <- function(object, parameters = NULL, trees = NULL, mtry 
 #' @return A parsnip model specification.
 #' @seealso \code{\link{pptr}} for the underlying training function, \code{\link{pp_rand_forest}} for forests
 #' @examples
-#' \dontrun{
-#' library(parsnip)
-#' spec <- pp_tree(penalty = 0) %>% set_engine("ppforest2")
-#' fit <- spec %>% fit(Species ~ ., data = iris)
-#' predict(fit, iris)
+#' \donttest{
+#' if (requireNamespace("parsnip", quietly = TRUE)) {
+#'   library(parsnip)
+#'   spec <- pp_tree(penalty = 0) %>% set_engine("ppforest2")
+#'   fit <- spec %>% fit(Species ~ ., data = iris)
+#'   predict(fit, iris)
+#' }
 #' }
 #' @export
 pp_tree <- function(mode = "classification", penalty = NULL) {

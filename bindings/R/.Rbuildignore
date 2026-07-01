@@ -2,3 +2,7 @@
 ^inst/lib$
 ^doc$
 ^Meta$
+^cran-comments\.md$
+^_pkgdown\.yml$
+^pkgdown$
+^tests/testthat/Rplots\.pdf$

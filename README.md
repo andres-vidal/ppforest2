@@ -5,8 +5,6 @@
 [![R Package Check](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/andres-vidal/aafefce6b546eeb2f678ca607a950941/raw/ppforest2-coverage.json)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-coverage.yml)
 
-> **Work in progress** — this repository contains ongoing research and development work. Interfaces and behavior are expected to evolve as the project matures.
-
 **ppforest2** is a fast, memory-efficient implementation of
 [Projection Pursuit Random Forests](https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1870480),
 built on
@@ -538,36 +536,31 @@ make r-clean            # Remove compilation byproducts
 
 ### Build Process
 
-The R package wraps the C++ core via Rcpp. Because the core lives outside the R package directory, the build process assembles a self-contained source tarball that can be compiled anywhere.
+The R package wraps the C++ core via Rcpp. Because the core lives outside the R package directory, the build process assembles a self-contained source tarball. The C++ core is compiled **directly through `Makevars`** using R's own compiler — no CMake, no network access, and no pre-built static libraries. This keeps the package CRAN-installable: everything it needs ships in the tarball.
 
-All workflows share a single dependency cache in `.build/_deps/`, populated by `make fetch-deps`. Dependencies are fetched once and reused across both the C++ and R build pipelines.
+The only external C++ dependencies at R-build time are Eigen (provided by `RcppEigen` via `LinkingTo`) and the header-only nlohmann/json and pcg libraries, which are vendored under `bindings/R/inst/include/`. The `fmt` and `csv-parser` dependencies are only used by the CLI/io layer, which the R package does not compile.
 
 #### Tarball pipeline (`make r-check`)
 
-1. **`fetch-deps`** — Runs a core-only cmake configure in `.build/` to download dependencies (Eigen, nlohmann/json, pcg, csv-parser, fmt) via FetchContent. No compilation.
+1. **`r-prepare`** — Stages the core sources the R package compiles into `src/core/` (dropping the `cli/`, `io/`, `golden/` and test translation units, which need `fmt`/`csv-parser`/GoogleTest), copies the changelog to `NEWS.md`, and copies golden files into `inst/golden/`. The vendored json/pcg headers are already committed under `inst/include/`, so nothing is downloaded.
 
-2. **`r-prepare`** — Copies the core source into `src/core/`, dependency headers (nlohmann/json, pcg) from `.build/_deps/` into `inst/include/`, and golden files into `inst/golden/`.
+2. **`r-build`** — Regenerates `RcppExports.cpp`/`RcppExports.R` via `Rcpp::compileAttributes()`, then runs `R CMD build` to produce a source tarball.
 
-3. **`r-build`** — Regenerates `RcppExports.cpp`/`RcppExports.R` via `Rcpp::compileAttributes()`, and runs `R CMD build` to produce a source tarball.
+3. **`configure` / `configure.win`** — During `R CMD INSTALL` (or `R CMD check`), the configure script:
+   - Stages the core sources if needed — from the bundled `src/core/` in a **tarball**, or by copying `../../core/` in the **monorepo** (`devtools::load_all()` / `install_github`).
+   - Generates the `OBJECTS` list (every needed core `.cpp`) and writes `src/Makevars` from `Makevars.in`.
+   - Detects OpenMP support (needed only for the macOS special case; elsewhere R's `$(SHLIB_OPENMP_CXXFLAGS)` suffices) and falls back to a single-threaded build if unavailable.
 
-4. **`configure` / `configure.win`** — During `R CMD check` or `R CMD INSTALL`, the configure script detects the build context and compiles the C++ core:
-   - **Monorepo** (`../../core/` exists): delegates to `make r-build-core`, which uses cmake incremental builds in `.r-build/`. Used by `devtools::load_all()` and `install_github`.
-   - **Tarball** (`src/core/` bundled): runs cmake directly on the bundled source. Used by `R CMD INSTALL` from a tarball.
-
-   The `PPFOREST2_FETCH_CACHE` environment variable can point to pre-downloaded sources to avoid re-fetching.
+   Compiling every strategy object straight into the shared object means the self-registering strategies cannot be dead-stripped, so no whole-archive link trickery is required.
 
 #### Development workflow (`devtools::load_all()`)
 
-For iterative development, the configure script detects the monorepo layout and delegates to `make r-build-core`, which compiles the C++ core into `.r-build/` using R's compiler. cmake incremental builds ensure only changed files are recompiled. The static library, headers, and core source are copied into the R package for linking.
+`devtools::load_all()` runs `configure`, which stages `../../core/` into `src/core/` and compiles it through `Makevars` — the same path used for a tarball install.
 
 ```r
 devtools::load_all("bindings/R")   # edit C++ -> reload -> test
 devtools::test("bindings/R")        # run testthat suite
 ```
-
-#### Compiler handling
-
-On macOS, `R CMD config CXX17` may return the compiler with architecture flags (e.g., `clang++ -arch arm64`). Since CMake's `CMAKE_CXX_COMPILER` expects only the compiler path, the build splits this value: the first word becomes the compiler, and any remaining flags are appended to `CMAKE_CXX_FLAGS`. This splitting is applied in the root Makefile (`r-build-core`), `configure`, and `configure.win`.
 
 ### How `install_github` Works
 
@@ -577,7 +570,7 @@ On macOS, `R CMD config CXX17` may return the compiler with architecture flags (
 devtools::install_github("andres-vidal/ppforest2", subdir = "bindings/R", build = FALSE)
 ```
 
-The configure script detects `../../core/` and delegates to `make r-build-core`, which builds the C++ core via cmake and copies it into the package.
+The configure script detects `../../core/`, stages it into `src/core/`, and compiles it through `Makevars`.
 
 ## Documentation
 
