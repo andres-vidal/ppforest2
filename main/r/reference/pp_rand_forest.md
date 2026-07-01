@@ -55,11 +55,27 @@ for single trees
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-library(parsnip)
-spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
-fit <- spec %>% fit(Species ~ ., data = iris)
-predict(fit, iris)
-predict(fit, iris, type = "prob")
-} # }
+# \donttest{
+if (requireNamespace("parsnip", quietly = TRUE)) {
+  library(parsnip)
+  spec <- pp_rand_forest(trees = 50, mtry = 2) %>% set_engine("ppforest2")
+  fit <- spec %>% fit(Species ~ ., data = iris)
+  predict(fit, iris)
+  predict(fit, iris, type = "prob")
+}
+#> # A tibble: 150 × 3
+#>    .pred_setosa .pred_versicolor .pred_virginica
+#>           <dbl>            <dbl>           <dbl>
+#>  1            1                0               0
+#>  2            1                0               0
+#>  3            1                0               0
+#>  4            1                0               0
+#>  5            1                0               0
+#>  6            1                0               0
+#>  7            1                0               0
+#>  8            1                0               0
+#>  9            1                0               0
+#> 10            1                0               0
+#> # ℹ 140 more rows
+# }
 ```

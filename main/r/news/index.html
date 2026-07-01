@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ppforest2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,6 +34,27 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.1" id="ppforest2-011">ppforest2 0.1.1<a class="anchor" aria-label="anchor" href="#ppforest2-011"></a></h2>
+<div class="section level3">
+<h3 id="packaging-and-build-0-1-1">Packaging and build<a class="anchor" aria-label="anchor" href="#packaging-and-build-0-1-1"></a></h3>
+<ul><li>R: The R package now compiles the C++ core directly through <code>Makevars</code> instead of CMake, with no network access or downloaded dependencies at install time. Eigen is provided by RcppEigen; nlohmann/json and pcg headers are vendored under <code>inst/include</code>. This makes the package installable on CRAN’s offline build machines. (<code>fmt</code> and <code>csv-parser</code>, used only by the CLI, are no longer part of the R build.)</li>
+<li>R: Self-registering strategies are compiled directly into the shared object, removing the previous whole-archive linking workaround.</li>
+<li>R: Compiler flags for the direct build now mirror the standalone C++ build — <code>EIGEN_NO_AUTOMATIC_RESIZING</code> on all platforms, <code>EIGEN_DONT_VECTORIZE</code> on Windows, and a GCC 12+ suppression for a spurious <code>-Wstringop-overflow</code> in Eigen.</li>
+<li>Core: A compile-time <code>EIGEN_VERSION_AT_LEAST(3, 4, 0)</code> guard fails the build with a clear message if an incompatible Eigen is supplied (e.g. via RcppEigen).</li>
+<li>
+<code>make r-vendor-deps</code> re-vendors the committed json/pcg headers after a version bump in <code>core/Dependencies.cmake</code>.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-0-1-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-0-1-1"></a></h3>
+<ul><li>R: <code>DESCRIPTION</code> uses <code>Authors@R</code> and cites the projection-pursuit tree and forest references with DOIs.</li>
+<li>R: Examples for the parsnip and plot methods use <code>\donttest</code> with <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code> guards instead of <code>\dontrun</code>, so they run under <code>--run-donttest</code> when the suggested packages are available.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="cran-0-1-1">CRAN<a class="anchor" aria-label="anchor" href="#cran-0-1-1"></a></h3>
+<ul><li>Added <code>cran-comments.md</code>. The package passes <code>R CMD check --as-cran</code> with no errors or warnings; remaining notes (new submission, cosmetic pragmas in the vendored nlohmann/json headers) are documented for the reviewer.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="ppforest2-010">ppforest2 0.1.0<a class="anchor" aria-label="anchor" href="#ppforest2-010"></a></h2>
 <div class="section level3">
@@ -81,7 +102,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Andres Vidal.</p>
+  <p>Developed by Andres Vidal, Natalia da Silva.</p>
 </div>
 
 <div class="pkgdown-footer-right">

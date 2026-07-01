@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Projection Pursuit Oblique Decision Trees and Random Forests">
-<meta name="description" content="Builds decision trees by splitting on linear combinations of randomly chosen variables. Projection Pursuit (PP) is used to choose a projection of the variables that best separates the groups. Using linear combinations of variables to separate groups takes the correlation between variables into account which allows ppforest2 to outperform a traditional decision tree when separations between groups occurs in combinations of variables. Single trees can be assembled into random forests for improved accuracy.">
-<meta property="og:description" content="Builds decision trees by splitting on linear combinations of randomly chosen variables. Projection Pursuit (PP) is used to choose a projection of the variables that best separates the groups. Using linear combinations of variables to separate groups takes the correlation between variables into account which allows ppforest2 to outperform a traditional decision tree when separations between groups occurs in combinations of variables. Single trees can be assembled into random forests for improved accuracy.">
+<meta name="description" content="Builds decision trees by splitting on linear combinations of randomly chosen variables. Projection pursuit is used to choose a projection of the variables that best separates the groups. Using linear combinations of variables to separate groups takes the correlation between variables into account, which allows the model to outperform a traditional decision tree when the separation between groups occurs in combinations of variables. Single trees can be assembled into random forests for improved accuracy. Implements projection pursuit classification trees (Lee, Cook, Park and Lee (2013) &lt;doi:10.1214/13-EJS810&gt;) and projection pursuit forests (da Silva, Cook and Lee (2021) &lt;doi:10.1080/10618600.2020.1870480&gt;), following the earlier PPforest package.">
+<meta property="og:description" content="Builds decision trees by splitting on linear combinations of randomly chosen variables. Projection pursuit is used to choose a projection of the variables that best separates the groups. Using linear combinations of variables to separate groups takes the correlation between variables into account, which allows the model to outperform a traditional decision tree when the separation between groups occurs in combinations of variables. Single trees can be assembled into random forests for improved accuracy. Implements projection pursuit classification trees (Lee, Cook, Park and Lee (2013) &lt;doi:10.1214/13-EJS810&gt;) and projection pursuit forests (da Silva, Cook and Lee (2021) &lt;doi:10.1080/10618600.2020.1870480&gt;), following the earlier PPforest package.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -22,7 +22,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ppforest2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -169,7 +169,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Andres Vidal <br><small class="roles"> Maintainer </small>   </li>
+<li>Andres Vidal <br><small class="roles"> Author, maintainer, copyright holder </small>   </li>
+<li>Natalia da Silva <br><small class="roles"> Author </small>   </li>
 </ul>
 </div>
 
@@ -185,7 +186,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Andres Vidal.</p>
+  <p>Developed by Andres Vidal, Natalia da Silva.</p>
 </div>
 
 <div class="pkgdown-footer-right">
