@@ -36,12 +36,15 @@ structure, decision boundaries, and variable importance. Use \code{type}
 to show individual plots.
 }
 \examples{
-\dontrun{
-model <- pptr(Species ~ ., data = iris)
-plot(model)                         # mosaic overview
-plot(model, type = "structure")     # tree structure only
-plot(model, type = "importance")    # variable importance
-plot(model, type = "projection")   # projection histogram
-plot(model, type = "boundaries")   # decision boundaries
+\donttest{
+if (requireNamespace("ggplot2", quietly = TRUE) &&
+    requireNamespace("patchwork", quietly = TRUE)) {
+  model <- pptr(Species ~ ., data = iris)
+  plot(model)                         # mosaic overview
+  plot(model, type = "structure")     # tree structure only
+  plot(model, type = "importance")    # variable importance
+  plot(model, type = "projection")    # projection histogram
+  plot(model, type = "boundaries")    # decision boundaries
+}
 }
 }

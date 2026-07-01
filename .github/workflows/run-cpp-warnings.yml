@@ -1,0 +1,48 @@
+name: Run C++ Strict Warnings
+
+# Compile the R-package core sources with GCC under -Wall -Wextra -pedantic
+# -Werror across multiple GCC versions. CRAN's incoming checks compile with
+# stricter flags than a default `R CMD check`, so warnings (e.g. C++20
+# designated initializers, -Wreorder) that clang accepts silently only surface
+# on CRAN. This job catches that whole class of portability issue before
+# submission. Third-party headers (Eigen, nlohmann/json, pcg) are included via
+# -isystem so their warnings do not count.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  strict:
+    name: GCC ${{ matrix.gcc }} -Wall -Wextra -pedantic -Werror
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        gcc: ['13', '14']
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install GCC ${{ matrix.gcc }} and Eigen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends g++-${{ matrix.gcc }} libeigen3-dev
+      - name: Compile core sources (warnings are errors)
+        run: |
+          set -uo pipefail
+          files=$(find core/src -name '*.cpp' ! -name '*.test.cpp' ! -name 'test.cpp' \
+            ! -path 'core/src/cli/*' ! -path 'core/src/io/*' ! -path 'core/src/golden/*')
+          rc=0
+          for f in $files; do
+            if ! g++-${{ matrix.gcc }} -std=c++17 -O2 -fopenmp \
+                -Wall -Wextra -pedantic -Werror \
+                -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_NO_AUTOMATIC_RESIZING \
+                -isystem /usr/include/eigen3 -isystem bindings/R/inst/include \
+                -Icore/src -Icore/include \
+                -c "$f" -o /dev/null; then
+              echo "::error file=$f::strict-warning compile failed"
+              rc=1
+            fi
+          done
+          [ "$rc" = 0 ] && echo "All core sources compile clean under -Wall -Wextra -pedantic -Werror."
+          exit $rc

@@ -16,13 +16,13 @@ namespace ppforest2::cutpoint {
 
   void MeanOfMeans::compute(NodeContext& ctx, RNG& /*rng*/) const {
     invariant(ctx.projector.has_value(), "MeanOfMeans requires projector on NodeContext");
-    auto const& y_part    = ctx.active_partition();
-    auto g1               = *y_part.groups.begin();
-    auto g2               = *std::next(y_part.groups.begin());
-    auto data_1           = y_part.group(ctx.x, g1);
-    auto data_2           = y_part.group(ctx.x, g2);
-    auto const& projector = ctx.projector.value();
-    ctx.cutpoint          = ((data_1 * projector).mean() + (data_2 * projector).mean()) / 2;
+    auto const& y_part          = ctx.active_partition();
+    auto g1                     = *y_part.groups.begin();
+    auto g2                     = *std::next(y_part.groups.begin());
+    auto const& projector       = ctx.projector.value();
+    Eigen::VectorXi const idx_1 = y_part.group_indices(g1);
+    Eigen::VectorXi const idx_2 = y_part.group_indices(g2);
+    ctx.cutpoint = ((ctx.x(idx_1, Eigen::all) * projector).mean() + (ctx.x(idx_2, Eigen::all) * projector).mean()) / 2;
   }
 
   Cutpoint::Ptr mean_of_means() {

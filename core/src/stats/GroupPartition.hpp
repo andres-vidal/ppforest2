@@ -140,6 +140,29 @@ namespace ppforest2::stats {
     }
 
     /**
+       * @brief Row indices of a group (or supergroup) as an owned Eigen vector.
+       *
+       * For callers that need a zero-copy `x(idx, all)` view participating in a
+       * product: keep the returned vector alive in scope and index with it. An
+       * Eigen index type (rather than the `std::vector<int>` used by `group()`)
+       * avoids a spurious GCC-14 `-Warray-bounds` on the index copy inside
+       * Eigen's product evaluator (fixed in GCC 15).
+       */
+    Eigen::VectorXi group_indices(Group const& group) const {
+      std::vector<int> indices;
+
+      auto const& subs = this->subgroups.at(group);
+
+      for (auto const& g : subs) {
+        for (int i = group_start(g); i <= group_end(g); ++i) {
+          indices.push_back(i);
+        }
+      }
+
+      return Eigen::VectorXi::Map(indices.data(), static_cast<Eigen::Index>(indices.size()));
+    }
+
+    /**
        * @brief Extract all rows across all groups.
        *
        * @param x  Feature matrix (n × p).
@@ -215,11 +238,11 @@ namespace ppforest2::stats {
 
   private:
     struct Block {
-      int start;
-      int end;
-      int size;
-      std::optional<types::GroupId> next;
-      std::optional<types::GroupId> prev;
+      int start                          = 0;
+      int end                            = 0;
+      int size                           = 0;
+      std::optional<types::GroupId> next = std::nullopt;
+      std::optional<types::GroupId> prev = std::nullopt;
     };
 
     using BlockMap = std::map<types::GroupId, Block>;

@@ -1,18 +1,19 @@
 CXX_STD = CXX17
 
-# `libppforest2-strategies.a` carries the concrete strategies that self-
-# register at static-init time. Without whole-archive linking, any strategy
-# whose factory isn't directly called from the R bindings would be dead-
-# stripped and its registration never fires — `load_json(...)` for a model
-# using that strategy throws "Unknown strategy" at runtime.
-# `@WHOLE_ARCHIVE_STRATEGIES_LIB@` is substituted by `configure` to the
-# platform-appropriate fragment (macOS `-Wl,-force_load,<path>`; GNU/MinGW
-# `-Wl,--whole-archive -lppforest2-strategies -Wl,--no-whole-archive`).
+# The C++ core is compiled directly into the package shared object. `configure`
+# stages the required core sources under `core/` and generates the `OBJECTS`
+# list below (models / stats / serialization / utils / strategies — the CLI,
+# io, golden and test translation units are excluded, so `fmt`, `csv-parser`
+# and CMake are not needed to build the R package). Eigen is provided by
+# RcppEigen (see LinkingTo); nlohmann/json and pcg are vendored under
+# `../inst/include`.
 #
-# `-lppforest2-core` links normally: its models / stats / serialization /
-# utils / io objects pull in on demand based on what the R bindings
-# actually reference. This keeps code paths R doesn't use (e.g. the CLI's
-# CSV reader) out of the linked shared library.
-PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_LIBS@ -L"../inst/lib" @WHOLE_ARCHIVE_STRATEGIES_LIB@ -lppforest2-core
-PKG_CPPFLAGS = -I"../inst/include" -I"core/include" -I"core/src" -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
-PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_CXXFLAGS@ @COMPILER_FLAGS@
+# Compiling every strategy object straight into the shared library (rather than
+# linking a static archive) means the self-registering strategies cannot be
+# dead-stripped — no whole-archive link trickery is required.
+
+PKG_CPPFLAGS = -I../inst/include -Icore/include -Icore/src -DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_NO_AUTOMATIC_RESIZING -DEIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
+PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_CXXFLAGS@
+PKG_LIBS = $(SHLIB_OPENMP_CXXFLAGS) @DARWIN_OPENMP_LIBS@
+
+OBJECTS = @OBJECTS@

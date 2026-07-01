@@ -32,6 +32,7 @@ describe("standard R accessors", {
 
   describe("fitted()", {
     it("returns a factor matching the training response for classification", {
+      set.seed(0)
       m <- pprf(Species ~ ., data = iris, size = 5, threads = 1)
       fv <- fitted(m)
       expect_s3_class(fv, "factor")

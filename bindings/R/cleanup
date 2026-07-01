@@ -1,2 +1,3 @@
 #!/bin/sh
-rm -f src/Makevars
+rm -f src/Makevars src/Makevars.win
+find src -name '*.o' -delete 2>/dev/null || true

@@ -98,16 +98,52 @@ tidy: build
 		--config="{CheckOptions: [{key: misc-include-cleaner.IgnoreHeaders, value: '${INCLUDE_CHECK_IGNORE}'}]}" \
 		2>/dev/null | grep -E "not used directly" || echo "No unused includes found."
 
+# Static analysis over the sources the R package actually ships (the same scope
+# as STRICT_SOURCES) plus the R glue. Three things keep --check-level=exhaustive
+# from taking ~50 min:
+#   - Scope: scanning the full core/src (cli/io/golden + GoogleTest-heavy
+#     *.test.cpp, none of which ship) is ~170x the analysis cost. We scan only
+#     the shipped core.
+#   - --max-configs=1: the Rcpp glue headers expand into ~260 preprocessor
+#     configurations; checking the default 12 under exhaustive cost ~4 min on
+#     ppforest2.h alone. The package builds in one configuration, so we check one.
+#   - --cppcheck-build-dir: caches per-header analysis so the large vendored
+#     nlohmann/json header is analysed once, not re-analysed for every one of the
+#     ~20 translation units that include it (~20x slower without it).
+# Together the analysis finishes in seconds. The vendored third-party headers
+# (nlohmann/json, pcg) are not our code, so their own findings are suppressed.
+CPPCHECK_BUILD_DIR ?= .cppcheck-cache
 analyze:
-	@cppcheck --enable=all --check-level=exhaustive --inline-suppr \
+	@mkdir -p ${CPPCHECK_BUILD_DIR}
+	@cppcheck --enable=all --check-level=exhaustive --inline-suppr --max-configs=1 \
+		--cppcheck-build-dir=${CPPCHECK_BUILD_DIR} \
 		--suppress=missingIncludeSystem --suppress=duplInheritedMember \
+		--suppress=toomanyconfigs \
 		--suppress='unusedFunction:bindings/R/src/*' \
-		--suppress='moduloofone:*.test.cpp' \
-		--suppress='syntaxError:core/src/io/IO.test.cpp' \
+		--suppress='unusedFunction:bindings/R/inst/include/ppforest2.h' \
+		--suppress='*:bindings/R/inst/include/nlohmann/*' \
+		--suppress='*:bindings/R/inst/include/pcg_*' \
 		--suppress='syntaxError:core/src/utils/UserError.hpp' \
 		--quiet \
-		core/src bindings/R/src/main.cpp bindings/R/inst/include/ppforest2.h \
+		${STRICT_SOURCES} bindings/R/src/main.cpp bindings/R/inst/include/ppforest2.h \
 		-Icore/src -Icore/include -Ibindings/R/inst/include
+
+# Strict-warning compile of the R-package core sources, mirroring CRAN's
+# stricter compilation. Uses real GCC (macOS `g++` is clang and won't catch
+# these) — override on macOS with `make cpp-strict STRICT_CXX=g++-15`. Eigen
+# comes from `.build/_deps` (run `make fetch-deps` first) or the system.
+STRICT_CXX ?= g++
+STRICT_SOURCES = $(shell find core/src -name '*.cpp' ! -name '*.test.cpp' ! -name 'test.cpp' ! -path '*/cli/*' ! -path '*/io/*' ! -path '*/golden/*')
+cpp-strict:
+	@eigen=$$(ls -d ${BUILD_DIR}/_deps/eigen-src 2>/dev/null || echo /usr/include/eigen3); \
+	rc=0; \
+	for f in ${STRICT_SOURCES}; do \
+		${STRICT_CXX} -std=c++17 -O2 -fopenmp -Wall -Wextra -pedantic -Werror \
+			-DNDEBUG -DEIGEN_NO_DEBUG -DEIGEN_DONT_PARALLELIZE -DEIGEN_NO_AUTOMATIC_RESIZING \
+			-isystem $$eigen -isystem bindings/R/inst/include -Icore/src -Icore/include \
+			-c $$f -o /dev/null || rc=1; \
+	done; \
+	[ $$rc = 0 ] && echo "OK: core compiles clean under -Wall -Wextra -pedantic -Werror" || exit 1
 
 # Aggregate quality gates: format check, clang-tidy (incl. misc-include-cleaner),
 # and cppcheck. No autofix — CI-friendly single entry point.
@@ -124,41 +160,22 @@ r-install-deps:
 	@Rscript -e "if (!requireNamespace('pak', quietly = TRUE)) install.packages('pak', repos = '${R_CRAN_MIRROR}')"
 	@Rscript -e "pak::local_install_deps('${R_PACKAGE_DIR}')"
 
-r-build-core: fetch-deps
-	@mkdir -p ${R_BUILD_DIR}/_deps
-	@for src_dir in ${BUILD_DIR}/_deps/*-src; do \
-		target=${R_BUILD_DIR}/_deps/$$(basename $$src_dir); \
-		[ ! -d "$$target" ] && cp -r "$$src_dir" "$$target" || true; \
-	done
-	@R_CXX_FULL="$$(R CMD config CXX17)"; \
-	R_CXX_COMPILER="$$(echo $$R_CXX_FULL | awk '{print $$1}')"; \
-	R_CXX_EXTRA="$$(echo $$R_CXX_FULL | awk '{$$1=""; print}' | sed 's/^ *//')"; \
-	cd ${R_BUILD_DIR} && cmake -G "Unix Makefiles" \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_CXX_COMPILER="$$R_CXX_COMPILER" \
-		-DCMAKE_CXX_FLAGS="$$R_CXX_EXTRA $$(R CMD config CXX17STD) $$(R CMD config CXX17FLAGS)" \
-		-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-		-DPPFOREST2_CORE_ONLY=ON ${CMAKE_EXTRA} \
-		../core
-	@cd ${R_BUILD_DIR} && make ppforest2-core ppforest2-strategies
-	@strip -S ${R_BUILD_DIR}/libppforest2-core.a
-	@strip -S ${R_BUILD_DIR}/src/models/strategies/libppforest2-strategies.a
-
+# Note: inst/include/nlohmann and inst/include/pcg_*.hpp are vendored
+# (committed) and must NOT be removed here.
 r-clean:
 	@rm -rf \
 		${R_PACKAGE_DIR}/src/*.o \
 		${R_PACKAGE_DIR}/src/*.so \
 		${R_PACKAGE_DIR}/src/*.rds \
 		${R_PACKAGE_DIR}/src/*.dll \
+		${R_PACKAGE_DIR}/src/Makevars \
+		${R_PACKAGE_DIR}/src/Makevars.win \
 		${R_PACKAGE_DIR}/src/core \
 		${R_PACKAGE_DIR}/src/.build \
 		${R_PACKAGE_DIR}/src/VERSION \
 		${R_PACKAGE_DIR}/NEWS.md \
 		${R_PACKAGE_DIR}/inst/lib \
-		${R_PACKAGE_DIR}/inst/include/nlohmann \
-		${R_PACKAGE_DIR}/inst/include/pcg_* \
 		${R_PACKAGE_DIR}/inst/golden \
-		ppforest2_${CORE_VERSION}.tar.gzm \
 		ppforest2.Rcheck
 
 r-version:
@@ -166,13 +183,42 @@ r-version:
 	@sed -i.bak "s/^Date: .*/Date: $$(date +%Y-%m-%d)/" ${R_PACKAGE_DIR}/DESCRIPTION && rm -f ${R_PACKAGE_DIR}/DESCRIPTION.bak
 	
 	
-r-prepare: r-clean r-version fetch-deps
-	@mkdir -p ${R_PACKAGE_DIR}/src/core && cp -r core/* ${R_PACKAGE_DIR}/src/core
-	@cp VERSION ${R_PACKAGE_DIR}/src/VERSION
+# Stage the core sources the R package compiles directly (see bindings/R/
+# configure). The CLI, io, golden and test translation units are dropped —
+# they need fmt / csv-parser / googletest, which the R package does not.
+# nlohmann/json and pcg headers are vendored under inst/include (committed);
+# Eigen comes from RcppEigen. No CMake, no downloads.
+r-prepare: r-clean r-version
+	@mkdir -p ${R_PACKAGE_DIR}/src/core
+	@cp -r core/include ${R_PACKAGE_DIR}/src/core/include
+	@cp -r core/src ${R_PACKAGE_DIR}/src/core/src
+	@rm -rf ${R_PACKAGE_DIR}/src/core/src/cli ${R_PACKAGE_DIR}/src/core/src/io ${R_PACKAGE_DIR}/src/core/src/golden
+	@find ${R_PACKAGE_DIR}/src/core -name '*.test.cpp' -delete
+	@rm -f ${R_PACKAGE_DIR}/src/core/src/test.cpp
+	@find ${R_PACKAGE_DIR}/src/core -name 'CMakeLists.txt' -delete
 	@cp CHANGELOG.md ${R_PACKAGE_DIR}/NEWS.md
-	@cp -r ${NLHOMANN_JSON_HEADERS_PATH}/* ${R_PACKAGE_DIR}/inst/include
-	@cp -r ${PCG_HEADERS_PATH}/* ${R_PACKAGE_DIR}/inst/include
 	@cp -r golden ${R_PACKAGE_DIR}/inst/golden
+
+# Re-vendor the committed nlohmann/json + pcg headers under inst/include from
+# the versions pinned in core/Dependencies.cmake. Run this after bumping json
+# or pcg there. It downloads via fetch-deps (maintainer-side; needs network),
+# copies the headers, then strips every `#pragma (GCC|clang) diagnostic ignored`
+# line — the exact pattern R CMD check's pragma check flags (see
+# tools:::.check_pragmas). This clears both the "important diagnostics"
+# (-Wfloat-equal) that CRAN treats as a WARNING and the cosmetic ones
+# (-Wdocumentation, -Wmismatched-tags, Hedley's -Wpedantic/-Wvariadic-macros)
+# it reports as a NOTE. Only the literal `#pragma ... ignored` lines match that
+# check, so Hedley's `_Pragma(...)` macros and all push/pop blocks are left
+# intact and the library still compiles. Review `git diff` and run
+# `make r-check-cran` afterwards.
+r-vendor-deps: fetch-deps
+	@echo "* Re-vendoring nlohmann/json and pcg headers into ${R_PACKAGE_DIR}/inst/include ..."
+	@rm -rf ${R_PACKAGE_DIR}/inst/include/nlohmann
+	@cp -r ${NLHOMANN_JSON_HEADERS_PATH}/nlohmann ${R_PACKAGE_DIR}/inst/include/
+	@cp ${PCG_HEADERS_PATH}/pcg_extras.hpp ${PCG_HEADERS_PATH}/pcg_random.hpp ${PCG_HEADERS_PATH}/pcg_uint128.hpp ${R_PACKAGE_DIR}/inst/include/
+	@find ${R_PACKAGE_DIR}/inst/include/nlohmann -name '*.hpp' -exec \
+		perl -ni -e 'print unless m{^\s*#pragma (GCC|clang) diagnostic ignored}' {} +
+	@echo "* Done. Review 'git diff' and run 'make r-check-cran'."
 
 r-document:
 	@make r-prepare
@@ -188,17 +234,35 @@ r-build: r-clean
 r-test:
 	@make r-prepare
 	@Rscript -e "Rcpp::compileAttributes('${R_PACKAGE_DIR}')"
-	@PPFOREST2_FETCH_CACHE="$(CURDIR)/${BUILD_DIR}/_deps" Rscript -e "devtools::load_all('${R_PACKAGE_DIR}'); devtools::test('${R_PACKAGE_DIR}')"
+	@Rscript -e "devtools::load_all('${R_PACKAGE_DIR}'); devtools::test('${R_PACKAGE_DIR}')"
 	@make r-clean
 
+# `R CMD check` exits 0 on WARNINGs (only ERRORs are non-zero), so a WARNING
+# would silently pass CI. In CI ($CI is set by GitHub Actions) we additionally
+# fail on any check WARNING. The "checking top-level files" WARNING is excluded
+# because it fires wherever `checkbashisms` is not installed (macOS/Windows
+# runners) and is a tooling-absence artifact, not a package defect.
+define fail_on_warning
+	@if [ -n "$$CI" ]; then \
+		warns=$$(grep -E '^\* .*\.\.\. WARNING' ppforest2.Rcheck/00check.log | grep -v 'checking top-level files' || true); \
+		if [ -n "$$warns" ]; then \
+			echo "::error::R CMD check reported WARNING(s):"; \
+			grep -E '^Status:|WARNING' ppforest2.Rcheck/00check.log; \
+			exit 1; \
+		fi; \
+	fi
+endef
+
 r-check: r-build
-	@PPFOREST2_FETCH_CACHE="$(CURDIR)/${BUILD_DIR}/_deps" R CMD check ${R_PACKAGE_TARBALL}
+	@R CMD check ${R_PACKAGE_TARBALL} || exit 1
+	$(fail_on_warning)
 
 r-check-cran: r-build
-	@PPFOREST2_FETCH_CACHE="$(CURDIR)/${BUILD_DIR}/_deps" R CMD check ${R_PACKAGE_TARBALL} --as-cran
+	@R CMD check ${R_PACKAGE_TARBALL} --as-cran || exit 1
+	$(fail_on_warning)
 
 r-install: r-build
-	@PPFOREST2_FETCH_CACHE="$(CURDIR)/${BUILD_DIR}/_deps" R CMD INSTALL ${R_PACKAGE_TARBALL}
+	@R CMD INSTALL ${R_PACKAGE_TARBALL}
 
 # Documentation
 
@@ -217,11 +281,8 @@ docs-cpp:
 	@( cat ${DOCS_DIR}/Doxyfile ; echo "PROJECT_NUMBER = v${CORE_VERSION}" ) | ${DOXYGEN} -
 
 docs-r:
-	@make r-build-core
 	@make r-prepare
-	@mkdir -p ${R_PACKAGE_DIR}/inst/lib
-	@cp ${R_BUILD_DIR}/libppforest2-core.a ${R_PACKAGE_DIR}/inst/lib/
-	@cp ${R_BUILD_DIR}/src/models/strategies/libppforest2-strategies.a ${R_PACKAGE_DIR}/inst/lib/
+	@Rscript -e "Rcpp::compileAttributes('${R_PACKAGE_DIR}')"
 	@cp ${DOCS_DIR}/_pkgdown.yml ${R_PACKAGE_DIR}/_pkgdown.yml
 	@sed -i.bak 's|/ppforest2/main/|/ppforest2/${DOCS_REF}/|g' ${R_PACKAGE_DIR}/_pkgdown.yml ${R_PACKAGE_DIR}/README.md && rm -f ${R_PACKAGE_DIR}/_pkgdown.yml.bak ${R_PACKAGE_DIR}/README.md.bak
 	@Rscript -e "pkgdown::build_site('${R_PACKAGE_DIR}', override=list(destination='../../${DOCS_BUILD_DIR}/r'), preview=FALSE)"

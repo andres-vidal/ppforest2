@@ -19,11 +19,13 @@ Creates a model specification for a single Projection Pursuit decision tree.
 Use \code{set_engine("ppforest2")} to select the ppforest2 engine.
 }
 \examples{
-\dontrun{
-library(parsnip)
-spec <- pp_tree(penalty = 0) \%>\% set_engine("ppforest2")
-fit <- spec \%>\% fit(Species ~ ., data = iris)
-predict(fit, iris)
+\donttest{
+if (requireNamespace("parsnip", quietly = TRUE)) {
+  library(parsnip)
+  spec <- pp_tree(penalty = 0) \%>\% set_engine("ppforest2")
+  fit <- spec \%>\% fit(Species ~ ., data = iris)
+  predict(fit, iris)
+}
 }
 }
 \seealso{

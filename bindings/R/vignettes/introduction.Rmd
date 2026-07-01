@@ -8,6 +8,9 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
+# Cap OpenMP to 2 threads so forest training in this vignette never uses more
+# than two cores when the vignette is rebuilt under R CMD check (CRAN policy).
+Sys.setenv(OMP_NUM_THREADS = "2")
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",

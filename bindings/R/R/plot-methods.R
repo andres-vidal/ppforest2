@@ -25,13 +25,16 @@
 #' @return A ggplot2-compatible object (invisibly). The mosaic layout returns
 #'   a patchwork object that works with \code{ggplot2::ggsave()}.
 #' @examples
-#' \dontrun{
-#' model <- pptr(Species ~ ., data = iris)
-#' plot(model)                         # mosaic overview
-#' plot(model, type = "structure")     # tree structure only
-#' plot(model, type = "importance")    # variable importance
-#' plot(model, type = "projection")   # projection histogram
-#' plot(model, type = "boundaries")   # decision boundaries
+#' \donttest{
+#' if (requireNamespace("ggplot2", quietly = TRUE) &&
+#'     requireNamespace("patchwork", quietly = TRUE)) {
+#'   model <- pptr(Species ~ ., data = iris)
+#'   plot(model)                         # mosaic overview
+#'   plot(model, type = "structure")     # tree structure only
+#'   plot(model, type = "importance")    # variable importance
+#'   plot(model, type = "projection")    # projection histogram
+#'   plot(model, type = "boundaries")    # decision boundaries
+#' }
 #' }
 #' @export
 plot.pptr <- function(x, type = NULL, metric = NULL, node = 1L, ...) {
@@ -87,12 +90,15 @@ plot.pptr <- function(x, type = NULL, metric = NULL, node = 1L, ...) {
 #' @return A ggplot2-compatible object (invisibly). The importance grid returns
 #'   a patchwork object that works with \code{ggplot2::ggsave()}.
 #' @examples
-#' \dontrun{
-#' forest <- pprf(Species ~ ., data = iris, size = 10)
-#' plot(forest)                                    # all metrics side by side
-#' plot(forest, metric = "permuted")               # single metric
-#' plot(forest, type = "structure", tree_index = 1)
-#' plot(forest, type = "projection", tree_index = 1)
+#' \donttest{
+#' if (requireNamespace("ggplot2", quietly = TRUE) &&
+#'     requireNamespace("patchwork", quietly = TRUE)) {
+#'   forest <- pprf(Species ~ ., data = iris, size = 10)
+#'   plot(forest)                                    # all metrics side by side
+#'   plot(forest, metric = "permuted")               # single metric
+#'   plot(forest, type = "structure", tree_index = 1)
+#'   plot(forest, type = "projection", tree_index = 1)
+#' }
 #' }
 #' @export
 plot.pprf <- function(x, type = "importance", metric = NULL,

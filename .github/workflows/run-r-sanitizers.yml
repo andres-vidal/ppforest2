@@ -1,0 +1,122 @@
+name: 'Manual: R Sanitizers & R-devel'
+
+# Comprehensive pre-CRAN checks that the normal CI does not cover:
+# AddressSanitizer / UndefinedBehaviorSanitizer (clang and gcc), valgrind, and
+# R-devel. These run in the r-hub v2 container images. Manual-dispatch only —
+# they are slow and meant to be run before a CRAN submission, not on every push.
+#
+# Strategy: build the self-contained source tarball once on a normal runner
+# (it needs pandoc/LaTeX for the vignettes/manual), then run `R CMD check` on
+# that tarball inside each instrumented container. The package is compiled with
+# the container's sanitizer toolchain during install, and its tests run under
+# the sanitizer/valgrind — which is where the C++ core gets exercised.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build source tarball
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-tinytex@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: bindings/R
+      - run: make r-build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: tarball
+          path: ppforest2_*.tar.gz
+          if-no-files-found: error
+
+  check:
+    name: ${{ matrix.name }}
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/r-hub/containers/${{ matrix.id }}:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { id: clang-asan,  name: clang ASAN+UBSAN }
+          - { id: gcc-asan,    name: gcc ASAN+UBSAN }
+          - { id: clang-ubsan, name: clang UBSAN }
+          - { id: ubuntu-next, name: R-devel }
+          - { id: valgrind,    name: valgrind, valgrind: "1" }
+    env:
+      # Let the check proceed without the (heavy) tidymodels/ggplot2 Suggests;
+      # the sanitizer-relevant work is the compiled core and its tests.
+      _R_CHECK_FORCE_SUGGESTS_: "false"
+      # Keep threading deterministic and out of the sanitizers' way.
+      OMP_NUM_THREADS: "1"
+    steps:
+      # Install dependencies with pak, via the same action our normal CI uses.
+      # Inside the r-hub containers, plain install.packages() resolves against
+      # the prebuilt binary repo and 404s on the tarballs ("cannot download any
+      # files"); pak handles those container repos correctly. Needs a checkout
+      # so the action can read bindings/R/DESCRIPTION. Only hard deps (Rcpp,
+      # RcppEigen) plus testthat + jsonlite (the JSON round-trip tests) — not
+      # the heavy tidymodels/ggplot2 Suggests, which the guarded tests skip.
+      - uses: actions/checkout@v7
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          working-directory: bindings/R
+          dependencies: '"hard"'
+          extra-packages: |
+            any::testthat
+            any::jsonlite
+      - uses: actions/download-artifact@v8
+        with:
+          name: tarball
+      - name: R CMD check
+        run: |
+          FLAGS="--as-cran --no-manual --no-vignettes"
+          if [ -n "${{ matrix.valgrind }}" ]; then FLAGS="$FLAGS --use-valgrind"; fi
+          R CMD check $FLAGS ppforest2_*.tar.gz
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          cat ppforest2.Rcheck/00install.out 2>/dev/null || true
+          cat ppforest2.Rcheck/00check.log 2>/dev/null || true
+          for f in ppforest2.Rcheck/tests/*.Rout*; do
+            echo "===== $f ====="; cat "$f" 2>/dev/null || true
+          done
+
+  # rchk: static analysis for PROTECT/UNPROTECT bugs in the compiled code that
+  # talks to R's C API (the Rcpp glue). Different invocation from R CMD check —
+  # it installs the tarball's hard deps, then runs the container's rchk.sh.
+  # Informational: findings are surfaced as a warning for review (rchk has
+  # occasional false positives), not a hard failure.
+  rchk:
+    name: rchk (PROTECT analysis)
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/r-hub/containers/rchk:latest
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: tarball
+      - name: Run rchk
+        run: |
+          set -e
+          tarball=$(ls ppforest2_*.tar.gz | head -n1)
+          R -q -e "pak::pkg_install('deps::${tarball}', dependencies = list(direct = 'LinkingTo', indirect = 'hard'))"
+          tar xzf "${tarball}"
+          cd ppforest2
+          /opt/R/devel-rchk/bin/rchk.sh 2>&1 | tee ../rchk.out
+          echo "::group::rchk summary"
+          if grep -iE "Suspicious|unprotected|not protected|too many protects|imprecise|protection stack" ../rchk.out; then
+            echo "::warning::rchk reported potential PROTECT issues — review the log above."
+          else
+            echo "No rchk findings."
+          fi
+          echo "::endgroup::"
