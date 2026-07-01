@@ -40,11 +40,14 @@ one plot per metric side by side. Use \code{metric} to show a single
 importance metric.
 }
 \examples{
-\dontrun{
-forest <- pprf(Species ~ ., data = iris, size = 10)
-plot(forest)                                    # all metrics side by side
-plot(forest, metric = "permuted")               # single metric
-plot(forest, type = "structure", tree_index = 1)
-plot(forest, type = "projection", tree_index = 1)
+\donttest{
+if (requireNamespace("ggplot2", quietly = TRUE) &&
+    requireNamespace("patchwork", quietly = TRUE)) {
+  forest <- pprf(Species ~ ., data = iris, size = 10)
+  plot(forest)                                    # all metrics side by side
+  plot(forest, metric = "permuted")               # single metric
+  plot(forest, type = "structure", tree_index = 1)
+  plot(forest, type = "projection", tree_index = 1)
+}
 }
 }

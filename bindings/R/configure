@@ -1,190 +1,116 @@
 #!/usr/bin/env sh
 
-TEMP_CXX=`${R_HOME}/bin/R CMD config CXX17`
-TEMP_CXXFLAGS=`${R_HOME}/bin/R CMD config CXXFLAGS`
+# Configure the R package build.
+#
+# The C++ core is compiled directly into the package shared object via
+# Makevars — no CMake, no network access, no pre-built static archives. This
+# script only has to (1) stage the core sources when building in the monorepo,
+# (2) generate the list of object files to compile, and (3) detect OpenMP
+# support (which needs special handling on macOS).
 
-# Initialize compiler-specific flags
-COMPILER_FLAGS=""
+set -e
 
-# Detect compiler type and set appropriate flags
-printf "%s" "* checking compiler type... "
-if ${TEMP_CXX} -v 2>&1 | grep -q "clang"; then
-    echo "clang"
-elif ${TEMP_CXX} -v 2>&1 | grep -q "gcc"; then
-    echo "gcc"
-else
-    echo "other"
+# ---------------------------------------------------------------------------
+# 1. Stage core C++ sources.
+#
+# Tarball (CRAN): `src/core` is already bundled by `make r-prepare`.
+# Monorepo (devtools::load_all / install_github with subdir): copy `../../core`
+# into `src/core` so the same relative include paths work in both contexts.
+# ---------------------------------------------------------------------------
+if [ ! -d src/core ]; then
+  if [ -d ../../core ]; then
+    echo "* Monorepo detected: staging core sources into src/core"
+    mkdir -p src/core
+    cp -R ../../core/include src/core/include
+    cp -R ../../core/src src/core/src
+  else
+    echo "ERROR: Cannot find core source. Expected src/core (tarball) or ../../core (monorepo)."
+    exit 1
+  fi
 fi
 
-cat <<EOF > test-omp.cpp
-	#include <omp.h>
-	int main() {
-		return omp_get_num_threads();
-	}
+# ---------------------------------------------------------------------------
+# 2. Generate the OBJECTS list.
+#
+# Everything the R bindings need lives under models / stats / serialization /
+# utils / strategies. The CLI, io, golden and test translation units are
+# excluded — they pull in fmt / csv-parser / googletest, none of which the R
+# package requires. Paths are relative to `src/` (where make runs).
+# ---------------------------------------------------------------------------
+OBJECTS="main.o RcppExports.o"
+for src in $(cd src && find core/src -name '*.cpp' \
+    ! -name '*.test.cpp' \
+    ! -name 'test.cpp' \
+    ! -path 'core/src/cli/*' \
+    ! -path 'core/src/io/*' \
+    ! -path 'core/src/golden/*'); do
+  OBJECTS="${OBJECTS} ${src%.cpp}.o"
+done
+
+# ---------------------------------------------------------------------------
+# 3. Detect OpenMP.
+#
+# On Linux/Windows R's $(SHLIB_OPENMP_CXXFLAGS) is enough. macOS clang needs
+# "-Xclang -fopenmp" plus an explicit libomp; probe for it the way data.table
+# does and fall back to a serial build if unavailable.
+# ---------------------------------------------------------------------------
+DARWIN_OPENMP_CXXFLAGS=""
+DARWIN_OPENMP_LIBS=""
+
+if [ "$(uname)" = "Darwin" ]; then
+  TEMP_CXX=$("${R_HOME}/bin/R" CMD config CXX17)
+  TEMP_CXXFLAGS=$("${R_HOME}/bin/R" CMD config CXX17FLAGS)
+
+  cat <<EOF > test-omp.cpp
+#include <omp.h>
+int main() { return omp_get_num_threads(); }
 EOF
 
-# Adapted from https://github.com/Rdatatable/data.table/blob/4827b679c43c5b4ef3ead8ef6e3c17645319e230/configure#L88
+  R_OPENMP_ENABLED=0
 
-detect_openmp () {
-  if [ "$(uname)" = "Darwin" ]; then
-
-    # https://mac.r-project.org/openmp
-    printf "%s" "* checking if R installation supports OpenMP with \"-Xclang -fopenmp\" ... "
-    if CPPFLAGS="${CPP_FLAGS} -Xclang -fopenmp" LDFLAGS="${LDFLAGS} -lomp" "${R_HOME}/bin/R" CMD SHLIB test-omp.cpp >> config.log 2>&1; then
-      echo "yes"
-      export DARWIN_OPENMP_CXXFLAGS="-Xclang -fopenmp"
-      export DARWIN_OPENMP_LIBS="-lomp"
-      export R_OPENMP_ENABLED=1
-      return
-    else
-      echo "no"
-    fi
-
+  printf "%s" "* checking if R supports OpenMP with \"-Xclang -fopenmp\" ... "
+  if CPPFLAGS="${CPPFLAGS} -Xclang -fopenmp" LDFLAGS="${LDFLAGS} -lomp" \
+      "${R_HOME}/bin/R" CMD SHLIB test-omp.cpp >> config.log 2>&1; then
+    echo "yes"
+    DARWIN_OPENMP_CXXFLAGS="-Xclang -fopenmp"
+    DARWIN_OPENMP_LIBS="-lomp"
+    R_OPENMP_ENABLED=1
+  else
+    echo "no"
     if [ "$(uname -m)" = "arm64" ]; then
       HOMEBREW_PREFIX=/opt/homebrew
     else
       HOMEBREW_PREFIX=/usr/local
     fi
-
     if [ -e "${HOMEBREW_PREFIX}/opt/libomp" ]; then
-      printf "%s" "* checking if libomp installation at ${HOMEBREW_PREFIX}/opt/libomp can be used... "
-      export LIBOMP_INCLUDE="-I${HOMEBREW_PREFIX}/opt/libomp/include -Xclang -fopenmp"
-      export LIBOMP_LINK="-L${HOMEBREW_PREFIX}/opt/libomp/lib -lomp"
-      if ${TEMP_CXX} ${TEMP_CXXFLAGS} ${LIBOMP_INCLUDE} ${LIBOMP_LINK} test-omp.cpp >> config.log 2>&1; then
+      printf "%s" "* checking libomp at ${HOMEBREW_PREFIX}/opt/libomp ... "
+      LIBOMP_INCLUDE="-I${HOMEBREW_PREFIX}/opt/libomp/include -Xclang -fopenmp"
+      LIBOMP_LINK="-L${HOMEBREW_PREFIX}/opt/libomp/lib -lomp"
+      if ${TEMP_CXX} ${TEMP_CXXFLAGS} ${LIBOMP_INCLUDE} ${LIBOMP_LINK} test-omp.cpp -o test-omp.out >> config.log 2>&1; then
         echo "yes"
-        export R_OPENMP_ENABLED=1
-        return
+        DARWIN_OPENMP_CXXFLAGS="${LIBOMP_INCLUDE}"
+        DARWIN_OPENMP_LIBS="${LIBOMP_LINK}"
+        R_OPENMP_ENABLED=1
       else
         echo "no"
       fi
     fi
-
   fi
-
-	# No support for OpenMP available
-  export R_OPENMP_ENABLED=0
-}
-
-if [ "$(uname)" = "Darwin" ]; then
-
-  detect_openmp
 
   rm -rf test-omp.* a.out* config.log
 
   if [ "${R_OPENMP_ENABLED}" = "0" ]; then
     echo "***"
-    echo "*** OpenMP not supported! Parallelization will not be available."
-    echo "*** Try installing libomp using:"
+    echo "*** OpenMP not available — forest training will run single-threaded."
+    echo "*** Install it with:  brew install libomp"
     echo "***"
-    echo "***   brew install libomp"
-    echo "***"
-  else 
-    export DARWIN_OPENMP_CXXFLAGS="${LIBOMP_INCLUDE}"
-    export DARWIN_OPENMP_LIBS="${LIBOMP_LINK}"
-  fi
-
-fi
-
-
-# Build libppforest2-core.a and libppforest2-strategies.a
-#
-# Two static archives instead of one because `ppforest2-strategies` carries
-# the self-registering strategies — its object files must all be linked in
-# (via whole-archive, see Makevars) or strategies dead-strip and `load_json`
-# fails for any strategy not directly referenced from R bindings' code.
-# Splitting the build lets Makevars apply whole-archive linkage surgically
-# to just the strategies and let the rest of core (Tree/Forest/stats/
-# serialization/utils/io) link on demand — so code paths R doesn't use
-# (e.g. the CSV reader) don't get pulled in and leave unresolved external
-# symbols at dynload time.
-if [ ! -f inst/lib/libppforest2-core.a ] || [ ! -f inst/lib/libppforest2-strategies.a ]; then
-  mkdir -p inst/lib
-
-  if [ -d ../../core ]; then
-    # Monorepo path (devtools::load_all or install_github with subdir)
-    echo "* Monorepo detected. Building core via project Makefile..."
-    PROJECT_ROOT="../.."
-    cd "$PROJECT_ROOT"
-    make r-build-core
-    cd - > /dev/null
-
-    R_BUILD_DIR="$PROJECT_ROOT/.r-build"
-
-    cp -r "$R_BUILD_DIR/_deps/json-src/include/"* inst/include/
-    cp -r "$R_BUILD_DIR/_deps/pcg-src/include/"* inst/include/
-
-    mkdir -p src/core && cp -r "$PROJECT_ROOT/core/"* src/core/
-    cp "$PROJECT_ROOT/VERSION" src/VERSION
-
-    cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
-    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
-
-  elif [ -d src/core ]; then
-    # Tarball path: build from bundled source
-    R_BUILD_DIR=src/.r-build
-    mkdir -p "$R_BUILD_DIR"
-
-    FETCH_ARGS=""
-    if [ -n "$PPFOREST2_FETCH_CACHE" ]; then
-      for src_dir in "$PPFOREST2_FETCH_CACHE"/*-src; do
-        name_lower=$(basename "$src_dir" -src)
-        # Skip deps not used under PPFOREST2_CORE_ONLY
-        case "$name_lower" in
-          cli11|googletest|benchmark) continue ;;
-        esac
-        name=$(echo "$name_lower" | tr '[:lower:]' '[:upper:]')
-        FETCH_ARGS="$FETCH_ARGS -DFETCHCONTENT_SOURCE_DIR_${name}=${src_dir}"
-      done
-    fi
-
-    # Split R's CXX17 into compiler path and extra flags
-    # (on macOS ARM, R CMD config CXX17 returns "clang++ -arch arm64")
-    R_CXX_FULL=$("${R_HOME}/bin/R" CMD config CXX17)
-    R_CXX_COMPILER=$(echo "$R_CXX_FULL" | awk '{print $1}')
-    R_CXX_EXTRA=$(echo "$R_CXX_FULL" | awk '{$1=""; print}' | sed 's/^ *//')
-
-    R_CXX_STD=$("${R_HOME}/bin/R" CMD config CXX17STD)
-    R_CXX_FLAGS=$("${R_HOME}/bin/R" CMD config CXX17FLAGS)
-
-    cd "$R_BUILD_DIR" && cmake -G "Unix Makefiles" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_CXX_COMPILER="$R_CXX_COMPILER" \
-      -DCMAKE_CXX_FLAGS="$R_CXX_EXTRA $R_CXX_STD $R_CXX_FLAGS" \
-      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-      -DPPFOREST2_CORE_ONLY=ON \
-      $FETCH_ARGS \
-      ../core && make ppforest2-core ppforest2-strategies && cd ../..
-
-    strip -S "$R_BUILD_DIR/libppforest2-core.a"
-    strip -S "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a"
-    cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
-    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
-    rm -rf "$R_BUILD_DIR"
-
-  else
-    echo "ERROR: Cannot find core source. Expected ../../core/ (monorepo) or src/core/ (tarball)."
-    exit 1
   fi
 fi
 
-# Platform-appropriate whole-archive fragment for libppforest2-strategies.a.
-# See the note in Makevars.in for why this is needed (self-registering
-# strategies get dead-stripped otherwise).
-#
-# macOS ld64 uses `-force_load,<path>` (no `--whole-archive`). GNU ld
-# and MinGW's lld use `--whole-archive ... --no-whole-archive`. The
-# path-based form on macOS means we can't go through
-# `-lppforest2-strategies` there; for GNU we keep the `-l` form so the
-# `-L` search path still applies.
-if [ "$(uname)" = "Darwin" ]; then
-  WHOLE_ARCHIVE_STRATEGIES_LIB='-Wl,-force_load,../inst/lib/libppforest2-strategies.a'
-else
-  WHOLE_ARCHIVE_STRATEGIES_LIB='-Wl,--whole-archive -lppforest2-strategies -Wl,--no-whole-archive'
-fi
-
+# ---------------------------------------------------------------------------
+# 4. Generate src/Makevars from the template.
+# ---------------------------------------------------------------------------
 sed -e "s|@DARWIN_OPENMP_CXXFLAGS@|${DARWIN_OPENMP_CXXFLAGS}|" \
     -e "s|@DARWIN_OPENMP_LIBS@|${DARWIN_OPENMP_LIBS}|" \
-    -e "s|@COMPILER_FLAGS@|${COMPILER_FLAGS}|" \
-    -e "s|@WHOLE_ARCHIVE_STRATEGIES_LIB@|${WHOLE_ARCHIVE_STRATEGIES_LIB}|" \
+    -e "s|@OBJECTS@|${OBJECTS}|" \
     src/Makevars.in > src/Makevars
-

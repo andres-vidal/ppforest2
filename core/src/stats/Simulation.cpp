@@ -86,7 +86,7 @@ namespace ppforest2::stats {
       std::sort(tr.begin(), tr.end());
       std::sort(te.begin(), te.end());
 
-      return {.tr = std::move(tr), .te = std::move(te)};
+      return {std::move(tr), std::move(te)};
     }
 
     // Classification path: stratified per-group split to preserve class
@@ -106,7 +106,7 @@ namespace ppforest2::stats {
       test_indices.insert(test_indices.end(), group_indices.begin() + group_train_size, group_indices.end());
     }
 
-    return {.tr = train_indices, .te = test_indices};
+    return {train_indices, test_indices};
   }
 
   DataPacket simulate(int const n, int const p, RNG& rng, params::Regression const& params) {

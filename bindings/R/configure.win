@@ -1,75 +1,34 @@
 #!/usr/bin/env sh
 
-# Build libppforest2-core.a and libppforest2-strategies.a
-#
-# Two static archives instead of one because `ppforest2-strategies` carries
-# the self-registering strategies — its object files must all be linked in
-# (via whole-archive in Makevars.win) or strategies dead-strip and
-# `load_json` fails for any strategy not directly referenced from R
-# bindings' code. See the Makevars.in comment for the full rationale.
-if [ ! -f inst/lib/libppforest2-core.a ] || [ ! -f inst/lib/libppforest2-strategies.a ]; then
-  mkdir -p inst/lib
+# Windows configuration. See `configure` for the full rationale. The core is
+# compiled directly into the package DLL; Rtools provides OpenMP through
+# $(SHLIB_OPENMP_CXXFLAGS), so there is no OpenMP probing to do here.
 
+set -e
+
+# Stage core sources when building from the monorepo.
+if [ ! -d src/core ]; then
   if [ -d ../../core ]; then
-    # Monorepo path (devtools::load_all or install_github with subdir)
-    echo "* Monorepo detected. Building core via project Makefile..."
-    PROJECT_ROOT="../.."
-    cd "$PROJECT_ROOT"
-    make r-build-core
-    cd - > /dev/null
-
-    R_BUILD_DIR="$PROJECT_ROOT/.r-build"
-
-    cp -r "$R_BUILD_DIR/_deps/json-src/include/"* inst/include/
-    cp -r "$R_BUILD_DIR/_deps/pcg-src/include/"* inst/include/
-
-    mkdir -p src/core && cp -r "$PROJECT_ROOT/core/"* src/core/
-    cp "$PROJECT_ROOT/VERSION" src/VERSION
-
-    cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
-    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
-
-  elif [ -d src/core ]; then
-    # Tarball path: build from bundled source
-    R_BUILD_DIR=src/.r-build
-    mkdir -p "$R_BUILD_DIR"
-
-    FETCH_ARGS=""
-    if [ -n "$PPFOREST2_FETCH_CACHE" ]; then
-      for src_dir in "$PPFOREST2_FETCH_CACHE"/*-src; do
-        name_lower=$(basename "$src_dir" -src)
-        # Skip deps not used under PPFOREST2_CORE_ONLY
-        case "$name_lower" in
-          cli11|googletest|benchmark) continue ;;
-        esac
-        name=$(echo "$name_lower" | tr '[:lower:]' '[:upper:]')
-        FETCH_ARGS="$FETCH_ARGS -DFETCHCONTENT_SOURCE_DIR_${name}=${src_dir}"
-      done
-    fi
-
-    # Split R's CXX17 into compiler path and extra flags
-    R_CXX_FULL=$("${R_HOME}/bin/R" CMD config CXX17)
-    R_CXX_COMPILER=$(echo "$R_CXX_FULL" | awk '{print $1}')
-    R_CXX_EXTRA=$(echo "$R_CXX_FULL" | awk '{$1=""; print}' | sed 's/^ *//')
-
-    R_CXX_STD=$("${R_HOME}/bin/R" CMD config CXX17STD)
-    R_CXX_FLAGS=$("${R_HOME}/bin/R" CMD config CXX17FLAGS)
-
-    cd "$R_BUILD_DIR" && cmake -G "Unix Makefiles" \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_CXX_COMPILER="$R_CXX_COMPILER" \
-      -DCMAKE_CXX_FLAGS="$R_CXX_EXTRA $R_CXX_STD $R_CXX_FLAGS" \
-      -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-      -DPPFOREST2_CORE_ONLY=ON \
-      $FETCH_ARGS \
-      ../core && make ppforest2-core ppforest2-strategies && cd ../..
-
-    cp "$R_BUILD_DIR/libppforest2-core.a" inst/lib/
-    cp "$R_BUILD_DIR/src/models/strategies/libppforest2-strategies.a" inst/lib/
-    rm -rf "$R_BUILD_DIR"
-
+    echo "* Monorepo detected: staging core sources into src/core"
+    mkdir -p src/core
+    cp -R ../../core/include src/core/include
+    cp -R ../../core/src src/core/src
   else
-    echo "ERROR: Cannot find core source. Expected ../../core/ (monorepo) or src/core/ (tarball)."
+    echo "ERROR: Cannot find core source. Expected src/core (tarball) or ../../core (monorepo)."
     exit 1
   fi
 fi
+
+# Generate the OBJECTS list (see configure for which sources are included).
+OBJECTS="main.o RcppExports.o"
+for src in $(cd src && find core/src -name '*.cpp' \
+    ! -name '*.test.cpp' \
+    ! -name 'test.cpp' \
+    ! -path 'core/src/cli/*' \
+    ! -path 'core/src/io/*' \
+    ! -path 'core/src/golden/*'); do
+  OBJECTS="${OBJECTS} ${src%.cpp}.o"
+done
+
+sed -e "s|@OBJECTS@|${OBJECTS}|" \
+    src/Makevars.win.in > src/Makevars.win
