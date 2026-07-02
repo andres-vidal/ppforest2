@@ -12,10 +12,13 @@
   used only by the CLI, are no longer part of the R build.)
 - R: Self-registering strategies are compiled directly into the shared
   object, removing the previous whole-archive linking workaround.
-- R: Compiler flags for the direct build now mirror the standalone C++
-  build — `EIGEN_NO_AUTOMATIC_RESIZING` on all platforms,
-  `EIGEN_DONT_VECTORIZE` on Windows, and a GCC 12+ suppression for a
-  spurious `-Wstringop-overflow` in Eigen.
+- R: Compiler flags for the direct build mirror the standalone C++ build
+  — `EIGEN_NO_AUTOMATIC_RESIZING` on all platforms and
+  `EIGEN_DONT_VECTORIZE` on Windows.
+- Core: Replaced C++20 designated initializers and fixed
+  member-initialization order in `stats/GroupPartition` and
+  `stats/Simulation` so the code compiles warning-free under a strict
+  C++17 GCC (`-Wall -Wextra -pedantic`).
 - Core: A compile-time `EIGEN_VERSION_AT_LEAST(3, 4, 0)` guard fails the
   build with a clear message if an incompatible Eigen is supplied
   (e.g. via RcppEigen).
