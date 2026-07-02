@@ -1,0 +1,6 @@
+var structnlohmann_1_1adl__serializer_3_01Eigen_1_1Matrix_3_01Scalar_00_01Rows_00_01Cols_00_01Optionf9088c91cb1e6f49f31ad967e9c7aa67 =
+[
+    [ "Matrix", "structnlohmann_1_1adl__serializer_3_01Eigen_1_1Matrix_3_01Scalar_00_01Rows_00_01Cols_00_01Optionf9088c91cb1e6f49f31ad967e9c7aa67.html#a6bb7fb740166881ea68a42cc7d81bd3d", null ],
+    [ "from_json", "structnlohmann_1_1adl__serializer_3_01Eigen_1_1Matrix_3_01Scalar_00_01Rows_00_01Cols_00_01Optionf9088c91cb1e6f49f31ad967e9c7aa67.html#ae5a38cec2aa8f3f0246575a45d0e32b1", null ],
+    [ "to_json", "structnlohmann_1_1adl__serializer_3_01Eigen_1_1Matrix_3_01Scalar_00_01Rows_00_01Cols_00_01Optionf9088c91cb1e6f49f31ad967e9c7aa67.html#aa20432ca87c5b9464526c75064300b47", null ]
+];
