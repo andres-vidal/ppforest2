@@ -1,4 +1,4 @@
 # License
 
     YEAR: 2024-2026
-    COPYRIGHT HOLDER: Andres Vidal
+    COPYRIGHT HOLDER: Andrés Vidal
