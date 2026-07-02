@@ -22,7 +22,7 @@ jobs:
       matrix:
         gcc: ['13', '14']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install GCC ${{ matrix.gcc }} and Eigen
         run: |
           sudo apt-get update

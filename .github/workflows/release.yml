@@ -20,9 +20,9 @@ jobs:
       # release job, which has `contents: write`. Pinning to the commit SHA
       # makes the dependency explicit and auditable. Dependabot is configured
       # (`.github/dependabot.yml`) to open PRs when these SHAs move.
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd  # v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - name: Cache CMake deps
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25  # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
         with:
           path: .build/_deps
           key: ${{ runner.os }}-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -40,7 +40,7 @@ jobs:
       run:
         shell: bash
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd  # v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
       - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6  # v2
       - uses: r-lib/actions/setup-tinytex@d3c5be51b12e724e68f33216ca3c148b66d5f0b6  # v2
         env:
@@ -50,7 +50,7 @@ jobs:
           working-directory: bindings/R
           extra-packages: any::devtools
       - name: Cache CMake deps
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25  # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
@@ -62,7 +62,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd  # v5
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
           # Fetch enough history to check ancestry against origin/main below.
           # Shallow (depth=1) defaults would fail the `merge-base` check.
@@ -139,7 +139,7 @@ jobs:
         with:
           working-directory: bindings/R
       - name: Cache CMake deps
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25  # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
         with:
           path: .build/_deps
           key: ${{ runner.os }}-r-cmake-deps-${{ hashFiles('core/Dependencies.cmake') }}
