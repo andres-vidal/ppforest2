@@ -8,7 +8,7 @@ var searchData=
   ['group_5fcount_5',['group_count',['../classppforest2_1_1TreeBranch.html#af9b7c133f8156ffa53cc6b35d429c87f',1,'ppforest2::TreeBranch::group_count()'],['../classppforest2_1_1TreeLeaf.html#a903def1fef2ffffff65194a22a950b6a',1,'ppforest2::TreeLeaf::group_count()'],['../classppforest2_1_1TreeNode.html#acf538798f71c698194827b16a4bd100a',1,'ppforest2::TreeNode::group_count()']]],
   ['group_5fend_6',['group_end',['../classppforest2_1_1stats_1_1GroupPartition.html#a9b872a690cf53ec757d3b2538b243e5a',1,'ppforest2::stats::GroupPartition']]],
   ['group_5ferrors_7',['group_errors',['../structppforest2_1_1stats_1_1ConfusionMatrix.html#a5323fb868f436c11acbcf308e8077dcb',1,'ppforest2::stats::ConfusionMatrix']]],
-  ['group_5findices_8',['group_indices',['../namespaceppforest2_1_1stats.html#adcf38be8ed069d3e434e1ada7c688950',1,'ppforest2::stats']]],
+  ['group_5findices_8',['group_indices',['../classppforest2_1_1stats_1_1GroupPartition.html#ad9eeccd8f4b936e51b818469fa23269c',1,'ppforest2::stats::GroupPartition::group_indices()'],['../namespaceppforest2_1_1stats.html#adcf38be8ed069d3e434e1ada7c688950',1,'ppforest2::stats::group_indices()']]],
   ['group_5fsize_9',['group_size',['../classppforest2_1_1stats_1_1GroupPartition.html#ae08ce9003aaf1548074e392aa48c1431',1,'ppforest2::stats::GroupPartition']]],
   ['group_5fstart_10',['group_start',['../classppforest2_1_1stats_1_1GroupPartition.html#ad8d6e647a443742758f23e8a54c880d8',1,'ppforest2::stats::GroupPartition']]],
   ['grouping_11',['grouping',['../classppforest2_1_1TrainingSpec_1_1Builder.html#ae4777b4c4a2f98b2b1eef4a27a33a0e7',1,'ppforest2::TrainingSpec::Builder']]],

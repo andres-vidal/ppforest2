@@ -141,11 +141,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a144981cbb8156ac442fd550376f4a117" id="r_a144981cbb8156ac442fd550376f4a117"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classppforest2_1_1TrainingSpec.html#afb6d052890681eadac675d251a342d27">TrainingSpec::Ptr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a144981cbb8156ac442fd550376f4a117">spec</a></td></tr>
 <tr class="separator:a144981cbb8156ac442fd550376f4a117"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">Optional metrics — serialized by to_json() when present.</div></td></tr>
-<tr class="memitem:a87f10b53c0d640a06d1eaf9e22466905" id="r_a87f10b53c0d640a06d1eaf9e22466905"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87f10b53c0d640a06d1eaf9e22466905">variable_importance</a></td></tr>
+<tr class="memitem:a87f10b53c0d640a06d1eaf9e22466905" id="r_a87f10b53c0d640a06d1eaf9e22466905"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87f10b53c0d640a06d1eaf9e22466905">variable_importance</a> = std::nullopt</td></tr>
 <tr class="separator:a87f10b53c0d640a06d1eaf9e22466905"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94424e4992832cb19b5870965193d107" id="r_a94424e4992832cb19b5870965193d107"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94424e4992832cb19b5870965193d107">training_metrics</a></td></tr>
+<tr class="memitem:a94424e4992832cb19b5870965193d107" id="r_a94424e4992832cb19b5870965193d107"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94424e4992832cb19b5870965193d107">training_metrics</a> = std::nullopt</td></tr>
 <tr class="separator:a94424e4992832cb19b5870965193d107"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4d17aab5d23a5d87fb0239fc5b9c8c3" id="r_ac4d17aab5d23a5d87fb0239fc5b9c8c3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4d17aab5d23a5d87fb0239fc5b9c8c3">oob_metrics</a></td></tr>
+<tr class="memitem:ac4d17aab5d23a5d87fb0239fc5b9c8c3" id="r_ac4d17aab5d23a5d87fb0239fc5b9c8c3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4d17aab5d23a5d87fb0239fc5b9c8c3">oob_metrics</a> = std::nullopt</td></tr>
 <tr class="separator:ac4d17aab5d23a5d87fb0239fc5b9c8c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -332,7 +332,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::oob_metrics</td>
+          <td class="memname">std::optional&lt;<a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::oob_metrics = std::nullopt</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -364,7 +364,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::training_metrics</td>
+          <td class="memname">std::optional&lt;<a class="el" href="namespaceppforest2_1_1serialization.html#a4d41a399f2edea883d51995b9cba01b3">Metrics</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::training_metrics = std::nullopt</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -380,7 +380,7 @@ template&lt;typename T&gt; </div>
 template&lt;typename T&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::variable_importance</td>
+          <td class="memname">std::optional&lt;<a class="el" href="structppforest2_1_1VariableImportance.html">VariableImportance</a>&gt; <a class="el" href="structppforest2_1_1serialization_1_1Export.html">ppforest2::serialization::Export</a>&lt; T &gt;::variable_importance = std::nullopt</td>
         </tr>
       </table>
 </div><div class="memdoc">
