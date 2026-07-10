@@ -19,6 +19,12 @@ print(x, ...)
 
   Unused.
 
+## Value
+
+Invisibly returns the input `pprf` model `x` (unchanged). Called for its
+side effect of printing a compact description of the forest (call,
+number of trees, mode, group names, formula) to the console.
+
 ## See also
 
 [`summary.pprf`](https://andres-vidal.github.io/ppforest2/main/r/reference/summary.pprf.md)
