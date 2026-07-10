@@ -15,7 +15,7 @@ The project provides a high-performance C++ core with interfaces for **R** and a
 [`PPforest`](https://cran.r-project.org/web/packages/PPforest/index.html),
 offering the same statistical foundations with significantly improved computational performance.
 
-Developed as a Bachelor's thesis project in Statistics at **Universidad de la República (Uruguay)**.
+Developed by [Andrés Vidal](https://andresvidal.dev) as a Bachelor's thesis project in Statistics at **Universidad de la República (Uruguay)**.
 
 **Key capabilities:** oblique splits via projection pursuit, multi-threaded forest training (OpenMP), cross-platform reproducibility with golden tests, multiple variable importance measures (projection-based, weighted, permutation), LDA/PDA optimization, OOB error estimation, and [parsnip](https://parsnip.tidymodels.org/) / tidymodels integration.
 
