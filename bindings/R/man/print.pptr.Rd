@@ -11,6 +11,11 @@
 
 \item{...}{Unused.}
 }
+\value{
+Invisibly returns the input \code{pptr} model \code{x} (unchanged).
+  Called for its side effect of printing the tree structure -- the oblique
+  split rules and leaf predictions -- to the console.
+}
 \description{
 Prints the structure of a pptr tree.
 }

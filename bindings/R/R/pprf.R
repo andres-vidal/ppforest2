@@ -276,6 +276,9 @@ predict.pprf_regression <- function(object, new_data = NULL, type = NULL, ...) {
 #' Prints a compact summary of a pprf forest.
 #' @param x A \code{pprf} model.
 #' @param ... Unused.
+#' @return Invisibly returns the input \code{pprf} model \code{x} (unchanged).
+#'   Called for its side effect of printing a compact description of the forest
+#'   (call, number of trees, mode, group names, formula) to the console.
 #' @seealso \code{\link{summary.pprf}}
 #' @export
 print.pprf <- function(x, ...) {
@@ -326,6 +329,11 @@ summary.ppmodel <- function(object, ...) {
 #'
 #' @param object A \code{pprf} model.
 #' @param ... Unused.
+#' @return Invisibly returns the input \code{pprf} model \code{object}
+#'   (unchanged). Called for its side effect of printing a detailed summary --
+#'   the training specification, data summary, and variable-importance table
+#'   (plus, for classification, the training/OOB confusion matrices) -- to the
+#'   console.
 #' @export
 summary.pprf <- function(object, ...) {
   model <- object

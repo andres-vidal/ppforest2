@@ -1,3 +1,14 @@
+## Resubmission
+
+This is a resubmission. In response to the review, I have added \value tags to
+the four exported methods whose .Rd files were missing them, documenting both
+the returned value (structure/class) and the function's side effect:
+
+* print.pprf, print.pptr, summary.pprf: each invisibly returns the input model
+  (unchanged) and is called for its side effect of printing to the console.
+* save_json: invisibly returns the written file path (a length-one character
+  string) and is called for its side effect of writing the model to a JSON file.
+
 ## Submission
 
 This is a new submission of ppforest2, an R interface to a portable C++

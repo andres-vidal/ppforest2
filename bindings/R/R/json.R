@@ -10,6 +10,9 @@
 #'   and (for forests) OOB error in the output. Set to \code{FALSE} to save
 #'   only the model structure and metadata.
 #' @param ... Additional arguments (currently unused).
+#' @return Invisibly returns the file \code{path} that was written (a length-one
+#'   character string). Called for its side effect of serializing \code{model}
+#'   to a JSON file at \code{path}.
 #' @seealso \code{\link{load_json}}, \code{\link{pptr}}, \code{\link{pprf}}
 #' @examples
 #' model <- pptr(Species ~ ., data = iris, seed = 0)

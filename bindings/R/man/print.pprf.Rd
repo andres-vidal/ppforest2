@@ -11,6 +11,11 @@
 
 \item{...}{Unused.}
 }
+\value{
+Invisibly returns the input \code{pprf} model \code{x} (unchanged).
+  Called for its side effect of printing a compact description of the forest
+  (call, number of trees, mode, group names, formula) to the console.
+}
 \description{
 Prints a compact summary of a pprf forest.
 }

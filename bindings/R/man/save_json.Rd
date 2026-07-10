@@ -20,6 +20,11 @@ save_json(model, path, ...)
 and (for forests) OOB error in the output. Set to \code{FALSE} to save
 only the model structure and metadata.}
 }
+\value{
+Invisibly returns the file \code{path} that was written (a length-one
+  character string). Called for its side effect of serializing \code{model}
+  to a JSON file at \code{path}.
+}
 \description{
 Serializes a \code{pptr} or \code{pprf} model to JSON format compatible
 with the C++ CLI. The JSON includes the model structure, group labels,

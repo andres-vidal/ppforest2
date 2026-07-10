@@ -11,6 +11,13 @@
 
 \item{...}{Unused.}
 }
+\value{
+Invisibly returns the input \code{pprf} model \code{object}
+  (unchanged). Called for its side effect of printing a detailed summary --
+  the training specification, data summary, and variable-importance table
+  (plus, for classification, the training/OOB confusion matrices) -- to the
+  console.
+}
 \description{
 Summary of a pprf forest (shared header + VI).
 }

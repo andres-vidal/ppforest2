@@ -205,6 +205,9 @@ predict.pptr_regression <- function(object, new_data = NULL, type = NULL, ...) {
 #' Prints the structure of a pptr tree.
 #' @param x A \code{pptr} model.
 #' @param ... Unused.
+#' @return Invisibly returns the input \code{pptr} model \code{x} (unchanged).
+#'   Called for its side effect of printing the tree structure -- the oblique
+#'   split rules and leaf predictions -- to the console.
 #' @export
 print.pptr <- function(x, ...) {
   cat("\n")
