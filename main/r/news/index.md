@@ -2,6 +2,8 @@
 
 ## ppforest2 0.1.1
 
+CRAN release: 2026-07-19
+
 ### Packaging and build
 
 - R: The R package now compiles the C++ core directly through `Makevars`

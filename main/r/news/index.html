@@ -35,7 +35,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="ppforest2-011">ppforest2 0.1.1<a class="anchor" aria-label="anchor" href="#ppforest2-011"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="ppforest2-011">ppforest2 0.1.1<a class="anchor" aria-label="anchor" href="#ppforest2-011"></a></h2><p class="text-muted">CRAN release: 2026-07-19</p>
 <div class="section level3">
 <h3 id="packaging-and-build-0-1-1">Packaging and build<a class="anchor" aria-label="anchor" href="#packaging-and-build-0-1-1"></a></h3>
 <ul><li>R: The R package now compiles the C++ core directly through <code>Makevars</code> instead of CMake, with no network access or downloaded dependencies at install time. Eigen is provided by RcppEigen; nlohmann/json and pcg headers are vendored under <code>inst/include</code>. This makes the package installable on CRAN’s offline build machines. (<code>fmt</code> and <code>csv-parser</code>, used only by the CLI, are no longer part of the R build.)</li>
