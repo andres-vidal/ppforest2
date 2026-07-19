@@ -11,6 +11,7 @@ var classppforest2_1_1stats_1_1GroupPartition =
     [ "first_group", "classppforest2_1_1stats_1_1GroupPartition.html#a2ad129a7da929f84d23fce2700976a6f", null ],
     [ "group", "classppforest2_1_1stats_1_1GroupPartition.html#aeecac3a6d8477466483066db93466fe0", null ],
     [ "group_end", "classppforest2_1_1stats_1_1GroupPartition.html#a9b872a690cf53ec757d3b2538b243e5a", null ],
+    [ "group_indices", "classppforest2_1_1stats_1_1GroupPartition.html#ad9eeccd8f4b936e51b818469fa23269c", null ],
     [ "group_size", "classppforest2_1_1stats_1_1GroupPartition.html#ae08ce9003aaf1548074e392aa48c1431", null ],
     [ "group_start", "classppforest2_1_1stats_1_1GroupPartition.html#ad8d6e647a443742758f23e8a54c880d8", null ],
     [ "is_contiguous", "classppforest2_1_1stats_1_1GroupPartition.html#aa7db480bd2d5e41dab236a2e3c61ed50", null ],

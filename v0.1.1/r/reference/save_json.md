@@ -33,6 +33,12 @@ save_json(model, path, include_metrics = TRUE, ...)
   error in the output. Set to `FALSE` to save only the model structure
   and metadata.
 
+## Value
+
+Invisibly returns the file `path` that was written (a length-one
+character string). Called for its side effect of serializing `model` to
+a JSON file at `path`.
+
 ## See also
 
 [`load_json`](https://andres-vidal.github.io/ppforest2/v0.1.1/r/reference/load_json.md),

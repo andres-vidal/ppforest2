@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9b872a690cf53ec757d3b2538b243e5a" id="r_a9b872a690cf53ec757d3b2538b243e5a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b872a690cf53ec757d3b2538b243e5a">group_end</a> (Group const &amp;<a class="el" href="#aeecac3a6d8477466483066db93466fe0">group</a>) const</td></tr>
 <tr class="memdesc:a9b872a690cf53ec757d3b2538b243e5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Last row index (inclusive) of the block for <code class="param">group</code>.  <br /></td></tr>
 <tr class="separator:a9b872a690cf53ec757d3b2538b243e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9eeccd8f4b936e51b818469fa23269c" id="r_ad9eeccd8f4b936e51b818469fa23269c"><td class="memItemLeft" align="right" valign="top">Eigen::VectorXi&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9eeccd8f4b936e51b818469fa23269c">group_indices</a> (Group const &amp;<a class="el" href="#aeecac3a6d8477466483066db93466fe0">group</a>) const</td></tr>
+<tr class="memdesc:ad9eeccd8f4b936e51b818469fa23269c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Row indices of a group (or supergroup) as an owned Eigen vector.  <br /></td></tr>
+<tr class="separator:ad9eeccd8f4b936e51b818469fa23269c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae08ce9003aaf1548074e392aa48c1431" id="r_ae08ce9003aaf1548074e392aa48c1431"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae08ce9003aaf1548074e392aa48c1431">group_size</a> (Group const &amp;<a class="el" href="#aeecac3a6d8477466483066db93466fe0">group</a>) const</td></tr>
 <tr class="memdesc:ae08ce9003aaf1548074e392aa48c1431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of observations in <code class="param">group</code>.  <br /></td></tr>
 <tr class="separator:ae08ce9003aaf1548074e392aa48c1431"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -502,6 +505,34 @@ template&lt;typename Derived&gt; </div>
 </div><div class="memdoc">
 
 <p>Last row index (inclusive) of the block for <code class="param">group</code>. </p>
+
+</div>
+</div>
+<a id="ad9eeccd8f4b936e51b818469fa23269c" name="ad9eeccd8f4b936e51b818469fa23269c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9eeccd8f4b936e51b818469fa23269c">&#9670;&#160;</a></span>group_indices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::VectorXi ppforest2::stats::GroupPartition::group_indices </td>
+          <td>(</td>
+          <td class="paramtype">Group const &amp;</td>          <td class="paramname"><span class="paramname"><em>group</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Row indices of a group (or supergroup) as an owned Eigen vector. </p>
+<p>For callers that need a zero-copy <code>x(idx, all)</code> view participating in a product: keep the returned vector alive in scope and index with it. An Eigen index type (rather than the <code>std::vector&lt;int&gt;</code> used by <code><a class="el" href="#aeecac3a6d8477466483066db93466fe0" title="Extract rows belonging to a group (or supergroup).">group()</a></code>) avoids a spurious GCC-14 <code>-Warray-bounds</code> on the index copy inside Eigen's product evaluator (fixed in GCC 15). </p>
 
 </div>
 </div>
