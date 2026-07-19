@@ -1,5 +1,6 @@
 # ppforest2
 
+[![CRAN status](https://www.r-pkg.org/badges/version/ppforest2)](https://CRAN.R-project.org/package=ppforest2)
 [![C++ Tests](https://github.com/andres-vidal/ppforest2/actions/workflows/run-test.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-test.yml)
 [![R Tests](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-test.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-test.yml)
 [![R Package Check](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml)
@@ -75,7 +76,13 @@ ppforest2 serve --model model.json
 
 ### R
 
-Install the R package (CRAN submission is planned once the package stabilizes):
+Install the released version from CRAN:
+
+```r
+install.packages("ppforest2")
+```
+
+Or the development version from GitHub:
 
 ```r
 # install.packages("devtools")
