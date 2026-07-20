@@ -209,8 +209,11 @@ r-prepare: r-clean r-version
 # (-Wdocumentation, -Wmismatched-tags, Hedley's -Wpedantic/-Wvariadic-macros)
 # it reports as a NOTE. Only the literal `#pragma ... ignored` lines match that
 # check, so Hedley's `_Pragma(...)` macros and all push/pop blocks are left
-# intact and the library still compiles. Review `git diff` and run
-# `make r-check-cran` afterwards.
+# intact and the library still compiles. It then brackets json.hpp with a
+# _Pragma guard (scripts/vendor-guard-json.sh) that suppresses the libc++
+# char_traits<unsigned char> deprecation (Apple clang 21+) triggered by
+# nlohmann's binary output/stream adapters — a `_Pragma`, so it too escapes the
+# pragma check. Review `git diff` and run `make r-check-cran` afterwards.
 r-vendor-deps: fetch-deps
 	@echo "* Re-vendoring nlohmann/json and pcg headers into ${R_PACKAGE_DIR}/inst/include ..."
 	@rm -rf ${R_PACKAGE_DIR}/inst/include/nlohmann
@@ -218,6 +221,7 @@ r-vendor-deps: fetch-deps
 	@cp ${PCG_HEADERS_PATH}/pcg_extras.hpp ${PCG_HEADERS_PATH}/pcg_random.hpp ${PCG_HEADERS_PATH}/pcg_uint128.hpp ${R_PACKAGE_DIR}/inst/include/
 	@find ${R_PACKAGE_DIR}/inst/include/nlohmann -name '*.hpp' -exec \
 		perl -ni -e 'print unless m{^\s*#pragma (GCC|clang) diagnostic ignored}' {} +
+	@sh scripts/vendor-guard-json.sh ${R_PACKAGE_DIR}/inst/include/nlohmann/json.hpp
 	@echo "* Done. Review 'git diff' and run 'make r-check-cran'."
 
 r-document:

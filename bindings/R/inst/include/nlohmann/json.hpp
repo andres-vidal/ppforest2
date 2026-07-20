@@ -1,3 +1,9 @@
+// ppforest2: suppress libc++ char_traits<unsigned char> deprecation from
+// nlohmann's binary adapters (see scripts/vendor-guard-json.sh).
+#if defined(__clang__)
+_Pragma("clang diagnostic push")
+_Pragma("clang diagnostic ignored \"-Wdeprecated-declarations\"")
+#endif
 //     __ _____ _____ _____
 //  __|  |   __|     |   | |  JSON for Modern C++
 // |  |  |__   |  |  | | | |  version 3.11.3
@@ -5254,3 +5260,6 @@ inline void swap(nlohmann::NLOHMANN_BASIC_JSON_TPL& j1, nlohmann::NLOHMANN_BASIC
 #include <nlohmann/detail/macro_unscope.hpp>
 
 #endif  // INCLUDE_NLOHMANN_JSON_HPP_
+#if defined(__clang__)
+_Pragma("clang diagnostic pop")
+#endif

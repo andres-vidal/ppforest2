@@ -1,3 +1,9 @@
+# ppforest2 0.1.2
+
+## CRAN
+
+- Fixed a `-Wdeprecated-declarations` warning reported by CRAN's macOS/M1mac additional check (Apple clang 21, macOS 26 SDK). The newer libc++ deprecates `std::char_traits<unsigned char>`, which the vendored nlohmann/json instantiates through its binary output/stream adapters (`std::basic_string<std::uint8_t>` / `std::basic_ostream<std::uint8_t>`). ppforest2 does not use nlohmann's binary formats, so the vendored `json.hpp` is now bracketed with a `_Pragma` guard that suppresses the deprecation. `_Pragma` (unlike `#pragma`) is not flagged by `R CMD check`'s pragma check. The guard is applied by `make r-vendor-deps` (`scripts/vendor-guard-json.sh`).
+
 # ppforest2 0.1.1
 
 ## Packaging and build
