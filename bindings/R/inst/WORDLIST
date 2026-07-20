@@ -46,6 +46,7 @@ README
 RPDE
 RcppEigen
 Regularisation
+SDK
 Tampere
 Tidymodels
 VanDam
@@ -73,6 +74,7 @@ initializers
 installable
 json
 leukemias
+libc
 liveness
 lym
 lymphoblastic
@@ -95,6 +97,7 @@ pluggable
 ppforest
 pprf
 pptr
+pragma
 pragmas
 pression
 recomputation
