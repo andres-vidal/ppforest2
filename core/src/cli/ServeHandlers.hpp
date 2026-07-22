@@ -29,6 +29,9 @@ namespace ppforest2::cli::serve {
     types::Names feature_names;
     types::Mode mode = types::Mode::Classification;
     nlohmann::json model_json;
+    /** @brief Feature count from `meta.features` — the only shape check
+     * available when `feature_names` is empty (e.g. R-trained models). */
+    int n_features = 0;
   };
 
   /** @brief Status, body, MIME content type, and extra response headers. */

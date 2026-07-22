@@ -6,6 +6,7 @@
 - CLI: `summarize --data` had the same label-space problem when recomputing metrics for a model saved with `--no-metrics`. It now maps labels through the model's training labels, validates the feature count of the data against the model, and reproduces the training row order so the recomputed out-of-bag metrics line up with the stored bootstrap sample indices.
 - CLI: `train` and `evaluate` honor `--mode` when parsing the CSV — a regression response written as integers stays numeric instead of being label-encoded (previously the model silently trained on label codes).
 - CLI: malformed CSVs are rejected instead of silently misread. Rows with a wrong column count are an error (they used to be silently dropped), a column mixing numeric and non-numeric cells (a stray `NA` or empty field) is an error naming the offending cell (it used to be silently integer-encoded), and non-finite cells (`nan`, `inf`) are rejected.
+- CLI: `predict` validates the feature count of the data against the model, and `serve` validates the request's column count for models saved without feature names — both previously read out of bounds (a single `POST /predict` could crash the server).
 
 # ppforest2 0.1.2
 

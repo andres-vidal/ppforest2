@@ -301,6 +301,25 @@ TEST(CLIPredictLabels, UnknownLabelFails) {
   EXPECT_NE(result.stderr_output.find("training labels"), std::string::npos);
 }
 
+/* A data file whose feature count differs from the model's fails cleanly
+ * instead of reading out of bounds. */
+TEST(CLIPredictLabels, FeatureCountMismatchFails) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile predict_csv(".csv");
+  write_file(predict_csv.path(), "f1,y\n1,a\n2,b\n");
+
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + predict_csv.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("feature column"), std::string::npos);
+}
+
 /* Regression models parse the response as numeric even when every value is
  * integer-written — the model's mode, not the y column's written form,
  * decides the parse. */
