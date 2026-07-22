@@ -68,6 +68,39 @@ TEST(CLIGlobal, ConfigFileApplied) {
   EXPECT_TRUE(j.contains("runs"));
 }
 
+/* The --config=path equals form is honored, not silently ignored. The
+ * config supplies the only data source, so the run succeeds iff the config
+ * was actually loaded. */
+TEST(CLIGlobal, ConfigFileEqualsFormApplied) {
+  TempFile config;
+  {
+    std::ofstream out(config.path());
+    out << R"({"simulate": "50x3x2", "size": 3})";
+  }
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("--config=" + config.path() + " -q evaluate -r 0 -i 1 -o " + output.path());
+  EXPECT_EQ(result.exit_code, 0) << result.stderr_output;
+
+  auto j = json::parse(output.read());
+  EXPECT_TRUE(j.contains("runs"));
+}
+
+/* A config file whose top level is not a JSON object fails clearly instead
+ * of being silently discarded. */
+TEST(CLIGlobal, ConfigFileNonObjectFails) {
+  TempFile config;
+  {
+    std::ofstream out(config.path());
+    out << R"([1, 2, 3])";
+  }
+
+  auto result = run_ppforest2("--config " + config.path() + " -q train --simulate 50x3x2 -r 0");
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("must contain a JSON object"), std::string::npos);
+}
+
 /* A wrong-typed config value fails with a clean error, not an abort. */
 TEST(CLIGlobal, ConfigFileWrongTypedValueFails) {
   TempFile config;
