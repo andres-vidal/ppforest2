@@ -49,9 +49,7 @@ namespace ppforest2::cli {
       user_error(
           static_cast<int>(data.x.cols()) == model_export.n_features,
           fmt::format(
-              "Data has {} feature column(s) but the model was trained with {}.",
-              data.x.cols(),
-              model_export.n_features
+              "Data has {} feature column(s) but the model was trained with {}.", data.x.cols(), model_export.n_features
           )
       );
 

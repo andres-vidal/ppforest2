@@ -181,8 +181,8 @@ namespace ppforest2::io::csv {
       std::vector<bool> res(static_cast<std::size_t>(n_features), false);
 
       for (int j = 0; j < n_features; ++j) {
-        bool any_numeric    = false;
-        int offending_row   = -1;
+        bool any_numeric  = false;
+        int offending_row = -1;
         std::string offending_cell;
 
         for (int i = 0; i < static_cast<int>(raw.values.size()); ++i) {
