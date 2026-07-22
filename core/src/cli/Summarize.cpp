@@ -43,9 +43,29 @@ namespace ppforest2::cli {
     bool has_metrics = has_value(model_data, "training_metrics") || has_value(model_data, "variable_importance");
 
     if (!params.data_path.empty() && !has_metrics) {
-      auto data         = io::csv::read_sorted(params.data_path);
       auto model_export = model_data.get<serialization::Export<Model::Ptr>>();
-      model_export.compute_metrics(data.x, data.y);
+      auto data         = io::csv::read(params.data_path, model_export.spec->mode);
+
+      user_error(
+          static_cast<int>(data.x.cols()) == model_export.n_features,
+          fmt::format(
+              "Data has {} feature column(s) but the model was trained with {}.",
+              data.x.cols(),
+              model_export.n_features
+          )
+      );
+
+      // Metrics must be computed in the model's label space and training row
+      // order: remap the file's first-appearance label codes to the model's
+      // groups, then sort by the remapped codes — reproducing the row order
+      // `train` used, which OOB sample indices refer to.
+      types::OutcomeVector y = data.y;
+      if (types::is_classification(model_export.spec->mode)) {
+        y = io::csv::remap_labels(data, model_export.groups);
+      }
+      stats::sort(data.x, y);
+
+      model_export.compute_metrics(data.x, y);
       model_data = model_export.to_json();
     }
 

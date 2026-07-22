@@ -418,6 +418,27 @@ TEST(CLITrain, TrainPredictCrab) {
  * Complements the simulated-data tests (which exercise the core pipeline)
  * by catching bugs that depend on real-world feature distributions,
  * non-synthetic column names, or the CSV reader's numeric-response path. */
+TEST(CLITrain, TrainRegressionIntegerResponseKeepsNumericY) {
+  // Every response value is integer-written, which the reader's written-form
+  // detection would classify. --mode regression must override the detection
+  // so the model trains on the numeric response, not on label codes.
+  TempFile const data(".csv");
+  {
+    std::ofstream out(data.path());
+    out << "f1,f2,y\n1,1,10\n2,2,20\n3,3,30\n4,4,40\n5,5,50\n6,6,60\n";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto train = run_ppforest2("-q train --mode regression -d " + data.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0) << train.stderr_output;
+
+  auto mj = json::parse(model.read());
+  EXPECT_EQ(mj["config"]["mode"], "regression");
+  ASSERT_TRUE(mj["meta"].contains("groups"));
+  EXPECT_TRUE(mj["meta"]["groups"].empty());
+}
+
 TEST(CLITrain, TrainPredictRegressionMtcars) {
   TempFile const model;
   model.clear();

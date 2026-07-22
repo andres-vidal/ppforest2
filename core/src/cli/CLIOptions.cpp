@@ -110,15 +110,18 @@ namespace ppforest2::cli {
 
   stats::DataPacket Params::read_data(stats::RNG& rng) {
     if (!data_path.empty()) {
-      stats::DataPacket data = io::csv::read_sorted(data_path);
-
-      // Reader auto-detected mode from the y column. Honor that unless the
-      // user passed --mode (which sets `mode_input` non-empty before we get
-      // here); empty group_names means regression shape.
       if (model.mode_input.empty()) {
-        model.mode_input = data.group_names.empty() ? "regression" : "classification";
+        // No --mode: detect it from the y column's written form; empty
+        // group_names means regression shape.
+        stats::DataPacket data = io::csv::read_sorted(data_path);
+        model.mode_input       = data.group_names.empty() ? "regression" : "classification";
+        return data;
       }
-      return data;
+
+      // --mode given (CLI or config file): parse the response in that mode
+      // instead of trusting the written form — integer-written regression
+      // responses must stay numeric, not become label codes.
+      return io::csv::read_sorted(data_path, types::mode_from_string(model.mode_input));
     }
 
     // Simulated data: no CSV to auto-detect from, so default to classification

@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
@@ -210,12 +211,12 @@ namespace ppforest2::io::csv {
       return std::stof(y_str);
     }
 
-    ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names) {
+    ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names, std::optional<types::Mode> mode) {
       int const n_features = raw.n_cols - 1;
       int const y_col      = raw.n_cols - 1;
       int const n          = static_cast<int>(raw.values.size());
 
-      auto const _is_classification = is_classification(raw);
+      auto const _is_classification = mode ? types::is_classification(*mode) : is_classification(raw);
       auto const _is_categorical    = is_categorical(raw, n_features);
 
       std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
@@ -244,7 +245,7 @@ namespace ppforest2::io::csv {
       return {std::move(x), std::move(y), std::move(group_names), std::move(feature_names)};
     }
 
-    ParsedCSV parse_csv(std::string const& filename) {
+    ParsedCSV parse_csv(std::string const& filename, std::optional<types::Mode> mode = std::nullopt) {
       ::csv::CSVReader reader(filename);
 
       auto const col_names = reader.get_col_names();
@@ -256,7 +257,7 @@ namespace ppforest2::io::csv {
       RawRows raw = read_raw_rows(reader, n_cols);
       user_error(!raw.values.empty(), "CSV file is empty or has no data rows");
 
-      return encode_rows(raw, std::move(feature_names));
+      return encode_rows(raw, std::move(feature_names), mode);
     }
 
     // Feature-only encoding for the `serve` path. No response column, no
@@ -299,16 +300,56 @@ namespace ppforest2::io::csv {
     return make_data_packet(parse_csv(filename));
   }
 
-  DataPacket read_sorted(std::string const& filename) {
+  DataPacket read(std::string const& filename, types::Mode mode) {
     try {
-      auto parsed = parse_csv(filename);
-      sort(parsed.x, parsed.y);
-      return make_data_packet(parsed);
+      return make_data_packet(parse_csv(filename, mode));
     } catch (UserError const&) {
       throw;
     } catch (std::exception const& e) {
       throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
     }
+  }
+
+  OutcomeVector remap_labels(DataPacket const& data, types::Names const& target_groups) {
+    std::unordered_map<std::string, int> target_codes;
+    for (int i = 0; i < static_cast<int>(target_groups.size()); ++i) {
+      target_codes.emplace(at(target_groups, i), i);
+    }
+
+    OutcomeVector remapped(data.y.size());
+    for (int i = 0; i < static_cast<int>(data.y.size()); ++i) {
+      auto const& label = at(data.group_names, static_cast<int>(data.y(i)));
+      auto const it     = target_codes.find(label);
+      user_error(
+          it != target_codes.end(),
+          fmt::format("Label '{}' in the data is not one of the model's training labels.", label)
+      );
+      remapped(i) = static_cast<Outcome>(it->second);
+    }
+
+    return remapped;
+  }
+
+  namespace {
+    DataPacket read_sorted_impl(std::string const& filename, std::optional<types::Mode> mode) {
+      try {
+        auto parsed = parse_csv(filename, mode);
+        sort(parsed.x, parsed.y);
+        return make_data_packet(parsed);
+      } catch (UserError const&) {
+        throw;
+      } catch (std::exception const& e) {
+        throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
+      }
+    }
+  }
+
+  DataPacket read_sorted(std::string const& filename) {
+    return read_sorted_impl(filename, std::nullopt);
+  }
+
+  DataPacket read_sorted(std::string const& filename, types::Mode mode) {
+    return read_sorted_impl(filename, mode);
   }
 
   void write(DataPacket const& data, std::string const& filename) {
