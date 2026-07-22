@@ -11,6 +11,10 @@
 - CLI: the `--config=path` form is honored (it used to be silently ignored; only `--config path` worked), and a configuration file whose top level is not a JSON object is rejected with a clear message.
 - Core: the resolved thread count is clamped to at least 1 — `hardware_concurrency()` may report 0, and a non-positive OpenMP thread count is undefined behavior.
 
+## Build
+
+- `make tidy` now fails when clang-tidy reports findings or unused includes; previously it always succeeded.
+
 # ppforest2 0.1.2
 
 ## CRAN
