@@ -56,6 +56,20 @@ TEST(CLIBenchmark, BenchmarkInvalidScenariosFails) {
   EXPECT_NE(result.exit_code, 0);
 }
 
+/* A wrong-typed scenario field fails validation with a per-scenario error
+ * instead of aborting on an uncaught json type_error. */
+TEST(CLIBenchmark, BenchmarkWrongTypedScenarioFieldFails) {
+  TempFile const bad;
+  {
+    std::ofstream out(bad.path());
+    out << R"({"scenarios": [{ "name": "typed", "n": 50, "p": 3, "g": 2, "size": "10", "seed": 0 }]})";
+  }
+
+  auto result = run_ppforest2("-q --no-color benchmark -s " + bad.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("wrong-typed field"), std::string::npos);
+}
+
 /* Benchmark -o produces valid JSON results. */
 TEST(CLIBenchmark, BenchmarkJsonOutput) {
   auto scenarios = write_scenarios();

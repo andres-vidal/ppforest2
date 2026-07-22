@@ -72,7 +72,13 @@ namespace ppforest2::cli {
         return {};
       }
 
-      return Params(config);
+      try {
+        return Params(config);
+      } catch (nlohmann::json::exception const& e) {
+        // `Params(config)` reads typed values (`config.value(...)`), which
+        // throws on a wrong-typed field — surface it as the user error it is.
+        throw ppforest2::UserError(fmt::format("Invalid config file '{}': {}", path, e.what()));
+      }
     }
 
   }

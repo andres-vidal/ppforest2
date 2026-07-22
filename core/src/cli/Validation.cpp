@@ -7,6 +7,7 @@
 #include "utils/UserError.hpp"
 
 #include <fmt/format.h>
+#include <optional>
 #include <regex>
 
 namespace ppforest2::cli {
@@ -34,9 +35,27 @@ namespace ppforest2::cli {
         if (!std::regex_match(sim, match, pattern)) {
           errors.emplace_back("simulate format must be NxPxG (e.g. 1000x10x2)");
         } else {
-          check(std::stoi(match[1]) > 0, "simulate: n must be positive", errors);
-          check(std::stoi(match[2]) > 0, "simulate: p must be positive", errors);
-          check(std::stoi(match[3]) > 1, "simulate: g must be > 1", errors);
+          // The regex guarantees digits, but not that they fit in an int —
+          // std::stoi throws out_of_range on oversized dimensions.
+          auto to_int = [](std::string const& s) -> std::optional<int> {
+            try {
+              return std::stoi(s);
+            } catch (std::exception const&) {
+              return std::nullopt;
+            }
+          };
+
+          auto const n = to_int(match[1]);
+          auto const p = to_int(match[2]);
+          auto const g = to_int(match[3]);
+
+          if (!n || !p || !g) {
+            errors.emplace_back("simulate: dimensions must fit in a 32-bit integer");
+          } else {
+            check(*n > 0, "simulate: n must be positive", errors);
+            check(*p > 0, "simulate: p must be positive", errors);
+            check(*g > 1, "simulate: g must be > 1", errors);
+          }
         }
       }
     }

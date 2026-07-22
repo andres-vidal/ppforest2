@@ -315,6 +315,10 @@ namespace ppforest2::cli {
 
     if (vars_config.is_null() && size > 0) {
       if (n_vars) {
+        user_error(
+            *n_vars <= static_cast<int>(total_vars),
+            fmt::format("n_vars ({}) cannot exceed the number of features ({}).", *n_vars, total_vars)
+        );
         p_vars      = static_cast<float>(*n_vars) / static_cast<float>(total_vars);
         vars_config = {{"name", "uniform"}, {"count", *n_vars}};
       } else if (p_vars) {

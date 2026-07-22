@@ -32,9 +32,13 @@ namespace ppforest2::cli {
     std::smatch match;
 
     if (std::regex_match(format, match, pattern)) {
-      rows     = std::stoi(match[1]);
-      cols     = std::stoi(match[2]);
-      n_groups = std::stoi(match[3]);
+      try {
+        rows     = std::stoi(match[1]);
+        cols     = std::stoi(match[2]);
+        n_groups = std::stoi(match[3]);
+      } catch (std::exception const&) {
+        throw UserError(fmt::format("Invalid simulate format '{}': dimension out of range", format));
+      }
     }
   }
 
