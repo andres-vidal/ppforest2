@@ -9,6 +9,7 @@
 - CLI: `predict` validates the feature count of the data against the model, and `serve` validates the request's column count for models saved without feature names — both previously read out of bounds (a single `POST /predict` could crash the server).
 - CLI: bad input that previously aborted with no usable message now produces a clean error: wrong-typed configuration-file values, out-of-range `--simulate` dimensions, wrong-typed benchmark scenario fields, and `--n-vars` exceeding the feature count.
 - CLI: the `--config=path` form is honored (it used to be silently ignored; only `--config path` worked), and a configuration file whose top level is not a JSON object is rejected with a clear message.
+- Core: the resolved thread count is clamped to at least 1 — `hardware_concurrency()` may report 0, and a non-positive OpenMP thread count is undefined behavior.
 
 # ppforest2 0.1.2
 

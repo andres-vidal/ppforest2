@@ -8,6 +8,7 @@
 #include "models/strategies/grouping/Grouping.hpp"
 #include "models/strategies/leaf/LeafStrategy.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <thread>
 #include <nlohmann/json.hpp>
@@ -317,7 +318,9 @@ namespace ppforest2 {
      * @return The number of threads to use for training.
      */
     int resolve_threads() const {
-      return threads > 0 ? threads : static_cast<int>(std::thread::hardware_concurrency());
+      // hardware_concurrency() may return 0 when it cannot be determined;
+      // passing a non-positive count to omp_set_num_threads is undefined.
+      return threads > 0 ? threads : std::max(1, static_cast<int>(std::thread::hardware_concurrency()));
     }
   };
 
