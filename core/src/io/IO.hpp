@@ -83,7 +83,9 @@ namespace ppforest2::io::csv {
    *
    * @param filename Path to the CSV file.
    * @return A DataPacket containing the feature matrix and response vector.
-   * @throws std::runtime_error If the file is empty or has inconsistent columns.
+   * @throws UserError on any failure: missing file, empty file, rows whose
+   *         column count differs from the header, or a column mixing numeric
+   *         and non-numeric cells (stray "NA", empty, or non-finite values).
    */
   stats::DataPacket read(std::string const& filename);
 

@@ -192,6 +192,50 @@ public:
 };
 
 /* Path already ending in .json is returned unchanged. */
+TEST(CSVReadTest, RaggedRowInFileThrows) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,y\n1.0,2.0,x\n3.0,y\n");
+
+  EXPECT_THROW(io::csv::read(tmp.path()), UserError);
+}
+
+TEST(CSVReadTest, MissingValueInNumericColumnThrows) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,y\n1.0,2.0,x\nNA,3.0,y\n");
+
+  try {
+    io::csv::read(tmp.path());
+    FAIL() << "expected UserError";
+  } catch (UserError const& e) {
+    EXPECT_NE(std::string(e.what()).find("Column 'a'"), std::string::npos) << e.what();
+    EXPECT_NE(std::string(e.what()).find("'NA'"), std::string::npos) << e.what();
+  }
+}
+
+TEST(CSVReadTest, EmptyCellInNumericColumnThrows) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,b,y\n1.0,2.0,x\n,3.0,y\n");
+
+  EXPECT_THROW(io::csv::read(tmp.path()), UserError);
+}
+
+TEST(CSVReadTest, NonFiniteCellsThrow) {
+  io::TempFile nan_file(".csv");
+  write_csv(nan_file.path(), "a,y\nnan,x\n2.0,y\n");
+  EXPECT_THROW(io::csv::read(nan_file.path()), UserError);
+
+  io::TempFile inf_file(".csv");
+  write_csv(inf_file.path(), "a,y\ninf,x\n2.0,y\n");
+  EXPECT_THROW(io::csv::read(inf_file.path()), UserError);
+}
+
+TEST(CSVReadTest, ForcedRegressionRejectsNanY) {
+  io::TempFile tmp(".csv");
+  write_csv(tmp.path(), "a,y\n1.0,nan\n2.0,2.5\n");
+
+  EXPECT_THROW(io::csv::read(tmp.path(), types::Mode::Regression), UserError);
+}
+
 TEST(CSVReadTest, ForcedRegressionParsesIntegerY) {
   io::TempFile tmp(".csv");
   write_csv(tmp.path(), "a,b,y\n1.0,2.0,10\n3.0,4.0,30\n5.0,6.0,20\n");

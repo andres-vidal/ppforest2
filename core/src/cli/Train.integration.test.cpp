@@ -418,6 +418,22 @@ TEST(CLITrain, TrainPredictCrab) {
  * Complements the simulated-data tests (which exercise the core pipeline)
  * by catching bugs that depend on real-world feature distributions,
  * non-synthetic column names, or the CSV reader's numeric-response path. */
+TEST(CLITrain, TrainRaggedRowFails) {
+  // A row with a missing field must fail loudly — the CSV reader used to
+  // silently drop it and train on the remaining rows.
+  TempFile const data(".csv");
+  {
+    std::ofstream out(data.path());
+    out << "f1,f2,y\n1,1,a\n2,a\n3,2,a\n11,5,b\n12,6,b\n13,5,b\n";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto result = run_ppforest2("-q train -d " + data.path() + " -n 0 -r 0 -s " + model.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("Error"), std::string::npos);
+}
+
 TEST(CLITrain, TrainRegressionIntegerResponseKeepsNumericY) {
   // Every response value is integer-written, which the reader's written-form
   // detection would classify. --mode regression must override the detection

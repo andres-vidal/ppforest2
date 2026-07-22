@@ -5,6 +5,7 @@
 - CLI: `predict` now maps data-file labels through the model's training labels and keeps predictions in input row order. Previously the rows were re-sorted by label and label codes were compared by file position, so a data file listing classes in a different order than the training file reported inverted metrics and misaligned saved predictions. A label absent from training is now an error.
 - CLI: `summarize --data` had the same label-space problem when recomputing metrics for a model saved with `--no-metrics`. It now maps labels through the model's training labels, validates the feature count of the data against the model, and reproduces the training row order so the recomputed out-of-bag metrics line up with the stored bootstrap sample indices.
 - CLI: `train` and `evaluate` honor `--mode` when parsing the CSV — a regression response written as integers stays numeric instead of being label-encoded (previously the model silently trained on label codes).
+- CLI: malformed CSVs are rejected instead of silently misread. Rows with a wrong column count are an error (they used to be silently dropped), a column mixing numeric and non-numeric cells (a stray `NA` or empty field) is an error naming the offending cell (it used to be silently integer-encoded), and non-finite cells (`nan`, `inf`) are rejected.
 
 # ppforest2 0.1.2
 
