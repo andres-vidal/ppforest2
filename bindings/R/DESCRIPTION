@@ -1,8 +1,8 @@
 Package: ppforest2
 Type: Package
 Title: Projection Pursuit Oblique Decision Trees and Random Forests
-Version: 0.1.2
-Date: 2026-07-20
+Version: 0.1.3
+Date: 2026-07-23
 Authors@R: c(
     person("Andrés", "Vidal", email = "andres@andresvidal.dev", role = c("aut", "cre", "cph")),
     person("Natalia", "da Silva", role = "aut"))
