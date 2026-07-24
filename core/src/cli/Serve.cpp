@@ -44,6 +44,7 @@ namespace ppforest2::cli {
           std::move(exported.feature_names),
           mode,
           std::move(model_json),
+          exported.n_features,
       };
     }
 

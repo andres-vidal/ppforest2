@@ -11,8 +11,10 @@
 #include <fmt/format.h>
 
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <sstream>
 #include <unordered_map>
 #include <vector>
@@ -91,14 +93,17 @@ namespace ppforest2::io::csv {
       return std::forward<Container>(v)[static_cast<std::size_t>(j)];
     }
 
+    // Note: non-finite values ("nan", "inf" — accepted by strtod) do not
+    // count as numeric. A NaN feature poisons every projection it touches,
+    // so such cells must surface as errors, not silently flow into training.
     bool is_numeric(std::string const& s) {
       if (s.empty()) {
         return false;
       }
 
-      char* end = nullptr;
-      std::strtod(s.c_str(), &end);
-      return end != s.c_str() && *end == '\0';
+      char* end      = nullptr;
+      double const v = std::strtod(s.c_str(), &end);
+      return end != s.c_str() && *end == '\0' && std::isfinite(v);
     }
 
     bool is_floating(std::string const& s) {
@@ -167,17 +172,41 @@ namespace ppforest2::io::csv {
       return raw;
     }
 
-    // A column is categorical if any cell in it fails `is_numeric`.
-    std::vector<bool> is_categorical(RawRows const& raw, int n_features) {
+    // A column is categorical only when EVERY cell fails `is_numeric`. A mix
+    // of numeric and non-numeric cells is almost always a data problem (a
+    // stray "NA", an empty cell, a "nan"/"inf") — silently integer-encoding
+    // the whole column would destroy its numeric values, so reject it with
+    // the first offending cell named.
+    std::vector<bool> is_categorical(RawRows const& raw, int n_features, types::Names const& feature_names) {
       std::vector<bool> res(static_cast<std::size_t>(n_features), false);
 
       for (int j = 0; j < n_features; ++j) {
-        for (auto const& row : raw.values) {
-          if (!is_numeric(at(row, j))) {
-            at(res, j) = true;
-            break;
+        bool any_numeric  = false;
+        int offending_row = -1;
+        std::string offending_cell;
+
+        for (int i = 0; i < static_cast<int>(raw.values.size()); ++i) {
+          auto const& cell = at(at(raw.values, i), j);
+          if (is_numeric(cell)) {
+            any_numeric = true;
+          } else if (offending_row < 0) {
+            offending_row  = i;
+            offending_cell = cell;
           }
         }
+
+        user_error(
+            !(any_numeric && offending_row >= 0),
+            fmt::format(
+                "Column '{}' mixes numeric and non-numeric values (row {} has '{}'). Missing or non-finite cells "
+                "are not supported — clean the data, or make the column fully categorical.",
+                at(feature_names, j),
+                offending_row + 1,
+                offending_cell
+            )
+        );
+
+        at(res, j) = offending_row >= 0;
       }
 
       return res;
@@ -210,13 +239,13 @@ namespace ppforest2::io::csv {
       return std::stof(y_str);
     }
 
-    ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names) {
+    ParsedCSV encode_rows(RawRows const& raw, types::Names feature_names, std::optional<types::Mode> mode) {
       int const n_features = raw.n_cols - 1;
       int const y_col      = raw.n_cols - 1;
       int const n          = static_cast<int>(raw.values.size());
 
-      auto const _is_classification = is_classification(raw);
-      auto const _is_categorical    = is_categorical(raw, n_features);
+      auto const _is_classification = mode ? types::is_classification(*mode) : is_classification(raw);
+      auto const _is_categorical    = is_categorical(raw, n_features, feature_names);
 
       std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
       FeatureMatrix x(n, n_features);
@@ -244,8 +273,14 @@ namespace ppforest2::io::csv {
       return {std::move(x), std::move(y), std::move(group_names), std::move(feature_names)};
     }
 
-    ParsedCSV parse_csv(std::string const& filename) {
-      ::csv::CSVReader reader(filename);
+    ParsedCSV parse_csv(std::string const& filename, std::optional<types::Mode> mode = std::nullopt) {
+      // Without THROW, csv-parser's default policy silently drops rows whose
+      // column count differs from the header — training would proceed on
+      // partial data with no diagnostic.
+      ::csv::CSVFormat format;
+      format.variable_columns(::csv::VariableColumnPolicy::THROW);
+
+      ::csv::CSVReader reader(filename, format);
 
       auto const col_names = reader.get_col_names();
       user_error(col_names.size() >= 2, "CSV header must have at least 2 columns (features + response)");
@@ -256,7 +291,7 @@ namespace ppforest2::io::csv {
       RawRows raw = read_raw_rows(reader, n_cols);
       user_error(!raw.values.empty(), "CSV file is empty or has no data rows");
 
-      return encode_rows(raw, std::move(feature_names));
+      return encode_rows(raw, std::move(feature_names), mode);
     }
 
     // Feature-only encoding for the `serve` path. No response column, no
@@ -267,7 +302,7 @@ namespace ppforest2::io::csv {
       int const n_features = raw.n_cols;
       int const n          = static_cast<int>(raw.values.size());
 
-      auto const _is_categorical = is_categorical(raw, n_features);
+      auto const _is_categorical = is_categorical(raw, n_features, feature_names);
 
       std::vector<CategoricalEncoder> encoders(static_cast<std::size_t>(n_features));
       FeatureMatrix x(n, n_features);
@@ -295,20 +330,66 @@ namespace ppforest2::io::csv {
     }
   }
 
+  namespace {
+    DataPacket read_impl(std::string const& filename, std::optional<types::Mode> mode) {
+      try {
+        return make_data_packet(parse_csv(filename, mode));
+      } catch (UserError const&) {
+        throw;
+      } catch (std::exception const& e) {
+        throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
+      }
+    }
+  }
+
   DataPacket read(std::string const& filename) {
-    return make_data_packet(parse_csv(filename));
+    return read_impl(filename, std::nullopt);
+  }
+
+  DataPacket read(std::string const& filename, types::Mode mode) {
+    return read_impl(filename, mode);
+  }
+
+  OutcomeVector remap_labels(DataPacket const& data, types::Names const& target_groups) {
+    std::unordered_map<std::string, int> target_codes;
+    for (int i = 0; i < static_cast<int>(target_groups.size()); ++i) {
+      target_codes.emplace(at(target_groups, i), i);
+    }
+
+    OutcomeVector remapped(data.y.size());
+    for (int i = 0; i < static_cast<int>(data.y.size()); ++i) {
+      auto const& label = at(data.group_names, static_cast<int>(data.y(i)));
+      auto const it     = target_codes.find(label);
+      user_error(
+          it != target_codes.end(),
+          fmt::format("Label '{}' in the data is not one of the model's training labels.", label)
+      );
+      remapped(i) = static_cast<Outcome>(it->second);
+    }
+
+    return remapped;
+  }
+
+  namespace {
+    DataPacket read_sorted_impl(std::string const& filename, std::optional<types::Mode> mode) {
+      try {
+        auto parsed = parse_csv(filename, mode);
+        sort(parsed.x, parsed.y);
+        return make_data_packet(parsed);
+      } catch (UserError const&) {
+        throw;
+      } catch (std::exception const& e) {
+        throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
+      }
+    }
   }
 
   DataPacket read_sorted(std::string const& filename) {
-    try {
-      auto parsed = parse_csv(filename);
-      sort(parsed.x, parsed.y);
-      return make_data_packet(parsed);
-    } catch (UserError const&) {
-      throw;
-    } catch (std::exception const& e) {
-      throw UserError(fmt::format("Error reading CSV file '{}': {}", filename, e.what()));
-    }
+    return read_sorted_impl(filename, std::nullopt);
+  }
+
+  DataPacket read_sorted(std::string const& filename, types::Mode mode) {
+    return read_sorted_impl(filename, mode);
   }
 
   void write(DataPacket const& data, std::string const& filename) {

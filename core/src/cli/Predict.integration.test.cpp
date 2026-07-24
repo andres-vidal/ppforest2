@@ -211,6 +211,138 @@ TEST(CLIPredict, PredictOutputNoErrorInConfusionMatrix) {
 }
 
 // ---------------------------------------------------------------------------
+// Predict subcommand — label mapping and row order
+// ---------------------------------------------------------------------------
+
+namespace {
+  void write_file(std::string const& path, std::string const& content) {
+    std::ofstream out(path);
+    out << content;
+  }
+
+  // Two perfectly separable classes: f1 < 10 → "a", f1 > 10 → "b".
+  std::string const SEPARABLE_TRAIN_CSV = "f1,f2,y\n"
+                                          "1,1,a\n2,1,a\n3,2,a\n"
+                                          "11,5,b\n12,6,b\n13,5,b\n";
+}
+
+/* Labels are mapped through the model's group space: a prediction file
+ * listing classes in a different order than the training file still yields
+ * correct metrics. */
+TEST(CLIPredictLabels, ReorderedClassesYieldCorrectMetrics) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  // Same rows, class "b" listed first.
+  TempFile predict_csv(".csv");
+  write_file(
+      predict_csv.path(),
+      "f1,f2,y\n"
+      "11,5,b\n12,6,b\n13,5,b\n"
+      "1,1,a\n2,1,a\n3,2,a\n"
+  );
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + predict_csv.path() + " -o " + output.path());
+  ASSERT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  ASSERT_TRUE(j.contains("metrics"));
+  EXPECT_DOUBLE_EQ(j["metrics"]["error_rate"].get<double>(), 0.0);
+}
+
+/* predictions[i] corresponds to input row i — rows are not re-sorted. */
+TEST(CLIPredictLabels, PredictionsPreserveInputRowOrder) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile predict_csv(".csv");
+  write_file(predict_csv.path(), "f1,f2,y\n11,5,b\n1,1,a\n12,6,b\n2,1,a\n");
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + predict_csv.path() + " -o " + output.path());
+  ASSERT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  ASSERT_EQ(j["predictions"].size(), 4U);
+  EXPECT_EQ(j["predictions"][0], "b");
+  EXPECT_EQ(j["predictions"][1], "a");
+  EXPECT_EQ(j["predictions"][2], "b");
+  EXPECT_EQ(j["predictions"][3], "a");
+}
+
+/* A label that was not in the training data fails with a clear error. */
+TEST(CLIPredictLabels, UnknownLabelFails) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile predict_csv(".csv");
+  write_file(predict_csv.path(), "f1,f2,y\n1,1,c\n2,1,a\n");
+
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + predict_csv.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("training labels"), std::string::npos);
+}
+
+/* A data file whose feature count differs from the model's fails cleanly. */
+TEST(CLIPredictLabels, FeatureCountMismatchFails) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile predict_csv(".csv");
+  write_file(predict_csv.path(), "f1,y\n1,a\n2,b\n");
+
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + predict_csv.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("feature column"), std::string::npos);
+}
+
+/* Regression models parse the response as numeric even when every value is
+ * integer-written — the model's mode, not the y column's written form,
+ * decides the parse. */
+TEST(CLIPredictLabels, RegressionIntegerResponsePredicts) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), "f1,f2,y\n1,1,10\n2,2,20\n3,3,30\n4,4,40\n5,5,50\n6,6,60\n");
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train --mode regression -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("-q predict -M " + model.path() + " -d " + train_csv.path() + " -o " + output.path());
+  ASSERT_EQ(result.exit_code, 0);
+
+  auto j = json::parse(output.read());
+  ASSERT_EQ(j["predictions"].size(), 6U);
+  EXPECT_TRUE(j["predictions"][0].is_number());
+  ASSERT_TRUE(j.contains("metrics"));
+}
+
+// ---------------------------------------------------------------------------
 // Predict subcommand — error cases
 // ---------------------------------------------------------------------------
 

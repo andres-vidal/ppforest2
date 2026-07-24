@@ -83,9 +83,41 @@ namespace ppforest2::io::csv {
    *
    * @param filename Path to the CSV file.
    * @return A DataPacket containing the feature matrix and response vector.
-   * @throws std::runtime_error If the file is empty or has inconsistent columns.
+   * @throws UserError on any failure: missing file, empty file, rows whose
+   *         column count differs from the header, or a column mixing numeric
+   *         and non-numeric cells (stray "NA", empty, or non-finite values).
    */
   stats::DataPacket read(std::string const& filename);
+
+  /**
+   * @brief Read a CSV file, parsing the response column in a known mode.
+   *
+   * Same as `read`, but skips the written-form mode detection: @p mode states
+   * how to parse the response column. Classification maps labels to integer
+   * codes in first-appearance order (populating `group_names`); regression
+   * parses a continuous `float` response and rejects non-numeric values.
+   * Rows keep their file order — use this when predictions must line up with
+   * the input rows (e.g. `predict`), with the mode taken from the model.
+   *
+   * @throws UserError on any failure (missing file, parse error, malformed
+   *         shape, non-numeric regression response).
+   */
+  stats::DataPacket read(std::string const& filename, types::Mode mode);
+
+  /**
+   * @brief Re-encode `data.y` label codes into a target label space.
+   *
+   * `data.y` carries integer codes indexing `data.group_names` — the order
+   * labels first appeared in the file. Model predictions and metrics use the
+   * model's own label order (`meta.groups`), which can differ when a
+   * prediction file lists classes in a different order than the training
+   * file. Returns a copy of `data.y` re-encoded so that code `i` means
+   * `target_groups[i]`.
+   *
+   * @throws UserError if the file contains a label that is not present in
+   *         @p target_groups.
+   */
+  types::OutcomeVector remap_labels(stats::DataPacket const& data, types::Names const& target_groups);
 
   /**
    * @brief Read a CSV file and sort rows ascending by the response column.
@@ -107,6 +139,21 @@ namespace ppforest2::io::csv {
    *         shape) — CSV reading failures are user-facing by nature.
    */
   stats::DataPacket read_sorted(std::string const& filename);
+
+  /**
+   * @brief Read a CSV file sorted by response, parsing the response in a
+   *        known mode.
+   *
+   * Same as the one-argument `read_sorted`, but skips the written-form mode
+   * detection: @p mode states how to parse the response column. Use this
+   * when the mode is already decided (e.g. `train --mode regression`) so
+   * that integer-written regression responses stay numeric instead of being
+   * label-encoded.
+   *
+   * @throws UserError on any failure, including a non-numeric response in
+   *         regression mode.
+   */
+  stats::DataPacket read_sorted(std::string const& filename, types::Mode mode);
 
   /**
    * @brief Write a DataPacket to a CSV file (features followed by label, no header).

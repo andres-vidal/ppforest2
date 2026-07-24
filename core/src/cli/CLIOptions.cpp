@@ -41,9 +41,18 @@ namespace ppforest2::cli {
      * can be loaded first and CLI args override it naturally.
      */
     std::string find_config_path(int argc, char* argv[]) {
-      for (int i = 1; i < argc - 1; ++i) {
-        if (std::string(argv[i]) == "--config") {
+      static std::string const eq_prefix = "--config=";
+
+      for (int i = 1; i < argc; ++i) {
+        std::string const arg(argv[i]);
+
+        if (arg == "--config" && i < argc - 1) {
           return argv[i + 1];
+        }
+        // CLI11 accepts both `--config path` and `--config=path`; the
+        // pre-scan must too, or the equals form is silently ignored.
+        if (arg.rfind(eq_prefix, 0) == 0) {
+          return arg.substr(eq_prefix.size());
         }
       }
       return {};
@@ -68,11 +77,15 @@ namespace ppforest2::cli {
         throw ppforest2::UserError(fmt::format("Invalid JSON in config file: {}", e.what()));
       }
 
-      if (!config.is_object()) {
-        return {};
-      }
+      user_error(config.is_object(), fmt::format("Config file '{}' must contain a JSON object", path));
 
-      return Params(config);
+      try {
+        return Params(config);
+      } catch (nlohmann::json::exception const& e) {
+        // `Params(config)` reads typed values (`config.value(...)`), which
+        // throws on a wrong-typed field — surface it as the user error it is.
+        throw ppforest2::UserError(fmt::format("Invalid config file '{}': {}", path, e.what()));
+      }
     }
 
   }
@@ -110,15 +123,18 @@ namespace ppforest2::cli {
 
   stats::DataPacket Params::read_data(stats::RNG& rng) {
     if (!data_path.empty()) {
-      stats::DataPacket data = io::csv::read_sorted(data_path);
-
-      // Reader auto-detected mode from the y column. Honor that unless the
-      // user passed --mode (which sets `mode_input` non-empty before we get
-      // here); empty group_names means regression shape.
       if (model.mode_input.empty()) {
-        model.mode_input = data.group_names.empty() ? "regression" : "classification";
+        // No --mode: detect it from the y column's written form; empty
+        // group_names means regression shape.
+        stats::DataPacket data = io::csv::read_sorted(data_path);
+        model.mode_input       = data.group_names.empty() ? "regression" : "classification";
+        return data;
       }
-      return data;
+
+      // --mode given (CLI or config file): parse the response in that mode
+      // instead of trusting the written form — integer-written regression
+      // responses must stay numeric, not become label codes.
+      return io::csv::read_sorted(data_path, types::mode_from_string(model.mode_input));
     }
 
     // Simulated data: no CSV to auto-detect from, so default to classification

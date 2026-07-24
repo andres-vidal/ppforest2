@@ -82,16 +82,22 @@ namespace ppforest2::cli {
     std::vector<std::string> validate_scenario(nlohmann::json const& s) {
       std::vector<std::string> errors;
 
-      check(s.contains("seed"), "seed is required for reproducibility", errors);
+      try {
+        check(s.contains("seed"), "seed is required for reproducibility", errors);
 
-      auto config    = build_evaluate_config(s);
-      bool is_forest = s.contains("size") && s["size"].get<int>() > 0;
-      validate_training_config(config, errors);
+        auto config    = build_evaluate_config(s);
+        bool is_forest = s.contains("size") && s["size"].get<int>() > 0;
+        validate_training_config(config, errors);
 
-      if (is_forest && !s.contains("vars")) {
-        bool has_p_vars = s.contains("p_vars");
-        bool has_n_vars = s.contains("n_vars") && s["n_vars"].get<int>() > 0;
-        check(has_p_vars || has_n_vars, "p_vars or n_vars is required for forests", errors);
+        if (is_forest && !s.contains("vars")) {
+          bool has_p_vars = s.contains("p_vars");
+          bool has_n_vars = s.contains("n_vars") && s["n_vars"].get<int>() > 0;
+          check(has_p_vars || has_n_vars, "p_vars or n_vars is required for forests", errors);
+        }
+      } catch (nlohmann::json::exception const& e) {
+        // Typed reads (`get<int>`, `value(...)`) throw on wrong-typed
+        // fields — report per scenario instead of aborting the whole run.
+        errors.emplace_back(fmt::format("wrong-typed field: {}", e.what()));
       }
 
       return errors;

@@ -410,6 +410,43 @@ TEST(CLITrain, TrainPredictCrab) {
   EXPECT_TRUE(j["metrics"].contains("confusion_matrix"));
 }
 
+/* A row with a missing field fails the run instead of training on the
+ * remaining rows. */
+TEST(CLITrain, TrainRaggedRowFails) {
+  TempFile const data(".csv");
+  {
+    std::ofstream out(data.path());
+    out << "f1,f2,y\n1,1,a\n2,a\n3,2,a\n11,5,b\n12,6,b\n13,5,b\n";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto result = run_ppforest2("-q train -d " + data.path() + " -n 0 -r 0 -s " + model.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("Error"), std::string::npos);
+}
+
+/* Every response value is integer-written, which the reader's written-form
+ * detection would classify; `--mode regression` overrides the detection so
+ * the model trains on the numeric response, not on label codes. */
+TEST(CLITrain, TrainRegressionIntegerResponseKeepsNumericY) {
+  TempFile const data(".csv");
+  {
+    std::ofstream out(data.path());
+    out << "f1,f2,y\n1,1,10\n2,2,20\n3,3,30\n4,4,40\n5,5,50\n6,6,60\n";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto train = run_ppforest2("-q train --mode regression -d " + data.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0) << train.stderr_output;
+
+  auto mj = json::parse(model.read());
+  EXPECT_EQ(mj["config"]["mode"], "regression");
+  ASSERT_TRUE(mj["meta"].contains("groups"));
+  EXPECT_TRUE(mj["meta"]["groups"].empty());
+}
+
 /* Regression train → predict round-trip on a real dataset (mtcars). Fences
  * the end-to-end CLI path for `--mode regression` with a small real CSV:
  * training reads the last column (`mpg`) as the continuous response, the

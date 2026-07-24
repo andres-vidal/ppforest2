@@ -91,12 +91,16 @@ format-dry:
 	@clang-format --dry-run --Werror ${FORMAT_SOURCES}
 
 tidy: build
-	@echo ${TIDY_SOURCES} | tr ' ' '\n' | xargs -P ${PARALLEL} -n 1 clang-tidy -p ${BUILD_DIR}
-	@echo ${INCLUDE_CHECK_SOURCES} | tr ' ' '\n' | \
+	@echo ${TIDY_SOURCES} | tr ' ' '\n' | xargs -P ${PARALLEL} -n 1 clang-tidy -p ${BUILD_DIR} --warnings-as-errors='*'
+	@if echo ${INCLUDE_CHECK_SOURCES} | tr ' ' '\n' | \
 		xargs -P ${PARALLEL} -n 1 \
 		clang-tidy -p ${BUILD_DIR} --checks='-*,misc-include-cleaner' \
 		--config="{CheckOptions: [{key: misc-include-cleaner.IgnoreHeaders, value: '${INCLUDE_CHECK_IGNORE}'}]}" \
-		2>/dev/null | grep -E "not used directly" || echo "No unused includes found."
+		2>/dev/null | grep -E "not used directly"; then \
+		echo "Unused includes found."; exit 1; \
+	else \
+		echo "No unused includes found."; \
+	fi
 
 # Static analysis over the sources the R package actually ships (the same scope
 # as STRICT_SOURCES) plus the R glue. Three things keep --check-level=exhaustive

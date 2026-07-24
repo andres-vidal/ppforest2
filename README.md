@@ -47,25 +47,25 @@ Build and use the `ppforest2` command-line tool directly:
 make build
 
 # Train a forest on a CSV dataset and save the model
-ppforest2 train --data data.csv --trees 100 --lambda 0.5 --save model.json
+ppforest2 train --data data.csv --size 100 --lambda 0.5 --save model.json
 
 # Regression (experimental) — last CSV column must be a continuous numeric response
-ppforest2 train --data regression.csv --mode regression --trees 100 --save reg_model.json
+ppforest2 train --data regression.csv --mode regression --size 100 --save reg_model.json
 
 # Explicit strategy selection (equivalent to the above)
-ppforest2 train --data data.csv --trees 100 --pp-strategy pda:lambda=0.5 --save model.json
+ppforest2 train --data data.csv --size 100 --pp pda:lambda=0.5 --save model.json
 
 # Predict on new data using a saved model
 ppforest2 predict --model model.json --data test.csv
 
 # Evaluate with smart convergence (default)
-ppforest2 evaluate --data data.csv --trees 100 --train-ratio 0.7
+ppforest2 evaluate --data data.csv --size 100 --train-ratio 0.7
 
 # Evaluate with fixed iterations (disables convergence)
-ppforest2 evaluate --data data.csv --trees 100 -i 10 --train-ratio 0.7
+ppforest2 evaluate --data data.csv --size 100 -i 10 --train-ratio 0.7
 
 # Evaluate on simulated data (1000 rows, 10 features, 3 groups)
-ppforest2 evaluate --simulate 1000x10x3 --trees 50
+ppforest2 evaluate --simulate 1000x10x3 --size 50
 
 # Run performance benchmarks across scenarios
 ppforest2 benchmark -s bench/default-scenarios-classification.json
@@ -149,7 +149,7 @@ Tunable with `tune()`: `trees`, `mtry` (or `mtry_prop` to subsample features by 
 
 ## CLI Reference
 
-The `ppforest2` command-line tool provides four subcommands for training, prediction, evaluation, and benchmarking. After `make build`, the binary is available at `.build/ppforest2`.
+The `ppforest2` command-line tool provides six subcommands: `train`, `predict`, `evaluate`, `benchmark`, `summarize`, and `serve`. After `make build`, the binary is available at `.build/ppforest2`.
 
 ### Global Options
 
@@ -171,30 +171,33 @@ Config files accept both `snake_case` and `kebab-case` keys. Top-level keys are 
 Train a single tree or forest on a CSV dataset and save the result.
 
 ```bash
-ppforest2 train -d data.csv -t 100 -l 0.5 -s model.json
-ppforest2 train -d data.csv -t 0                # single tree (no forest)
+ppforest2 train -d data.csv -n 100 -l 0.5 -s model.json
+ppforest2 train -d data.csv -n 0                 # single tree (no forest)
 ppforest2 train -d data.csv --no-save            # train without saving
 ppforest2 train -d data.csv --no-metrics         # skip variable importance
 ```
 
-| Flag                     | Default       | Description                                                        |
-|--------------------------|---------------|--------------------------------------------------------------------|
-| `-d, --data <file>`      | *(required)*  | CSV training data                                                  |
-| `-t, --trees <N>`        | `100`         | Number of trees (`0` for a single tree)                            |
-| `-l, --lambda <X>`       | `0.5`         | PDA penalty; `0` = LDA, `(0,1]` = PDA                              |
-| `-r, --seed <N>`         | *(random)*    | Random seed for reproducibility                                    |
-| `-v, --vars <spec>`      | `0.5`         | Features per split (see [Variable selection](#variable-selection)) |
-| `--threads <N>`          | *(all cores)* | Number of OpenMP threads                                           |
-| `--max-retries <N>`      | `3`           | Max retries for degenerate trees                                   |
-| `--pp-strategy <spec>`        | `pda:lambda=0.5` | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`       |
-| `--vars-strategy <spec>`      | `uniform`     | Variable selection strategy (e.g. `all`, `uniform:count=3`); excludes `--vars` |
-| `--cutpoint-strategy <spec>`  | `mean_of_means` | Cutpoint strategy (e.g. `mean_of_means`)                       |
-| `--stop-strategy <spec>`      | `pure_node`   | Stop rule (e.g. `pure_node`)                                      |
-| `--binarize-strategy <spec>`  | `largest_gap` | Binarization strategy (e.g. `largest_gap`)                         |
-| `--grouping <spec>`           | `by_label`    | Grouping strategy (e.g. `by_label`)                                |
-| `-s, --save <file>`      | `model.json`  | Output model path (`.json` added if missing)                       |
-| `--no-save`              | —             | Skip saving the model                                              |
-| `--no-metrics`           | —             | Skip variable importance computation                               |
+| Flag                     | Default          | Description                                                        |
+|--------------------------|------------------|--------------------------------------------------------------------|
+| `-d, --data <file>`      | *(required)*     | CSV training data                                                  |
+| `-m, --mode <mode>`      | *(auto-detect)*  | `classification` or `regression`                                   |
+| `-n, --size <N>`         | `100`            | Number of trees (`0` for a single tree)                            |
+| `-l, --lambda <X>`       | `0.0`            | PDA penalty; `0` = LDA, `(0,1]` = PDA; excludes `--pp`             |
+| `-r, --seed <N>`         | *(random)*       | Random seed for reproducibility                                    |
+| `--n-vars <N>`           | —                | Features per split (integer count); excludes `--p-vars`/`--vars`   |
+| `--p-vars <X>`           | `0.5`            | Features per split (proportion, see [Variable selection](#variable-selection)) |
+| `--threads <N>`          | *(all cores)*    | Number of OpenMP threads                                           |
+| `--max-retries <N>`      | `3`              | Max retries for degenerate trees                                   |
+| `--pp <spec>`            | `pda`            | PP strategy (e.g. `pda:lambda=0.5`); excludes `--lambda`           |
+| `--vars <spec>`          | `uniform`        | Variable selection strategy (e.g. `all`, `uniform:count=3`); excludes `--n-vars`/`--p-vars` |
+| `--cutpoint <spec>`      | `mean_of_means`  | Cutpoint strategy (e.g. `mean_of_means`)                           |
+| `--stop <spec>`          | *(mode-aware)*   | Stop rule (e.g. `pure_node`, `min_size:min_size=5`); repeatable — multiple rules compose via `any(...)` |
+| `--binarize <spec>`      | *(mode-aware)*   | Binarization strategy (e.g. `largest_gap`)                         |
+| `--grouping <spec>`      | *(mode-aware)*   | Grouping strategy (e.g. `by_label`, `by_cutpoint`)                 |
+| `--leaf <spec>`          | *(mode-aware)*   | Leaf strategy (e.g. `majority_vote`, `mean_response`)              |
+| `-s, --save <file>`      | `model.json`     | Output model path (`.json` added if missing)                       |
+| `--no-save`              | —                | Skip saving the model                                              |
+| `--no-metrics`           | —                | Skip variable importance computation                               |
 
 The saved model JSON includes the full serialization, training configuration, variable importance metrics, and OOB error (forests only).
 
@@ -216,7 +219,21 @@ ppforest2 predict -M model.json -d test.csv --no-proportions -o predictions.json
 | `--no-metrics`           | —             | Omit error rate and confusion matrix from output  |
 | `--no-proportions`       | —             | Omit vote proportions from output (forest only)   |
 
-If the CSV includes response labels, the tool reports the error rate and confusion matrix. For forest models, the JSON output includes per-group vote proportions by default; use `--no-proportions` to omit them.
+If the CSV includes response labels, the tool reports the error rate and confusion matrix; labels are matched by name against the model's training labels, so the data file may list classes in any order (an unknown label is an error). Predictions are written in the same order as the input rows. For forest models, the JSON output includes per-group vote proportions by default; use `--no-proportions` to omit them.
+
+### `summarize` — Display a Saved Model
+
+Render a saved model's configuration, data summary, and metrics in the terminal.
+
+```bash
+ppforest2 summarize -M model.json
+ppforest2 summarize -M model.json -d data.csv    # recompute metrics if the model has none
+```
+
+| Flag                     | Default       | Description                                        |
+|--------------------------|---------------|----------------------------------------------------|
+| `-M, --model <file>`     | *(required)*  | Saved model JSON                                   |
+| `-d, --data <file>`      | —             | CSV training data (recomputes metrics if the model was saved with `--no-metrics`) |
 
 ### `evaluate` — Train-Test Evaluation
 
@@ -224,13 +241,13 @@ Split data into training and test sets, train a model, and measure performance. 
 
 ```bash
 # Evaluate on a CSV file
-ppforest2 evaluate -d data.csv -t 50 -p 0.7
+ppforest2 evaluate -d data.csv -n 50 -p 0.7
 
 # Evaluate on simulated data (1000 rows, 10 features, 3 groups)
-ppforest2 evaluate --simulate 1000x10x3 -t 50
+ppforest2 evaluate --simulate 1000x10x3 -n 50
 
 # Fixed iterations (disables convergence)
-ppforest2 evaluate -d data.csv -t 50 -i 20
+ppforest2 evaluate -d data.csv -n 50 -i 20
 ```
 
 **Data source** (mutually exclusive):
@@ -267,7 +284,7 @@ ppforest2 evaluate -d data.csv -t 50 -i 20
 | `--convergence-min <N>`     | `10`     | Minimum iterations before checking convergence    |
 | `--convergence-window <N>`  | `3`      | Consecutive stable checks required to stop        |
 
-All model parameters (`--trees`, `--lambda`, `--seed`, `--vars`, `--threads`, `--max-retries`) and strategy flags (`--pp-strategy`, `--vars-strategy`, `--cutpoint-strategy`, `--stop-strategy`, `--binarize-strategy`, `--grouping`) are also available.
+All model parameters (`--size`, `--lambda`, `--seed`, `--n-vars`/`--p-vars`, `--threads`, `--max-retries`) and strategy flags (`--pp`, `--vars`, `--cutpoint`, `--stop`, `--binarize`, `--grouping`, `--leaf`) are also available.
 
 ### `benchmark` — Multi-Scenario Benchmarks
 
@@ -276,7 +293,7 @@ Run a suite of evaluation scenarios and report results in a table. Each scenario
 ```bash
 ppforest2 benchmark -s bench/default-scenarios-classification.json
 ppforest2 benchmark -s scenarios.json -b baseline.json       # compare against baseline
-ppforest2 benchmark -s scenarios.json -o results.json --csv results.csv
+ppforest2 benchmark -s scenarios.json -o results.json -o results.csv
 ppforest2 benchmark -s scenarios.json --format markdown
 ```
 
@@ -284,8 +301,7 @@ ppforest2 benchmark -s scenarios.json --format markdown
 |--------------------------|----------|---------------------------------------------------|
 | `-s, --scenarios <file>` | *(required)* | JSON scenarios file                           |
 | `-b, --baseline <file>`  | —        | Baseline results JSON for comparison              |
-| `-o, --output <file>`    | —        | Save results to JSON                              |
-| `--csv <file>`           | —        | Save results to CSV                               |
+| `-o, --output <file>`    | —        | Save results (`.json` or `.csv`; repeatable)      |
 | `--format <fmt>`         | `table`  | Output format: `table` or `markdown`              |
 | `-i, --iterations <N>`   | —        | Override iteration count for all scenarios        |
 | `-p, --train-ratio <X>`  | —        | Override train ratio for all scenarios            |
@@ -343,7 +359,7 @@ The `--vars` flag controls how many features are considered at each split in a f
 | Decimal  | `0.5`    | Use 50% of features             |
 | Fraction | `1/3`    | Use one-third of features       |
 
-This parameter is ignored for single trees (`--trees 0`), which always use all features.
+This parameter is ignored for single trees (`--size 0`), which always use all features.
 
 ## Architecture
 
@@ -373,7 +389,7 @@ The C++ core uses two design patterns to keep the algorithm extensible without h
 
 |              | Linux            | macOS           | Windows                              |
 |--------------|------------------|-----------------|--------------------------------------|
-| **C++ core** | `cmake` >= 3.20, `make`, `gcc` | `cmake` >= 3.20, `make`, `clang` | `cmake` >= 3.20, `make`, MinGW `gcc` |
+| **C++ core** | `cmake` >= 3.24, `make`, `gcc` | `cmake` >= 3.24, `make`, `clang` | `cmake` >= 3.24, `make`, MinGW `gcc` |
 | **R package**| `R` >= 3.5       | `R` >= 3.5      | `R` >= 3.5, `Rtools`                |
 | **OpenMP** (optional) | Usually included with `gcc` | `brew install libomp` | Usually included with MinGW |
 | **Coverage** (optional) | `lcov` >= 2  | `brew install lcov` | —                                    |
@@ -457,7 +473,7 @@ make benchmark-vs REF=main         # Compare current branch against another ref 
 ppforest2 benchmark -s bench/default-scenarios-classification.json
 
 # Save results as JSON and CSV
-ppforest2 benchmark -s bench/default-scenarios-classification.json -o results.json --csv results.csv
+ppforest2 benchmark -s bench/default-scenarios-classification.json -o results.json -o results.csv
 
 # Compare against a baseline
 ppforest2 benchmark -s bench/default-scenarios-classification.json -b baseline.json
@@ -482,16 +498,16 @@ Use `-i N` to disable convergence and run exactly N iterations instead.
 
 ```bash
 # Default: smart convergence (runs until CV < 5%)
-ppforest2 evaluate --simulate 1000x20x3 -t 50
+ppforest2 evaluate --simulate 1000x20x3 -n 50
 
 # Stricter threshold with warmup
-ppforest2 evaluate --simulate 1000x20x3 -t 50 --warmup 2 --convergence-cv 0.03
+ppforest2 evaluate --simulate 1000x20x3 -n 50 --warmup 2 --convergence-cv 0.03
 
 # Tune convergence parameters
-ppforest2 evaluate --simulate 1000x20x3 -t 50 --convergence-min 20 --convergence-window 5
+ppforest2 evaluate --simulate 1000x20x3 -n 50 --convergence-min 20 --convergence-window 5
 
 # Fixed iterations (disables convergence)
-ppforest2 evaluate --simulate 1000x20x3 -t 50 -i 10
+ppforest2 evaluate --simulate 1000x20x3 -n 50 -i 10
 ```
 
 ### Scenario Format

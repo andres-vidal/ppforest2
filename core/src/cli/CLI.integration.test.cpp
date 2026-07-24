@@ -68,6 +68,68 @@ TEST(CLIGlobal, ConfigFileApplied) {
   EXPECT_TRUE(j.contains("runs"));
 }
 
+/* The --config=path equals form loads the config file. It supplies the
+ * only data source, so the run succeeds only if the config was actually
+ * loaded. */
+TEST(CLIGlobal, ConfigFileEqualsFormApplied) {
+  TempFile config;
+  {
+    std::ofstream out(config.path());
+    out << R"({"simulate": "50x3x2", "size": 3})";
+  }
+
+  TempFile output;
+  output.clear();
+  auto result = run_ppforest2("--config=" + config.path() + " -q evaluate -r 0 -i 1 -o " + output.path());
+  EXPECT_EQ(result.exit_code, 0) << result.stderr_output;
+
+  auto j = json::parse(output.read());
+  EXPECT_TRUE(j.contains("runs"));
+}
+
+/* A config file whose top level is not a JSON object is rejected with a
+ * message naming the file. */
+TEST(CLIGlobal, ConfigFileNonObjectFails) {
+  TempFile config;
+  {
+    std::ofstream out(config.path());
+    out << R"([1, 2, 3])";
+  }
+
+  auto result = run_ppforest2("--config " + config.path() + " -q train --simulate 50x3x2 -r 0");
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("must contain a JSON object"), std::string::npos);
+}
+
+/* A wrong-typed config value fails with a clean error naming the file. */
+TEST(CLIGlobal, ConfigFileWrongTypedValueFails) {
+  TempFile config;
+  {
+    std::ofstream out(config.path());
+    out << R"({"size": "100"})";
+  }
+
+  auto result = run_ppforest2("--config " + config.path() + " -q train --simulate 50x3x2 -r 0");
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("Invalid config file"), std::string::npos);
+}
+
+/* Oversized simulate dimensions fail validation, not std::stoi. */
+TEST(CLIGlobal, SimulateDimensionOverflowFails) {
+  auto result = run_ppforest2("-q train --simulate 99999999999x10x2 -r 0");
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("Error"), std::string::npos);
+}
+
+/* n_vars larger than the feature count fails before training starts. */
+TEST(CLIGlobal, NVarsExceedingFeatureCountFails) {
+  TempFile model;
+  model.clear();
+  auto result = run_ppforest2("-q train -d " + IRIS_CSV + " -n 5 -r 0 --n-vars 50 -s " + model.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("cannot exceed the number of features"), std::string::npos);
+}
+
 // ---------------------------------------------------------------------------
 // End-to-End Pipeline
 // ---------------------------------------------------------------------------

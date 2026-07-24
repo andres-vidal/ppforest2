@@ -109,6 +109,51 @@ TEST(CLISummarize, SummarizeWithDataRecomputesMetrics) {
   EXPECT_NE(result.stdout_output.find("Variable Importance"), std::string::npos);
 }
 
+/* Summarize --data maps labels through the model's group space: a data file
+ * listing classes in a different order than the training file still
+ * recomputes metrics. */
+TEST(CLISummarize, SummarizeWithReorderedDataRecomputesMetrics) {
+  TempFile const train_csv(".csv");
+  {
+    std::ofstream out(train_csv.path());
+    out << "f1,f2,y\n1,1,a\n2,1,a\n3,2,a\n11,5,b\n12,6,b\n13,5,b\n";
+  }
+
+  TempFile const model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 5 -r 0 --no-metrics -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  // Same rows, class "b" listed first.
+  TempFile const data_csv(".csv");
+  {
+    std::ofstream out(data_csv.path());
+    out << "f1,f2,y\n11,5,b\n12,6,b\n13,5,b\n1,1,a\n2,1,a\n3,2,a\n";
+  }
+
+  auto result = run_ppforest2("--no-color summarize -M " + model.path() + " -d " + data_csv.path());
+  EXPECT_EQ(result.exit_code, 0);
+  EXPECT_NE(result.stdout_output.find("Training Confusion Matrix"), std::string::npos);
+}
+
+/* Summarize --data with a mismatched feature count fails cleanly. */
+TEST(CLISummarize, SummarizeDataFeatureCountMismatchFails) {
+  TempFile const model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + IRIS_CSV + " -n 5 -r 0 --no-metrics -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  TempFile const data_csv(".csv");
+  {
+    std::ofstream out(data_csv.path());
+    out << "f1,y\n1,a\n2,b\n";
+  }
+
+  auto result = run_ppforest2("-q summarize -M " + model.path() + " -d " + data_csv.path());
+  EXPECT_NE(result.exit_code, 0);
+  EXPECT_NE(result.stderr_output.find("feature column"), std::string::npos);
+}
+
 /* Summarize with --data does not recompute when metrics already exist. */
 TEST_F(SummarizeTest, SummarizeWithDataSkipsExistingMetrics) {
   // Model already has metrics — providing --data should not change output

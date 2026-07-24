@@ -22,6 +22,7 @@
 #include <cctype>
 #include <cmath>
 #include <cstdint>
+#include <numeric>
 #include <optional>
 #include <random>
 #include <string>
@@ -496,10 +497,32 @@ namespace ppforest2::cli::serve {
         return error_response(400, e.what());
       }
 
-      std::string err;
-      auto perm = build_permutation(loaded.feature_names, parsed.feature_names, err);
-      if (perm.empty() && !loaded.feature_names.empty()) {
-        return error_response(400, err);
+      std::vector<int> perm;
+      if (loaded.feature_names.empty()) {
+        // Model saved without column names (e.g. trained via the R
+        // bindings): name-based permutation is impossible, so require the
+        // exact column count and take the columns positionally. Without
+        // this check, predicting through a narrower matrix reads out of
+        // bounds.
+        if (static_cast<int>(parsed.feature_names.size()) != loaded.n_features) {
+          return error_response(
+              400,
+              fmt::format(
+                  "Feature mismatch: the model has no feature names, so the request must have exactly {} column(s) "
+                  "in training order (got {})",
+                  loaded.n_features,
+                  parsed.feature_names.size()
+              )
+          );
+        }
+        perm.resize(static_cast<std::size_t>(loaded.n_features));
+        std::iota(perm.begin(), perm.end(), 0);
+      } else {
+        std::string err;
+        perm = build_permutation(loaded.feature_names, parsed.feature_names, err);
+        if (perm.empty()) {
+          return error_response(400, err);
+        }
       }
 
       types::FeatureMatrix const x = reorder_columns(parsed.x, perm);

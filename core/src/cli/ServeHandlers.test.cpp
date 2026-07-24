@@ -41,6 +41,7 @@ namespace {
         std::move(exported.feature_names),
         mode,
         std::move(model_json),
+        exported.n_features,
     };
   }
 }
@@ -57,6 +58,43 @@ TEST_F(ServeHandlersClassificationTest, HealthReturnsOkWithVersion) {
   auto body = json::parse(r.body);
   EXPECT_EQ(body.at("status"), "ok");
   EXPECT_EQ(body.at("version"), "9.9.9");
+}
+
+/* Models saved without feature names (e.g. via the R bindings) cannot be
+ * permuted by name: the request must carry exactly the training feature
+ * count, and a mismatched count is a 400. */
+TEST_F(ServeHandlersClassificationTest, PredictUnnamedModelWrongColumnCountIs400) {
+  auto mj                     = json::parse(model_->read());
+  mj["meta"]["feature_names"] = json::array();
+  TempFile const stripped;
+  {
+    std::ofstream out(stripped.path());
+    out << mj.dump();
+  }
+  auto const loaded = load_from_file(stripped.path());
+
+  // One column instead of four.
+  Response const r = handle_predict(loaded, store, "f1\n5.1\n");
+  EXPECT_EQ(r.status, 400);
+  EXPECT_NE(r.body.find("Feature mismatch"), std::string::npos);
+}
+
+/* With the exact training feature count, an unnamed model predicts
+ * positionally regardless of the header names. */
+TEST_F(ServeHandlersClassificationTest, PredictUnnamedModelPositionalColumnsWork) {
+  auto mj                     = json::parse(model_->read());
+  mj["meta"]["feature_names"] = json::array();
+  TempFile const stripped;
+  {
+    std::ofstream out(stripped.path());
+    out << mj.dump();
+  }
+  auto const loaded = load_from_file(stripped.path());
+
+  Response const r = handle_predict(loaded, store, "a,b,c,d\n5.1,3.5,1.4,0.2\n");
+  EXPECT_EQ(r.status, 200);
+  auto body = json::parse(r.body);
+  EXPECT_EQ(body.at("predictions").size(), 1U);
 }
 
 TEST_F(ServeHandlersClassificationTest, SummarizeOmitsModelField) {
