@@ -101,11 +101,11 @@ var NAVTREEINDEX =
 "classppforest2_1_1cli_1_1serve_1_1PredictionStore.html#ab58b14ef45918dcf5852bbb109cff757",
 "classppforest2_1_1stop_1_1CompositeStop.html#ac368c5d3d635634ae154b8528118b584",
 "functions_func_u.html",
-"namespaceppforest2_1_1io_1_1style.html",
-"structppforest2_1_1NodeContext.html#a876fa4a962f9694f07cd5a0935bf3251",
-"structppforest2_1_1cli_1_1Params.html#a25b3205a1d36a879c74f97c3b70c8db5",
-"structppforest2_1_1io_1_1csv_1_1FeatureSet.html",
-"structppforest2_1_1viz_1_1RegionPolygon.html"
+"namespaceppforest2_1_1io_1_1layout.html#a9499bff14d0b364dfabd58262fe3d05b",
+"structppforest2_1_1NodeContext.html#a8408a3081a9444989ac8c04dac03f3af",
+"structppforest2_1_1cli_1_1Params.html#a2334e9db885b90495c313d5bdfcc68db",
+"structppforest2_1_1io_1_1Output.html#ab34e6a707aa1d473f3d07407e6f02664",
+"structppforest2_1_1viz_1_1NodeData.html#ace58e17809ab9eaddad15054fda49529"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

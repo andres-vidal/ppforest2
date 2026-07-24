@@ -1,7 +1,7 @@
 var searchData=
 [
   ['n_0',['n',['../structppforest2_1_1io_1_1EvaluateResult.html#a549b53d2372eca63f389651c732deead',1,'ppforest2::io::EvaluateResult::n'],['../structppforest2_1_1io_1_1ModelStats.html#a1c09e6ef7f7227839d18dfc2e4161140',1,'ppforest2::io::ModelStats::n']]],
-  ['n_5ffeatures_1',['n_features',['../structppforest2_1_1serialization_1_1Export.html#a1aabe0c77cd2ca62934aecf60df04f31',1,'ppforest2::serialization::Export']]],
+  ['n_5ffeatures_1',['n_features',['../structppforest2_1_1cli_1_1serve_1_1LoadedModel.html#aed3b7fe5243fc39a3d3a35b6e9b407a5',1,'ppforest2::cli::serve::LoadedModel::n_features'],['../structppforest2_1_1serialization_1_1Export.html#a1aabe0c77cd2ca62934aecf60df04f31',1,'ppforest2::serialization::Export::n_features']]],
   ['n_5fgroups_2',['n_groups',['../structppforest2_1_1cli_1_1SimulateParams.html#aada4cbd5ef369f951cce604255aeb76b',1,'ppforest2::cli::SimulateParams']]],
   ['n_5finformative_3',['n_informative',['../structppforest2_1_1stats_1_1simulation_1_1params_1_1Regression.html#a5c6021ccf09e1716665593903dabc896',1,'ppforest2::stats::simulation::params::Regression']]],
   ['n_5fobservations_4',['n_observations',['../structppforest2_1_1serialization_1_1Export.html#ae4cebfc3a17a9dd3c56eed46135d6784',1,'ppforest2::serialization::Export']]],
