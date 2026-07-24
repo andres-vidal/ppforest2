@@ -21,6 +21,16 @@ namespace ppforest2::cli {
   }
 
   namespace {
+    // The NxPxG regex guarantees digits, but not that they fit in an int —
+    // std::stoi throws out_of_range on oversized dimensions.
+    std::optional<int> to_int(std::string const& s) {
+      try {
+        return std::stoi(s);
+      } catch (std::exception const&) {
+        return std::nullopt;
+      }
+    }
+
     void validate_data_source(nlohmann::json const& config, std::vector<std::string>& errors) {
       bool has_data     = !config.value("data", "").empty();
       bool has_simulate = !config.value("simulate", "").empty();
@@ -35,16 +45,6 @@ namespace ppforest2::cli {
         if (!std::regex_match(sim, match, pattern)) {
           errors.emplace_back("simulate format must be NxPxG (e.g. 1000x10x2)");
         } else {
-          // The regex guarantees digits, but not that they fit in an int —
-          // std::stoi throws out_of_range on oversized dimensions.
-          auto to_int = [](std::string const& s) -> std::optional<int> {
-            try {
-              return std::stoi(s);
-            } catch (std::exception const&) {
-              return std::nullopt;
-            }
-          };
-
           auto const n = to_int(match[1]);
           auto const p = to_int(match[2]);
           auto const g = to_int(match[3]);

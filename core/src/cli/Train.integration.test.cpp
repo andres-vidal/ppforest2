@@ -410,17 +410,9 @@ TEST(CLITrain, TrainPredictCrab) {
   EXPECT_TRUE(j["metrics"].contains("confusion_matrix"));
 }
 
-/* Regression train → predict round-trip on a real dataset (mtcars). Fences
- * the end-to-end CLI path for `--mode regression` with a small real CSV:
- * training reads the last column (`mpg`) as the continuous response, the
- * saved JSON carries regression-shaped metrics, and `predict` outputs
- * numeric predictions plus MSE/MAE/R² rather than a confusion matrix.
- * Complements the simulated-data tests (which exercise the core pipeline)
- * by catching bugs that depend on real-world feature distributions,
- * non-synthetic column names, or the CSV reader's numeric-response path. */
+/* A row with a missing field fails the run instead of training on the
+ * remaining rows. */
 TEST(CLITrain, TrainRaggedRowFails) {
-  // A row with a missing field must fail loudly — the CSV reader used to
-  // silently drop it and train on the remaining rows.
   TempFile const data(".csv");
   {
     std::ofstream out(data.path());
@@ -434,10 +426,10 @@ TEST(CLITrain, TrainRaggedRowFails) {
   EXPECT_NE(result.stderr_output.find("Error"), std::string::npos);
 }
 
+/* Every response value is integer-written, which the reader's written-form
+ * detection would classify; `--mode regression` overrides the detection so
+ * the model trains on the numeric response, not on label codes. */
 TEST(CLITrain, TrainRegressionIntegerResponseKeepsNumericY) {
-  // Every response value is integer-written, which the reader's written-form
-  // detection would classify. --mode regression must override the detection
-  // so the model trains on the numeric response, not on label codes.
   TempFile const data(".csv");
   {
     std::ofstream out(data.path());
@@ -455,6 +447,14 @@ TEST(CLITrain, TrainRegressionIntegerResponseKeepsNumericY) {
   EXPECT_TRUE(mj["meta"]["groups"].empty());
 }
 
+/* Regression train → predict round-trip on a real dataset (mtcars). Fences
+ * the end-to-end CLI path for `--mode regression` with a small real CSV:
+ * training reads the last column (`mpg`) as the continuous response, the
+ * saved JSON carries regression-shaped metrics, and `predict` outputs
+ * numeric predictions plus MSE/MAE/R² rather than a confusion matrix.
+ * Complements the simulated-data tests (which exercise the core pipeline)
+ * by catching bugs that depend on real-world feature distributions,
+ * non-synthetic column names, or the CSV reader's numeric-response path. */
 TEST(CLITrain, TrainPredictRegressionMtcars) {
   TempFile const model;
   model.clear();

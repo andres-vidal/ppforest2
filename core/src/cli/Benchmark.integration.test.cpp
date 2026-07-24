@@ -56,8 +56,7 @@ TEST(CLIBenchmark, BenchmarkInvalidScenariosFails) {
   EXPECT_NE(result.exit_code, 0);
 }
 
-/* A wrong-typed scenario field fails validation with a per-scenario error
- * instead of aborting on an uncaught json type_error. */
+/* A wrong-typed scenario field fails validation with a per-scenario error. */
 TEST(CLIBenchmark, BenchmarkWrongTypedScenarioFieldFails) {
   TempFile const bad;
   {

@@ -62,8 +62,7 @@ TEST_F(ServeHandlersClassificationTest, HealthReturnsOkWithVersion) {
 
 /* Models saved without feature names (e.g. via the R bindings) cannot be
  * permuted by name: the request must carry exactly the training feature
- * count. A mismatched count must be a 400 — it used to slice a narrower
- * matrix and read out of bounds, crashing the server. */
+ * count, and a mismatched count is a 400. */
 TEST_F(ServeHandlersClassificationTest, PredictUnnamedModelWrongColumnCountIs400) {
   auto mj                     = json::parse(model_->read());
   mj["meta"]["feature_names"] = json::array();

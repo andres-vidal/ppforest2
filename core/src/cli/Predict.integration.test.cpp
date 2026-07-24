@@ -301,8 +301,7 @@ TEST(CLIPredictLabels, UnknownLabelFails) {
   EXPECT_NE(result.stderr_output.find("training labels"), std::string::npos);
 }
 
-/* A data file whose feature count differs from the model's fails cleanly
- * instead of reading out of bounds. */
+/* A data file whose feature count differs from the model's fails cleanly. */
 TEST(CLIPredictLabels, FeatureCountMismatchFails) {
   TempFile train_csv(".csv");
   write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);

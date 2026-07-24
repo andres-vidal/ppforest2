@@ -68,9 +68,9 @@ TEST(CLIGlobal, ConfigFileApplied) {
   EXPECT_TRUE(j.contains("runs"));
 }
 
-/* The --config=path equals form is honored, not silently ignored. The
- * config supplies the only data source, so the run succeeds iff the config
- * was actually loaded. */
+/* The --config=path equals form loads the config file. It supplies the
+ * only data source, so the run succeeds only if the config was actually
+ * loaded. */
 TEST(CLIGlobal, ConfigFileEqualsFormApplied) {
   TempFile config;
   {
@@ -87,8 +87,8 @@ TEST(CLIGlobal, ConfigFileEqualsFormApplied) {
   EXPECT_TRUE(j.contains("runs"));
 }
 
-/* A config file whose top level is not a JSON object fails clearly instead
- * of being silently discarded. */
+/* A config file whose top level is not a JSON object is rejected with a
+ * message naming the file. */
 TEST(CLIGlobal, ConfigFileNonObjectFails) {
   TempFile config;
   {
@@ -101,7 +101,7 @@ TEST(CLIGlobal, ConfigFileNonObjectFails) {
   EXPECT_NE(result.stderr_output.find("must contain a JSON object"), std::string::npos);
 }
 
-/* A wrong-typed config value fails with a clean error, not an abort. */
+/* A wrong-typed config value fails with a clean error naming the file. */
 TEST(CLIGlobal, ConfigFileWrongTypedValueFails) {
   TempFile config;
   {
