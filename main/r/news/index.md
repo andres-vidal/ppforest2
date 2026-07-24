@@ -2,6 +2,8 @@
 
 ## ppforest2 0.1.2
 
+CRAN release: 2026-07-21
+
 ### CRAN
 
 - Fixed a `-Wdeprecated-declarations` warning reported by CRAN’s
