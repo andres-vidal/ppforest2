@@ -15,6 +15,10 @@
 
 - `make tidy` now fails when clang-tidy reports findings or unused includes; previously it always succeeded.
 
+## Documentation
+
+- README: the CLI reference was synced with the actual binary — corrected flag names (`--size`, `--pp`, `--vars`, `--cutpoint`, `--stop`, `--binarize`, and friends), documented all six commands including `summarize`, fixed the benchmark output flags, and corrected the CMake requirement to 3.24.
+
 # ppforest2 0.1.2
 
 ## CRAN
