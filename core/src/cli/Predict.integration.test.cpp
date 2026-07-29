@@ -301,6 +301,30 @@ TEST(CLIPredictLabels, UnknownLabelFails) {
   EXPECT_NE(result.stderr_output.find("training labels"), std::string::npos);
 }
 
+/* A class the data never carries has no error rate to report, so its
+ * confusion-matrix row shows "-" rather than a division of zero by zero. */
+TEST(CLIPredictLabels, ClassWithNoObservationsShowsDash) {
+  TempFile train_csv(".csv");
+  write_file(train_csv.path(), SEPARABLE_TRAIN_CSV);
+
+  TempFile model;
+  model.clear();
+  auto train = run_ppforest2("-q train -d " + train_csv.path() + " -n 0 -r 0 -s " + model.path());
+  ASSERT_EQ(train.exit_code, 0);
+
+  // Every row is labelled "a" but sits in "b" territory, so "b" is predicted
+  // without ever appearing as an actual class.
+  TempFile predict_csv(".csv");
+  write_file(predict_csv.path(), "f1,f2,y\n11,5,a\n12,6,a\n13,5,a\n");
+
+  auto result = run_ppforest2("--no-color predict -M " + model.path() + " -d " + predict_csv.path());
+  ASSERT_EQ(result.exit_code, 0) << result.stderr_output;
+
+  // The "b" row is all zeros and must not render as a nan percentage.
+  EXPECT_EQ(result.stdout_output.find("nan"), std::string::npos) << result.stdout_output;
+  EXPECT_NE(result.stdout_output.find("  -"), std::string::npos) << result.stdout_output;
+}
+
 /* A data file whose feature count differs from the model's fails cleanly. */
 TEST(CLIPredictLabels, FeatureCountMismatchFails) {
   TempFile train_csv(".csv");
