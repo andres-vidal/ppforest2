@@ -1,5 +1,9 @@
 # ppforest2 0.1.3
 
+## New features
+
+- R: `summary()` on a classification tree or forest now reports a per-class error rate alongside each confusion matrix, and prints the overall error rate above the matrix rather than below it. The headings, the quantities, and their precision now match the output of the `summarize` command, so an R summary and a command-line summary of the same model report the same numbers in the same order.
+
 ## Bug fixes
 
 - CLI: a class with no observations in the data is rendered as `-` in the confusion matrix's error column instead of `nan%`. This happens when the model predicts a class that never appears as an actual label, for example when predicting on a subset of the data.

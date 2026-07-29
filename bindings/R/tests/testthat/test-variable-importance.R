@@ -115,7 +115,7 @@ describe("pprf variable importance", {
     out <- capture.output(summary(model))
     expect_true(any(grepl("Variable Importance", out)))
     if (!is.na(oob_error(model))) {
-      expect_true(any(grepl("OOB error", out)))
+      expect_true(any(grepl("OOB Error:", out, fixed = TRUE)))
     }
   })
 })
