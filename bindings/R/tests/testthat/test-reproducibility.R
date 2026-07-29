@@ -169,6 +169,35 @@ compare_confusion_matrix <- function(model, golden, data, response) {
     tolerance = 1e-3)
 }
 
+# The C++ CLI renders `training_metrics` straight from the golden values, so
+# asserting the printed R summary against the same numbers keeps the two
+# presentations reporting identical information. Formats mirror the CLI:
+# overall error at two decimals, per-class error at one.
+compare_printed_metrics <- function(model, golden) {
+  out <- capture.output(summary(model))
+  expected_cm <- golden$training_metrics$confusion_matrix
+
+  labels <- as.character(as_vec(expected_cm$labels))
+  group_errors <- as.numeric(as_vec(expected_cm$group_errors))
+
+  overall <- sprintf("%.2f%%", as.numeric(golden$training_metrics$error_rate) * 100)
+  expect_true(any(grepl(paste0("Training Error: ", overall), out, fixed = TRUE)),
+    info = paste("expected overall training error", overall))
+
+  # A forest prints an OOB matrix as well, and `training_metrics` describes
+  # the training one — read the rows under the first matrix header only.
+  header <- grep("^Actual\\s", out)[1]
+  expect_false(is.na(header))
+  rows <- out[header + seq_along(labels)]
+
+  for (i in seq_along(labels)) {
+    row <- rows[grepl(paste0("^\\s+", labels[i], "\\s"), rows)]
+    expect_length(row, 1L)
+    expect_true(endsWith(trimws(row), sprintf("%.1f%%", group_errors[i] * 100)),
+      info = paste("class", labels[i], "error column"))
+  }
+}
+
 compare_vote_proportions <- function(model, golden, data) {
   probs <- predict(model, data, type = "prob")
   actual <- unname(as.matrix(probs))
@@ -287,6 +316,10 @@ describe("Reproducibility: iris forest-pda-n5-s0", {
     compare_confusion_matrix(model, golden, d, d$Species)
   })
 
+  it("printed summary metrics match golden file", {
+    compare_printed_metrics(model, golden)
+  })
+
   it("OOB error matches golden file", {
     expect_equal(oob_error(model), golden$oob_metrics$error_rate, tolerance = 1e-3)
   })
@@ -338,6 +371,10 @@ describe("Reproducibility: iris forest-pda-l05-n5-s0", {
 
   it("confusion matrix matches golden file", {
     compare_confusion_matrix(model, golden, d, d$Species)
+  })
+
+  it("printed summary metrics match golden file", {
+    compare_printed_metrics(model, golden)
   })
 
   it("OOB error matches golden file", {

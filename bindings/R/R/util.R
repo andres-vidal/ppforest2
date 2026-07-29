@@ -139,30 +139,59 @@ print_training_spec <- function(spec) {
   cat("\n")
 }
 
-print_confusion_matrix <- function(raw_preds, model) {
+# A rate of `NA` means there was nothing to compute it from (an empty matrix,
+# or a class with no observations). The CLI renders that case as "-" too.
+format_error_rate <- function(rate, digits) {
+  if (is.na(rate)) "-" else sprintf(paste0("%.", digits, "f%%"), rate * 100)
+}
+
+# Classification metrics reporting mirrors the C++ presentation layer
+# (`print_metrics_block` in `io/Presentation.cpp`): the overall error rate on
+# its own line, then the confusion matrix carrying a per-class error column.
+# The quantities, their order, and their precision match, so an R summary and
+# a CLI summary of the same model read the same. Changing one side means
+# changing the other.
+#
+# `label` prefixes both headings ("Training", "OOB"); an empty label yields
+# the bare "Error:" / "Confusion Matrix:" headings.
+print_metrics_block <- function(preds, actual, label) {
+  counts <- unclass(table(Actual = actual, Predicted = preds))
+  titled <- function(heading) if (nzchar(label)) paste(label, heading) else heading
+
+  total <- sum(counts)
+  overall_error <- if (total > 0) 1 - sum(diag(counts)) / total else NA_real_
+
+  cat(titled("Error:"), " ", format_error_rate(overall_error, 2), "\n", sep = "")
+  cat(titled("Confusion Matrix:"), "\n\n", sep = "")
+
+  # Rows are actual classes, so the per-row rate is the share of a class's
+  # observations that were predicted as something else.
+  row_totals  <- rowSums(counts)
+  group_error <- ifelse(row_totals > 0, 1 - diag(counts) / row_totals, NA_real_)
+
+  display <- cbind(
+    format(counts),
+    Error = vapply(group_error, format_error_rate, character(1), digits = 1))
+  names(dimnames(display)) <- names(dimnames(counts))
+
+  print(display, quote = FALSE, right = TRUE)
+}
+
+print_confusion_matrix <- function(raw_preds, model, label = "Training") {
   preds <- factor(model$groups[raw_preds], levels = model$groups)
   actual <- factor(model$groups[model$y], levels = model$groups)
-  cm <- table(Actual = actual, Predicted = preds)
-  print(cm)
-  cat("\n")
-  n <- length(actual)
-  correct <- sum(preds == actual)
-  cat("Training error: ", round((1 - correct / n) * 100, 2), "%\n", sep = "")
+  print_metrics_block(preds, actual, label)
 }
 
 print_oob_confusion_matrix <- function(model) {
   # `oob_predictions()` is the lazy accessor; returns a factor with `NA` for
-  # observations with no OOB tree.
+  # observations with no OOB tree. Those rows carry no OOB information, so
+  # they are excluded from the matrix — as they are in the C++ OOB metrics.
   oob_preds <- oob_predictions(model)
   oob_mask  <- !is.na(oob_preds)
   preds     <- oob_preds[oob_mask]
   actual    <- factor(model$groups[model$y[oob_mask]], levels = model$groups)
-  cm <- table(Actual = actual, Predicted = preds)
-  print(cm)
-  cat("\n")
-  n <- length(actual)
-  correct <- sum(as.character(preds) == as.character(actual))
-  cat("OOB error: ", round((1 - correct / n) * 100, 2), "%\n", sep = "")
+  print_metrics_block(preds, actual, "OOB")
 }
 
 process_predict_arguments <- function(object, new_data, ...) {

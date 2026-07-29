@@ -249,7 +249,13 @@ namespace ppforest2::io {
         }
       }
 
-      row += fmt::format("  {:.1f}%", group_err[row_idx] * 100);
+      // A class with no observations has no error rate to report: its row
+      // sum is zero, so `group_errors()` divides 0 by 0. The R summaries
+      // render this case as "-" too.
+      int const row_total        = cm.values.row(row_idx).sum();
+      std::string const err_text = row_total > 0 ? fmt::format("{:.1f}%", group_err[row_idx] * 100) : std::string("-");
+
+      row += fmt::format("  {}", err_text);
       out.println("{}", row);
     }
 

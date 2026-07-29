@@ -1,6 +1,12 @@
 # ppforest2 0.1.3
 
+## New features
+
+- R: `summary()` on a classification tree or forest now reports a per-class error rate alongside each confusion matrix, and prints the overall error rate above the matrix rather than below it. The headings, the quantities, and their precision now match the output of the `summarize` command, so an R summary and a command-line summary of the same model report the same numbers in the same order.
+
 ## Bug fixes
+
+- CLI: a class with no observations in the data is rendered as `-` in the confusion matrix's error column instead of `nan%`. This happens when the model predicts a class that never appears as an actual label, for example when predicting on a subset of the data.
 
 - CLI: `predict` now maps data-file labels through the model's training labels and keeps predictions in input row order. Previously the rows were re-sorted by label and label codes were compared by file position, so a data file listing classes in a different order than the training file reported inverted metrics and misaligned saved predictions. A label absent from training is now an error.
 - CLI: `summarize --data` had the same label-space problem when recomputing metrics for a model saved with `--no-metrics`. It now maps labels through the model's training labels, validates the feature count of the data against the model, and reproduces the training row order so the recomputed out-of-bag metrics line up with the stored bootstrap sample indices.

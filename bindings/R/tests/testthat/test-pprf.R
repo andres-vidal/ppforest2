@@ -444,6 +444,71 @@ describe("pprf edge cases", {
   })
 })
 
+describe("pprf classification summary metrics", {
+  model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
+  out <- capture.output(summary(model))
+
+  # Row for a class in a printed confusion matrix, e.g.
+  #   "  setosa         50          0         0  0.0%"
+  class_row <- function(lines, label) {
+    row <- grep(paste0("^\\s+", label, "\\s"), lines, value = TRUE)
+    expect_length(row, 2L)  # training matrix and OOB matrix
+    row
+  }
+
+  it("prints the overall error above each confusion matrix", {
+    training_error <- grep("^Training Error:", out)
+    training_cm <- grep("^Training Confusion Matrix:", out)
+    oob_error_line <- grep("^OOB Error:", out)
+    oob_cm <- grep("^OOB Confusion Matrix:", out)
+
+    expect_length(training_error, 1L)
+    expect_length(oob_error_line, 1L)
+    expect_lt(training_error, training_cm)
+    expect_lt(oob_error_line, oob_cm)
+  })
+
+  it("reports the overall error as a percentage with two decimals", {
+    expect_match(grep("^Training Error:", out, value = TRUE), "^Training Error: [0-9]+\\.[0-9]{2}%$")
+    expect_match(grep("^OOB Error:", out, value = TRUE), "^OOB Error: [0-9]+\\.[0-9]{2}%$")
+  })
+
+  it("adds a per-class error column to both confusion matrices", {
+    headers <- grep("^Actual\\s", out, value = TRUE)
+    expect_length(headers, 2L)
+    expect_true(all(endsWith(headers, "Error")))
+
+    for (label in levels(iris$Species)) {
+      rows <- class_row(out, label)
+      expect_true(all(grepl("[0-9]+\\.[0-9]%$", rows)), info = label)
+    }
+  })
+
+  it("per-class error matches the counts printed on the same row", {
+    row <- class_row(out, "setosa")[1]
+    fields <- strsplit(trimws(row), "\\s+")[[1]]
+    counts <- as.integer(fields[2:4])
+    printed <- fields[5]
+
+    expected <- sprintf("%.1f%%", (1 - counts[1] / sum(counts)) * 100)
+    expect_equal(printed, expected)
+  })
+
+  it("renders a class with no observations as a dash", {
+    # A class the model never sees in `actual` has no error rate to report;
+    # the CLI prints "-" for that row as well.
+    lvls <- c("a", "b", "c")
+    actual <- factor(c("a", "a", "b"), levels = lvls)
+    preds <- factor(c("a", "b", "b"), levels = lvls)
+
+    rendered <- capture.output(ppforest2:::print_metrics_block(preds, actual, "Training"))
+    row <- grep("^\\s+c\\s", rendered, value = TRUE)
+
+    expect_length(row, 1L)
+    expect_true(endsWith(trimws(row), "-"))
+  })
+})
+
 describe("pprf regression", {
   it("end-to-end on mtcars (formula + predict + summary)", {
     # Real-dataset round-trip counterpart to the simulated-data tests

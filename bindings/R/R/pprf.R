@@ -363,10 +363,8 @@ summary.pprf_classification <- function(object, ...) {
   NextMethod()
   model <- object
 
-  cat("Training Confusion Matrix:\n\n")
   print_confusion_matrix(ppforest2_predict_forest(model, model$x), model)
   cat("\n")
-  cat("OOB Confusion Matrix:\n\n")
   print_oob_confusion_matrix(model)
   cat("\n")
 

@@ -374,6 +374,25 @@ describe("pptr edge cases", {
   })
 })
 
+describe("pptr classification summary metrics", {
+  it("labels the single-tree metrics block the way the CLI does", {
+    model <- pptr(Species ~ ., data = iris, seed = 0)
+    out <- capture.output(summary(model))
+
+    # The CLI titles a tree's training metrics "Training Error:" /
+    # "Training Confusion Matrix:", same as a forest's.
+    expect_match(grep("^Training Error:", out, value = TRUE), "^Training Error: [0-9]+\\.[0-9]{2}%$")
+    expect_length(grep("^Training Confusion Matrix:", out), 1L)
+
+    # A tree has no OOB sample, so no OOB block.
+    expect_length(grep("^OOB", out), 0L)
+
+    header <- grep("^Actual\\s", out, value = TRUE)
+    expect_length(header, 1L)
+    expect_true(endsWith(header, "Error"))
+  })
+})
+
 describe("pptr regression", {
   it("end-to-end on mtcars (formula + predict + summary)", {
     # Real-dataset round-trip counterpart to the simulated-data tests

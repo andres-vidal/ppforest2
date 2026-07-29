@@ -296,7 +296,6 @@ summary.pptr_classification <- function(object, ...) {
   NextMethod()
   model <- object
 
-  cat("Confusion Matrix:\n\n")
   print_confusion_matrix(ppforest2_predict_tree(model, model$x), model)
   cat("\n")
 
