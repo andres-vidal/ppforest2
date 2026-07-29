@@ -52,15 +52,14 @@ summary(tree)
 #>   group names:  setosa, versicolor, virginica 
 #>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
-#> Confusion Matrix:
+#> Training Error: 4.00%
+#> Training Confusion Matrix:
 #> 
 #>             Predicted
-#> Actual       setosa versicolor virginica
-#>   setosa         50          0         0
-#>   versicolor      0         47         3
-#>   virginica       0          3        47
-#> 
-#> Training error: 4%
+#> Actual       setosa versicolor virginica Error
+#>   setosa         50          0         0  0.0%
+#>   versicolor      0         47         3  6.0%
+#>   virginica       0          3        47  6.0%
 #> 
 #> Variable Importance:
 #> 
@@ -116,25 +115,23 @@ summary(forest)
 #>   group names:  setosa, versicolor, virginica 
 #>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
+#> Training Error: 4.67%
 #> Training Confusion Matrix:
 #> 
 #>             Predicted
-#> Actual       setosa versicolor virginica
-#>   setosa         50          0         0
-#>   versicolor      0         48         2
-#>   virginica       0          5        45
+#> Actual       setosa versicolor virginica Error
+#>   setosa         50          0         0  0.0%
+#>   versicolor      0         48         2  4.0%
+#>   virginica       0          5        45 10.0%
 #> 
-#> Training error: 4.67%
-#> 
+#> OOB Error: 4.00%
 #> OOB Confusion Matrix:
 #> 
 #>             Predicted
-#> Actual       setosa versicolor virginica
-#>   setosa         50          0         0
-#>   versicolor      0         48         2
-#>   virginica       0          4        46
-#> 
-#> OOB error: 4%
+#> Actual       setosa versicolor virginica Error
+#>   setosa         50          0         0  0.0%
+#>   versicolor      0         48         2  4.0%
+#>   virginica       0          4        46  8.0%
 #> 
 #> Variable Importance:
 #> 
@@ -248,15 +245,14 @@ summary(tree_pda)
 #>   group names:  setosa, versicolor, virginica 
 #>   formula:      Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width -      1 
 #> 
-#> Confusion Matrix:
+#> Training Error: 4.00%
+#> Training Confusion Matrix:
 #> 
 #>             Predicted
-#> Actual       setosa versicolor virginica
-#>   setosa         50          0         0
-#>   versicolor      0         47         3
-#>   virginica       0          3        47
-#> 
-#> Training error: 4%
+#> Actual       setosa versicolor virginica Error
+#>   setosa         50          0         0  0.0%
+#>   versicolor      0         47         3  6.0%
+#>   virginica       0          3        47  6.0%
 #> 
 #> Variable Importance:
 #> 
