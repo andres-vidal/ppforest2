@@ -1,4 +1,4 @@
-# ppforest2
+# ppforest2 <img src="man/figures/logo.png" align="right" height="139" alt="ppforest2 logo" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml)
