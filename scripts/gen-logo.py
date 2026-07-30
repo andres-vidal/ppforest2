@@ -40,7 +40,7 @@ def style_block():
     return "\n".join(rows)
 
 # oblique splits, each a line through two passthrough points
-L1P = ((20, 300), (500, 210))   # root split: TOP (green) vs BOTTOM
+L1P = ((20, 325), (500, 235))   # root split: TOP (green) vs BOTTOM, crossing just above hex mid (y~280)
 L2P = ((290, 255), (210, 588))  # bottom split: gold (left) vs orange (right)
 
 def line_side(P):
@@ -145,9 +145,11 @@ while gy < 540:
         gx += 96
     gy += 88
     row += 1
-trees.sort(key=lambda t: t[1])  # paint back-to-front
+# paint back-to-front by y; draw group g1 (green) last so it layers above the others
+trees.sort(key=lambda t: (group(t[0], t[1]) == "g1", t[1]))
 
-l1y = lambda x: 300 - 90 * (x - 20) / 480
+(_l1ax, _l1ay), (_l1bx, _l1by) = L1P
+l1y = lambda x: _l1ay + (_l1by - _l1ay) * (x - _l1ax) / (_l1bx - _l1ax)
 l2 = draw_split(L2P, L1P, up=False)
 
 INK = ('xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" '
