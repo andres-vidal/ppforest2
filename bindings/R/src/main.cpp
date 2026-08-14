@@ -51,10 +51,15 @@ Model::Ptr ppforest2_train(TrainingSpec::Ptr spec, FeatureMatrix x, OutcomeVecto
   if (is_classification(*spec)) {
     to_cpp_indices(y);
 
-    // y carries integer class labels as float; sort cast-to-int and then
-    // re-cast so `x` and `y` stay in lockstep through the sort.
+    // Classification training needs rows grouped in ascending group-id order
+    // (group 0 occupies the first rows), the form `GroupPartition` and
+    // `Grouping::init` require and the CLI's `read_sorted` produces. Sort the
+    // cast-to-int codes ascending unless they already are, casting back so `x`
+    // and `y` stay in lockstep. A stable sort of already-ascending data is a
+    // no-op, so this matches the regression branch below and leaves
+    // already-grouped inputs untouched.
     GroupIdVector y_int = y.cast<GroupId>();
-    if (!GroupPartition::is_contiguous(y_int)) {
+    if (!std::is_sorted(y_int.data(), y_int.data() + y_int.size())) {
       sort(x, y_int);
     }
 

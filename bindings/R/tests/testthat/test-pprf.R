@@ -444,6 +444,21 @@ describe("pprf edge cases", {
   })
 })
 
+describe("pprf group ordering", {
+  it("trains when class blocks descend through the factor levels", {
+    set.seed(1)
+    X <- as.data.frame(matrix(rnorm(200), 100, 2))
+    y <- factor(rep(c("b", "a"), each = 50), levels = c("a", "b"))
+    expect_no_error(pprf(x = X, y = y, size = 5, seed = 0, threads = 1))
+  })
+
+  it("trains on the bundled crab dataset with default factor levels", {
+    # Alphabetical levels put group 1 (BlueFemale) first at row 51, while the
+    # data starts with BlueMale.
+    expect_no_error(pprf(x = crab[, 1:5], y = factor(crab$Type), size = 5, seed = 7, threads = 1))
+  })
+})
+
 describe("pprf classification summary metrics", {
   model <- pprf(Species ~ ., data = iris, size = 5, seed = 0, threads = 1)
   out <- capture.output(summary(model))

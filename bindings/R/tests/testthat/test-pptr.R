@@ -374,6 +374,42 @@ describe("pptr edge cases", {
   })
 })
 
+describe("pptr group ordering", {
+  # Rows are grouped by class but the blocks descend through the factor levels
+  # (row 1 is the *second* level). The training data does not need to arrive
+  # grouped in level order.
+  reverse_blocked <- function() {
+    set.seed(1)
+    X <- as.data.frame(matrix(rnorm(200), 100, 2))
+    y <- factor(rep(c("b", "a"), each = 50), levels = c("a", "b"))
+    list(X = X, y = y)
+  }
+
+  it("trains when class blocks descend through the factor levels", {
+    d <- reverse_blocked()
+    expect_no_error(pptr(x = d$X, y = d$y, seed = 0, lambda = 0))
+  })
+
+  it("is invariant to input row order", {
+    d <- reverse_blocked()
+    o <- order(d$y) # rows regrouped ascending by class
+
+    m_any    <- pptr(x = d$X, y = d$y, seed = 0, lambda = 0)
+    m_sorted <- pptr(x = d$X[o, ], y = d$y[o], seed = 0, lambda = 0)
+
+    expect_equal(
+      as.character(predict(m_any, d$X)),
+      as.character(predict(m_sorted, d$X))
+    )
+  })
+
+  it("trains on the bundled crab dataset with default factor levels", {
+    # `factor(crab$Type)` orders levels alphabetically, so level 1
+    # (BlueFemale) first appears at row 51 while the data starts with BlueMale.
+    expect_no_error(pptr(x = crab[, 1:5], y = factor(crab$Type), seed = 7, lambda = 0))
+  })
+})
+
 describe("pptr classification summary metrics", {
   it("labels the single-tree metrics block the way the CLI does", {
     model <- pptr(Species ~ ., data = iris, seed = 0)
