@@ -6,6 +6,7 @@
 
 ## Bug fixes
 
+- R: `pptr()` and `pprf()` no longer abort with the internal error `Grouping::init: partition must be rooted at row 0` when the response's class blocks are contiguous but ordered by decreasing factor level (for example a two-class factor whose first row is its second level, or the bundled `crab` dataset with default alphabetical levels). The classification path now sorts the response into ascending group-id order whenever it is not already, matching the regression path and the command-line tool.
 - CLI: a class with no observations in the data is rendered as `-` in the confusion matrix's error column instead of `nan%`. This happens when the model predicts a class that never appears as an actual label, for example when predicting on a subset of the data.
 
 - CLI: `predict` now maps data-file labels through the model's training labels and keeps predictions in input row order. Previously the rows were re-sorted by label and label codes were compared by file position, so a data file listing classes in a different order than the training file reported inverted metrics and misaligned saved predictions. A label absent from training is now an error.

@@ -9,20 +9,6 @@
 using namespace ppforest2::types;
 
 namespace ppforest2::stats {
-  bool GroupPartition::is_contiguous(GroupVector const& y) {
-    GroupSet visited;
-
-    for (int i = 0; i < y.rows(); i++) {
-      if (visited.count(y(i)) == 0) {
-        visited.insert(y(i));
-      } else if (y(i - 1) != y(i)) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   GroupPartition::BlockMap GroupPartition::init_blocks(GroupVector const& y) {
     std::map<Group, Block> blocks;
 
