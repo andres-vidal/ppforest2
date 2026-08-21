@@ -45,6 +45,31 @@ TEST(CLIBenchmark, BenchmarkNoScenariosFails) {
   EXPECT_NE(result.exit_code, 0);
 }
 
+/* With no -o sink, -q silences the progress lines but still emits the report
+ * on stdout — stdout is the only place the requested report can go, so a
+ * quiet run must not produce empty output. */
+TEST(CLIBenchmark, QuietMarkdownStillPrintsReport) {
+  auto scenarios = write_scenarios();
+  auto result    = run_ppforest2("-q --no-color benchmark -s " + scenarios.path() + " --format markdown");
+  EXPECT_EQ(result.exit_code, 0);
+  EXPECT_NE(result.stdout_output.find("tiny-forest"), std::string::npos) << result.stdout_output;
+  EXPECT_EQ(result.stdout_output.find("Benchmarking"), std::string::npos) << result.stdout_output;
+}
+
+/* With a file sink, -q suppresses the stdout echo: the report lives in the
+ * file, and stdout stays quiet. */
+TEST(CLIBenchmark, QuietWithOutputFileDoesNotEchoReport) {
+  auto scenarios = write_scenarios();
+  TempFile out_json;
+  out_json.clear();
+  auto result = run_ppforest2("-q --no-color benchmark -s " + scenarios.path() + " -o " + out_json.path());
+  EXPECT_EQ(result.exit_code, 0);
+  EXPECT_EQ(result.stdout_output.find("tiny-forest"), std::string::npos) << result.stdout_output;
+
+  auto j = json::parse(out_json.read());
+  EXPECT_TRUE(j.contains("results"));
+}
+
 /* Benchmark with invalid scenarios file must fail. */
 TEST(CLIBenchmark, BenchmarkInvalidScenariosFails) {
   TempFile const bad;
