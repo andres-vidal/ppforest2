@@ -333,11 +333,16 @@ namespace ppforest2::cli {
     // Build report
     BenchmarkReport report(result, baseline);
 
-    // Print results
+    // The formatted report is the command's requested output, not progress
+    // chatter. When no `-o` sink is given, stdout is the only place it can
+    // go, so emit it even under `-q` (which silences the progress lines
+    // above, not the result). With a file sink, `-q` suppresses the stdout
+    // echo as before.
+    io::Output report_out(bench.outputs.empty() ? false : params.quiet);
     if (bench.format == "markdown") {
-      report.print(out, BenchmarkReport::Markdown{});
+      report.print(report_out, BenchmarkReport::Markdown{});
     } else {
-      report.print(out, BenchmarkReport::Text{});
+      report.print(report_out, BenchmarkReport::Text{});
     }
 
     // Export results

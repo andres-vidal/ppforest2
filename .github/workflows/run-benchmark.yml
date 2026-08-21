@@ -72,12 +72,16 @@ jobs:
             printf '## %s\n\n%s\n\n' "$label" "$body"
           }
 
-          REPORT=$(gen_section "Classification benchmarks" \
+          CLS=$(gen_section "Classification benchmarks" \
             "bench/default-scenarios-classification.json" \
             "/tmp/base-results-cls.json")
-          REPORT="${REPORT}"$(gen_section "Regression benchmarks (experimental)" \
+          REG=$(gen_section "Regression benchmarks (experimental)" \
             "bench/default-scenarios-regression.json" \
             "/tmp/base-results-reg.json")
+          # Join with a blank line. Command substitution strips each section's
+          # trailing newlines, so concatenating directly would glue the
+          # regression heading onto the end of the classification table.
+          REPORT="${CLS}"$'\n\n'"${REG}"
 
           {
             echo "report<<EOF"
