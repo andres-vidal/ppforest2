@@ -1,7 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"structppforest2_1_1io_1_1Output.html#ab34e6a707aa1d473f3d07407e6f02664":[3,0,2,4,8,2],
-"structppforest2_1_1io_1_1Output.html#ab34e6a707aa1d473f3d07407e6f02664":[4,0,1,4,5,2],
 "structppforest2_1_1io_1_1Output.html#ae59e648ea9ef2701147d3c932119b015":[3,0,2,4,8,1],
 "structppforest2_1_1io_1_1Output.html#ae59e648ea9ef2701147d3c932119b015":[4,0,1,4,5,1],
 "structppforest2_1_1io_1_1csv_1_1FeatureSet.html":[3,0,2,4,0,0],
@@ -249,5 +247,7 @@ var NAVTREEINDEX9 =
 "structppforest2_1_1viz_1_1NodeData.html#abb2b3fbc6b5a6b7307f3df747fcf9608":[3,0,2,17,6,1],
 "structppforest2_1_1viz_1_1NodeData.html#abb2b3fbc6b5a6b7307f3df747fcf9608":[4,0,1,12,6,1],
 "structppforest2_1_1viz_1_1NodeData.html#ac901f0806c3705c7bbdc394e428d853a":[3,0,2,17,6,0],
-"structppforest2_1_1viz_1_1NodeData.html#ac901f0806c3705c7bbdc394e428d853a":[4,0,1,12,6,0]
+"structppforest2_1_1viz_1_1NodeData.html#ac901f0806c3705c7bbdc394e428d853a":[4,0,1,12,6,0],
+"structppforest2_1_1viz_1_1NodeData.html#ace58e17809ab9eaddad15054fda49529":[3,0,2,17,6,4],
+"structppforest2_1_1viz_1_1NodeData.html#ace58e17809ab9eaddad15054fda49529":[4,0,1,12,6,4]
 };

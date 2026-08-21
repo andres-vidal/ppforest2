@@ -14,6 +14,19 @@
 
 ### Bug fixes
 
+- R:
+  [`pptr()`](https://andres-vidal.github.io/ppforest2/main/r/reference/pptr.md)
+  and
+  [`pprf()`](https://andres-vidal.github.io/ppforest2/main/r/reference/pprf.md)
+  no longer abort with the internal error
+  `Grouping::init: partition must be rooted at row 0` when the
+  response’s class blocks are contiguous but ordered by decreasing
+  factor level (for example a two-class factor whose first row is its
+  second level, or the bundled `crab` dataset with default alphabetical
+  levels). The classification path now sorts the response into ascending
+  group-id order whenever it is not already, matching the regression
+  path and the command-line tool.
+
 - CLI: a class with no observations in the data is rendered as `-` in
   the confusion matrix’s error column instead of `nan%`. This happens
   when the model predicts a class that never appears as an actual label,
