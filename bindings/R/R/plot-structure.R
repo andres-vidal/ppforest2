@@ -112,7 +112,11 @@ format_projector <- function(projector, var_names, max_terms = 4L) {
 
   parts <- character(n_show)
   for (i in seq_len(n_show)) {
-    coef_str <- formatC(abs(coefs[i]), format = "f", digits = 2)
+    # Significant digits rather than fixed decimals.  The projector is normalized
+    # so the values it projects always have the same spread whatever the units of
+    # the input, which leaves its coefficients at a magnitude set by the data
+    # rather than by the split.  Same precision as the axis tick labels.
+    coef_str <- formatC(abs(coefs[i]), format = "g", digits = 3)
     # Drop leading zero: "0.71" -> ".71"
     coef_str <- sub("^0\\.", ".", coef_str)
     term <- paste0(coef_str, "\u00b7", names_top[i])
@@ -257,7 +261,7 @@ plot_tree_structure <- function(model, max_terms = 3L, ...) {
     p <- p + ggplot2::geom_label(
       data = edge_label_df,
       ggplot2::aes(x = x, y = y, label = label),
-      size = 2.5, label.size = 0, fill = "white", alpha = 0.8,
+      size = ppforest2_text_edge(), label.size = 0, fill = "white", alpha = 0.8,
       label.padding = ggplot2::unit(0.15, "lines")
     )
   }
@@ -295,7 +299,7 @@ plot_tree_structure <- function(model, max_terms = 3L, ...) {
     p <- p + ggplot2::geom_text(
       data = tick_df,
       ggplot2::aes(x = x, y = y, label = label),
-      size = 1.8, vjust = 1.5, color = ppforest2_col_tick()
+      size = ppforest2_text_tick(), vjust = 1.5, color = ppforest2_col_tick()
     )
   }
 
@@ -314,7 +318,7 @@ plot_tree_structure <- function(model, max_terms = 3L, ...) {
     p <- p + ggplot2::geom_text(
       data = leaf_labels,
       ggplot2::aes(x = x, y = y, label = label),
-      size = 3, fontface = "bold"
+      size = ppforest2_text_leaf(), fontface = "bold"
     )
   }
 
@@ -323,7 +327,7 @@ plot_tree_structure <- function(model, max_terms = 3L, ...) {
     p <- p + ggplot2::geom_text(
       data = proj_labels,
       ggplot2::aes(x = x, y = y, label = label),
-      size = 2.0, vjust = 1, color = ppforest2_col_tick()
+      size = ppforest2_text_proj(), vjust = 1, color = ppforest2_col_tick()
     )
   }
 

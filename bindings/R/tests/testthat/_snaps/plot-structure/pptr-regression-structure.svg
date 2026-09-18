@@ -66,11 +66,11 @@
 <rect x='378.62' y='481.56' width='62.07' height='25.68' style='stroke-width: 0.85; stroke: #7F7F7F; stroke-linecap: butt; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.30;' />
 <rect x='477.93' y='481.56' width='62.07' height='25.68' style='stroke-width: 0.85; stroke: #7F7F7F; stroke-linecap: butt; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.30;' />
 <rect x='577.23' y='353.17' width='62.07' height='25.68' style='stroke-width: 0.85; stroke: #7F7F7F; stroke-linecap: butt; stroke-linejoin: miter; fill: #7F7F7F; fill-opacity: 0.30;' />
-<text x='111.74' y='155.93' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='78.45px' lengthAdjust='spacingAndGlyphs'>−.07·am + .05·cyl + .03·wt + …</text>
-<text x='111.74' y='284.33' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='84.78px' lengthAdjust='spacingAndGlyphs'>−.16·gear + .13·wt − .05·drat + …</text>
-<text x='211.04' y='412.72' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='16.76px' lengthAdjust='spacingAndGlyphs'>.38·cyl</text>
-<text x='409.65' y='284.33' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='81.31px' lengthAdjust='spacingAndGlyphs'>−.11·drat − .10·vs − .08·am + …</text>
-<text x='409.65' y='412.72' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='81.31px' lengthAdjust='spacingAndGlyphs'>−.19·vs + .18·drat + .16·am + …</text>
+<text x='111.74' y='155.93' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='97.44px' lengthAdjust='spacingAndGlyphs'>−.0685·am + .0459·cyl + .0304·wt + …</text>
+<text x='111.74' y='284.33' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='97.44px' lengthAdjust='spacingAndGlyphs'>−.162·gear + .127·wt − .0548·drat + …</text>
+<text x='211.04' y='412.72' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='19.93px' lengthAdjust='spacingAndGlyphs'>.382·cyl</text>
+<text x='409.65' y='284.33' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='93.97px' lengthAdjust='spacingAndGlyphs'>−.107·drat − .101·vs − .0832·am + …</text>
+<text x='409.65' y='412.72' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='90.80px' lengthAdjust='spacingAndGlyphs'>−.195·vs + .176·drat + .159·am + …</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <text x='4.98' y='31.22' style='font-size: 11.00px; font-family: sans;' textLength='27.52px' lengthAdjust='spacingAndGlyphs'>Class</text>
