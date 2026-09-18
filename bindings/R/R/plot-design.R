@@ -97,6 +97,18 @@ ppforest2_lw_medium <- function() ppforest2_opt("lw_medium", 0.6)
 ppforest2_pt_small  <- function() ppforest2_opt("pt_small",  1.2)
 ppforest2_pt_medium <- function() ppforest2_opt("pt_medium", 1.8)
 
+# Text sizes for the tree structure plot (geom_text/geom_label units, not points).
+# These are separate from the theme's base_size because theme_void() does not
+# style geom text.  Multiply them all at once with the "text_scale" option, which
+# is what you want when rendering the plot large (posters, slides):
+#
+#   options(ppforest2.text_scale = 3)
+ppforest2_text_scale <- function() ppforest2_opt("text_scale", 1)
+ppforest2_text_edge  <- function() ppforest2_opt("text_edge", 2.5) * ppforest2_text_scale()
+ppforest2_text_tick  <- function() ppforest2_opt("text_tick", 1.8) * ppforest2_text_scale()
+ppforest2_text_leaf  <- function() ppforest2_opt("text_leaf", 3.0) * ppforest2_text_scale()
+ppforest2_text_proj  <- function() ppforest2_opt("text_proj", 2.0) * ppforest2_text_scale()
+
 # Alpha values
 ppforest2_alpha_region <- function() ppforest2_opt("alpha_region", 0.25)
 ppforest2_alpha_hist   <- function() ppforest2_opt("alpha_hist",   0.65)

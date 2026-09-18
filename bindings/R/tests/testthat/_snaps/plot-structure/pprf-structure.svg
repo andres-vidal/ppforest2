@@ -81,8 +81,8 @@
 <text x='175.57' y='301.61' text-anchor='middle' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='25.16px' lengthAdjust='spacingAndGlyphs'>setosa</text>
 <text x='360.00' y='476.98' text-anchor='middle' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='31.31px' lengthAdjust='spacingAndGlyphs'>virginica</text>
 <text x='544.43' y='476.98' text-anchor='middle' style='font-size: 8.54px; font-weight: bold; font-family: sans;' textLength='36.53px' lengthAdjust='spacingAndGlyphs'>versicolor</text>
-<text x='175.57' y='185.68' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='149.63px' lengthAdjust='spacingAndGlyphs'>−.04·Sepal.Width + .03·Petal.Width + .03·Petal.Length + …</text>
-<text x='360.00' y='361.05' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='149.63px' lengthAdjust='spacingAndGlyphs'>−.15·Petal.Width − .06·Petal.Length + .04·Sepal.Width + …</text>
+<text x='175.57' y='185.68' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='168.62px' lengthAdjust='spacingAndGlyphs'>−.0404·Sepal.Width + .0316·Petal.Width + .0264·Petal.Length + …</text>
+<text x='360.00' y='361.05' text-anchor='middle' style='font-size: 5.69px; fill: #666666; font-family: sans;' textLength='165.46px' lengthAdjust='spacingAndGlyphs'>−.152·Petal.Width − .0635·Petal.Length + .0366·Sepal.Width + …</text>
 </g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
 <text x='4.98' y='31.22' style='font-size: 11.00px; font-family: sans;' textLength='27.52px' lengthAdjust='spacingAndGlyphs'>Class</text>
