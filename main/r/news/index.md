@@ -11,8 +11,22 @@
   and their precision now match the output of the `summarize` command,
   so an R summary and a command-line summary of the same model report
   the same numbers in the same order.
+- R: text sizes in the tree structure plot are configurable through
+  options (`ppforest2.text_edge`, `ppforest2.text_tick`,
+  `ppforest2.text_leaf`, `ppforest2.text_proj`), and
+  `ppforest2.text_scale` multiplies all of them at once for rendering
+  the plot large.
 
 ### Bug fixes
+
+- R: projection coefficients in the tree structure plot are formatted to
+  three significant digits instead of two fixed decimals, matching the
+  axis tick labels in the same plot. The projector is normalized so the
+  values it projects always have the same spread whatever the units of
+  the input data, which leaves its coefficients at a magnitude set by
+  the data rather than by the split; the iris root projector
+  `.00429 / -.0391 / .0259 / .0335` rendered as `.00 / .04 / .03 / .03`,
+  merging the two petal terms and dropping sepal length to zero.
 
 - R:
   [`pptr()`](https://andres-vidal.github.io/ppforest2/main/r/reference/pptr.md)
