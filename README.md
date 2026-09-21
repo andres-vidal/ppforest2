@@ -6,6 +6,14 @@
 [![R Package Check](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml/badge.svg)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-r-check.yml)
 [![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/andres-vidal/aafefce6b546eeb2f678ca607a950941/raw/ppforest2-coverage.json)](https://github.com/andres-vidal/ppforest2/actions/workflows/run-coverage.yml)
 
+> [!IMPORTANT]
+> This repository has been split and is no longer developed here.
+>
+> - **[ppforest2-core](https://github.com/andres-vidal/ppforest2-core)** — the C++ engine, the command-line tool and the benchmarks.
+> - **[ppforest2-r](https://github.com/andres-vidal/ppforest2-r)** — the `ppforest2` R package, which vendors the core and is what CRAN ships.
+>
+> It is kept as the record of the project up to the split, including the history and the `v0.1.0`-`v0.1.2` releases.
+
 **ppforest2** is a fast, memory-efficient implementation of
 [Projection Pursuit Random Forests](https://www.tandfonline.com/doi/full/10.1080/10618600.2020.1870480),
 built on
